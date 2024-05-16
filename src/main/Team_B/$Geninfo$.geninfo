@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <GenInfo version="1.1">
+    <Rule>
+      <ENV rule_version="1.05"/>
+      <ADL rule_version="1.14"/>
+      <FDL rule_version="1.04"/>
+      <XCSS rule_version="1.04"/>
+      <Script rule_version="1.02"/>
+    </Rule>
+    <Info project="C:\eGovFrameDev-3.10.0-64bit\workspace\hcnc_Team_B\src\main\Team_B\" generated="C:\eGovFrameDev-3.10.0-64bit\workspace\hcnc_Team_B\src\main\webapp\WEB-INF\Team_B\">
+      <File url="typedefinition.xml" checksum="20240516145328" errormsg=""/>
+      <File url="appvariables.xml" checksum="20240516145328" errormsg=""/>
+      <File url="environment.xml" checksum="20240516145328" errormsg=""/>
+      <File url="_resource_\_theme_\default\theme.xcss" checksum="20240516145328" errormsg=""/>
+      <File url="Application_Desktop.xadl" checksum="20240516145328" errormsg=""/>
+      <File url="FrameBase\Form_Top.xfdl" checksum="20240516145328" errormsg=""/>
+      <File url="FrameBase\Form_Left.xfdl" checksum="20240516145328" errormsg=""/>
+      <File url="FrameBase\Form_Work.xfdl" checksum="20240516145328" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\framework\Framework.json" checksum="20230829134032" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\resources\Resource.json" checksum="20230829134032" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\CompBase.json" checksum="20230829134030" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ComComp.json" checksum="20230829134030" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\Grid.json" checksum="20230829134030" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ListView.json" checksum="20230829134032" errormsg=""/>
+      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\DeviceAPI.json" checksum="20230829134030" errormsg=""/>
+    </Info>
+  </GenInfo>
+</root>

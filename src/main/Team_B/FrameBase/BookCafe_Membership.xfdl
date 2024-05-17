@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_Membership" width="1280" height="720" titletext="회원가입">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="Main" taborder="0" left="260" top="17" width="761" height="681" border="1px solid tomato">
+          <Layouts>
+            <Layout>
+              <GroupBox id="Box_Membership" taborder="0" left="9" top="12" width="742" height="662" text="회원가입"/>
+              <Edit id="Ed_id" taborder="1" left="69" top="64" width="599" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Static id="Static00" taborder="2" text="아이디" left="69" top="39" width="159" height="25"/>
+              <Edit id="Ed_pass" taborder="3" left="69" top="156" width="599" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Static id="Static00_00" taborder="4" text="비밀번호" left="69" top="131" width="159" height="25"/>
+              <Edit id="Ed_ID01" taborder="5" left="70" top="254" width="599" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Static id="Static00_01" taborder="6" text="이름" left="70" top="229" width="159" height="25"/>
+              <Static id="Static00_01_00" taborder="7" text="연락처" left="70" top="321" width="159" height="25"/>
+              <Edit id="Ed_ID01_00_00" taborder="8" left="319" top="346" width="109" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Edit id="Ed_ID01_00_01" taborder="9" left="555" top="346" width="109" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Combo id="Combo00" taborder="10" text="Combo00" left="66" top="350" width="100" height="60"/>
+              <Combo id="Combo00_00" taborder="11" text="Combo00" left="523" top="443" width="100" height="60"/>
+              <Edit id="Edit00" taborder="12" left="66" top="441" width="419" height="55"/>
+              <Edit id="Ed_ID01_00" taborder="13" left="66" top="546" width="599" height="52" borderRadius="5px" onchanged="Main_Ed_ID_onchanged"/>
+              <Static id="Static00_01_01" taborder="14" text="이름" left="66" top="521" width="159" height="25"/>
+              <Button id="Button00" taborder="15" text="Button00" left="33" top="612" width="340" height="50"/>
+              <Button id="Button00_00" taborder="16" text="Button00" left="389" top="612" width="340" height="50"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Main.form.Ed_id" propid="value" datasetid="Manager_Login" columnid="ADMIN_ID"/>
+      <BindItem id="item1" compid="Main.form.Ed_pass" propid="value" datasetid="Manager_Login" columnid="ADMIN_ID"/>
+      <BindItem id="item2" compid="Main.form.Ed_ID01" propid="value" datasetid="Manager_Login" columnid="ADMIN_ID"/>
+      <BindItem id="item3" compid="Main.form.Ed_ID01_00" propid="value" datasetid="Manager_Login" columnid="ADMIN_ID"/>
+    </Bind>
+  </Form>
+</FDL>

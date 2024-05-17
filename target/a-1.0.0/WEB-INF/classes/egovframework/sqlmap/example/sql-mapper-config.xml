@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+<!-- 		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/> -->
+<!-- 		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/> -->
+    </typeAliases>
+  <!-- myBatis Inteceptor for get column information  -->
+  <plugins>  
+    <!-- NexacroMybatisMetaDataProvider :  Executor Plugin:쿼리를 실행하며, 
+        List 형태의 데이터 조회 시 조회된 결과가 0건일 경우 결과 메타데이 터 정보를 조회
+        resultType이 Map 일 경우 추가적으로 메타데이터 조회를 위한 쿼리를 실행한다.  -->
+    <plugin interceptor="com.nexacro.uiadapter17.spring.dao.mybatis.NexacroMybatisMetaDataProvider" />
+    <!-- NexacroMybatisResultSetHandler :ResultSetHandler Plugin – Executor Plugin에서 메타데이터 조회를 위해 쿼리를 실행하였을 경우에만 동작, 
+        ResultSetMetaData 와 resultType에 존재하는 필드 정보를 확인하여 메타데이터 정보를 조회 한 다.  -->
+    <plugin interceptor="com.nexacro.uiadapter17.spring.dao.mybatis.NexacroMybatisResultSetHandler" />
+  </plugins>
+</configuration>

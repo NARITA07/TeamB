@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="접수처리">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1080">
+        <Static id="Static00" taborder="0" text="접수처리" left="176" top="164" width="352" height="100"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

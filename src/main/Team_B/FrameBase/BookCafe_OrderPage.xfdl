@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_OrderPage" width="1080" height="720" titletext="주문">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1080">
+        <Static id="Static00" taborder="0" text="주문화면" left="275" top="172" width="652" height="228"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

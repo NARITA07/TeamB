@@ -19,7 +19,7 @@ public class MemberController {
 	/* 로그인 페이지 */ 
   @RequestMapping("login.do") 
   public String login() { 
-	  return "/WEB-INF/views/member/login.jsp"; 
+	  return "/member/login"; 
   }
   
   /*회원등록 페이지 호출*/

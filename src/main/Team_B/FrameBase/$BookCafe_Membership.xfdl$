@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_Membership" width="1280" height="720" titletext="회원가입">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="Main" taborder="0" left="260" top="17" width="761" height="681">
+          <Layouts>
+            <Layout>
+              <GroupBox id="Box_Membership" taborder="0" left="9" top="12" width="742" height="662" text="회원가입"/>
+              <Edit id="Ed_ADMIN_ID" taborder="1" left="81" top="60" width="600" height="40" borderRadius="5px" maxlength="13" onkeyup="Main_Ed_id_onkeyup" border="1px solid #dfdfdf" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus" onchanged="Main_Ed_ADMIN_ID_onchanged"/>
+              <Static id="Static00" taborder="9" text="아이디" left="81" top="35" width="159" height="25"/>
+              <Edit id="Ed_ADMIN_PASS" taborder="2" left="81" top="150" width="600" height="40" borderRadius="5px" onchanged="Main_Ed_ID_onchanged" maxlength="14" password="true" border="1px solid #dfdfdf" onsetfocus="Main_Ed_ADMIN_PASS_onsetfocus"/>
+              <Static id="Static00_00" taborder="10" text="비밀번호" left="81" top="125" width="159" height="25" borderRadius="5px"/>
+              <Edit id="Ed_ADMIN_NAME" taborder="3" left="81" top="240" width="600" height="40" borderRadius="5px" maxlength="5" onkillfocus="Main_Ed_ADMIN_NAME_onkillfocus" border="1px solid #dfdfdf" onchanged="Main_Ed_ADMIN_NAME_onchanged" onsetfocus="Main_Ed_ADMIN_NAME_onsetfocus"/>
+              <Static id="Static00_01" taborder="11" text="이름" left="81" top="215" width="159" height="25" borderRadius="5px"/>
+              <Static id="Static00_01_00" taborder="12" text="연락처" left="81" top="305" width="159" height="25" borderRadius="5px"/>
+              <Combo id="Ed_ADMIN_EMAIL_1" taborder="13" text="" left="521" top="420" width="160" height="40" innerdataset="Email" codecolumn="Email" datacolumn="Email" borderRadius="5px" value="@naver.com" index="-1" border="1px solid #dfdfdf"/>
+              <Edit id="Ed_ADMIN_EMAIL" taborder="5" left="81" top="420" width="439" height="40" borderRadius="5px" maxlength="15" border="1px solid #dfdfdf" onsetfocus="Main_Ed_ADMIN_EMAIL_onsetfocus"/>
+              <Edit id="Ed_ADMIN_ADDRESS" taborder="6" left="81" top="510" width="600" height="40" borderRadius="5px" onchanged="Main_Ed_ID_onchanged" border="1px solid #dfdfdf" onsetfocus="Main_Ed_ADMIN_ADDRESS_onsetfocus"/>
+              <Static id="Static00_01_01" taborder="14" text="주소" left="81" top="485" width="159" height="25" borderRadius="5px"/>
+              <Button id="btn_Membership" taborder="7" text="회원가입" left="29" top="587" width="340" height="50" borderRadius="5px" onclick="Main_btn_Membership_onclick"/>
+              <Button id="btn_Cansle" taborder="8" text="취소" left="389" top="587" width="340" height="50" borderRadius="5px" onclick="Main_btn_Cansle_onclick"/>
+              <Static id="Static00_01_00_00" taborder="15" text="이메일" left="81" top="395" width="159" height="25" borderRadius="5px"/>
+              <Static id="Static01" taborder="16" left="80" top="100" width="484" height="31"/>
+              <Edit id="Ed_ADMIN_TEL" taborder="4" left="81" top="330" width="600" height="40" borderRadius="5px" maxlength="11" onkillfocus="Main_Ed_ADMIN_TEL_onkillfocus" displaynulltext="ex) 01011111111" border="1px solid #dfdfdf" onchanged="Main_Ed_ADMIN_TEL_onchanged" onsetfocus="Main_Ed_ADMIN_TEL_onsetfocus"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Tel" updatecontrol="false">
+        <ColumnInfo>
+          <Column id="Tel" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Tel">010</Col>
+          </Row>
+          <Row>
+            <Col id="Tel">011</Col>
+          </Row>
+          <Row>
+            <Col id="Tel">016</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Email">
+        <ColumnInfo>
+          <Column id="Email" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Email">@naver.com</Col>
+          </Row>
+          <Row>
+            <Col id="Email">@google.co.kr</Col>
+          </Row>
+          <Row>
+            <Col id="Email">@daum.net</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Membership">
+        <ColumnInfo>
+          <Column id="ADMIN_CODE" type="STRING" size="256"/>
+          <Column id="ADMIN_ID" type="STRING" size="256"/>
+          <Column id="ADMIN_PASS" type="STRING" size="256"/>
+          <Column id="ADMIN_NAME" type="STRING" size="256"/>
+          <Column id="ADMIN_TEL" type="STRING" size="256"/>
+          <Column id="ADMIN_EMAIL" type="STRING" size="256"/>
+          <Column id="ADMIN_ADDRESS" type="STRING" size="256"/>
+          <Column id="ADMIN_JOINDATE" type="STRING" size="256"/>
+          <Column id="ADMIN_AUTHORITY" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="log" onrowposchanged="Main_btn_Membership_onclick">
+        <ColumnInfo>
+          <Column id="result" type="INT" size="256" description="결과값"/>
+          <Column id="error" type="INT" size="256" description="에러"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[//취소 버튼
+this.Main_btn_Cansle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	var cansle = this.confirm("취소하시겠습니까?"); // 취소 재확인
+	
+	if(cansle == true){// 재확인에 yes를 누르면 
+		
+		this.go("FrameBase::BookCafe_Login.xfdl")//로그인 화면으로 이동
+	
+	}
+	
+};
+
+//회원가입
+this.Main_btn_Membership_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+ {
+	alert(this.log.getColumn(0,0))
+	//버튼 클릭시 실행 되고 한번 시행하면 끝
+	//이후 dataset event의 onrowpschanged을 이용하여 dataset의 row가 변경되면서 다시 실행
+	
+	if(this.log.getColumn(0,0) == 1){ 
+	//dataset log의 column 0,0에 위치한 값을 가져와 비교 성공해서 1이 초기화 되어있으면
+	alert("회원가입 되었습니다.");
+	this.go("FrameBase::BookCafe_Login.xfdl") //로그인 화면으로 이동
+	
+	}else if(this.log.getColumn(0,0) == 0){// 실패해서 0이 초기화 되어있으면
+	alert("회원가입에 실패하였습니다.")
+	return false	//회원가입 실패가 있다면 실행 멈춤.
+	}else{
+		//초기 실행
+	var email = this.Main.form.Ed_ADMIN_EMAIL.value + this.Main.form.Ed_ADMIN_EMAIL_1.value;
+ 
+	this.Membership.setColumn(0,"ADMIN_EMAIL",email);
+ 	
+  	var id = "membership";
+ 	var url = "svc::membership.do";
+ 	var in_Dataset = "Membership=Membership";
+ 	var out_Dataset = "log=log";
+	var callback = "callback_membership";
+
+ 	this.transaction(id,url,in_Dataset,out_Dataset,callback); 
+	
+	}
+ 
+};
+
+
+
+//연락처
+this.Main_Ed_ADMIN_TEL_onkillfocus = function(obj:nexacro.Edit,e:nexacro.KillFocusEventInfo)
+{	
+	
+	var tel = this.Main.form.Ed_ADMIN_TEL.value // 입력전화번를 변수 tel에 저장
+	
+	if(tel.substr(3,1) == "-" || tel.length < 10){ 
+	//변수 tel 문자열 중 4번째 자리에 "-"가 있거나 10자 이하로 작성되면 실행 x
+		
+		this.Main.form.Ed_ADMIN_TEL.set_border("1px solid red")//테두리 빨갛게
+		
+		return false
+	
+	}else{// 없으면 01012345678 을 010-1234-5678로 변환
+	
+		var Fir_tel = tel.substr(0,3)// 010
+		var sec_tel = tel.substr(3,4)// 1234
+		var Thi_tel = tel.substr(7,4)// 5678
+		
+		this.Main.form.Ed_ADMIN_TEL.set_value(Fir_tel + "-" + sec_tel + "-" + Thi_tel);
+		
+	
+	}
+	
+};
+//아이디 테두리
+this.Main_Ed_ADMIN_ID_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)// 커서가 가있는 선택창의 id값을 함수 green_border에 전달
+};
+
+//비밀번호 테두리
+this.Main_Ed_ADMIN_PASS_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)
+};
+
+//이름 테두리
+this.Main_Ed_ADMIN_NAME_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)
+};
+
+
+//이메일 테두리
+this.Main_Ed_ADMIN_EMAIL_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)
+	this.Main.form.Ed_ADMIN_EMAIL_1.set_border("1px solid green");
+	
+};
+
+//주소 테두리
+this.Main_Ed_ADMIN_ADDRESS_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)
+};
+//연락처 테두리
+this.Main_Ed_ADMIN_TEL_onsetfocus = function(obj:nexacro.Edit,e:nexacro.SetFocusEventInfo)
+{
+	this.green_border(obj.name)
+};
+
+
+//테두리 변경 함수
+this.green_border = function(ed_name){ // 받은 id값을 이용하여 border를 변경
+    this.Main.form[ed_name].set_border("1px solid green")
+   
+};
+
+this.callback_membership = function(id, errorC, errorM){
+	
+	 if(errorC < 0)
+    {
+        // 에러 처리
+        alter("Error" + errorM);
+        return;
+    }
+	
+	
+
+
+}
+
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="Main.form.Ed_ADMIN_EMAIL_1" propid="value" datasetid="Email" columnid="Email"/>
+      <BindItem id="item0" compid="Main.form.Ed_ADMIN_ID" propid="value" datasetid="Membership" columnid="ADMIN_ID"/>
+      <BindItem id="item2" compid="Main.form.Ed_ADMIN_PASS" propid="value" datasetid="Membership" columnid="ADMIN_PASS"/>
+      <BindItem id="item3" compid="Main.form.Ed_ADMIN_NAME" propid="value" datasetid="Membership" columnid="ADMIN_NAME"/>
+      <BindItem id="item4" compid="Main.form.Ed_ADMIN_TEL" propid="value" datasetid="Membership" columnid="ADMIN_TEL"/>
+      <BindItem id="item5" compid="Main.form.Ed_ADMIN_ADDRESS" propid="value" datasetid="Membership" columnid="ADMIN_ADDRESS"/>
+    </Bind>
+  </Form>
+</FDL>

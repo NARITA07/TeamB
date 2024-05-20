@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_FindAccount" width="1280" height="720" titletext="계정찾기">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="계정 찾기" left="81" top="130" width="410" height="49"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

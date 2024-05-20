@@ -3,7 +3,7 @@
 <mapper namespace="bookcafe.member.serviceImpl.MemberMapper">
  <!-- 회원 등록 -->
     <insert id="insertMember" parameterType="bookcafe.member.service.MemberVO">
-        INSERT INTO USERS(USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY)
+        INSERT INTO USER(USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY)
         VALUES (#{user_code}, #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority})
     </insert>
     

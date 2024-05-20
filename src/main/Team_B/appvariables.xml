@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <AppVariables version="2.0">
-  <Datasets/>
+  <Datasets>
+    <Dataset id="Session_login">
+      <ColumnInfo>
+        <Column id="ADMIN_ID" type="STRING" size="256"/>
+        <Column id="ADMIN_NAME" type="STRING" size="256"/>
+      </ColumnInfo>
+    </Dataset>
+  </Datasets>
   <Variables/>
+  <DataObjects/>
 </AppVariables>

@@ -8,8 +8,8 @@ public class MemberVO {
 	private String user_tel;
 	private String user_email;
 	private String user_address;
+	private String user_joindate;
 	private String user_authority;
-	
 	
 	public String getUser_code() {
 		return user_code;
@@ -53,11 +53,18 @@ public class MemberVO {
 	public void setUser_address(String user_address) {
 		this.user_address = user_address;
 	}
+	public String getUser_joindate() {
+        return user_joindate;
+    }
+    
+    public void setUser_joindate(String user_joindate) {
+        this.user_joindate = user_joindate;
+    }
 	public String getUser_authority() {
 		return user_authority;
 	}
 	public void setUser_authority(String user_authority) {
 		this.user_authority = user_authority;
 	}
-	
+
 }

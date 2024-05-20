@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.member.serviceImpl.MemberMapper">
-
-	<!-- 로그인 처리 -->
-    <select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO">
-        SELECT COUNT(*)
-        FROM USER
-        WHERE USER_ID = #{user_id}
-            AND USER_PASS = #{user_pass}
-    </select>
+ <!-- 회원 등록 -->
+    <insert id="insertMember" parameterType="bookcafe.member.service.MemberVO">
+        INSERT INTO USERS(USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY)
+        VALUES (#{user_code}, #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority})
+    </insert>
+    
+    <!-- user_code 증가 -->
+    <select id="getMaxUserCode" resultType="String">
+	    SELECT MAX(USER_CODE)
+	    FROM USER
+	</select>
     
     <!-- 아이디 중복 체크 -->
     <select id="selectIdChk" resultType="int" parameterType="String">
@@ -16,5 +19,37 @@
         FROM USER
         WHERE USER_ID = #{value}
     </select>
+    
+    <!-- 로그인 처리 -->
+    <select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE USER_ID = #{user_id}
+            AND USER_PASS = #{user_pass}
+    </select>
 
+	<!-- 아이디 찾기 -->
+    <select id="findId" resultType="String" parameterType="bookcafe.member.service.MemberVO">
+        SELECT USER_ID
+        FROM USER
+        WHERE USER_NAME = #{user_name}
+        AND USER_TEL = #{user_tel}
+    </select>
+
+    <!-- 비밀번호 찾기 -->
+    <select id="findPw" resultType="int" parameterType="bookcafe.member.service.MemberVO">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE USER_ID = #{user_id}
+        AND USER_NAME = #{user_name}
+        AND USER_TEL = #{user_tel}
+    </select>
+	
+	<!-- 비밀번호 재설정 -->
+    <update id="resetPassword" parameterType="bookcafe.member.service.MemberVO">
+        UPDATE USER
+        SET USER_PASS = #{new_password}
+        WHERE USER_ID = #{user_id}
+    </update>
+    
 </mapper>

@@ -5,7 +5,7 @@
             <PatternLayout pattern="%d %5p [%c] %m%n" />
         </Console>
     </Appenders>
-    <Loggers>        
+    <Loggers>      
         <Logger name="sample" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
@@ -31,7 +31,6 @@
 		<logger name="jdbc.resultsettable" level="WARN" additivity="false"> 
 			<AppenderRef ref="console"/>  	
 		</logger> 
-
         <Root level="INFO">
             <AppenderRef ref="console" />
         </Root>

@@ -29,7 +29,7 @@
                 <%
 			}else{
 			%>
-			<li class="nav-item"><a class="nav-link" href="/myPage.do">마이페이지</a></li>
+			<li class="nav-item"><a class="nav-link" href="/myPage/myPage">마이페이지</a></li>
 			<li class="nav-item"><a class="nav-link" href="logout.do">로그아웃</a></li>
 			<%
 			}

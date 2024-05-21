@@ -8,20 +8,6 @@
       <XCSS rule_version="1.04"/>
       <Script rule_version="1.02"/>
     </Rule>
-    <Info project="C:\Users\hcnc\git\TeamB\src\main\Team_B\" generated="C:\Users\hcnc\Documents\nexacro\17.1\outputs\Team_B\">
-      <File url="environment.xml" checksum="20240517090348" errormsg=""/>
-      <File url="typedefinition.xml" checksum="20240517171512" errormsg=""/>
-      <File url="appvariables.xml" checksum="20240519013005" errormsg=""/>
-      <File url="_resource_\_theme_\default\theme.xcss" checksum="20240517090348" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\framework\Framework.json" checksum="20230829134032" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\resources\Resource.json" checksum="20230829134032" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\CompBase.json" checksum="20230829134030" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ComComp.json" checksum="20230829134030" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\Grid.json" checksum="20230829134030" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ListView.json" checksum="20230829134032" errormsg=""/>
-      <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\DeviceAPI.json" checksum="20230829134030" errormsg=""/>
-      <File url="Application_Desktop.xadl" checksum="20240519012212" errormsg=""/>
-      <File url="FrameBase\BookCafe_Membership.xfdl" checksum="20240520132308" errormsg=""/>
-    </Info>
+    <Info project="C:\Users\hcnc\git\TeamB\src\main\Team_B\" generated="C:\Users\hcnc\Documents\nexacro\17.1\outputs\Team_B\"><File url="environment.xml" checksum="20240517090348" errormsg=""/><File url="typedefinition.xml" checksum="20240521142858" errormsg=""/><File url="appvariables.xml" checksum="20240521093335" errormsg=""/><File url="_resource_\_theme_\default\theme.xcss" checksum="20240517090348" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\framework\Framework.json" checksum="20230829134032" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\resources\Resource.json" checksum="20230829134032" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\CompBase.json" checksum="20230829134030" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ComComp.json" checksum="20230829134030" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\Grid.json" checksum="20230829134030" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ListView.json" checksum="20230829134032" errormsg=""/><File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\DeviceAPI.json" checksum="20230829134030" errormsg=""/><File url="Application_Desktop.xadl" checksum="20240519012212" errormsg=""/><File url="FrameBase\BookCafe_Membership.xfdl" checksum="20240521083917" errormsg=""/><File url="FrameBase\BookCafe_Main.xfdl" checksum="20240521134453" errormsg=""/><File url="FrameBase\BookCafe_OrderInquiry.xfdl" checksum="20240519003344" errormsg=""/><File url="FrameBase\BookCafe_Login.xfdl" checksum="20240521104012" errormsg=""/><File url="FrameBase\BookCafe_MemberManagement.xfdl" checksum="20240521133623" errormsg=""/><File url="FrameBase\BookCafe_ProductManagement.xfdl" checksum="20240521150538" errormsg=""/></Info>
   </GenInfo>
 </root>

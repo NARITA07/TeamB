@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인">
+  <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인" oninit="BookCafe_Login_oninit">
     <Layouts>
       <Layout height="720" width="1280">
         <Div id="Main" taborder="0" left="289" top="60" width="703" height="515">
@@ -22,7 +22,7 @@
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="Manager_Login">
+      <Dataset id="Admin_Login">
         <ColumnInfo>
           <Column id="ADMIN_ID" type="STRING" size="256"/>
           <Column id="ADMIN_PASS" type="STRING" size="256"/>
@@ -31,36 +31,55 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="Result_Data">
+      <Dataset id="Result_Data" onrowposchanged="Main_Btn_Login_onclick">
         <ColumnInfo>
-          <Column id="Result" type="INT" size="256"/>
+          <Column id="ADMIN_CODE" type="STRING" size="256"/>
+          <Column id="ADMIN_ID" type="STRING" size="256"/>
+          <Column id="ADMIN_PASS" type="STRING" size="256"/>
+          <Column id="ADMIN_NAME" type="STRING" size="256"/>
+          <Column id="ADMIN_TEL" type="STRING" size="256"/>
+          <Column id="ADMIN_EMAIL" type="STRING" size="256"/>
+          <Column id="ADMIN_ADDRESS" type="STRING" size="256"/>
+          <Column id="ADMIN_JOINDATE" type="STRING" size="256"/>
+          <Column id="ADMIN_AUTHORITY" type="STRING" size="256"/>
+          <Column id="ERROR" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
     </Objects>
     <Bind>
-      <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Manager_Login" columnid="ADMIN_ID"/>
-      <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Manager_Login" columnid="ADMIN_PASS"/>
+      <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Admin_Login" columnid="ADMIN_ID"/>
+      <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Admin_Login" columnid="ADMIN_PASS"/>
     </Bind>
     <Script type="xscript5.1"><![CDATA[//로그인 버튼 클릭 시
 this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	
-	this.go("FrameBase::BookCafe_Main.xfdl")
-	
-	if(this.Main.form.Ed_ID.getLength() <= 0 || this.Main.form.Ed_PASS.getLength() <= 0){ //아이디 or 비밀번호의 길이가 0보다 작다면 
+if(this.Main.form.Ed_ID.getLength() <= 0 || this.Main.form.Ed_PASS.getLength() <= 0){ //아이디 or 비밀번호의 길이가 0보다 작다면 
  		alert("아이디 또는 비밀번호를 입력해주세요"); // 입력문구 알림
- 	} 
- 	this.alert(this.Manager_Login.saveXML());
- 	
- 	
+		return false; //실행 멈춤
+		}
+ 		if (this.Result_Data.getColumn(0,"ADMIN_AUTHORITY") == 3 || 4) //관리자 권한확인 후
+ 		{
+			alert(this.Result_Data.getColumn(0,"ADMIN_AUTHORITY"));
+ 			nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
+ 			this.alert(nexacro.getApplication().Session_login.saveXML());
+ 			this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
+ 		
+ 			
+ 		}
+
+else if(this.Result_Data.getColumn(0,0) == "1"){//아이디가 틀릴 시
+		alert("아이디가 틀렸습니다")
+		this.clear()
+		
+	}else if(this.Result_Data.getColumn(0,0) == "2"){// 비밀번호가 틀릴 시
+		alert("비밀번호가 틀렸습니다")
+		this.clear()
+	}
+	
  	var id = "login";
- 	var url = "svc::login.do";
- 	var in_Dataset = "Manager_Login = Manager_Login";
+ 	var url = "svc::admin_login.do";
+ 	var in_Dataset = "Admin_Login = Admin_Login";
  	var out_Dataset = "Result_Data = Result_Data";
- 	var args ="";
  	var callback = "checklogin";
 	
  	this.transaction(id,url,in_Dataset,out_Dataset,callback); 
@@ -71,13 +90,14 @@ this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 
 this.checklogin = function(id,ErrorCode,ErrorMag){
 
-	if(ErrorCode == 0){
-		this.alert(this.dsCustomers.rowcount + " numbers of data have been found.");
-          trace(this.dsCustomers.rowcount + " numbers of data have been found.");
-	}else{
-	this.alert("Error["+ErrorCode+"]:"+ErrorMag);
-          trace("Error["+ErrorCode+"]:"+ErrorMag);
-	}
+	 if(ErrorCode < 0)
+    {
+        // 에러 처리
+        alter("Error" + ErrorMag);
+        return;
+    }
+	
+	
 
 }
 
@@ -92,6 +112,10 @@ this.Main_S_Membership_onclick = function(obj:nexacro.Static,e:nexacro.ClickEven
 {
 	this.go("FrameBase::BookCafe_Membership.xfdl")
 };
-]]></Script>
+
+//dataset 초기화
+this.clear = function(){
+	this.Result_Data.clear();
+}]]></Script>
   </Form>
 </FDL>

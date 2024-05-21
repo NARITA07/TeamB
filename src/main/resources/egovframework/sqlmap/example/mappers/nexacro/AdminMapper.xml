@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="bookcafe.nexacro.admin_serviceImpl.AdminMapper">
-
-	<!-- 관리자 코드찾기 -->
-	<select id="find_code" resultType="String">
-	SELECT COALESCE(MAX(ADMIN_CODE), "0") AS ADMIN_CODE FROM MANAGER;
-	</select>
+<mapper namespace="bookcafe.nexacro.mebership.serviceImpl.AdminMapper">
 	
 	<!-- 회원가입(관리자) -->
 	<insert id="insert_data">
 	  INSERT INTO MANAGER VALUES (
-        #{ADMIN_CODE}, 
+        fnCode(admin), 
         #{ADMIN_ID}, 
         #{ADMIN_PASS}, 
         #{ADMIN_NAME}, 
@@ -21,4 +16,16 @@
         #{ADMIN_AUTHORITY}
     );
 	</insert>
+	
+	 <!-- 로그인(관리자) -->
+	 <select id="select_admin" resultType="java.util.Map">
+	SELECT * FROM MANAGER WHERE ADMIN_ID= #{ADMIN_ID} AND ADMIN_PASS = #{ADMIN_PASS} 
+	 </select>
+	 
+	 <!-- 아이디 찾기 -->
+	 <select id="select_admin_id" resultType="java.util.Map">
+	SELECT * FROM MANAGER WHERE ADMIN_ID = #{ADMIN_ID}
+	</select>
+	
+	
 </mapper>

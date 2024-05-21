@@ -101,16 +101,16 @@ this.Main_btn_Cansle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventI
 //회원가입
 this.Main_btn_Membership_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  {
-	alert(this.log.getColumn(0,0))
+
 	//버튼 클릭시 실행 되고 한번 시행하면 끝
 	//이후 dataset event의 onrowpschanged을 이용하여 dataset의 row가 변경되면서 다시 실행
 	
-	if(this.log.getColumn(0,0) == 1){ 
+	if(this.log.getColumn(0,0) == "1"){ 
 	//dataset log의 column 0,0에 위치한 값을 가져와 비교 성공해서 1이 초기화 되어있으면
 	alert("회원가입 되었습니다.");
 	this.go("FrameBase::BookCafe_Login.xfdl") //로그인 화면으로 이동
 	
-	}else if(this.log.getColumn(0,0) == 0){// 실패해서 0이 초기화 되어있으면
+	}else if(this.log.getColumn(0,0) == "0"){// 실패해서 0이 초기화 되어있으면
 	alert("회원가입에 실패하였습니다.")
 	return false	//회원가입 실패가 있다면 실행 멈춤.
 	}else{

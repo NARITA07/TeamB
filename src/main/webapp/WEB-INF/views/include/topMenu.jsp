@@ -21,11 +21,11 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="./">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="bookList.do">책</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">음식</a></li>
+                <li class="nav-item"><a class="nav-link" href="foodList.do">음식</a></li>
                 <%
 				if(sUID == null){
 				%>
-                <li class="nav-item"><a class="nav-link" href="/login.do">로그인</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.do">로그인</a></li>
                 <%
 			}else{
 			%>

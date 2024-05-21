@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit">
+  <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
         <Grid id="nav" taborder="0" left="0" top="0" width="200" height="720" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none">
@@ -23,14 +23,46 @@
             <Format id="format00"/>
           </Formats>
         </Grid>
-        <Div id="Main" taborder="1" text="Main" left="200" top="50" width="1080" height="93.06%" border="1px solid cyan">
+        <Div id="Main" taborder="1" text="Main" left="200" top="50" width="1080" height="93.06%" border="1px solid cyan" formscrolltype="none">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Div id="login_data" taborder="2" text="안녕하세요~님" left="200" top="0" width="1080" height="50" border="1px solid crimson" formscrolltype="none" formscrollbartype="none">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="0" text="메인화면(기본: 주문현황)" left="81" top="130" width="410" height="49"/>
+              <Menu id="Menu_bar" taborder="0" left="976" top="-1" width="103" height="50" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" background="black" color="aqua" fittocontents="width" onmenuclick="login_data_Menu_bar_onmenuclick" innerdataset="innerdataset">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="captioncolumn" size="256"/>
+                    <Column id="checkboxcolumn" size="256"/>
+                    <Column id="enablecolumn" size="256"/>
+                    <Column id="hotkeycolumn" size="256"/>
+                    <Column id="iconcolumn" size="256"/>
+                    <Column id="idcolumn" size="256"/>
+                    <Column id="levelcolumn" size="256"/>
+                    <Column id="userdatacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="captioncolumn">구재성</Col>
+                      <Col id="levelcolumn"/>
+                      <Col id="userdatacolumn">0</Col>
+                    </Row>
+                    <Row>
+                      <Col id="userdatacolumn">0</Col>
+                      <Col id="captioncolumn">내 정보</Col>
+                    </Row>
+                    <Row>
+                      <Col id="userdatacolumn">1</Col>
+                      <Col id="captioncolumn">로그아웃</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Menu>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="login_data" taborder="2" text="안녕하세요~님" left="200" top="0" width="1080" height="50" border="1px solid crimson"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -38,7 +70,6 @@
         <ColumnInfo>
           <Column id="title" type="STRING" size="256"/>
           <Column id="url" type="STRING" size="256"/>
-          <Column id="name" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row>
@@ -61,6 +92,14 @@
             <Col id="title">접수조회</Col>
             <Col id="url">FrameBase::BookCafe_ReciptProcessing.xfdl</Col>
           </Row>
+          <Row>
+            <Col id="title">회원관리</Col>
+            <Col id="url">FrameBase::BookCafe_MemberManagement.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">제품관리</Col>
+            <Col id="url">FrameBase::BookCafe_ProductManagement.xfdl</Col>
+          </Row>
         </Rows>
       </Dataset>
       <Dataset id="Account">
@@ -68,9 +107,29 @@
           <Column id="name" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="Order_data">
+        <ColumnInfo>
+          <Column id="num" type="STRING" size="256" description="현재 주문수량"/>
+          <Column id="total_quantity" type="STRING" size="256" description="총 주문수량"/>
+          <Column id="total_price" type="STRING" size="256" description="총 금액"/>
+          <Column id="order_state" type="STRING" size="256" description="주문상태"/>
+          <Column id="payment_state" type="STRING" size="256" description="결제상태"/>
+          <Column id="product_name" type="STRING" size="256" description="음식이름"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Menu">
+        <ColumnInfo>
+          <Column id="ADMIN_ID" type="STRING" size="256"/>
+          <Column id="LELVEL" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="LELVEL">0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[//nav 버튼
-this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+    <Script type="xscript5.1"><![CDATA[this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
 
 	
@@ -87,8 +146,9 @@ this.Grid_val = function(url_change){
 	this.Main.set_url(url_change)
 	
 
-}
-
-]]></Script>
+}]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="login_data.form.Menu_bar" propid="enableevent" datasetid="Session_login" columnid="ADMIN_NAME"/>
+    </Bind>
   </Form>
 </FDL>

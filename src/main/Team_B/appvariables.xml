@@ -3,9 +3,19 @@
   <Datasets>
     <Dataset id="Session_login">
       <ColumnInfo>
+        <Column id="ADMIN_CODE" type="STRING" size="256"/>
         <Column id="ADMIN_ID" type="STRING" size="256"/>
+        <Column id="ADMIN_PASS" type="STRING" size="256"/>
         <Column id="ADMIN_NAME" type="STRING" size="256"/>
+        <Column id="ADMIN_TEL" type="STRING" size="256"/>
+        <Column id="ADMIN_EMAIL" type="STRING" size="256"/>
+        <Column id="ADMIN_ADDRESS" type="STRING" size="256"/>
+        <Column id="ADMIN_JOINDATE" type="STRING" size="256"/>
+        <Column id="ADMIN_AUTHORITY" type="STRING" size="256"/>
       </ColumnInfo>
+      <Rows>
+        <Row/>
+      </Rows>
     </Dataset>
   </Datasets>
   <Variables/>

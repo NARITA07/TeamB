@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+/* foodList 추가 2024.05.20 */
+.food_list {
+	display:flex;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-top: 47px;
+}

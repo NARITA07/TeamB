@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.nexacro.mebership.serviceImpl.MemberManagermentMapper">
+
+	<!-- 회원 관리 -->
+	<select id="select_member" resultType="java.util.Map">
+SELECT 
+    a.USER_CODE,
+    a.USER_NAME,
+    a.USER_TEL,
+    a.USER_EMAIL,
+    a.USER_ADDRESS,
+    a.USER_JOINDATE,
+    a.USER_POINT,
+    b.POINT_JOINDATE,
+    CASE 
+        WHEN a.USER_AUTHORITY = 0 THEN '비회원'
+        WHEN a.USER_AUTHORITY = 1 THEN '회원'
+        WHEN a.USER_AUTHORITY = 2 THEN 'VID'
+        ELSE a.USER_AUTHORITY 
+    END AS USER_AUTHORITY
+FROM 
+    USER a 
+LEFT JOIN 
+    POINTLOG b 
+ON 
+    a.USER_CODE = b.USER_CODE;
+	</select>
+	
+
+</mapper>

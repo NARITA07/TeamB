@@ -18,6 +18,9 @@
 <body>
 	
  	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+ 	<script>
+        var sUID = '<%= sUID %>';
+    </script>
  	
 		<div class="food_list">
 			<img alt="mainimg" src="images/food_main4.jpg" class="header-image">
@@ -41,7 +44,12 @@
 	                           			<!-- Product price-->
 	                           			<span class="text-muted">${coffee.product_price}</span>
                          			</div>
-                         			<button type="button" class="btn btn-light" data-cartId="${ci.cartId}">Light</button>
+                         			<div class="cart_btn_box">
+                       					<div>
+                                              <input name="buyCnt" type="number" class="form-control" value="1">
+                                         </div>
+                       					<button type="button" class="btn btn-light push_cart" onclick="isLogin(sUID)">담기</button>  			
+                         			</div>
                      			</div>
                  			</div>
                 		</div>
@@ -71,15 +79,23 @@
         		</div>
     		</div>
 		</section>
-		
+		<script>
+		    function foodDetail(product_code) {
+		        var url = 'foodDetail.do?product_code=' + product_code;
+		        
+		        window.location.href = url;
+		    }
+		    
+			function isLogin(sUID){
+				if(sUID == null){
+					alert('로그인 후 이용해 하세요.');
+					window.location.href = url;
+					var url = 'login.do';
+				};
+			};
+		</script>
 
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
-	<script>
-	    function foodDetail(product_code) {
-	        var url = 'foodDetail.do?product_code=' + product_code;
-	        
-	        window.location.href = url;
-	    }
-	</script>
+	
 </body>
 </html>

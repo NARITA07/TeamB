@@ -1,25 +1,18 @@
-//package bookcafe.myPage.service;
-//
-//import java.util.List;
-//
-//import com.kh.rent.login.domain.MemberVO;
-//import com.kh.rent.login.domain.NonMemberLoginDTO;
-//import com.kh.rent.myPage.domain.GetCarNameDTO;
-//import com.kh.rent.myPage.domain.GetStatusDTO;
-//import com.kh.rent.myPage.domain.PWchangeDTO;
-//import com.kh.rent.reserve.domain.NonMemberVO;
-//
-//public interface MyPageService {
-//	
-//	// 회원정보 조회하기
-//	public MemberVO selectList(String mem_id);
-//	
-//	// 비밀번호 변경하기
-//	public int changePassword(PWchangeDTO pwChangeDTO);
-//	
-//	// 회원정보 수정하기
-//	public int updateMember(MemberVO updateVO);
-//	
+package bookcafe.myPage.service;
+
+import bookcafe.member.service.MemberVO;
+
+public interface MyPageService {
+	
+	// 회원정보 조회하기
+	public MemberVO getUserVO(String userId);
+	
+	// 비밀번호 변경하기
+	public int changePassword(PWchangeDTO pwChangeDTO);
+	
+	// 회원정보 수정하기
+	public int updateMember(MemberVO updateVO);
+	
 //	// 탈퇴회원 기록하기
 //	public int registerDelMember(MemberVO deleteVO);
 //	

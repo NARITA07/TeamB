@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.food.service.FoodService;
@@ -15,14 +14,14 @@ public class FoodController {
 	public FoodService foodService;
 	
 	/*커피,음식 리스트*/
-	@GetMapping("foodList.do")
+	@RequestMapping("foodList.do")
 	public String foodList(Model model) {
 		model.addAttribute("coffees", foodService.getCoffeesList());
 		model.addAttribute("foodess", foodService.getFoodesssList());
 		return "/food/foodList";
 	}
 	
-	@GetMapping("foodDetail.do")
+	@RequestMapping("foodDetail.do")
 	public String foodDetail(String product_code, Model model) {
 		model.addAttribute("foodDetail", foodService.selectFoodDetail(product_code));
 		return "/food/foodDetail";

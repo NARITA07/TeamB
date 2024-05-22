@@ -1,15 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<title>마이페이지-내정보관리</title>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<meta charset="UTF-8">
-<title>마이페이지-내정보관리</title>
 </head>
 <body>
 <!-- 주소찾기 -->
@@ -70,8 +69,8 @@ $(function() {
 }); 
 
 </script>
-
-<%-- ${loginInfo} --%>
+	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+	<%-- ${loginInfo} --%>
     <section class="ftco-section">
 		<div class="container">
 			<div class="row">
@@ -86,43 +85,43 @@ $(function() {
 					  <form id="formModify" action="/myPage/memberModify_submit" method="post">
 					    <div class="form-group">
 					      <label for="id">아이디</label>
-					      <input type="text" class="form-control" id="mem_id" name="mem_id" value="${loginInfo.mem_id}" readonly>
+					      <input type="text" class="form-control" id="user_id" name="user_id" value="${loginInfo.user_id}" readonly>
 					    </div>
 					    <div class="form-group">
 						    <label for="pwd">비밀번호</label>
 						    <div style="display: flex; align-items: center;">
 					      	<input type="password" class="form-control" id="mem_pw" name="mem_pw" 
-					      		   value="${loginInfo.mem_pw}" style="margin-right: 10px;" readonly>
+					      		   value="${loginInfo.user_pass}" style="margin-right: 10px;" readonly>
 					     	<button type="button" id="pwdChange" class="btn btn-primary" style="flex-shrink: 0;">변경</button>
 					      </div>
 						</div>
 					    
 					    <div class="form-group">
 					      <label for="name">이름</label>
-					      <input type="text" class="form-control" id="mem_name" name="mem_name" value="${loginInfo.mem_name}" readonly>
+					      <input type="text" class="form-control" id="mem_name" name="mem_name" value="${loginInfo.user_name}" readonly>
 					    </div>
-					    <div class="form-group">
-					      <label for="birthDay">생년월일</label>
-					      <input type="date" class="form-control" id="mem_birth" name="mem_birth" value="${loginInfo.mem_birth}" required>
-					    </div>
+<!-- 					    <div class="form-group"> -->
+<!-- 					      <label for="birthDay">생년월일</label> -->
+<%-- 					      <input type="date" class="form-control" id="mem_birth" name="mem_birth" value="${loginInfo.mem_birth}" required> --%>
+<!-- 					    </div> -->
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
-					      <input type="text" class="form-control" id="mem_phone" name="mem_phone" value="${loginInfo.mem_phone}" required>
+					      <input type="text" class="form-control" id="mem_phone" name="mem_phone" value="${loginInfo.user_tel}" required>
 					    </div>
 					    <div class="form-group">
 					      <label for="email">이메일</label>
-					      <input type="email" class="form-control" id="mem_email" name="mem_email" value="${loginInfo.mem_email}" required>
+					      <input type="email" class="form-control" id="mem_email" name="mem_email" value="${loginInfo.user_email}" required>
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
 			              <div class="input-group" style="display: flex; align-items: center;">
-			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code" 
-			              		   value="${loginInfo.mem_zip_code}" style="margin-right: 10px;" readonly>
+<!-- 			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code"  -->
+<%-- 			              		   value="${loginInfo.mem_zip_code}" style="margin-right: 10px;" readonly> --%>
 							<span class="input-group-btn">
 							<input type="button"  onclick="openZipSearch();" value="우편번호 찾기" class="btn btn-secondary">
 							</span>
 							</div>
-							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.mem_addr}">
+							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.user_address}">
 			              </div>
 						<hr>
 						<button type="submit" class="btn btn-primary">수정완료</button>

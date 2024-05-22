@@ -1,20 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<title>마이페이지-내정보관리</title>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<meta charset="UTF-8">
-<title>마이페이지-내정보관리</title>
 </head>
 <body>
 <!-- 비밀번호 암호화 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
 <script>
 function sha256(password) {
 	if (password.trim() == "") {
@@ -85,8 +83,8 @@ $(function() {
 	
 }); 
 </script>
-
-<%-- ${loginInfo} --%>
+	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+	
     <section class="ftco-section">
 		<div class="container">
 			<div class="row">
@@ -97,41 +95,41 @@ $(function() {
     				<h3>
 						내 정보
 					</h3>
-					<a href="myPageInfo_modify.do" class="btn btn-primary">회원정보 수정</a>
+					<a href="myPageInfo_modify" class="btn btn-primary">회원정보 수정</a>
 					</div>
 					<br>
 					<div class="container">
 					  <form>
 					    <div class="form-group">
 					      <label for="id">아이디</label>
-					      <input type="text" class="form-control" id="id" name="id" value="${loginInfo.mem_id}" readonly>
+					      <input type="text" class="form-control" id="id" name="id" value="${loginInfo.user_id}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="pwd">비밀번호</label>
-					      <input type="password" class="form-control" id="password" name="password" value="${loginInfo.mem_pw}" readonly>
+					      <input type="password" class="form-control" id="password" name="password" value="${loginInfo.user_pass}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="name">이름</label>
-					      <input type="text" class="form-control" id="name" name="name" value="${loginInfo.mem_name}" readonly>
+					      <input type="text" class="form-control" id="name" name="name" value="${loginInfo.user_name}" readonly>
 					    </div>
-					    <div class="form-group">
-					      <label for="birthDay">생년월일</label>
-					      <input type="date" class="form-control" id="birthDay" name="birthDay" value="${loginInfo.mem_birth}" readonly>
-					    </div>
+<!-- 					    <div class="form-group"> -->
+<!-- 					      <label for="birthDay">생년월일</label> -->
+<%-- 					      <input type="date" class="form-control" id="birthDay" name="birthDay" value="${loginInfo.mem_birth}" readonly> --%>
+<!-- 					    </div> -->
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
-					      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${loginInfo.mem_phone}" readonly>
+					      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${loginInfo.user_tel}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="email">이메일</label>
-					      <input type="email" class="form-control" id="email" name="email" value="${loginInfo.mem_email}" readonly>
+					      <input type="email" class="form-control" id="email" name="email" value="${loginInfo.user_email}" readonly>
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
 			              	<div class="input-group">
-			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code" readonly="readonly" value="${loginInfo.mem_zip_code}" >
+<%-- 			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code" readonly="readonly" value="${loginInfo.mem_zip_code}" > --%>
 							</div>
-							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.mem_addr}">
+							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.user_address}">
 		             	</div>
 						<hr>
 					  </form>

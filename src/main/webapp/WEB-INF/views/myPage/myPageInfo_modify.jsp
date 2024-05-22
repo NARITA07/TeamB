@@ -11,11 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<!-- 주소찾기 -->
-  	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js" /></script>
+<!-- 카카오 주소 API -->
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
- 
-<!-- /주소찾기 -->
 
 <!-- 비밀번호 암호화 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
@@ -43,6 +40,17 @@ function openZipSearch() {
 }
 
 $(function() {
+	
+	
+	// 주소 split
+	var str = "${loginInfo.user_address}";
+	var addr = str.split("# ");
+	var addr1 = addr[0];
+	var addr2 = addr[1];
+	var addr3 = addr[2];
+	$("#sample2_postcode").val(addr1);
+	$("#sample2_address").val(addr2);
+	$("#sample2_detailAddress").val(addr3);
 	
 	// 비밀번호변경 모달열기
 	$("#pwdChange").click(function() {
@@ -100,10 +108,6 @@ $(function() {
 					      <label for="name">이름</label>
 					      <input type="text" class="form-control" id="mem_name" name="mem_name" value="${loginInfo.user_name}" readonly>
 					    </div>
-<!-- 					    <div class="form-group"> -->
-<!-- 					      <label for="birthDay">생년월일</label> -->
-<%-- 					      <input type="date" class="form-control" id="mem_birth" name="mem_birth" value="${loginInfo.mem_birth}" required> --%>
-<!-- 					    </div> -->
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
 					      <input type="text" class="form-control" id="mem_phone" name="mem_phone" value="${loginInfo.user_tel}" required>
@@ -114,17 +118,18 @@ $(function() {
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
-			              <div class="input-group" style="display: flex; align-items: center;">
-<!-- 			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code"  -->
-<%-- 			              		   value="${loginInfo.mem_zip_code}" style="margin-right: 10px;" readonly> --%>
-							<span class="input-group-btn">
-							<input type="button"  onclick="openZipSearch();" value="우편번호 찾기" class="btn btn-secondary">
-							</span>
-							</div>
-							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.user_address}">
+			              	<div class="input-group" style="display: flex; align-items: center;">
+				              	<input type="text"  class="form-control"  id="sample2_postcode" style="margin-right: 10px;">
+								<span class="input-group-btn">
+								<input type="button"  onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-info">
+								</span>
+						  	</div>
+							<input type="text" class="form-control" id="sample2_address">
+			             	<input type="text" class="form-control" id="sample2_detailAddress">
+			              	<input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
 			              </div>
 						<hr>
-						<button type="submit" class="btn btn-primary">수정완료</button>
+						<button type="submit" id="btn_submit" name="btn_submit" class="btn btn-success" >수정완료</button>
 					  </form>
 					</div>
 				</div>
@@ -173,4 +178,8 @@ $(function() {
 			</div>
 		</div>
 	<!-- // 비밀번호 변경 모달창 -->
+	
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+</body>
+</html>
 

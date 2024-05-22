@@ -9,9 +9,6 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface MemberMapper {    
 	/* 회원가입 */
 	int insertMember(MemberVO memberVO);
-	
-	/* user_code 증가 */
-    String getMaxUserCode();
 
 	/* 로그인 */
 	int loginProc(MemberVO memberVO);

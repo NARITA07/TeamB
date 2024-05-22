@@ -1,51 +1,42 @@
-//package bookcafe.myPage.serviceImpl;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import com.kh.rent.login.domain.MemberVO;
-//import com.kh.rent.login.domain.NonMemberLoginDTO;
-//import com.kh.rent.myPage.domain.GetCarNameDTO;
-//import com.kh.rent.myPage.domain.GetStatusDTO;
-//import com.kh.rent.myPage.domain.PWchangeDTO;
-//import com.kh.rent.myPage.mapper.MyPageMapper;
-//import com.kh.rent.reserve.domain.NonMemberVO;
-//
-//import lombok.extern.log4j.Log4j;
-//
-//@Service
-//public class MyPageServiceImpl implements MyPageService{
-//	
-//	@Autowired
-//	private MyPageMapper myPageMapper;
-//	
-//	// 회원정보 조회하기
-//	@Override
-//	public MemberVO selectList(String mem_id) {
-//		MemberVO selectVO = myPageMapper.getVO(mem_id);
-//		return selectVO;
-//	}
-//
-//	// 비밀번호 변경하기
-//	@Transactional
-//	@Override
-//	public int changePassword(PWchangeDTO pwChangeDTO) {
-//		int result = myPageMapper.changePassword(pwChangeDTO);
-//		log.info("serviceImpl result:" + result);
-//		return result;
-//	}
-//
-//	// 회원정보 수정하기
-//	@Transactional
-//	@Override
-//	public int updateMember(MemberVO updateVO) {
-//		int result = myPageMapper.updateMember(updateVO);
-//		return result;
-//	}
-//
+package bookcafe.myPage.serviceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyPageService;
+import bookcafe.myPage.service.PWchangeDTO;
+
+@Service
+public class MyPageServiceImpl implements MyPageService{
+	
+	@Autowired
+	private MyPageMapper myPageMapper;
+	
+	// 회원정보 조회하기
+	@Override
+	public MemberVO getUserVO(String userId) {
+		MemberVO userVO = myPageMapper.getVO(userId);
+		return userVO;
+	}
+
+	// 비밀번호 변경하기
+	@Transactional
+	@Override
+	public int changePassword(PWchangeDTO pwChangeDTO) {
+		int result = myPageMapper.changePassword(pwChangeDTO);
+		return result;
+	}
+
+	// 회원정보 수정하기
+	@Transactional
+	@Override
+	public int updateMember(MemberVO updateVO) {
+		int result = myPageMapper.updateMember(updateVO);
+		return result;
+	}
+
 //	// 탈퇴회원 기록하기
 //	@Transactional
 //	@Override
@@ -129,6 +120,6 @@
 //		List<GetStatusDTO> list = myPageMapper.getMyResInfo(res_rid);
 //		return list;
 //	}
-//
-//}
-//
+
+}
+

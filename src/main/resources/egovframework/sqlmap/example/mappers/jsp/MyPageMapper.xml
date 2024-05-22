@@ -2,31 +2,30 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.rent.myPage.mapper.MyPageMapper">
+<mapper namespace="bookcafe.myPage.serviceImpl.MyPageMapper">
 
 	<!-- 회원정보 조회하기 -->
 	<select id="getVO" resultType="bookcafe.member.service.MemberVO">
-		select * from TBL_MEMBER
-		where mem_id = #{mem_id}
+		select * from USER
+		where user_id = #{user_id}
 	</select>
 	
 	<!-- 비밀번호 변경하기 -->
 	<update id="changePassword">
-		update TBL_MEMBER set
-			mem_pw = #{newPassword}
-		where mem_id = #{mem_id}
+		update USER set
+			user_pass = #{newPassword}
+		where user_id = #{user_id}
 	</update>
 	
 	<!-- 회원정보 수정하기 -->
 	<update id="updateMember">
-		update TBL_MEMBER set
-			mem_email = #{mem_email},
-			mem_birth = #{mem_birth},
-			mem_phone = #{mem_phone},
-			mem_zip_code = #{mem_zip_code},
-			mem_addr = #{mem_addr},
-			mem_udate = now()
-		where mem_id = #{mem_id}
+		update USER set
+			user_name = #{user_name},
+			user_tel = #{user_tel},
+			user_email = #{user_email},
+			user_address = #{user_address},
+			user_point = #{user_point},
+		where user_id = #{user_id}
 	</update>
 
 

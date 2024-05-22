@@ -4,10 +4,7 @@ package bookcafe.member.service;
 public interface MemberService {
 
 /* 회원 등록 처리 */
-public String insertMember(MemberVO memberVO) throws Exception;	
-
-/* user_code 증가 */
-String generateUserCode();
+public String insertMember(MemberVO memberVO) throws Exception;
 
 /* 중복 확인 */
 public int selectIdChk(String user_id);

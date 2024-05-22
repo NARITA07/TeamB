@@ -10,6 +10,7 @@ public class MemberVO {
 	private String user_address;
 	private String user_joindate;
 	private String user_authority;
+	private int user_point;
 	
 	public String getUser_code() {
 		return user_code;
@@ -65,6 +66,12 @@ public class MemberVO {
 	}
 	public void setUser_authority(String user_authority) {
 		this.user_authority = user_authority;
+	}
+	public int getUser_point() {
+		return user_point;
+	}
+	public void setUser_point(int user_point) {
+		this.user_point = user_point;
 	}
 
 }

@@ -1,11 +1,14 @@
-package bookcafe.myPage.service;
+package bookcafe.myPage.serviceImpl;
 
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.PWchangeDTO;
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
-public interface MyPageService {
-	
+@Mapper("myPageMapper")
+public interface MyPageMapper {
+
 	// 회원정보 조회하기
-	public MemberVO getUserVO(String userId);
+	public MemberVO getVO(String userId);
 	
 	// 비밀번호 변경하기
 	public int changePassword(PWchangeDTO pwChangeDTO);
@@ -14,7 +17,7 @@ public interface MyPageService {
 	public int updateMember(MemberVO updateVO);
 	
 //	// 탈퇴회원 기록하기
-//	public int registerDelMember(MemberVO deleteVO);
+//	public int registerDelMember(MemberVO deletedVO);
 //	
 //	// 회원정보 삭제하기
 //	public int deleteMember(String mem_id);
@@ -22,9 +25,9 @@ public interface MyPageService {
 //	// 예약정보 현재시각기준 업데이트
 //	public void updateTBLReserve(String mem_id);
 //	
-//	// 예약정보 조회하기
+//	// 예약정보 조회하기(예약페이지)
 //	public List<GetStatusDTO> getReserveList(String mem_id);
-//
+//	
 //	// 예약번호로 차종 조회하기
 //	public String getCarName(GetCarNameDTO getCarNameDTO);
 //	

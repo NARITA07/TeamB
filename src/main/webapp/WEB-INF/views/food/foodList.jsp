@@ -54,14 +54,14 @@
             		<c:forEach items="${foodess}" var="food">
                 		<div class="col mb-5">
                     		<div class="card h-100">
-		                        <!-- Product image-->
+		                        Product image
 		                        <img class="card-img-top" src="${food.product_img}" alt="..." />
-		                        <!-- Product details-->
+		                        Product details
 		                        <div class="card-body p-4">
                             		<div class="text-center">
-		                                <!-- Product name-->
+		                                Product name
 		                                <h5 class="fw-bolder">${food.product_name}</h5>
-                                		<!-- Product price-->
+                                		Product price
                                 		<span class="text-muted">${food.product_price}</span>
                             		</div>
                         		</div>
@@ -75,11 +75,11 @@
 
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 	<script>
-	    function foodDetail(product_code) {
-	        var url = 'foodDetail.do?product_code=' + product_code;
+// 	    function foodDetail(product_code) {
+// 	        var url = 'foodDetail.do?product_code=' + product_code;
 	        
-	        window.location.href = url;
-	    }
+// 	        window.location.href = url;
+// 	    }
 	</script>
 </body>
 </html>

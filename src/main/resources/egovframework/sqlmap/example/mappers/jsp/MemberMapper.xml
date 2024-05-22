@@ -4,14 +4,8 @@
  <!-- 회원 등록 -->
     <insert id="insertMember" parameterType="bookcafe.member.service.MemberVO">
         INSERT INTO USER(USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY)
-        VALUES (#{user_code}, #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority})
+        VALUES (fnCode('user'), #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority})
     </insert>
-    
-    <!-- user_code 증가 -->
-    <select id="getMaxUserCode" resultType="String">
-	    SELECT MAX(USER_CODE)
-	    FROM USER
-	</select>
     
     <!-- 아이디 중복 체크 -->
     <select id="selectIdChk" resultType="int" parameterType="String">

@@ -20,22 +20,9 @@ MemberMapper memberMapper;
 	/* 회원가입 */
 	@Override
 	public String insertMember(MemberVO memberVO) throws Exception {
-	    String newUserCode = generateUserCode();
-	    memberVO.setUser_code(newUserCode);
 	    memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	    int result = memberMapper.insertMember(memberVO);
 	    return result > 0 ? "ok" : "fail";
-	}
-
-	/* user_code 증가 */
-	@Override
-	public String generateUserCode() {
-	    String maxUserCode = memberMapper.getMaxUserCode();
-	    if (maxUserCode == null) {
-	        return "USER_1";
-	    }
-	    int newCode = Integer.parseInt(maxUserCode.replace("USER_", "")) + 1;
-	    return "USER_" + newCode;
 	}
 
 	/*로그인*/

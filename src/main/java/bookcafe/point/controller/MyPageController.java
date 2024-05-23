@@ -1,6 +1,4 @@
-package bookcafe.myPage.controller;
-
-import java.util.List;
+package bookcafe.point.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,8 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
-import bookcafe.point.service.PointService;
-import bookcafe.point.service.PointVO;
 
 
 @Controller
@@ -32,9 +28,6 @@ public class MyPageController {
 	
 	@Autowired
 	private MyPageService myPageService;
-	
-	@Autowired
-	private PointService pointService;
 	
 	// 마이페이지
 	@GetMapping("/myPage")
@@ -115,15 +108,7 @@ public class MyPageController {
 	
 	// 포인트페이지 이동
 	@GetMapping("/pointList")
-	public void pointList(HttpSession session, Model model) {
+	public void pointList() {
 		
-		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-		String user_id = loginInfo.getUser_id();
-		
-		// 포인트 내역
-		List<PointVO> pointList = pointService.getPointList(user_id);
-		
-		model.addAttribute("pointList", pointList);
 	}	
-	
 }

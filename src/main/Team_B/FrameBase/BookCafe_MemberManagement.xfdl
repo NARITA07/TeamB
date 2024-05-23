@@ -18,8 +18,8 @@
                 <Column size="50"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="35" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="아이디" border="1px solid silver, 0px none, 1px solid silver, 1px solid silver"/>

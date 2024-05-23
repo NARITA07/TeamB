@@ -25,5 +25,14 @@ public interface MemberMapper {
     /* 비밀번호 재설정 */
     int resetPassword(@Param("user_id") String userId, @Param("new_password") String newPassword);
     
+	// 사용자 정보 조회 메소드 추가
+    MemberVO getUserInfo(@Param("user_id") String userId);
     
+    /* 비회원가입 */
+	int insertbMember(MemberVO memberVO);
+    
+	/* 전화번호 중복확인 */
+	int selectTelChk(String user_tel);
+	/* 비회원 재로그인*/
+	int updateNonMember(String userTel,String userName, String userEmail, String userAddress);
 }

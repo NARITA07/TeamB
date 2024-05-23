@@ -1,10 +1,9 @@
-<%@ page language="java" pageEncoding="utf-8"%>  
-  <!DOCTYPE html>
+<%@ page language="java" pageEncoding="utf-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원등록</title>
-<!-- Add the required jQuery UI CSS and JavaScript links -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -44,6 +43,9 @@ $(function() {
         var user_id = $("#user_id").val().trim();
         var user_pass = $("#user_pass").val().trim();
         var user_name = $("#user_name").val().trim();
+        var emailAuthCode = $("#emailAuthCode").val().trim();
+        var user_email = $("#user_email").val().trim();
+
         if(user_id == ""){
             alert("아이디를 입력해주세요");
             $("#user_id").focus();
@@ -59,27 +61,72 @@ $(function() {
             $("#user_name").focus();
             return false;
         }
-        $("#user_id").val(user_id);
-        $("#user_pass").val(user_pass);
-        $("#user_name").val(user_name);
-        
-        var formData = $("#frm").serialize();
+        if(user_email == ""){
+            alert("이메일을 입력해주세요");
+            $("#user_email").focus();
+            return false;
+        }
+        if(emailAuthCode == ""){
+            alert("이메일 인증코드를 입력해주세요");
+            $("#emailAuthCode").focus();
+            return false;
+        }
+
+        // 이메일 인증 코드 확인
         $.ajax({
             type: "POST",
-            data: formData,
-            url: "memberWriteSave.do",
+            data: { emailAuthCode: emailAuthCode },
+            url: "checkEmailAuthCode.do",
             dataType: "text",
             success: function(result){
                 if(result == "ok"){
-                    alert("저장 완료하였습니다.");
-                    $("#frm")[0].reset();
-                    location.href = "./";
+                    // 인증 코드가 맞으면 회원 가입 절차 진행
+                    var formData = $("#frm").serialize();
+                    $.ajax({
+                        type: "POST",
+                        data: formData,
+                        url: "memberWriteSave.do",
+                        dataType: "text",
+                        success: function(result){
+                            if(result == "ok"){
+                                alert("저장 완료하였습니다.");
+                                $("#frm")[0].reset();
+                                location.href = "./";
+                            } else {
+                                alert("저장 실패하였습니다.");
+                            }
+                        },
+                        error: function(){
+                            alert("1error가 발생하였습니다");
+                        }
+                    });
                 } else {
-                    alert("저장 실패하였습니다.");
+                    alert("인증 코드가 맞지 않습니다.");
                 }
             },
             error: function(){
-                alert("error가 발생하였습니다");
+                alert("2error가 발생하였습니다");
+            }
+        });
+    });
+
+    $("#btn_sendEmail").click(function() {
+        var user_email = $("#user_email").val().trim();
+        if(user_email == ""){
+            alert("이메일을 입력해주세요");
+            $("#user_email").focus();
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            data: { send: user_email },
+            url: "send.do",
+            dataType: "text",
+            success: function(result){
+                alert("이메일 전송완료");
+            },
+            error: function(){
+                alert("이메일 전송 중 에러가 발생하였습니다");
             }
         });
     });
@@ -138,32 +185,37 @@ caption {
             </tr>
             <tr>
                 <th><label for="user_email">이메일</label></th>
-                <td><input type="text" name="user_email" id="user_email" placeholder="이메일"></td>
+                <td>
+                    <input type="email" name="user_email" id="user_email" placeholder="이메일">
+                    <button type="button" id="btn_sendEmail">인증메일 전송</button>
+                </td>
             </tr>
             <tr>
-    <th><label for="user_address">주소</label></th>
-    <td>
-        <input type="text" id="sample2_postcode" placeholder="우편번호">
-        <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" id="sample2_address" placeholder="주소"><br>
-        <input type="text" id="sample2_detailAddress" placeholder="상세주소">
-        <input type="hidden" id="user_address" name="user_address" readonly>
-    </td>
-</tr>
-<tr style="display:none;">
-    <th><label for="user_authority">권한</label></th>
-    <td><input type="text" name="user_authority" id="user_authority" value="1"></td>
-</tr>
-</table>
-<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-    <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+                <th><label for="emailAuthCode">인증코드</label></th>
+                <td><input type="text" name="emailAuthCode" id="emailAuthCode" placeholder="인증코드"></td>
+            </tr>
+            <tr>
+                <th><label for="user_address">주소</label></th>
+                <td>
+			        <input type="text" id="sample2_postcode" placeholder="우편번호">
+			        <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기"><br>
+			        <input type="text" id="sample2_address" placeholder="주소"><br>
+			        <input type="text" id="sample2_detailAddress" placeholder="상세주소">
+			        <input type="hidden" id="user_address" name="user_address" readonly>
+			    </td>
+            </tr>
+            <tr style="display:none;">
+                <th><label for="user_authority">권한</label></th>
+                <td><input type="text" name="user_authority" id="user_authority" value="1"></td>
+            </tr>
+        </table>
+    </form>
+    <div class="div_btn">
+        <button type="button" id="btn_submit">저장</button>
+        <button type="button" id="reset">취소</button>
+    </div>
 </div>
-<div class="div_btn">
-    <button type="button" name="btn_submit" id="btn_submit">저장</button>
-    <button type="reset">초기화</button>
-</div>
-</form>
-</div>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     // 우편번호 찾기 화면을 넣을 element

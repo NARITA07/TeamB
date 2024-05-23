@@ -102,10 +102,10 @@ $(function() {
 	
     <section class="ftco-section">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-2">
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-3">
 				</div>
-   				<div class="col-md-8">
+   				<div class="col-md-6">
 					<div style="display: flex; justify-content: space-between; align-items: center;">
     				<h3>
 						내 정보
@@ -148,7 +148,7 @@ $(function() {
 					<button type="button" id="btn-deleteInfo" class="btn btn-danger">회원탈퇴</button>
 			  	
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 				</div>
    			</div>
    		</div>
@@ -185,4 +185,7 @@ $(function() {
         </div>
     </div>
 
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+</body>
+</html>
 

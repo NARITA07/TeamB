@@ -21,4 +21,11 @@ boolean findPw(String userId, String userName, String userTel) throws Exception;
 /* 비밀번호 재설정 */
 boolean resetPassword(String userId, String newPassword) throws Exception;
 
+boolean checkUserInfo(String userId, String userName, String userTel, String userEmail);
+
+public String insertbMember(MemberVO memberVO) throws Exception;	
+
+public int selectTelChk(String user_tel);
+
+boolean updateNonMember(String userName, String userTel, String userEmail, String userAddress) throws Exception;
 }

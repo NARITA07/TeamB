@@ -13,7 +13,4 @@ public interface FoodMapper {
 	
 	/*음식 리스트*/
 	List<FoodVO> selectFoodessList();
-	
-	FoodVO selectFoodDetail();
-
 }

@@ -7,59 +7,143 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
         $(document).ready(function() {
-            $("#findPwForm").submit(function(event) {
-                event.preventDefault(); 
+        	// 이메일 인증 버튼 클릭 시
+        	$("#btn_sendEmail").click(function() {
+        	    var user_email = $("#user_email").val().trim();
+        	    var user_id = $("#user_id").val().trim();
+        	    var user_name = $("#user_name").val().trim();
+        	    var user_tel = $("#user_tel").val().trim();
 
-                var formData = {
-                    user_id: $("#user_id").val(),
-                    user_name: $("#user_name").val(),
-                    user_tel: $("#user_tel").val()
-                };
+        	    // 모든 필드가 입력되었는지 확인
+        	    if (user_id === "" || user_name === "" || user_tel === "" || user_email === "") {
+        	        alert("모든 필드를 입력해주세요.");
+        	        return false;
+        	    }
 
-                $.ajax({
-                    type: "POST",
-                    url: "findPw.do",
-                    data: formData,
-                    success: function(response) {
-                        if (response === "found") {
-                            $("#resetPwModal").show();
-                            $("#modal_user_id").val(formData.user_id);
-                        } else {
-                            alert("정보가 맞지 않습니다. 다시 확인 해주세요.");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Error: " + error);
-                    }
-                });
-            });
+        	    // 사용자 정보 확인 요청
+        	    $.ajax({
+        	        type: "POST",
+        	        data: { 
+        	            user_id: user_id,
+        	            user_name: user_name,
+        	            user_tel: user_tel,
+        	            user_email: user_email 
+        	        },
+        	        url: "checkUserInfo.do", // 사용자 정보 확인하는 컨트롤러 경로
+        	        dataType: "text",
+        	        success: function(result) {
+        	            if (result === "valid") { // 사용자 정보가 일치하는 경우에만 이메일 발송
+        	                $.ajax({
+        	                    type: "POST",
+        	                    data: { send: user_email },
+        	                    url: "send.do", // 이메일 발송 컨트롤러 경로
+        	                    dataType: "text",
+        	                    success: function(result){
+        	                        alert("이메일 전송완료");
+        	                    },
+        	                    error: function(){
+        	                        alert("이메일 전송 중 에러가 발생하였습니다");
+        	                    }
+        	                });
+        	            } else {
+        	                alert("사용자 정보가 일치하지 않습니다. 다시 확인해주세요.");
+        	            }
+        	        },
+        	        error: function(){
+        	            alert("사용자 정보 확인 중 에러가 발생하였습니다.");
+        	        }
+        	    });
+        	});
+        	
+        	
+        	$("#findPwForm").submit(function(event) {
+        	    event.preventDefault(); 
 
-            $("#resetPwForm").submit(function(event) {
-                event.preventDefault();
+        	    var formData = {
+        	        user_id: $("#user_id").val(),
+        	        user_name: $("#user_name").val(),
+        	        user_tel: $("#user_tel").val(),
+        	        user_email: $("#user_email").val(),
+        	        emailAuthCode: $("#emailAuthCode").val()
+        	    };
 
-                var formData = {
-                    user_id: $("#modal_user_id").val(),
-                    new_password: $("#new_password").val()
-                };
+        	    $.ajax({
+        	        type: "POST",
+        	        url: "findPw.do",
+        	        data: formData,
+        	        success: function(response) {
+        	            if (response === "found") {
+        	                // Proceed with password reset only if verification code matches
+        	                var enteredCode = $("#emailAuthCode").val();
+        	                $.ajax({
+        	                    type: "POST",
+        	                    url: "checkEmailAuthCode.do",
+        	                    data: { emailAuthCode: enteredCode },
+        	                    success: function(result) {
+        	                        if (result === "ok") {
+        	                            $("#resetPwModal").show();
+        	                            $("#modal_user_id").val(formData.user_id);
+        	                        } else {
+        	                            alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+        	                        }
+        	                    },
+        	                    error: function(xhr, status, error) {
+        	                        alert("Error: " + error);
+        	                    }
+        	                });
+        	            } else {
+        	                alert("정보가 맞지 않습니다. 다시 확인 해주세요.");
+        	            }
+        	        },
+        	        error: function(xhr, status, error) {
+        	            alert("Error: " + error);
+        	        }
+        	    });
+        	});
 
-                $.ajax({
-                    type: "POST",
-                    url: "resetPassword.do",
-                    data: formData,
-                    success: function(response) {
-                        if (response === "success") {
-                            $("#resetPwModal").hide();
-                            alert("비밀번호 변경완료");
-                            window.location.href = "login.do";
-                        } else {
-                            alert("비밀번호 재설정에 실패했습니다.");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Error: " + error);
-                    }
-                });
-            });
+        	$("#resetPwForm").submit(function(event) {
+        	    event.preventDefault();
+
+        	    // Check if verification code is correct before proceeding
+        	    var enteredCode = $("#emailAuthCode").val();
+        	    $.ajax({
+        	        type: "POST",
+        	        url: "checkEmailAuthCode.do",
+        	        data: { emailAuthCode: enteredCode },
+        	        success: function(result) {
+        	            if (result === "ok") {
+        	                // Proceed with password reset
+        	                var formData = {
+        	                    user_id: $("#modal_user_id").val(),
+        	                    new_password: $("#new_password").val()
+        	                };
+
+        	                $.ajax({
+        	                    type: "POST",
+        	                    url: "resetPassword.do",
+        	                    data: formData,
+        	                    success: function(response) {
+        	                        if (response === "success") {
+        	                            $("#resetPwModal").hide();
+        	                            alert("비밀번호 변경완료");
+        	                            window.location.href = "login.do";
+        	                        } else {
+        	                            alert("비밀번호 재설정에 실패했습니다.");
+        	                        }
+        	                    },
+        	                    error: function(xhr, status, error) {
+        	                        alert("Error: " + error);
+        	                    }
+        	                });
+        	            } else {
+        	                alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+        	            }
+        	        },
+        	        error: function(xhr, status, error) {
+        	            alert("Error: " + error);
+        	        }
+        	    });
+        	});
 
             $(".close-modal").click(function() {
                 $("#resetPwModal").hide();
@@ -67,6 +151,7 @@
         });
     </script>
     <style>
+
         #resetPwModal {
             display: none;
             position: fixed;
@@ -93,6 +178,11 @@
         <input type="text" id="user_name" name="user_name"><br>
         <label for="user_tel">전화번호:</label>
         <input type="text" id="user_tel" name="user_tel"><br>
+        <label for="user_email">이메일</label>
+		<input type="email" name="user_email" id="user_email" placeholder="이메일">
+		<button type="button" id="btn_sendEmail">인증메일 전송</button><br>
+		<label for="emailAuthCode">인증코드</label>
+		<input type="text" name="emailAuthCode" id="emailAuthCode" placeholder="인증코드"><br>
         <input type="submit" value="비밀번호 찾기">
     </form>
 

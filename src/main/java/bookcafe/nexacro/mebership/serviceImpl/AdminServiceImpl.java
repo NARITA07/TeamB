@@ -1,12 +1,13 @@
-package bookcafe.nexacro.admin_serviceImpl;
+package bookcafe.nexacro.mebership.serviceImpl;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bookcafe.nexacro.admin_service.AdminService;
+import bookcafe.nexacro.mebership.service.AdminService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("AdminService")
@@ -43,9 +44,38 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
     	membership.put("ADMIN_JOINDATE", j_date); // 회원가입날짜
     	membership.put("ADMIN_AUTHORITY", "3"); // 권한 3 = MANAGER
     	
-    	System.out.println("최종확인" + membership);
     	return nex_mapper.insert_data(membership);
 	}
-  
-  }
+		
+
+	//로그인(관리자)
+
+	public Map<String, String> select_admin(Map<String, String> admin_Login) {
+		Map<String, String> result = new HashMap<>();
+		
+		if(nex_mapper.select_admin(admin_Login) == null) { // 쿼리 실행 후 return이 null이라면 
+			
+			if(nex_mapper.select_admin_id(admin_Login.get("ADMIN_ID")) == null) {//아이디 or 비밀번호가 틀렸는지 확인하기
+				
+				result.put("ERROR", "1"); // 1 아이디가 틀렸습니다.
+				
+			}else {
+				
+				result.put("ERROR", "2");//  2 비밀번호가 틀렸습니다.
+			}
+			
+		}else { //아이디 비번이 둘다 맞으면
+			
+			result = nex_mapper.select_admin(admin_Login);
+			
+		}
+		
+		
+		return result;
+	}
+	
+}
+
+
+
  

@@ -54,6 +54,39 @@ MemberMapper memberMapper;
         int result = memberMapper.resetPassword(userId, newPassword);
         return result > 0;
     }
+    
+    @Override
+    public boolean checkUserInfo(String userId, String userName, String userTel, String userEmail) {
+        
+        MemberVO memberVO = memberMapper.getUserInfo(userId);
+        if (memberVO != null && 
+        		memberVO.getUser_name().equals(userName) && 
+        		memberVO.getUser_tel().equals(userTel) && 
+        		memberVO.getUser_email().equals(userEmail)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* 비회원가입 */
+   	@Override
+   	public String insertbMember(MemberVO memberVO) throws Exception {
+   	    memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+   	    int result = memberMapper.insertbMember(memberVO);
+   	    return result > 0 ? "ok" : "fail";
+   	}
+       
+   	/*전화번호 중복체크*/
+   	@Override 
+   	public int selectTelChk(String user_tel) { 
+   		return memberMapper.selectTelChk(user_tel); 
+   	}
+   	
+   	/* 비회원 업데이트(재로그인)*/
+    @Override
+    public boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception {
+        return memberMapper.updateNonMember(userTel, userName, userEmail, userAddress) > 0;
+    }
 }
  
  

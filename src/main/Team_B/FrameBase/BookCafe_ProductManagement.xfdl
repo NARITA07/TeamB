@@ -200,7 +200,7 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	
 	//입력칸 이동
 	this.Main.form.id_5.set_visible(false)
-	this.Main.form.id_6.set_top(false);
+	this.Main.form.id_6.set_visible(false);
 	}
 
 	

@@ -1,7 +1,6 @@
 package bookcafe.food.controller;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,7 @@ public class FoodController {
 	
 	/*커피,음식 리스트*/
 	@RequestMapping("foodList.do")
-	public String foodList(Model model,HttpSession session) {
+	public String foodList(Model model) {
 		model.addAttribute("coffees", foodService.getCoffeesList());
 		model.addAttribute("foodess", foodService.getFoodesssList());
 		return "/food/foodList";

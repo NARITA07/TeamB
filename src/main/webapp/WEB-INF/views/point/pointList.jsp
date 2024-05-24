@@ -79,7 +79,7 @@ $(document).ready(function() {
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<h2>
-										${loginInfo.user_id}님의 포인트 내역입니다. 
+										${loginInfo.user_name}님의 포인트 내역입니다. 
 									</h2>
 								</div>
 								<div style="padding-top: 30px; padding-bottom: 50px;">

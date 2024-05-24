@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="nav" taborder="1" left="0" top="0" width="200" height="720" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="199"/>
+              </Columns>
+              <Rows>
+                <Row size="50" band="head"/>
+                <Row size="50"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="책빵" background="black" color="white" font="normal 700 24px/normal &quot;Gulim&quot;"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:title" displaytype="buttoncontrol" edittype="button" border="0px none #dbdee2" borderRadius="5px"/>
+              </Band>
+            </Format>
+            <Format id="format00"/>
+          </Formats>
+        </Grid>
+        <Div id="Main" taborder="2" text="Main" left="200" top="50" height="93.06%" formscrolltype="none" url="FrameBase::BookCafe_OrderStatus.xfdl" right="0"/>
+        <Div id="login_data" taborder="3" text="안녕하세요~님" left="200" top="0" width="1080" height="50" formscrolltype="none" formscrollbartype="none" background="#dbdee2">
+          <Layouts>
+            <Layout>
+              <Menu id="Menu_bar" taborder="0" left="979" top="-1" width="100" height="50" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" color="pink" onmenuclick="login_data_Menu_bar_onmenuclick" innerdataset="innerdataset" visible="true" tabstop="false" borderRadius="5px">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="captioncolumn" size="256"/>
+                    <Column id="checkboxcolumn" size="256"/>
+                    <Column id="enablecolumn" size="256"/>
+                    <Column id="hotkeycolumn" size="256"/>
+                    <Column id="iconcolumn" size="256"/>
+                    <Column id="idcolumn" size="256"/>
+                    <Column id="levelcolumn" size="256"/>
+                    <Column id="userdatacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="captioncolumn">메뉴</Col>
+                      <Col id="levelcolumn">0</Col>
+                      <Col id="userdatacolumn"/>
+                    </Row>
+                    <Row>
+                      <Col id="userdatacolumn"/>
+                      <Col id="captioncolumn">내 정보</Col>
+                      <Col id="levelcolumn">1</Col>
+                      <Col id="idcolumn">my</Col>
+                    </Row>
+                    <Row>
+                      <Col id="userdatacolumn"/>
+                      <Col id="captioncolumn">로그아웃</Col>
+                      <Col id="levelcolumn">1</Col>
+                      <Col id="idcolumn">logout</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Menu>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Nav">
+        <ColumnInfo>
+          <Column id="title" type="STRING" size="256"/>
+          <Column id="url" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="title">주문처리</Col>
+            <Col id="url">FrameBase::BookCafe_OrderStatus.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">도서대여</Col>
+            <Col id="url"/>
+          </Row>
+          <Row>
+            <Col id="title">매출현황</Col>
+            <Col id="url">FrameBase::BookCafe_SalesBoard.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">주문이력현황</Col>
+            <Col id="url">FrameBase::BookCafe_OrderHistoryStatus.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">회원관리</Col>
+            <Col id="url">FrameBase::BookCafe_MemberManagement.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">제품관리</Col>
+            <Col id="url">FrameBase::BookCafe_ProductManagement.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="title">대여현황</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Account">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Order_data">
+        <ColumnInfo>
+          <Column id="num" type="STRING" size="256" description="현재 주문수량"/>
+          <Column id="total_quantity" type="STRING" size="256" description="총 주문수량"/>
+          <Column id="total_price" type="STRING" size="256" description="총 금액"/>
+          <Column id="order_state" type="STRING" size="256" description="주문상태"/>
+          <Column id="payment_state" type="STRING" size="256" description="결제상태"/>
+          <Column id="product_name" type="STRING" size="256" description="음식이름"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Menu">
+        <ColumnInfo>
+          <Column id="ADMIN_ID" type="STRING" size="256"/>
+          <Column id="LELVEL" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="LELVEL">0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	this.Main.form.m
+	this.Grid_val(this.Nav.getColumn(e.row,1))
+	//this.Nav.getColumn(e.row,1)) row값은 변하고 cell값은 고정
+	//Grid안의 "주문" cell을 클릭하면 row가 0이므로 
+	//dataset의 생성되어있는 Column의 row = 0, cell = 1인 url의 값을 반환
+}
+
+
+this.Grid_val = function(url_change){
+	
+	//div의 url값을 변경.
+	this.Main.set_url(url_change)
+	
+
+}
+
+
+this.login_data_Menu_bar_onmenuclick = function(obj:nexacro.Menu,e:nexacro.MenuClickEventInfo)
+{
+	if(e.id == "logout"){//종료
+		var agr = this.confirm("로그아웃하시겠습니까?")
+		if(agr == true){//확인 누르면
+			nexacro.getApplication().Session_login.clear() // 세션 db 비우기
+				this.go("FrameBase::BookCafe_Login.xfdl")
+		}else if(e.id == "my"){
+		
+		this.Main.form.set_
+		
+		
+		}
+	} 
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="login_id" propid="text" datasetid="Session_login" columnid="ADMIN_ID"/>
+    </Bind>
+  </Form>
+</FDL>

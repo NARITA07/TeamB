@@ -2,18 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <title>BookCafe</title>
     <link href="/css/style.css" rel="stylesheet" />
-<!--     Bootstrap icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  </head>
+</head>
 <body>
-<%@ page import="bookcafe.member.service.MemberVO" %>
 <%
-	String sUID = (String)session.getAttribute("sessionId");
-
+    String sUID = (String)session.getAttribute("sessionId");
+    Boolean isNonMember = (Boolean)session.getAttribute("isNonMember");
 %>
 
 	<!-- Navigation-->
@@ -42,7 +40,7 @@
                 <button class="btn btn-outline-dark" type="button" onclick="goCart('${loginInfo.user_code}')">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_item_count"></span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
 

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Popup_Work" width="1050" height="160" titletext="New Form" onload="Popup_Work_onload" onbeforeclose="Popup_Work_onbeforeclose">
+    <Layouts>
+      <Layout height="160" mobileorientation="landscape" width="1050">
+        <GroupBox id="GroupBox00" taborder="0" text="상세정보" left="20" bottom="29" height="70" width="1005"/>
+        <Static id="Static00_00" taborder="1" text="TEXT" left="40" height="30" onclick="Static00_onclick" bottom="46" width="30"/>
+        <Edit id="edt_COL_TXT" taborder="2" left="85" width="161" height="35" bottom="43" maxlength="50" displaynulltext="입력하세요!"/>
+        <Static id="Static00_00_00" taborder="3" text="Check" left="286" width="49" height="30" onclick="Static00_onclick" bottom="46"/>
+        <CheckBox id="chk_COL_CHK" taborder="4" left="350" width="60" height="30" bottom="46" falsevalue="N" truevalue="Y"/>
+        <Static id="Static00_00_00_00" taborder="5" text="Number" left="410" width="50" height="30" onclick="Static00_onclick" bottom="46"/>
+        <Spin id="spe_COL_NUM" taborder="6" left="475" width="115" height="30" bottom="46"/>
+        <Static id="Static00_00_00_00_00" taborder="7" text="Date" left="630" width="30" height="30" onclick="Static00_onclick" bottom="46"/>
+        <Calendar id="cal_COL_DTE" taborder="8" left="675" width="105" height="30" bottom="46" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd"/>
+        <Static id="Static00_00_00_00_00_00" taborder="9" text="Date" left="820" width="30" height="30" onclick="Static00_onclick" bottom="46"/>
+        <Combo id="cbo_COL_CBO" taborder="10" left="865" width="135" height="30" bottom="46" innerdataset="ds_combo" codecolumn="COD" datacolumn="TXT"/>
+        <Button id="btn_close" taborder="11" text="닫기" top="20" width="80" height="30" right="28" onclick="btn_close_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_dtl">
+        <ColumnInfo>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="SEQ" type="INT" size="256"/>
+          <Column id="COL_TXT" type="STRING" size="256"/>
+          <Column id="COL_CHK" type="STRING" size="256"/>
+          <Column id="COL_NUM" type="FLOAT" size="256"/>
+          <Column id="COL_DTE" type="STRING" size="256"/>
+          <Column id="COL_CBO" type="STRING" size="256"/>
+          <Column id="REG_USR" type="STRING" size="256"/>
+          <Column id="REG_DTE" type="DATE" size="256"/>
+          <Column id="UPD_USR" type="STRING" size="256"/>
+          <Column id="UPD_DTE" type="DATE" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_combo">
+        <ColumnInfo>
+          <Column id="COD" type="STRING" size="256"/>
+          <Column id="TXT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edt_COL_TXT" propid="value" datasetid="ds_dtl" columnid="COL_TXT"/>
+      <BindItem id="item1" compid="chk_COL_CHK" propid="value" datasetid="ds_dtl" columnid="COL_CHK"/>
+      <BindItem id="item2" compid="spe_COL_NUM" propid="value" datasetid="ds_dtl" columnid="COL_NUM"/>
+      <BindItem id="item3" compid="cal_COL_DTE" propid="value" datasetid="ds_dtl" columnid="COL_DTE"/>
+      <BindItem id="item4" compid="cbo_COL_CBO" propid="value" datasetid="ds_dtl" columnid="COL_CBO"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[this.Popup_Work_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnSearchCombo();
+	
+	this.ds_dtl.clearData();
+	this.ds_dtl.addRow();
+	this.ds_dtl.setColumn(0, "COL_TXT", this.parent.COL_TXT);
+	this.ds_dtl.setColumn(0, "COL_CHK", this.parent.COL_CHK);
+	this.ds_dtl.setColumn(0, "COL_NUM", this.parent.COL_NUM);
+	this.ds_dtl.setColumn(0, "COL_DTE", this.parent.COL_DTE);
+	this.ds_dtl.setColumn(0, "COL_CBO", this.parent.COL_CBO);
+};
+
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close('Close Popup');
+};
+
+// 콤보 조회
+this.fnSearchCombo = function ()
+{
+  var strSvcId    = "selectCombo";
+  var strSvcUrl   = "svc::selectCombo.do";
+  var inData      = "";
+  var outData     = "ds_combo=ds_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+this.Popup_Work_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	this.opener.fn_parent(this.ds_dtl);
+};
+]]></Script>
+  </Form>
+</FDL>

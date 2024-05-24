@@ -6,7 +6,7 @@
         <Div id="Main" taborder="0" text="Main" left="0" top="10" height="650" right="10">
           <Layouts>
             <Layout>
-              <Button id="send00" taborder="0" text="제품 등록" left="913" top="610" width="95" height="40" borderRadius="5px" onclick="Main_send_onclick"/>
+              <Button id="send00" taborder="0" text="제품 등록" left="900" top="610" height="40" borderRadius="5px" onclick="Main_send_onclick" right="10"/>
               <Grid id="gr_inserProduct" taborder="1" left="10" top="0" height="600" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10" scrollbartype="none">
                 <Formats>
                   <Format id="FOOD">
@@ -30,7 +30,7 @@
                     </Columns>
                     <Rows>
                       <Row size="40" band="head"/>
-                      <Row size="80"/>
+                      <Row size="70"/>
                     </Rows>
                     <Band id="head">
                       <Cell background="white" border="1px none #cacaca"/>
@@ -42,11 +42,11 @@
                 </Formats>
               </Grid>
               <Static id="ED_MA" taborder="2" text="제품 등록" left="10" top="0" height="42" border="1px solid #dbdee2" textAlign="center" onclick="Static01_onclick" right="10"/>
-              <Combo id="id_1" taborder="3" left="160" top="41" height="80" innerdataset="ProductManagement" codecolumn="Class" datacolumn="Class" displaynulltext="등록하실 제품을 선택해주세요" border="1px solid #dbdee2" onitemchanged="Combo00_onitemchanged" text="" cursor="pointer" right="10"/>
-              <Edit id="id_2" taborder="4" left="160" top="120" height="81" maxlength="20" right="10"/>
-              <Edit id="id_3" taborder="5" left="160" top="200" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10"/>
-              <Edit id="id_4" taborder="6" left="160" top="280" height="81" onchanged="Edit00_00_onchanged" displaynulltext="재고가 있으면 입력해주세요(기본: 0)" right="10"/>
-              <FileUpload id="up" taborder="7" left="160" top="398" height="42" buttontext="등록" buttonsize="150" itemheight="42" borderRadius="5px" multiselect="true" uploadurl="C:\Users\Public\Downloads" tooltiptype="default" scrollbarbarminsize="0" width="150" onsuccess="Main_up_onsuccess" onitemchanged="Main_up_onitemchanged"/>
+              <Combo id="pr_choice" taborder="3" left="160" top="41" height="80" innerdataset="ProductManagement" codecolumn="Class" datacolumn="Class" displaynulltext="등록하실 제품을 선택해주세요" border="1px solid #dbdee2" onitemchanged="Combo00_onitemchanged" text="" cursor="pointer" right="10"/>
+              <Edit id="pr_name" taborder="4" left="160" top="120" height="81" maxlength="20" right="10"/>
+              <Edit id="pr_price" taborder="5" left="160" top="200" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10"/>
+              <Edit id="pr_quantity" taborder="6" left="160" top="280" height="81" onchanged="Edit00_00_onchanged" displaynulltext="재고가 있으면 입력해주세요(기본: 0)" right="10"/>
+              <FileUpload id="up" taborder="7" top="398" height="42" buttontext="등록" buttonsize="2000" itemheight="42" borderRadius="5px" multiselect="true" uploadurl="C:\Users\Public\Downloads" tooltiptype="default" scrollbarbarminsize="0" onsuccess="Main_up_onsuccess" onitemchanged="Main_up_onitemchanged" left="160" right="10"/>
               <Grid id="in_img" taborder="8" left="160" top="360" height="40" right="10" border="1px solid #dbdee2" binddataset="File">
                 <Formats>
                   <Format id="default">
@@ -62,14 +62,14 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Edit id="id_5" taborder="9" left="160" top="440" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
-              <Edit id="id_6" taborder="10" left="160" top="521" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
+              <Edit id="id_5" taborder="9" left="160" top="480" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
+              <Edit id="id_6" taborder="10" left="160" top="510" height="80" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
             </Layout>
           </Layouts>
           <InitValue>
-            <Edit id="id_2" maxlength="50"/>
-            <Edit id="id_3" maxlength="15"/>
-            <Edit id="id_4" maxlength="15"/>
+            <Edit id="pr_name" maxlength="50"/>
+            <Edit id="pr_price" maxlength="15"/>
+            <Edit id="pr_quantity" maxlength="15"/>
             <Edit id="id_5" maxlength="15"/>
             <Edit id="id_6" maxlength="15"/>
           </InitValue>
@@ -144,10 +144,11 @@
       </Dataset>
       <Dataset id="PM_Food">
         <ColumnInfo>
+          <Column id="PRODUCT_CHOICE" type="STRING" size="256" description="제품선택"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="제품명"/>
           <Column id="PRODUCT_PRICE" type="STRING" size="256" description="가격"/>
           <Column id="PRODUCT_QUANTITY" type="STRING" size="256" description="재고"/>
-          <Column id="PRODUCT_CHOICE" type="STRING" size="256" description="제품선택"/>
+          <Column id="s" type="STRING" size="256" description="제품선택"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -183,12 +184,14 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.Menu.setColumn(5,"id","저자")
 	this.Menu.addRow();
 	this.Menu.setColumn(6,"id","출판일")
+	this.Menu.addRow()
+	this.Menu.setColumn(7,"id","카테고리")
 	
 	//입력칸 이동
-	this.Main.form.id_5.set_visible(true)
-	this.Main.form.id_5.set_top("440")
-	this.Main.form.id_6.set_visible(true)
-	this.Main.form.id_6.set_top("521")
+// 	this.Main.form.id_5.set_visible(true)
+// 	this.Main.form.id_5.set_top("440")
+// 	this.Main.form.id_6.set_visible(true)
+// 	this.Main.form.id_6.set_top("520")
 	
 	}
 	else if(e.postvalue == "FOOD"){
@@ -199,8 +202,8 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.Menu.reset()
 	
 	//입력칸 이동
-	this.Main.form.id_5.set_visible(false)
-	this.Main.form.id_6.set_top(false);
+// 	this.Main.form.id_5.set_visible(false)
+// 	this.Main.form.id_6.set_visible(false);
 	}
 
 	
@@ -236,11 +239,9 @@ this.upload = function(id,ErrorCode,ErrorMag){
 ]]></Script>
     <InitValue/>
     <Bind>
-      <BindItem id="item0" compid="Main.form.id_2" propid="value" datasetid="PM_Food" columnid="PRODUCT_NAME"/>
-      <BindItem id="item1" compid="Main.form.id_3" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
-      <BindItem id="item2" compid="Main.form.id_4" propid="value" datasetid="PM_Food" columnid="PRODUCT_QUANTITY"/>
-      <BindItem id="item3" compid="Main.form.id_5" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
-      <BindItem id="item4" compid="Main.form.id_6" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
+      <BindItem id="item0" compid="Main.form.pr_name" propid="value" datasetid="PM_Food" columnid="PRODUCT_NAME"/>
+      <BindItem id="item1" compid="Main.form.pr_price" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
+      <BindItem id="item2" compid="Main.form.pr_quantity" propid="value" datasetid="PM_Food" columnid="PRODUCT_QUANTITY"/>
     </Bind>
   </Form>
 </FDL>

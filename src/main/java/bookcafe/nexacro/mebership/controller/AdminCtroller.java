@@ -51,11 +51,9 @@ public class AdminCtroller {
 	@RequestMapping("admin_login.do")
 	public NexacroResult Admin_Login(@ParamDataSet(name = "Admin_Login", required = false) Map<String,String> Admin_Login) { 
 		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언
-			System.out.println("값 연결" + Admin_Login);
 		try {
 			
-			Map<String, String> data = nex_service.select_admin(Admin_Login);
-			System.out.println(data);
+			Map<String, String> data = nex_service.select_admin(Admin_Login); //로그인
 			result.addDataSet("Result_Data", data); 
 		}catch(Exception e) {//예외처리
 	

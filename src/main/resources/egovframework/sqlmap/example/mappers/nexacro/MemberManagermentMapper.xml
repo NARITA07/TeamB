@@ -6,6 +6,7 @@
 	<select id="select_member" resultType="java.util.Map">
 SELECT 
     a.USER_CODE,
+    a.USER_ID,
     a.USER_NAME,
     a.USER_TEL,
     a.USER_EMAIL,
@@ -24,8 +25,12 @@ FROM
 LEFT JOIN 
     POINTLOG b 
 ON 
-    a.USER_CODE = b.USER_CODE;
+    a.USER_CODE = b.USER_CODE
+    ORDER BY USER_AUTHORITY DESC;
 	</select>
 	
-
+	<insert id="img_path">
+    INSERT INTO IMG (IMG_PATH) VALUES (#{path})
+</insert>
+	
 </mapper>

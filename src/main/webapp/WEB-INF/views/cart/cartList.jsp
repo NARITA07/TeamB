@@ -76,7 +76,6 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-	<h2>cartList</h2>
 		<table>
             <tr>
             	<th>주문코드</th>
@@ -91,15 +90,17 @@
                     <td>${cart.product_name}</td>
                     <td>${cart.product_price}</td>
                     <td>${cart.order_quantity}</td>
-                    <td><button onclick="deleteCart(${cart.cart_code})">삭제</button></td>
+                    <td><button onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${loginInfo.user_code}')">삭제</button></td>
                 </tr>
             </c:forEach>
         </table>
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 	<script>
-		function deleteCart(cart_code){
-			alert("삭제되었습니다."+cart_code)
-			var url = 'deleteCart.do?cart_code='+cart_code;
+		function deleteCart(cart_code,product_code,user_code){
+			alert("삭제되었습니다."+cart_code+product_code+user_code)
+			var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
+              '&product_code=' + encodeURIComponent(product_code) +
+              '&user_code=' + encodeURIComponent(user_code);
 			window.location.href = url;
 		}
 	</script>

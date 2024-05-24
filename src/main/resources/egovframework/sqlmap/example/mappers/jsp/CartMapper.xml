@@ -2,8 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.cart.serviceImpl.CartMapper">
 	<insert id="insertCart" parameterType="bookcafe.cart.service.CartVO">
-		INSERT INTO CART(USER_CODE,PRODUCT_CODE,ORDER_QUANTITY,CART_CODE)
-		VALUES(#{user_code}, #{product_code}, #{order_quantity}, fnCode('cart'))
+		INSERT INTO CART(USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
+		SELECT 
+		    #{user_code}, 
+		    #{product_code}, 
+		    #{order_quantity}, 
+	    IFNULL(
+	        (SELECT CART_CODE FROM CART WHERE USER_CODE = #{user_code} LIMIT 1), 
+	        fnCode('cart')
+	    );
 	</insert>
 	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
 		SELECT 
@@ -12,6 +19,7 @@
         C.ORDER_QUANTITY, 
         C.USER_CODE, 
         C.CART_CODE,
+        F.PRODUCT_CODE,
         ROW_NUMBER() OVER (ORDER BY C.CART_CODE) AS SEQUENCE_NUMBER
 	    FROM 
 	        CART C
@@ -24,5 +32,10 @@
 	    ORDER BY 
 	        C.CART_CODE;
 	</select>
-	
+	<delete id="deleteCart">
+  		DELETE FROM CART 
+		WHERE USER_CODE = #{user_code}
+		AND PRODUCT_CODE = #{product_code}
+		AND CART_CODE = #{cart_code}
+	</delete>
 </mapper>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Report" width="720" height="450" titletext="New Form" onload="Form_Report_onload">
+    <Layouts>
+      <Layout height="450" mobileorientation="landscape" width="720">
+        <Button id="btn_search" taborder="0" text="조회" top="15" width="80" height="30" onclick="btn_search_onclick" right="15"/>
+        <Static id="Static00" taborder="1" text="성명" left="30" top="15" width="30" height="30" onclick="Static00_onclick"/>
+        <Grid id="Grid00" taborder="2" left="15" top="60" binddataset="ds_report" bottom="15" right="15">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="성명(Combo)"/>
+                <Cell col="1" text="성명(Join)" displaytype="normal"/>
+                <Cell col="2" text="요청일"/>
+                <Cell col="3" text="요청건수"/>
+                <Cell col="4" text="처리건수"/>
+                <Cell col="5" text="잔여건수"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ID" displaytype="combocontrol" combodataset="ds_code" combocodecol="ID" combodatacol="NAME" textAlign="center" comboimemode="none"/>
+                <Cell col="1" text="bind:NAME" edittype="none" combodataset="ds_combo" combocodecol="COD" combodatacol="TXT" checkboxfalsevalue="N" checkboxtruevalue="Y" textAlign="center" suppress="1" suppressalign="middle"/>
+                <Cell col="2" displaytype="mask" maskeditformat="####-##-##" text="bind:REQDTE" maskedittype="string" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SUBCNT)"/>
+                <Cell col="3" text="bind:REQCNT" textAlign="right" padding="0px 5px 0px 0px" cssclass="expr:comp.parent.ReturnCellFontColor(SUBCNT)"/>
+                <Cell col="4" text="bind:RESCNT" textAlign="right" padding="0px 5px 0px 0px" cssclass="expr:comp.parent.ReturnCellFontColor(SUBCNT)"/>
+                <Cell col="5" text="bind:SUBCNT" textAlign="right" padding="0px 5px 0px 0px" expr="expr:SUBCNT=='0'?'':SUBCNT" cssclass="expr:comp.parent.ReturnCellFontColor(SUBCNT)"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Combo id="cbo_ID" taborder="3" left="Static00:10" top="15" width="110" height="30" innerdataset="ds_code" codecolumn="ID" datacolumn="NAME"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="GBN" type="STRING" size="256"/>
+          <Column id="ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="REQDTE" type="STRING" size="256"/>
+          <Column id="REQCNT" type="INT" size="256"/>
+          <Column id="RESCNT" type="INT" size="256"/>
+          <Column id="SUBCNT" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_code">
+        <ColumnInfo>
+          <Column id="ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.Form_Report_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 조회조건 콤보 조회
+	this.fnSearchCode();
+};
+
+// 조회버튼 클릭
+this.btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearchReport();
+};
+
+//처리콜백 함수
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+	// 에러 시 화면 처리 내역
+	if(errorCode == -1)
+	{
+		this.alert(errorMsg);
+		return;
+	}
+
+	switch(svcID)
+	{
+		case "selectCode":
+			var row = this.ds_code.insertRow(0);
+			this.ds_code.setColumn(row, "NAME", "전체");
+			break;
+		case "selectReport":
+			if(this.ds_report.rowcount < 1)
+				this.alert("조회된 결과가 없습니다.");
+			break;  
+	}
+};
+
+// 콤보 조회
+this.fnSearchCode = function ()
+{
+	this.ds_search.setColumn(0, "GBN", "G001");
+	
+	var strSvcId    = "selectCode";
+	var strSvcUrl   = "svc::selectCode.do";
+	var inData      = "ds_search=ds_search";
+	var outData     = "ds_code=ds_code";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	var isAsync     = true;
+
+    this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+// report 조회
+this.fnSearchReport = function ()
+{
+    var strSvcId    = "selectReport";
+    var strSvcUrl   = "svc::selectReport.do";
+    var inData      = "ds_search=ds_search";
+    var outData     = "ds_report=ds_report";
+    var strArg      = "";
+    var callBackFnc = "fnCallback";
+    var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+this.ReturnCellFontColor = function(str) {
+	return str == "0" || str == "" || str == "undefined" ? "" : "ExprRed";
+}]]></Script>
+  </Form>
+</FDL>

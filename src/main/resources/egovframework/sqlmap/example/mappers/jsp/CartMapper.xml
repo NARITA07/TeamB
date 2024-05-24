@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.cart.serviceImpl.CartMapper">
+	<insert id="insertCart" parameterType="bookcafe.cart.service.CartVO">
+		INSERT INTO CART(USER_CODE,PRODUCT_CODE,ORDER_QUANTITY,CART_CODE)
+		VALUES(#{user_code}, #{product_code}, #{order_quantity}, fnCode('cart'))
+	</insert>
+	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
+		SELECT 
+        F.PRODUCT_NAME, 
+        F.PRODUCT_PRICE, 
+        C.ORDER_QUANTITY, 
+        C.USER_CODE, 
+        C.CART_CODE,
+        ROW_NUMBER() OVER (ORDER BY C.CART_CODE) AS SEQUENCE_NUMBER
+	    FROM 
+	        CART C
+	    JOIN 
+	        FOOD F 
+	    ON 
+	        C.PRODUCT_CODE = F.PRODUCT_CODE
+	    WHERE 
+	        C.USER_CODE = #{user_code}
+	    ORDER BY 
+	        C.CART_CODE;
+	</select>
+	
+</mapper>

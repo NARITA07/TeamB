@@ -12,8 +12,4 @@
         SELECT * FROM FOOD
         WHERE PRODUCT_CODE LIKE 'f_%'
     </select>
-    
-    <select id="selectFoodDetail" resultType="bookcafe.food.service.FoodVO">
-    SELECT * FROM FOOD WHERE PRODUCT_CODE =#{product_code}
-    </select>
 </mapper>

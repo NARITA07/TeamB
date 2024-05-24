@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookcafe.point.serviceImpl.PointMapper">
+
+	<!-- 포인트 전체 조회하기(한사람) -->
+ 	<select id="getPointList" resultType="bookcafe.point.service.PointVO">
+ 		SELECT *
+		FROM (
+		    SELECT 
+		        P.*, 
+		        U.USER_POINT,
+		        O.PAYMENT_STATE,
+		        CASE 
+		            WHEN P.POINT_CHANGE >= 0 THEN '적립'
+		            ELSE '사용'
+		        END AS POINT_SECTION,
+		        @ROWNUM:=@ROWNUM+1 AS ROWNUM
+		    FROM 
+		        POINTLOG AS P
+		    JOIN 
+		        USER AS U ON U.USER_CODE = P.USER_CODE
+		    JOIN 
+		        ORDERS AS O ON P.ORDER_CODE = O.ORDER_CODE,
+		        (SELECT @ROWNUM:=0) AS R
+		    WHERE 
+		        U.USER_ID = #{user_id}
+		    ORDER BY 
+		        P.POINT_JOINDATE ASC
+		) AS T
+		ORDER BY 
+		    ROWNUM DESC;
+  	</select>
+  	
+	<!-- 포인트 내역 기록 -->
+<!-- 	<insert id="addPointTable"> -->
+<!-- 		INSERT INTO TBL_POINT (point_code, point_use_date, point_cost) -->
+<!-- 	    VALUES ( -->
+<!-- 	        #{point_user_id}, #{point_code}, NOW(), #{point_cost} -->
+<!-- 	    ) -->
+<!-- 	</insert> -->
+	
+	<!-- 갱신 포인트 조회 -->
+<!-- 	<select id="getMemPoint" resultType="Integer"> -->
+<!-- 		SELECT MEM_POINT -->
+<!-- 		FROM TBL_MEMBER -->
+<!-- 		WHERE MEM_ID = #{user_id} -->
+<!-- 	</select> -->
+	
+</mapper>

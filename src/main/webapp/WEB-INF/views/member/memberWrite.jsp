@@ -43,8 +43,10 @@ $(function() {
         var user_id = $("#user_id").val().trim();
         var user_pass = $("#user_pass").val().trim();
         var user_name = $("#user_name").val().trim();
+        var user_tel = $("#user_tel").val().trim();
         var emailAuthCode = $("#emailAuthCode").val().trim();
         var user_email = $("#user_email").val().trim();
+        var user_address = $("#user_address").val().trim();
 
         if(user_id == ""){
             alert("아이디를 입력해주세요");
@@ -61,6 +63,11 @@ $(function() {
             $("#user_name").focus();
             return false;
         }
+        if(user_tel == ""){
+            alert("전화번호를 입력해주세요");
+            $("#user_tel").focus();
+            return false;
+        }
         if(user_email == ""){
             alert("이메일을 입력해주세요");
             $("#user_email").focus();
@@ -69,6 +76,11 @@ $(function() {
         if(emailAuthCode == ""){
             alert("이메일 인증코드를 입력해주세요");
             $("#emailAuthCode").focus();
+            return false;
+        }
+        if(user_address == ""){
+            alert("주소를 입력해주세요.");
+            $("#user_address").focus();
             return false;
         }
 
@@ -181,7 +193,7 @@ caption {
             </tr>
             <tr>
                 <th><label for="user_tel">연락처</label></th>
-                <td><input type="text" name="user_tel" id="user_tel" placeholder="예):010-0000-0000"></td>
+                <td><input type="text" name="user_tel" id="user_tel" placeholder="예):010-0000-0000" required="required"></td>
             </tr>
             <tr>
                 <th><label for="user_email">이메일</label></th>
@@ -197,11 +209,11 @@ caption {
             <tr>
                 <th><label for="user_address">주소</label></th>
                 <td>
-			        <input type="text" id="sample2_postcode" placeholder="우편번호">
+			        <input type="text" id="sample2_postcode" placeholder="우편번호" >
 			        <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기"><br>
-			        <input type="text" id="sample2_address" placeholder="주소"><br>
+			        <input type="text" id="sample2_address" placeholder="주소" readonly><br>
 			        <input type="text" id="sample2_detailAddress" placeholder="상세주소">
-			        <input type="hidden" id="user_address" name="user_address" readonly>
+			        <input type="hidden" id="user_address" name="user_address" >
 			    </td>
             </tr>
             <tr style="display:none;">
@@ -210,6 +222,9 @@ caption {
             </tr>
         </table>
     </form>
+    <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+</div>
     <div class="div_btn">
         <button type="button" id="btn_submit">저장</button>
         <button type="button" id="reset">취소</button>

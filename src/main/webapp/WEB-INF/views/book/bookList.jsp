@@ -69,9 +69,6 @@
     <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
     <div class="container">
         <h1>Book List</h1>
-        <label><a>소설</a></label>
-        <label><a>만화</a></label>
-        <label><a>잡지</a></label>
         <table>
             <tr>
                 <th>책 코드</th>

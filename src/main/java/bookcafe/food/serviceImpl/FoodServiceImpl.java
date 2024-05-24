@@ -25,9 +25,4 @@ public class FoodServiceImpl extends EgovAbstractServiceImpl implements FoodServ
 	public List<FoodVO> getFoodesssList(){
 		return foodMapper.selectFoodessList();
 	}
-	
-	@Override
-	public FoodVO selectFoodDetail(String product_code) {
-		return foodMapper.selectFoodDetail();
-	}
 }

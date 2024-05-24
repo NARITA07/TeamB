@@ -73,6 +73,10 @@ $(function() {
             }
         });
     });
+ // 네이버 로그인 버튼 클릭 이벤트
+    $("#btn_naver_login").click(function(){
+        window.location.href = "naverLogin.do";
+    });
 });
 </script>
 </head>
@@ -95,8 +99,10 @@ $(function() {
                     </div>
                     <div class="form-group">
                         <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5">
-                        <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=71bd349e9c720af296b576faee206eaf&redirect_uri=http://localhost:8082/kakao"><img alt="카카오로그인" src="/images/kakao_login.png"/></a>
                     </div>
+                    <div class="form-group">
+                            <input type="button" id="btn_naver_login" value="네이버 로그인" class="btn btn-success py-3 px-5">
+                        </div>
                     <div class="row d-flex mb-5 contact-info" style="justify-content: center; align-items: center;">
 					<div class="loginBtns" style="display: flex;">
 						<a href="memberWrite.do" style="margin-right: 80px;">회원가입</a>

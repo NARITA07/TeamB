@@ -1,11 +1,16 @@
 package bookcafe.member.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +25,12 @@ public class MemberController {
 	@Resource(name = "memberService")
 	public MemberService memberService;
 
+	private final String clientId = "KFlxuf0Rhy_fUBNEU_1e";
+    private final String clientSecret = "3eFou5WWJ5";
+    private final String redirectURI = "http://localhost:8082/callback.do";
+    private final String state = "randomState"; // CSRF 방지를 위한 상태 코드
+
+	
 	/*회원등록 페이지 호출*/
 	@RequestMapping("memberWrite.do") 
 	public String MemberWrite() { 
@@ -65,7 +76,10 @@ public class MemberController {
 			if (cnt2 == 0) {
 				message = "wrong password"; // 패스워드가 틀렸습니다.
 			} else {
+				MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
 				session.setAttribute("sessionId", memberVO.getUser_id());
+				session.setAttribute("loginInfo", loginInfo);
+				
 				message = "ok"; // 로그인성공
 			}
 		}
@@ -75,10 +89,29 @@ public class MemberController {
 	
 	/* 로그아웃 */
 	@RequestMapping("logout.do")
-	public String logout(HttpSession session) {
-		session.removeAttribute("sessionId");
-		return "../../index";
-	}
+    public String logout(HttpSession session) {
+        String accessToken = (String) session.getAttribute("accessToken");
+        if (accessToken != null) {
+            // 네이버 로그아웃 API 호출
+            String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + clientId
+                    + "&client_secret=" + clientSecret + "&access_token=" + accessToken + "&service_provider=NAVER";
+            try {
+                HttpURLConnection conn = (HttpURLConnection) new URL(apiURL).openConnection();
+                conn.setRequestMethod("GET");
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 200) { // 로그아웃 성공
+                    System.out.println("네이버 로그아웃 성공");
+                } else {
+                    System.out.println("네이버 로그아웃 실패");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // 세션 무효화
+        session.invalidate();
+        return "redirect:/";
+    }
 	
 	/* 아이디찾기 페이지  페이지 이동  */
 	@RequestMapping("findIdForm.do")
@@ -153,18 +186,106 @@ public class MemberController {
     /* 비회원 가입 */
     @RequestMapping("nonMemberLogin.do")
     @ResponseBody
-    public String nonMemberLogin(@RequestParam("user_tel") String userTel, MemberVO memberVO) throws Exception {
-        int userExists = memberService.selectTelChk(memberVO.getUser_tel()); 
-        if (userExists == 0) { 
+    public String nonMemberLogin(@RequestParam("user_tel") String userTel, MemberVO memberVO, HttpSession session) throws Exception {
+        int userExists = memberService.selectTelChk(memberVO.getUser_tel());
+        if (userExists == 0) {
             memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             memberVO.setUser_authority("0");
             String message = memberService.insertbMember(memberVO);
-            return message.equals("ok") ? "inserted" : "fail"; 
-        } else { 
+            if (message.equals("ok")) {
+                session.setAttribute("sessionId", memberVO.getUser_tel());
+                session.setAttribute("isNonMember", true); // 비회원 로그인 표시
+                return "inserted";
+            } else {
+                return "fail";
+            }
+        } else {
             boolean success = memberService.updateNonMember(userTel, memberVO.getUser_name(), memberVO.getUser_email(), memberVO.getUser_address());
-            System.out.println("asdfasdfasdf" + success);
+            if (success) {
+                session.setAttribute("sessionId", userTel);
+                session.setAttribute("isNonMember", true); // 비회원 로그인 표시
+            }
             return success ? "updated" : "fail";
         }
     }
+    
+    @RequestMapping("naverLogin.do")
+    public String naverLogin(HttpSession session) {
+        session.setAttribute("state", state);
+        String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + clientId
+                + "&redirect_uri=" + redirectURI + "&state=" + state;
+        return "redirect:" + apiURL;
+    }
+
+    @RequestMapping("callback.do")
+    public String naverCallback(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session) throws Exception {
+        String storedState = (String) session.getAttribute("state");
+        if (!state.equals(storedState)) {
+            throw new IllegalStateException("Invalid state parameter");
+        }
+
+        String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" + clientId
+                + "&client_secret=" + clientSecret + "&code=" + code + "&state=" + state;
+
+        HttpURLConnection conn = (HttpURLConnection) new URL(apiURL).openConnection();
+        conn.setRequestMethod("POST");
+        int responseCode = conn.getResponseCode();
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
+        }
+        br.close();
+
+        JSONObject json = new JSONObject(response.toString());
+        String accessToken = json.getString("access_token");
+
+        String header = "Bearer " + accessToken;
+        String userInfoApiURL = "https://openapi.naver.com/v1/nid/me";
+        conn = (HttpURLConnection) new URL(userInfoApiURL).openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", header);
+        responseCode = conn.getResponseCode();
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
+        }
+        br.close();
+
+        json = new JSONObject(response.toString());
+        JSONObject responseJson = json.getJSONObject("response");
+        String userId = responseJson.getString("id");
+        String userName = responseJson.getString("name");
+        String userEmail = responseJson.getString("email");
+        String userTel = responseJson.optString("mobile", ""); // assuming "mobile" field exists for the phone number
+        String userAddress = responseJson.optString("address", ""); // assuming "address" field exists for the address and default to empty string if not present
+
+        if (userTel.isEmpty()) {
+            userTel = "000-0000-0000"; // 기본 전화번호
+        }
+        if (userAddress.isEmpty()) {
+            userAddress = "주소 없음"; // 기본 주소
+        }
+
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUser_id(userId);
+        memberVO.setUser_name(userName);
+        memberVO.setUser_email(userEmail);
+        memberVO.setUser_tel(userTel); // setting the phone number
+        memberVO.setUser_address(userAddress); // setting the address
+        memberVO.setUser_authority("1");
+
+        int userExists = memberService.selectIdChk(userId);
+        if (userExists == 0) {
+            memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            memberService.insertMember(memberVO);
+        }
+
+        session.setAttribute("sessionId", userId);
+        session.setAttribute("accessToken", accessToken);
+
+        return "redirect:/";
+    }
 }
- 

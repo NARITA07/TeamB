@@ -27,8 +27,5 @@
 	SELECT * FROM MANAGER WHERE ADMIN_ID = #{ADMIN_ID}
 	</select>
 	
-	<insert id="img_path">
-    INSERT INTO IMG (IMG_PATH) VALUES (#{path})
-</insert>
 	
 </mapper>

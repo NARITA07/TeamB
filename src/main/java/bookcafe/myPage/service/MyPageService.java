@@ -4,9 +4,6 @@ import bookcafe.member.service.MemberVO;
 
 public interface MyPageService {
 	
-	// 회원정보 조회하기
-	public MemberVO getUserVO(String userId);
-	
 	// 비밀번호 변경하기
 	public int changePassword(PWchangeDTO pwChangeDTO);
 	

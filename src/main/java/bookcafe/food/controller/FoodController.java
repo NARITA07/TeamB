@@ -25,8 +25,8 @@ public class FoodController {
 		model.addAttribute("coffees", foodService.getCoffeesList());
 		model.addAttribute("foodess", foodService.getFoodesssList());
 		String userId = (String) session.getAttribute("sessionId");
-		MemberVO loginInfo = myPageService.getUserVO(userId);
-		session.setAttribute("loginInfo", loginInfo);
+		//MemberVO loginInfo = myPageService.getUserVO(userId);
+	//	session.setAttribute("loginInfo", loginInfo);
 		return "/food/foodList";
 	}
 }

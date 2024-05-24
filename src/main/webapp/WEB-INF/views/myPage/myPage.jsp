@@ -10,21 +10,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link href="/css/style.css" rel="stylesheet" />
-	<link href="/css/food.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-	
-	<div class="food_list">
-		<img alt="mainimg" src="/images/food_main4.jpg" class="header-image">
-   		<img alt="mainimg" src="/images/food_main5.jpg" class="header-image">
-	</div>
 	
 	<section class="ftco-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="row">
+				<div class="row" style="margin-top: 50px;">
 					<div class="col-md-2">
 					</div>
 					<div class="col-md-8">
@@ -32,56 +26,38 @@
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<h2>
-										${loginInfo.user_name}님 안녕하세요!
+										${loginInfo.user_name}님 안녕하세요! 
 									</h2>
 									<a href="myPageInfo">내정보 보러가기
 									<i class="fa fa-arrow-circle-right"></i>
 									</a>
 								</div>
-								<hr>
-								<div style="padding-top: 30px; padding-bottom: 50px;">
-									<div style="display: flex; align-items: center;">
+								<h5>(회원등급:
+									<c:if test="${loginInfo.user_authority =='1'}">
+										일반
+									</c:if>
+									<c:if test="${loginInfo.user_authority =='2'}">
+										VIP
+									</c:if>
+									<c:if test="${loginInfo.user_authority =='3'}">
+										MANAGER
+									</c:if>
+									<c:if test="${loginInfo.user_authority =='4'}">
+										MASTER
+									</c:if>
+									)
+								</h5>
+								<hr><hr>
+								<div style="padding-top: 30px; padding-bottom: 30px;">
+									<div style="display: flex; justify-content: space-between; align-items: center;">
 										<h3 style="margin-right:20px;">나의 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3>
+										<a href="/point/pointList">포인트 내역조회
+										<i class="fa fa-arrow-circle-right"></i>
+										</a>
 									</div>
-									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;">
-										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
-										<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
-										<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
-									</div>
-									<%-- 포인트내역이 없는 경우 --%>
-									<table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
-										<thead>
-											<tr class="table-warning">
-												<th>#</th>
-												<th>날짜(최근순)</th>
-												<th>사유</th>
-												<th>포인트</th>
-												<th>구분</th>
-											</tr>
-										</thead>
-										<tbody>
-					<%-- 		         	<c:if test="${empty pointList}"> --%>
-					<!-- 	          			<tr> -->
-					<!-- 							<td colspan='5'>포인트 내역이 없습니다.</td> -->
-					<!-- 						</tr> -->
-					<%-- 		          	</c:if> --%>
-					<%-- 					<c:if test="${not empty pointList}"> --%>
-					<%-- 						<c:forEach var="point" items="${pointList}"> --%>
-					<!-- 							<tr> -->
-					<%-- 								<td>${point.rowNum}</td> --%>
-					<%-- 								<td class="point_use_date">${point.point_use_date}</td> --%>
-					<%-- 								<td>${point.code_name}</td> --%>
-					<%-- 								<td class="point_cost">${point.point_cost} P</td> --%>
-					<%-- 								<td>${point.point_section}</td> --%>
-					<!-- 							</tr> -->
-					<%-- 						</c:forEach> --%>
-					<%-- 					</c:if> --%>
-										</tbody>
-									</table>
 								</div>
 							</div>
 						</div>
-						<hr>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
 								<div style="display: flex; justify-content: space-between;" style="padding-bottom: 50px;">
@@ -127,7 +103,6 @@
 								</c:if>
 							</div>
 						</div>
-						<hr>
 					</div>
 					<div class="col-md-2">
 					</div>

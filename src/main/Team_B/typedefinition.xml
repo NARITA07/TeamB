@@ -34,6 +34,8 @@
     <Component type="JavaScript" id="DataObject" classname="nexacro.DataObject"/>
     <Component type="JavaScript" id="FileUpload" classname="nexacro.FileUpload"/>
     <Component type="JavaScript" id="FileDownload" classname="nexacro.FileDownload"/>
+    <Component type="JavaScript" id="FileDialog" classname="nexacro.FileDialog"/>
+    <Component type="JavaScript" id="FileUpTransfer" classname="nexacro.FileUpTransfer"/>
   </Components>
   <Services>
     <Service prefixid="theme" type="resource" url="./_resource_/_theme_/" version="0" cachelevel="session" include_subdir="true"/>
@@ -43,7 +45,7 @@
     <Service prefixid="font" type="resource" url="./_resource_/_font_/" version="0" cachelevel="session" include_subdir="false"/>
     <Service prefixid="Base" type="form" url="./Base/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="FrameBase" type="form" url="./FrameBase/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
-    <Service prefixid="svc" type="JSP" url="http://localhost:8082/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="svc" type="JSP" url="http://localhost:8082" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
   </Services>
   <Protocols/>
   <DeviceAdaptors/>

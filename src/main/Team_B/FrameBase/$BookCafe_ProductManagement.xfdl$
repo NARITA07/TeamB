@@ -1,59 +1,247 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="sample_fileuptransfer_01" left="0" top="0" width="1020" height="780" titletext="제품관리" border="" background="">
+  <Form id="BookCafe_ProductManageMent" left="0" top="0" width="1020" height="670" titletext="제품관리" border="" background="" onclick="Main_up_onitemchanged">
     <Layouts>
-      <Layout height="780" width="1020" stepcount="0">
-        <FileUpload id="FileUpload00" taborder="0" left="65" top="54" width="170" height="100" buttontext="FIND" multiselect="true" visible="true" buttonsize="170" itemheight="100" onitemchanged="FileUpload00_onitemchanged"/>
-        <Grid id="Grid00" taborder="1" left="65" top="FileUpload00:11" width="369" height="108" binddataset="File" ondrop="Grid00_ondrop">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="80"/>
-                <Column size="80"/>
-              </Columns>
-              <Rows>
-                <Row band="head" size="24"/>
-                <Row size="24"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="name"/>
-                <Cell col="1" text="size"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:name"/>
-                <Cell col="1" text="bind:size"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Button id="Button00" taborder="2" text="Button00" left="264" top="57" width="168" height="103" onclick="Button00_onclick"/>
+      <Layout height="670" width="1020" stepcount="0">
+        <Div id="Main" taborder="0" text="Main" left="0" top="10" height="650" right="10">
+          <Layouts>
+            <Layout>
+              <Button id="send00" taborder="0" text="제품 등록" left="900" top="610" height="40" borderRadius="5px" onclick="Main_send_onclick" right="10"/>
+              <Grid id="gr_inserProduct" taborder="1" left="10" top="0" height="600" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10" scrollbartype="none">
+                <Formats>
+                  <Format id="FOOD">
+                    <Columns>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="80"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell background="white" border="1px none #cacaca"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:id"/>
+                    </Band>
+                  </Format>
+                  <Format id="BOOK">
+                    <Columns>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="70"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell background="white" border="1px none #cacaca"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:id"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="ED_MA" taborder="2" text="제품 등록" left="10" top="0" height="42" border="1px solid #dbdee2" textAlign="center" onclick="Static01_onclick" right="10"/>
+              <Combo id="pr_choice" taborder="3" left="160" top="41" height="80" innerdataset="ProductManagement" codecolumn="Class" datacolumn="Class" displaynulltext="등록하실 제품을 선택해주세요" border="1px solid #dbdee2" onitemchanged="Combo00_onitemchanged" text="" cursor="pointer" right="10"/>
+              <Edit id="pr_name" taborder="4" left="160" top="120" height="81" maxlength="20" right="10"/>
+              <Edit id="pr_price" taborder="5" left="160" top="200" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10"/>
+              <Edit id="pr_quantity" taborder="6" left="160" top="280" height="81" onchanged="Edit00_00_onchanged" displaynulltext="재고가 있으면 입력해주세요(기본: 0)" right="10"/>
+              <FileUpload id="up" taborder="7" top="398" height="42" buttontext="등록" buttonsize="2000" itemheight="42" borderRadius="5px" multiselect="true" uploadurl="C:\Users\Public\Downloads" tooltiptype="default" scrollbarbarminsize="0" onsuccess="Main_up_onsuccess" onitemchanged="Main_up_onitemchanged" left="160" right="10"/>
+              <Grid id="in_img" taborder="8" left="160" top="360" height="40" right="10" border="1px solid #dbdee2" binddataset="File">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="838"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="38"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:FILE_NAME"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Edit id="id_5" taborder="9" left="160" top="480" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
+              <Edit id="id_6" taborder="10" left="160" top="510" height="80" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
+            </Layout>
+          </Layouts>
+          <InitValue>
+            <Edit id="pr_name" maxlength="50"/>
+            <Edit id="pr_price" maxlength="15"/>
+            <Edit id="pr_quantity" maxlength="15"/>
+            <Edit id="id_5" maxlength="15"/>
+            <Edit id="id_6" maxlength="15"/>
+          </InitValue>
+        </Div>
       </Layout>
     </Layouts>
     <Objects>
       <Dataset id="File">
         <ColumnInfo>
-          <Column id="name" type="STRING" size="256"/>
-          <Column id="size" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ProductManagement">
+        <ColumnInfo>
+          <Column id="Class" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Class">FOOD</Col>
+          </Row>
+          <Row>
+            <Col id="Class">BOOK</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Category">
+        <ColumnInfo>
+          <Column id="Category" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Category">만화</Col>
+          </Row>
+          <Row>
+            <Col id="Category">소설</Col>
+          </Row>
+          <Row>
+            <Col id="Category">잡지</Col>
+          </Row>
+          <Row>
+            <Col id="Category">시집</Col>
+          </Row>
+          <Row>
+            <Col id="Category">동화</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Menu">
+        <ColumnInfo>
+          <Column id="id" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="id">제품 선택</Col>
+          </Row>
+          <Row>
+            <Col id="id">상품명</Col>
+          </Row>
+          <Row>
+            <Col id="id">상품가격</Col>
+          </Row>
+          <Row>
+            <Col id="id">재고</Col>
+          </Row>
+          <Row>
+            <Col id="id">사진</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="PM_Food">
+        <ColumnInfo>
+          <Column id="PRODUCT_CHOICE" type="STRING" size="256" description="제품선택"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256" description="제품명"/>
+          <Column id="PRODUCT_PRICE" type="STRING" size="256" description="가격"/>
+          <Column id="PRODUCT_QUANTITY" type="STRING" size="256" description="재고"/>
+          <Column id="s" type="STRING" size="256" description="제품선택"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="result_img">
+        <ColumnInfo>
+          <Column id="day" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
-this.FileUpload00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
-{
-
-};
-
-
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var arg  = "id" + this.FileUpload00.value; 
-	var url =this.FileUpload00.upload("svc::upload.do");
+    <Script type="xscript5.1"><![CDATA[this.Main_up_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+ {	
 	
-	this.transaction(arg,url)
+  	var data = this.Main.form.up.filelist //업로드한 파일을 data에 담음 (배열)
+ 	this.File.setColumn(0,"FILE_NAME",data[0].filename)//GRID의 FILE_NAME에 저장
+	
+ };
+
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	//제품 선택
+	if(e.postvalue == "BOOK"){
+	this.Main.form.ED_MA.set_text("도서 등록")
+	this.Main.form.gr_inserProduct.set_formatid("BOOK")
+	
+	//Row 생성
+	//Column 이름 변경
+	this.Menu.addRow();
+	this.Menu.setColumn(5,"id","저자")
+	this.Menu.addRow();
+	this.Menu.setColumn(6,"id","출판일")
+	this.Menu.addRow()
+	this.Menu.setColumn(7,"id","카테고리")
+	
+	//입력칸 이동
+// 	this.Main.form.id_5.set_visible(true)
+// 	this.Main.form.id_5.set_top("440")
+// 	this.Main.form.id_6.set_visible(true)
+// 	this.Main.form.id_6.set_top("520")
+	
+	}
+	else if(e.postvalue == "FOOD"){
+	this.Main.form.ED_MA.set_text("음식 등록")
+	this.Main.form.gr_inserProduct.set_formatid("FOOD")
+	
+	//dataset 초기형태로 리셋
+	this.Menu.reset()
+	
+	//입력칸 이동
+// 	this.Main.form.id_5.set_visible(false)
+// 	this.Main.form.id_6.set_visible(false);
+	}
+
+	
 };
+
+this.Main_send_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+ 	this.Main.form.up.upload("svc::upload.do")
+// 	
+// 	
+// 	
+// 	var id = "pm"
+// 	var url = "svc::pm.do";
+// 	var indata = "PM_Food=PM_Food";
+// 	var outdata = "";
+// 	var callback = "upload"
+// 	var bAsync = "true";
+// 	
+// 	this.transaction(id,url,indata,outdata,callback,bAsync);
+};
+
+
+this.upload = function(id,ErrorCode,ErrorMag){
+
+	 if(ErrorCode < 0)
+    {
+        // 에러 처리
+        alter("Error" + ErrorMag);
+        return;
+    }
+
+}
 ]]></Script>
+    <InitValue/>
+    <Bind>
+      <BindItem id="item0" compid="Main.form.pr_name" propid="value" datasetid="PM_Food" columnid="PRODUCT_NAME"/>
+      <BindItem id="item1" compid="Main.form.pr_price" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
+      <BindItem id="item2" compid="Main.form.pr_quantity" propid="value" datasetid="PM_Food" columnid="PRODUCT_QUANTITY"/>
+    </Bind>
   </Form>
 </FDL>

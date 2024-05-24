@@ -53,18 +53,17 @@
     <Script type="xscript5.1"><![CDATA[//로그인 버튼 클릭 시
 this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-if(this.Main.form.Ed_ID.getLength() <= 0 || this.Main.form.Ed_PASS.getLength() <= 0){ //아이디 or 비밀번호의 길이가 0보다 작다면 
+	if(this.Main.form.Ed_ID.getLength() <= 0 || this.Main.form.Ed_PASS.getLength() <= 0){ //아이디 or 비밀번호의 길이가 0보다 작다면 
  		alert("아이디 또는 비밀번호를 입력해주세요"); // 입력문구 알림
 		return false; //실행 멈춤
 		}
- 		if (this.Result_Data.getColumn(0,"ADMIN_AUTHORITY") == 3 || 4) //관리자 권한확인 후
+		
+	if (this.Result_Data.getColumn(0,"ADMIN_ID") != null) //아이디가 null이 아니라면
  		{
-			alert(this.Result_Data.getColumn(0,"ADMIN_AUTHORITY"));
+			
  			nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
- 			this.alert(nexacro.getApplication().Session_login.saveXML());
- 			this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
  		
- 			
+ 			this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
  		}
 
 else if(this.Result_Data.getColumn(0,0) == "1"){//아이디가 틀릴 시

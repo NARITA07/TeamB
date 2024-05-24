@@ -47,9 +47,10 @@
                                 </div>
                                 <div class="cart_btn_box">
                                     <div>
-                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${coffee.product_code}">
+                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${coffee.product_code}" oninput="calculateTotalPrice('${coffee.product_price}', '${coffee.product_code}')"  min="1">
                                     </div>
                                     <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)">담기</button>
+                                	<span class="total-price-span" id="total_price_${coffee.product_code}"></span>
                                 </div>
                             </div>
                         </div>
@@ -75,9 +76,10 @@
                                 </div>
                                 <div class="cart_btn_box">
                                     <div>
-                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}">
+                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
                                     </div>
                                     <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">담기</button>
+                                	<span class="total-price-span" id="total_price_${food.product_code}"></span>
                                 </div>
                             </div>
                         </div>
@@ -96,12 +98,10 @@
             } else {
                 alert('장바구니에 담겼습니다.');
                 alert('사용자 코드.'+user_code +'제품 코드.'+product_code);
-                // Create a form and submit it
                 var form = document.createElement("form");
                 form.setAttribute("method", "post");
                 form.setAttribute("action", "insertCart.do");
                 
-                // Create input elements
                 var inputs = [
                     { name: "user_code", value: user_code },
                     { name: "product_code", value: product_code },
@@ -119,6 +119,11 @@
                 document.body.appendChild(form);
                 form.submit();
             }
+        }
+        function calculateTotalPrice(price, productCode){
+            var quantity = document.getElementById('order_quantity-' + productCode).value;
+            var totalPrice = parseInt(price) * parseInt(quantity);
+            document.getElementById('total_price_' + productCode).textContent = totalPrice + '원';
         }
     </script>
 

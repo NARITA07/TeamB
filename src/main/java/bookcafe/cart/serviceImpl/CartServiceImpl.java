@@ -1,5 +1,7 @@
 package bookcafe.cart.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,11 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void insertCart(CartVO cart) {
-
         cartMapper.insertCart(cart);
+	}
+
+	@Override
+	public List<CartVO> selectCartList(String  user_code) {
+		return cartMapper.selectCartList(user_code);
 	}
 }

@@ -48,12 +48,12 @@ public class CartController {
 	public String selectCartList(HttpSession session, Model model) {
 		  
 		  String userId = (String) session.getAttribute("sessionId"); 
-		  MemberVO loginInfo = myPageService.getUserVO(userId);
-		  session.setAttribute("loginInfo", loginInfo);
+		//  MemberVO loginInfo = myPageService.getUserVO(userId);
+		//  session.setAttribute("loginInfo", loginInfo);
 		  
-		  String user_code = loginInfo.getUser_code();
-		  List<CartVO> cartList= cartService.selectCartList(user_code);
-		  model.addAttribute("cartList",cartList);
+		//  String user_code = loginInfo.getUser_code();
+		//  List<CartVO> cartList= cartService.selectCartList(user_code);
+		//  model.addAttribute("cartList",cartList);
 		return "/cart/cartList";
 	}
 	@RequestMapping("deleteCart.do")

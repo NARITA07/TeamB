@@ -27,7 +27,7 @@
         <Div id="login_data" taborder="3" text="안녕하세요~님" left="200" top="0" width="1080" height="50" formscrolltype="none" formscrollbartype="none" background="#dbdee2">
           <Layouts>
             <Layout>
-              <Menu id="Menu_bar" taborder="0" left="979" top="-1" width="100" height="50" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" color="pink" onmenuclick="login_data_Menu_bar_onmenuclick" innerdataset="innerdataset" visible="true" tabstop="false" borderRadius="5px">
+              <Menu id="Menu_bar" taborder="0" left="979" top="-1" width="100" height="50" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" color="pink" onmenuclick="login_data_Menu_bar_onmenuclick" innerdataset="innerdataset" visible="true" tabstop="false">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="captioncolumn" size="256"/>

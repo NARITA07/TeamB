@@ -27,8 +27,16 @@ public class PointServiceImpl implements PointService {
 	@Override
 	public int insertPointLog(PointVO pointVO) {
 		pointVO.setPoint_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		int result = pointMapper.insertPointLog(pointVO);
-		return result;
+		int insertP_result = pointMapper.insertPointLog(pointVO);
+		
+		if (insertP_result == 1) {
+			
+			//포인트 테이블에 기록될때 회원포인트도 업데이트
+			String user_code = pointVO.getUser_code();
+			int userP_result = pointMapper.updateUserPoint(user_code);
+			System.out.println("userP_result" + userP_result);
+		}
+		return insertP_result;
 	}
 
 }

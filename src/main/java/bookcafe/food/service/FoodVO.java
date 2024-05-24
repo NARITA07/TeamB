@@ -6,6 +6,8 @@ public class FoodVO {
 	private String product_price;
 	private String product_quantity;
 	private String product_img;
+	private String user_code;
+	private String user_id;
 	
 	
 	public String getProduct_code() {
@@ -37,6 +39,18 @@ public class FoodVO {
 	}
 	public void setProduct_img(String product_img) {
 		this.product_img = product_img;
+	}
+	public String getUser_code() {
+		return user_code;
+	}
+	public void setUser_code(String user_code) {
+		this.user_code = user_code;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	
 	

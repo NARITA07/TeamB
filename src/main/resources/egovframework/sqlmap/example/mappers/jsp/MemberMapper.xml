@@ -3,9 +3,9 @@
 <mapper namespace="bookcafe.member.serviceImpl.MemberMapper">
  <!-- 회원 등록 -->
     <insert id="insertMember" parameterType="bookcafe.member.service.MemberVO">
-        INSERT INTO USER(USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY)
-        VALUES (fnCode('user'), #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority})
-    </insert>
+        INSERT INTO USER (USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY) 
+        VALUES (fnCode('user'), #{user_id, jdbcType=VARCHAR}, #{user_pass, jdbcType=VARCHAR}, #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address, jdbcType=VARCHAR}, #{user_joindate, jdbcType=VARCHAR}, #{user_authority, jdbcType=VARCHAR} ) 
+        </insert>
     
     <!-- 아이디 중복 체크 -->
     <select id="selectIdChk" resultType="int" parameterType="String">
@@ -55,9 +55,9 @@
 	
 	<!-- 비회원가입 -->
 	<insert id="insertbMember" parameterType="bookcafe.member.service.MemberVO"> 
-		INSERT INTO USER(USER_CODE, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS,USER_JOINDATE, USER_AUTHORITY) 
-		VALUES (fnCode('user'), #{user_name}, #{user_tel}, #{user_email}, #{user_address},#{user_joindate}, #{user_authority}) 
-	</insert>
+		INSERT INTO USER(USER_CODE, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY) 
+		VALUES ( fnCode('user'), #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address, jdbcType=VARCHAR}, #{user_joindate, jdbcType=VARCHAR}, #{user_authority, jdbcType=VARCHAR} ) 
+		</insert>
 	
 	<!--  전화번호 중복 체크  -->
 	<select id="selectTelChk" resultType="int" parameterType="String"> 
@@ -74,4 +74,5 @@
 		USER_ADDRESS = #{user_address} 
 		WHERE USER_TEL = #{user_tel}
 	</update>
+	
 </mapper>

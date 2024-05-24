@@ -7,9 +7,6 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("myPageMapper")
 public interface MyPageMapper {
 
-	// 회원정보 조회하기
-	public MemberVO getVO(String userId);
-	
 	// 비밀번호 변경하기
 	public int changePassword(PWchangeDTO pwChangeDTO);
 	

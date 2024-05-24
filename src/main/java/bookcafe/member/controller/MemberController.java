@@ -76,7 +76,10 @@ public class MemberController {
 			if (cnt2 == 0) {
 				message = "wrong password"; // 패스워드가 틀렸습니다.
 			} else {
+				MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
 				session.setAttribute("sessionId", memberVO.getUser_id());
+				session.setAttribute("loginInfo", loginInfo);
+				
 				message = "ok"; // 로그인성공
 			}
 		}

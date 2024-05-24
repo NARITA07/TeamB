@@ -1,7 +1,5 @@
 package bookcafe.myPage.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
 import bookcafe.point.service.PointService;
-import bookcafe.point.service.PointVO;
 
 
 @Controller
@@ -33,18 +30,12 @@ public class MyPageController {
 	@Autowired
 	private MyPageService myPageService;
 	
-	@Autowired
-	private PointService pointService;
-	
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPage(HttpSession session, Model model) {
-
 		String userId = (String) session.getAttribute("sessionId");
-		MemberVO loginInfo = myPageService.getUserVO(userId);
-		System.out.println("UserId: " + userId);
 		
-		session.setAttribute("loginInfo", loginInfo);
+		System.out.println("UserId: " + userId);
 	}
 	
 	// 내 정보관리 페이지
@@ -112,18 +103,5 @@ public class MyPageController {
 //			return "fail";
 //		}
 	}
-	
-	// 포인트페이지 이동
-	@GetMapping("/pointList")
-	public void pointList(HttpSession session, Model model) {
-		
-		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-		String user_id = loginInfo.getUser_id();
-		
-		// 포인트 내역
-		List<PointVO> pointList = pointService.getPointList(user_id);
-		
-		model.addAttribute("pointList", pointList);
-	}	
 	
 }

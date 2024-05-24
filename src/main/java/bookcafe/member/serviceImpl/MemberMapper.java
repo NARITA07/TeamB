@@ -33,6 +33,7 @@ public interface MemberMapper {
     
 	/* 전화번호 중복확인 */
 	int selectTelChk(String user_tel);
+	
 	/* 비회원 재로그인*/
-	int updateNonMember(String userTel,String userName, String userEmail, String userAddress);
+	int updateNonMember(@Param("user_tel") String userTel, @Param("user_name") String userName, @Param("user_email") String userEmail, @Param("user_address") String userAddress);
 }

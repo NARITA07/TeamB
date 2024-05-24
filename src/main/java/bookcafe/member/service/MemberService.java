@@ -27,5 +27,5 @@ public String insertbMember(MemberVO memberVO) throws Exception;
 
 public int selectTelChk(String user_tel);
 
-boolean updateNonMember(String userName, String userTel, String userEmail, String userAddress) throws Exception;
+boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception;
 }

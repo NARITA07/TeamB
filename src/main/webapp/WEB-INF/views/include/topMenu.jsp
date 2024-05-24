@@ -38,18 +38,19 @@
 			<li class="nav-item"><a class="nav-link" href="/myPage/myPage">마이페이지</a></li>
 <!-- 			<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#logoutmodal">로그아웃</a></li> -->
 			<li class="nav-item"><a class="nav-link" href="logout.do">로그아웃</a></li>
-
-				<%
-					}
-				%>
-	      </ul>
-            <form class="d-flex ms-lg-3">
-                <button class="btn btn-outline-dark" type="button" onclick="location.href='/cartList.do'">
+			<form class="d-flex ms-lg-3">
+                <button class="btn btn-outline-dark" type="button" onclick="goCart('${loginInfo.user_code}')">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_item_count"></span>
                 </button>
             </form>
+
+				<%
+					}
+				%>
+	      </ul>
+            
 	    </div>
 	 </div>
 	</nav>
@@ -72,6 +73,13 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		function goCart(user_code){
+			alert("유저코드."+user_code)
+			var url = 'cartList.do?user_code='+user_code;
+			window.location.href = url;
+		}
+	</script>
 	<!-- End 로그아웃 모달 -->
 </body>
 </html>

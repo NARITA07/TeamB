@@ -9,4 +9,6 @@ public interface CartService {
 
 	public List<CartVO> selectCartList(String  user_code);
 
+	public void deleteCart(CartVO cart);
+
 }

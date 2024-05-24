@@ -12,5 +12,7 @@ public interface CartMapper {
 
 	public List<CartVO> selectCartList(String  user_code);
 
+	public void deleteCart(CartVO cart);
+
 
 }

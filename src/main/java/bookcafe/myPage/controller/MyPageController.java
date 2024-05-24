@@ -85,23 +85,23 @@ public class MyPageController {
 	}
 	
 	
-	// 회원탈퇴
-	@DeleteMapping("/delete/{mem_id}")
-	@ResponseBody
-	@Transactional
-	public String deleteMember(HttpSession session, @PathVariable("userId") String userId) {
-		System.out.println("deleteMember...");
-		MemberVO deleteVO = myPageService.getUserVO(userId);
-		System.out.println("deleteVO:" + deleteVO);
-		//myPageService.registerDelMember(deleteVO);
-		System.out.println("deleteVO 등록완료");
+//	// 회원탈퇴
+//	@DeleteMapping("/delete/{mem_id}")
+//	@ResponseBody
+//	@Transactional
+//	public String deleteMember(HttpSession session, @PathVariable("userId") String userId) {
+//		System.out.println("deleteMember...");
+//		MemberVO deleteVO = myPageService.getUserVO(userId);
+//		System.out.println("deleteVO:" + deleteVO);
+//		//myPageService.registerDelMember(deleteVO);
+//		System.out.println("deleteVO 등록완료");
 //		int count = myPageService.deleteMember(mem_id);
 //		if (count == 1) {
 //			session.invalidate();
-			return "success";
+//			return "success";
 //		} else {
 //			return "fail";
 //		}
-	}
+//	}
 	
 }

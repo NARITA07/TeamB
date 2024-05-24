@@ -30,7 +30,6 @@ public int selectTelChk(String user_tel);
 boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception;
 
 // 회원정보 조회하기
-public MemberVO getUserVO(String userId);
+public MemberVO getUserInfo(String user_id);
 
-MemberVO getUserInfo(String userId);
 }

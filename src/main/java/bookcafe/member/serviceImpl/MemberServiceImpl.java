@@ -90,8 +90,8 @@ MemberMapper memberMapper;
     
 	// 회원정보 조회하기
 	@Override
-	public MemberVO getUserInfo(String userId) {
-		MemberVO memberVO = memberMapper.getUserInfo(userId);
+	public MemberVO getUserInfo(String user_id) {
+		MemberVO memberVO = memberMapper.getUserInfo(user_id);
 		return memberVO;
 	}
     

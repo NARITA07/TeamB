@@ -24,6 +24,21 @@ function sha256(password) {
 
 $(function() {
 	
+	// 주소 split
+	var str = "${loginInfo.user_address}";
+// 	console.log("str:" + str);
+	var addr = str.split("# ");
+	var addr1 = addr[0];
+	var addr2 = addr[1];
+	var addr3 = addr[2];
+// 	console.log("addr1:" + addr1);
+// 	console.log("addr2:" + addr2);
+// 	console.log("addr3:" + addr3);
+	$("#sample2_postcode").val(addr1);
+	$("#sample2_address").val(addr2);
+	$("#sample2_detailAddress").val(addr3);
+	
+	
 	// 회원탈퇴 모달
 	$("#btn-deleteInfo").click(function() {
 		$("#del_enter_pwd").val("");
@@ -87,10 +102,10 @@ $(function() {
 	
     <section class="ftco-section">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-2">
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-3">
 				</div>
-   				<div class="col-md-8">
+   				<div class="col-md-6">
 					<div style="display: flex; justify-content: space-between; align-items: center;">
     				<h3>
 						내 정보
@@ -112,10 +127,6 @@ $(function() {
 					      <label for="name">이름</label>
 					      <input type="text" class="form-control" id="name" name="name" value="${loginInfo.user_name}" readonly>
 					    </div>
-<!-- 					    <div class="form-group"> -->
-<!-- 					      <label for="birthDay">생년월일</label> -->
-<%-- 					      <input type="date" class="form-control" id="birthDay" name="birthDay" value="${loginInfo.mem_birth}" readonly> --%>
-<!-- 					    </div> -->
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
 					      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${loginInfo.user_tel}" readonly>
@@ -126,10 +137,10 @@ $(function() {
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
-			              	<div class="input-group">
-<%-- 			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code" readonly="readonly" value="${loginInfo.mem_zip_code}" > --%>
-							</div>
-							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.user_address}">
+			             	<input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
+					        <input type="text" class="form-control" id="sample2_postcode" readonly>
+					        <input type="text" class="form-control" id="sample2_address" readonly>
+					        <input type="text" class="form-control" id="sample2_detailAddress" readonly>			              	
 		             	</div>
 						<hr>
 					  </form>
@@ -137,7 +148,7 @@ $(function() {
 					<button type="button" id="btn-deleteInfo" class="btn btn-danger">회원탈퇴</button>
 			  	
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 				</div>
    			</div>
    		</div>
@@ -174,4 +185,7 @@ $(function() {
         </div>
     </div>
 
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+</body>
+</html>
 

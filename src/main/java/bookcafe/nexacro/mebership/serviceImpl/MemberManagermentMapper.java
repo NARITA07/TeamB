@@ -12,4 +12,6 @@ public interface MemberManagermentMapper {
 
 	public Map<String, Object> select_non(String nonmember);
 
+	public int img_path(String path);
+
 }

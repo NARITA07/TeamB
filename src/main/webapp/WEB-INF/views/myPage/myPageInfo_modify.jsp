@@ -11,12 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<!-- 주소찾기 -->
-  	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js" /></script>
+<!-- 카카오 주소 API -->
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
- 
-<!-- /주소찾기 -->
-
 <!-- 비밀번호 암호화 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
@@ -24,25 +20,62 @@
 <%@ include file="/WEB-INF/views/include/check_pw.jsp" %>
 
 <script>
-//주소 검색
-function openZipSearch() {
-    new daum.Postcode({
-    	oncomplete: function(data) {     
-		var addr = ''; 
-		if (data.userSelectedType === 'R') { 
-			addr = data.roadAddress;
-		} else {
-			addr = data.jibunAddress;
-		}
 
-		$("#mem_zip_code").val(data.zonecode);
-		$("#mem_addr").val(addr);
-		$("#mem_addr").focus();
+// 카카오 주소 api
+function openZipSearch() {
+	
+	// 화면 가운데 정렬
+	var width = 500; //팝업의 너비
+	var height = 600; //팝업의 높이
+	// 배경색 지정
+	var themeObj = {
+			bgColor: "#FFFF00" //바탕 배경색
+	}
+	// 팝업띄우기
+	new daum.Postcode({
+	    width: width, 
+	    height: height,
+	    theme: themeObj,
+        oncomplete: function(data) {
+            var addr = '';
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
+
+            $("#postcode").val(data.zonecode);
+            $("#address").val(addr);
+            $("#detailAddress").focus();
         }
-    }).open();
+    }).open({
+        left: (window.screen.width / 2) - (width / 2),
+        top: (window.screen.height / 2) - (height / 2),
+        popupTitle: '주소 검색'
+    });
 }
 
 $(function() {
+	
+	// 주소 split
+	var str = "${loginInfo.user_address}";
+	var addr = str.split("# ");
+	var addr1 = addr[0];
+	var addr2 = addr[1];
+	var addr3 = addr[2];
+	$("#postcode").val(addr1);
+	$("#address").val(addr2);
+	$("#detailAddress").val(addr3);
+	
+	// 수정완료버튼클릭
+	$("#btn_submit").click(function() {
+        var postcode = $("#postcode").val();
+        var address = $("#address").val();
+        var detailAddress = $("#detailAddress").val();
+        var combinedAddress = postcode + '# ' + address + '# ' + detailAddress;
+        
+        $("#user_address").val(combinedAddress);		
+	});
 	
 	// 비밀번호변경 모달열기
 	$("#pwdChange").click(function() {
@@ -73,10 +106,10 @@ $(function() {
 	<%-- ${loginInfo} --%>
     <section class="ftco-section">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-2">
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-3">
 				</div>
-   				<div class="col-md-8">
+   				<div class="col-md-6">
     				<h3>
 						내 정보 수정
 					</h3>
@@ -100,10 +133,6 @@ $(function() {
 					      <label for="name">이름</label>
 					      <input type="text" class="form-control" id="mem_name" name="mem_name" value="${loginInfo.user_name}" readonly>
 					    </div>
-<!-- 					    <div class="form-group"> -->
-<!-- 					      <label for="birthDay">생년월일</label> -->
-<%-- 					      <input type="date" class="form-control" id="mem_birth" name="mem_birth" value="${loginInfo.mem_birth}" required> --%>
-<!-- 					    </div> -->
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
 					      <input type="text" class="form-control" id="mem_phone" name="mem_phone" value="${loginInfo.user_tel}" required>
@@ -114,21 +143,22 @@ $(function() {
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
-			              <div class="input-group" style="display: flex; align-items: center;">
-<!-- 			              	<input type="text"  class="form-control"  id="mem_zip_code" name="mem_zip_code"  -->
-<%-- 			              		   value="${loginInfo.mem_zip_code}" style="margin-right: 10px;" readonly> --%>
-							<span class="input-group-btn">
-							<input type="button"  onclick="openZipSearch();" value="우편번호 찾기" class="btn btn-secondary">
-							</span>
-							</div>
-							<input type="text" class="form-control" id="mem_addr" name="mem_addr" readonly="readonly" value="${loginInfo.user_address}">
+			              	<div class="input-group" style="display: flex; align-items: center;">
+				              	<input type="text"  class="form-control"  id="postcode" style="margin-right: 10px;" required>
+								<span class="input-group-btn">
+								<input type="button"  onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-info">
+								</span>
+						  	</div>
+							<input type="text" class="form-control" id="address" required>
+			             	<input type="text" class="form-control" id="detailAddress" required>
+			              	<input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
 			              </div>
 						<hr>
-						<button type="submit" class="btn btn-primary">수정완료</button>
+						<button type="submit" id="btn_submit" class="btn btn-success" >수정완료</button>
 					  </form>
 					</div>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 				</div>
    			</div>
    		</div>
@@ -173,4 +203,8 @@ $(function() {
 			</div>
 		</div>
 	<!-- // 비밀번호 변경 모달창 -->
+	
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+</body>
+</html>
 

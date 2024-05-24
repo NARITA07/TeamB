@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.nexacro.orderstatus.serviceImpl.OrderMapper">
+
+	<select id="selectOrders" resultType="java.util.Map">
+		SELECT o.USER_CODE, u.USER_ID , fc.PRODUCT_NAME , fc.ORDER_QUANTITY,
+				o.PAYMENT_STATE, o.PAYMENT_DATE, o.ORDER_STATE, o.ORDER_CODE, fc.PRODUCT_CODE
+		  FROM ORDERS o
+	INNER JOIN USER u 
+	        ON o.user_code = u.user_code
+	INNER JOIN ( SELECT c.USER_CODE ,c.PRODUCT_CODE ,c.ORDER_QUANTITY ,c.CART_CODE ,f.PRODUCT_NAME, f.PRODUCT_PRICE
+				   FROM CART c
+			 INNER JOIN FOOD f
+					 ON c.PRODUCT_CODE = f.PRODUCT_CODE) fc
+			ON fc.CART_CODE = o.CART_CODE
+		WHERE o.ORDER_STATE <![CDATA[<]]> 3
+		  AND o.PAYMENT_STATE <![CDATA[=]]> 1
+		ORDER BY o.PAYMENT_DATE ASC
+	</select>
+	<update id="updateOrders">
+		UPDATE ORDERS
+		   SET ORDER_STATE = #{ORDER_STATE},
+		   	   PAYMENT_STATE = #{PAYMENT_STATE}
+		      
+		 WHERE ORDER_CODE = #{ORDER_CODE}
+	</update>
+	<update id="updateFoodQuantity">
+		UPDATE FOOD
+		   SET PRODUCT_QUANTITY = (SELECT PRODUCT_QUANTITY FROM FOOD WHERE PRODUCT_CODE = #{PRODUCT_CODE}) + #{ORDER_QUANTITY}
+		 WHERE PRODUCT_CODE = #{PRODUCT_CODE};
+	</update>
+</mapper>

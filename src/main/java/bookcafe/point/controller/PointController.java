@@ -23,9 +23,10 @@ import bookcafe.myPage.service.PWchangeDTO;
 
 
 @Controller
-@RequestMapping("/myPage/*")
-public class MyPageController {
-	
+@RequestMapping("/point/*")
+public class PointController {
+
+	/*
 	@Autowired
 	private MyPageService myPageService;
 	
@@ -111,4 +112,5 @@ public class MyPageController {
 	public void pointList() {
 		
 	}	
+	*/
 }

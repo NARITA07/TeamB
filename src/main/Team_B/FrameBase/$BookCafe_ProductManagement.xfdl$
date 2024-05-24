@@ -6,8 +6,8 @@
         <Div id="Main" taborder="0" text="Main" left="0" top="10" height="650" right="10">
           <Layouts>
             <Layout>
-              <Button id="send00" taborder="0" text="제품 등록" left="913" top="600" width="95" height="40" borderRadius="5px" onclick="Main_send_onclick"/>
-              <Grid id="gr_inserProduct" taborder="1" left="10" top="0" height="590" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10">
+              <Button id="send00" taborder="0" text="제품 등록" left="913" top="610" width="95" height="40" borderRadius="5px" onclick="Main_send_onclick"/>
+              <Grid id="gr_inserProduct" taborder="1" left="10" top="0" height="600" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10" scrollbartype="none">
                 <Formats>
                   <Format id="FOOD">
                     <Columns>
@@ -30,7 +30,7 @@
                     </Columns>
                     <Rows>
                       <Row size="40" band="head"/>
-                      <Row size="50"/>
+                      <Row size="80"/>
                     </Rows>
                     <Band id="head">
                       <Cell background="white" border="1px none #cacaca"/>
@@ -62,12 +62,16 @@
                   </Format>
                 </Formats>
               </Grid>
+              <Edit id="id_5" taborder="9" left="160" top="440" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
+              <Edit id="id_6" taborder="10" left="160" top="521" height="81" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
             </Layout>
           </Layouts>
           <InitValue>
             <Edit id="id_2" maxlength="50"/>
             <Edit id="id_3" maxlength="15"/>
             <Edit id="id_4" maxlength="15"/>
+            <Edit id="id_5" maxlength="15"/>
+            <Edit id="id_6" maxlength="15"/>
           </InitValue>
         </Div>
       </Layout>
@@ -140,9 +144,10 @@
       </Dataset>
       <Dataset id="PM_Food">
         <ColumnInfo>
-          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
-          <Column id="PRODUCT_PRICE" type="STRING" size="256"/>
-          <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256" description="제품명"/>
+          <Column id="PRODUCT_PRICE" type="STRING" size="256" description="가격"/>
+          <Column id="PRODUCT_QUANTITY" type="STRING" size="256" description="재고"/>
+          <Column id="PRODUCT_CHOICE" type="STRING" size="256" description="제품선택"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -167,17 +172,35 @@
 
 this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
+	//제품 선택
 	if(e.postvalue == "BOOK"){
 	this.Main.form.ED_MA.set_text("도서 등록")
 	this.Main.form.gr_inserProduct.set_formatid("BOOK")
 	
+	//Row 생성
+	//Column 이름 변경
+	this.Menu.addRow();
+	this.Menu.setColumn(5,"id","저자")
+	this.Menu.addRow();
+	this.Menu.setColumn(6,"id","출판일")
 	
+	//입력칸 이동
+	this.Main.form.id_5.set_visible(true)
+	this.Main.form.id_5.set_top("440")
+	this.Main.form.id_6.set_visible(true)
+	this.Main.form.id_6.set_top("521")
 	
 	}
 	else if(e.postvalue == "FOOD"){
 	this.Main.form.ED_MA.set_text("음식 등록")
 	this.Main.form.gr_inserProduct.set_formatid("FOOD")
 	
+	//dataset 초기형태로 리셋
+	this.Menu.reset()
+	
+	//입력칸 이동
+	this.Main.form.id_5.set_visible(false)
+	this.Main.form.id_6.set_top(false);
 	}
 
 	
@@ -216,6 +239,8 @@ this.upload = function(id,ErrorCode,ErrorMag){
       <BindItem id="item0" compid="Main.form.id_2" propid="value" datasetid="PM_Food" columnid="PRODUCT_NAME"/>
       <BindItem id="item1" compid="Main.form.id_3" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
       <BindItem id="item2" compid="Main.form.id_4" propid="value" datasetid="PM_Food" columnid="PRODUCT_QUANTITY"/>
+      <BindItem id="item3" compid="Main.form.id_5" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
+      <BindItem id="item4" compid="Main.form.id_6" propid="value" datasetid="PM_Food" columnid="PRODUCT_PRICE"/>
     </Bind>
   </Form>
 </FDL>

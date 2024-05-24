@@ -26,7 +26,7 @@
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<h2>
-										${loginInfo.user_id}님 안녕하세요! 
+										${loginInfo.user_name}님 안녕하세요! 
 									</h2>
 									<a href="myPageInfo">내정보 보러가기
 									<i class="fa fa-arrow-circle-right"></i>

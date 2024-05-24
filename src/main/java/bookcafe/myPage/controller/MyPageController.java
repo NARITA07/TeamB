@@ -33,12 +33,9 @@ public class MyPageController {
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPage(HttpSession session, Model model) {
-
 		String userId = (String) session.getAttribute("sessionId");
-		MemberVO loginInfo = myPageService.getUserVO(userId);
-		System.out.println("UserId: " + userId);
 		
-		session.setAttribute("loginInfo", loginInfo);
+		System.out.println("UserId: " + userId);
 	}
 	
 	// 내 정보관리 페이지

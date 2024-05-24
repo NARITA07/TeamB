@@ -28,4 +28,9 @@ public String insertbMember(MemberVO memberVO) throws Exception;
 public int selectTelChk(String user_tel);
 
 boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception;
+
+// 회원정보 조회하기
+public MemberVO getUserVO(String userId);
+
+MemberVO getUserInfo(String userId);
 }

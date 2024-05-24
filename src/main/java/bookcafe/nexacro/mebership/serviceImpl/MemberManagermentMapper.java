@@ -5,7 +5,7 @@ import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
-@Mapper
+@Mapper("orderhistoryMapper")
 public interface MemberManagermentMapper {
 
 	public List<Map<String, Object>> select_member();

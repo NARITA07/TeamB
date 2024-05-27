@@ -1,16 +1,20 @@
 package bookcafe.point.service;
 
 public class PointVO {
-	private int rowNum;
+	// 포인트테이블 필수입력
 	private String point_code;
 	private String user_code;
 	private String order_code;
 	private int point_change;
 	private String point_joindate;
 	
+	
+	// 마이페이지 - 포인트 리스트 출력용
+	private int rowNum;
 	private int payment_state;
 	private int user_point;
 	private String point_section;
+
 	
 	public int getRowNum() {
 		return rowNum;

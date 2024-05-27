@@ -18,7 +18,10 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 
 	//회원가입(관리자)
 	@Override
-	public int insert_admin(Map<String, String> membership) {
+	public Map<String, String> insert_admin(Map<String, String> membership) {
+		
+		Map<String, String> massage = new HashMap<>();
+		
     	String code = nex_mapper.find_code(); //admin_code 확인
     	if(code.equals("0")) { //admin_code가 없어서 0이 반환되면
     		
@@ -44,34 +47,46 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
     	membership.put("ADMIN_JOINDATE", j_date); // 회원가입날짜
     	membership.put("ADMIN_AUTHORITY", "3"); // 권한 3 = MANAGER
     	
-    	return nex_mapper.insert_data(membership);
-	}
-		
+    	System.out.println("최종확인" + membership);
+    	
+    	try {
+    		
+    		nex_mapper.insert_data(membership); //db에 회원정보 넣기
+    	
+    	}
+    	
+    	catch (Exception e) {//예외 발생 -> 회원가입 실패
+    			
+    			massage.put("error", "0");
+    			
+    		}
+    	
+    	return massage;
+}		
 
 	//로그인(관리자)
 
 	public Map<String, String> select_admin(Map<String, String> admin_Login) {
-		Map<String, String> result = new HashMap<>();
+		Map<String, String> massage = new HashMap<>();
 		
 		if(nex_mapper.select_admin(admin_Login) == null) { // 쿼리 실행 후 return이 null이라면 
 			
 			if(nex_mapper.select_admin_id(admin_Login.get("ADMIN_ID")) == null) {//아이디 or 비밀번호가 틀렸는지 확인하기
-				
-				result.put("ERROR", "1"); // 1 아이디가 틀렸습니다.
+				massage.put("ERROR", "1"); // 1 아이디가 틀렸습니다.
 				
 			}else {
 				
-				result.put("ERROR", "2");//  2 비밀번호가 틀렸습니다.
+				massage.put("ERROR", "2");//  2 비밀번호가 틀렸습니다.
 			}
 			
 		}else { //아이디 비번이 둘다 맞으면
 			
-			result = nex_mapper.select_admin(admin_Login);
+			massage = nex_mapper.select_admin(admin_Login);//로그인 정보
 			
 		}
 		
 		
-		return result;
+		return massage;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package bookcafe.point.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +23,12 @@ public class PointServiceImpl implements PointService {
 		return pointVOList;
 	}
 
-//	// 포인트 내역 기록
-//	@Override
-//	public int addPointTable(PointVO pointVO) {
-//		return 0;
-//		int result = pointMapper.addPointTable(pointVO);
-//		return result;
-//	}
-//
-//	// 갱신 포인트 조회
-//	@Override
-//	public int getMemPoint(String user_id) {
-//		return 0;
-//		int newMemPoint = pointMapper.getMemPoint(user_id);
-//		return newMemPoint;
-//	}
+	// 포인트 내역 기록
+	@Override
+	public int insertPointLog(PointVO pointVO) {
+		pointVO.setPoint_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		int result = pointMapper.insertPointLog(pointVO);
+		return result;
+	}
 
 }

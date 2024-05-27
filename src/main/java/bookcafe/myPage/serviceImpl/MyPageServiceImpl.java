@@ -14,13 +14,6 @@ public class MyPageServiceImpl implements MyPageService{
 	@Autowired
 	private MyPageMapper myPageMapper;
 	
-	// 회원정보 조회하기
-	@Override
-	public MemberVO getUserVO(String userId) {
-		MemberVO userVO = myPageMapper.getVO(userId);
-		return userVO;
-	}
-
 	// 비밀번호 변경하기
 	@Transactional
 	@Override

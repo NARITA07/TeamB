@@ -33,7 +33,7 @@
 			#{cart_code},
 			1,
 			#{total_price},
-			NOW(),
+			 DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
 			#{payment_method},
 			1)
 	</insert>

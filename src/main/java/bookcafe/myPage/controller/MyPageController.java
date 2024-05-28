@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
-import bookcafe.point.service.PointService;
 
 
 @Controller
@@ -31,7 +31,7 @@ public class MyPageController {
 	private MyPageService myPageService;
 	
 	@Autowired
-	private PointService pointService;
+	private MemberService memberService;
 	
 	// 마이페이지
 	@GetMapping("/myPage")
@@ -89,23 +89,21 @@ public class MyPageController {
 	}
 	
 	
-//	// 회원탈퇴
-//	@DeleteMapping("/delete/{mem_id}")
-//	@ResponseBody
-//	@Transactional
-//	public String deleteMember(HttpSession session, @PathVariable("userId") String userId) {
-//		System.out.println("deleteMember...");
-//		MemberVO deleteVO = myPageService.getUserVO(userId);
-//		System.out.println("deleteVO:" + deleteVO);
-//		//myPageService.registerDelMember(deleteVO);
-//		System.out.println("deleteVO 등록완료");
-//		int count = myPageService.deleteMember(mem_id);
-//		if (count == 1) {
-//			session.invalidate();
-//			return "success";
-//		} else {
-//			return "fail";
-//		}
-//	}
+	// 회원탈퇴
+	@DeleteMapping("/delete")
+	@ResponseBody
+	@Transactional
+	public String deleteMember(HttpSession session, @PathVariable("user_id") String user_id) {
+		System.out.println("deleteMember...");
+		MemberVO deleteVO = memberService.getUserInfo(user_id);
+		System.out.println("deleteVO:" + deleteVO);
+		int count = myPageService.deleteMember(user_id);
+		if (count == 1) {
+			session.invalidate();
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 	
 }

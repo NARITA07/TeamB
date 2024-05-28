@@ -1,30 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_ProductManageMent" left="0" top="0" width="1020" height="670" titletext="제품관리" border="" background="" onclick="Main_up_onitemchanged">
+  <Form id="BookCafe_ProductManageMent" left="0" top="0" width="1020" height="670" titletext="제품관리" border="" background="" onclick="Main_up_onitemchanged" oninit="BookCafe_ProductManageMent_oninit">
     <Layouts>
       <Layout height="670" width="1020" stepcount="0">
         <Div id="Main" taborder="0" text="Main" left="0" top="10" height="650" right="10">
           <Layouts>
             <Layout>
-              <Button id="send00" taborder="8" text="제품 등록" left="89.11%" top="610" height="40" borderRadius="5px" onclick="Main_send_onclick" right="0.99%"/>
-              <Grid id="gr_inserProduct" taborder="9" left="10" top="0" height="600" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10" scrollbartype="none">
+              <Button id="send00" taborder="5" text="제품 등록" left="89.11%" top="610" height="40" borderRadius="5px" onclick="Main_send_onclick" right="0.99%"/>
+              <Grid id="gr_inserProduct" taborder="6" left="10" top="0" height="600" binddataset="Menu" border="1px solid #dbdee2" scrolltype="none" right="10" scrollbartype="none">
                 <Formats>
-                  <Format id="FOOD">
-                    <Columns>
-                      <Column size="150"/>
-                    </Columns>
-                    <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="70"/>
-                    </Rows>
-                    <Band id="head">
-                      <Cell background="white" border="1px none #cacaca"/>
-                    </Band>
-                    <Band id="body">
-                      <Cell text="bind:id"/>
-                    </Band>
-                  </Format>
-                  <Format id="BOOK">
+                  <Format id="Base">
                     <Columns>
                       <Column size="150"/>
                     </Columns>
@@ -41,13 +26,13 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="ED_MA" taborder="10" text="제품 등록" left="10" top="0" height="42" border="1px solid #dbdee2" textAlign="center" onclick="Static01_onclick" right="10"/>
-              <Combo id="pr_choice" taborder="1" left="160" top="41" height="70" codecolumn="Class" datacolumn="Class" displaynulltext="등록하실 제품을 선택해주세요" border="1px solid #dbdee2" onitemchanged="Combo00_onitemchanged" text="" cursor="pointer" right="10" innerdataset="ProductManagement"/>
-              <Edit id="pr_name" taborder="2" left="160" top="110" height="71" maxlength="20" right="10" displaynulltext="상품명을 입력해주세요"/>
-              <Edit id="pr_price" taborder="3" left="160" top="180" height="71" onchanged="Edit00_00_onchanged" maxlength="50" right="10" displaynulltext="설정하실 가격을 입력해주세요"/>
-              <Edit id="pr_quantity" taborder="4" left="160" top="250" height="71" onchanged="Edit00_00_onchanged" displaynulltext="재고가 있으면 입력해주세요(기본: 0)" right="10"/>
-              <FileUpload id="up" taborder="11" top="354" height="37" buttontext="등록" buttonsize="2000" itemheight="37" borderRadius="5px" multiselect="true" uploadurl="C:\Users\Public\Downloads" tooltiptype="default" scrollbarbarminsize="0" onsuccess="Main_up_onsuccess" onitemchanged="Main_up_onitemchanged" left="160" right="10" tabstop="false"/>
-              <Grid id="in_img" taborder="12" left="160" top="320" height="37" right="10" border="1px solid #dbdee2" binddataset="File" color="white" tabstop="false">
+              <Static id="ED_MA" taborder="7" text="제품 등록" left="10" top="0" height="42" border="1px solid #dbdee2" textAlign="center" onclick="Static01_onclick" right="10"/>
+              <Combo id="pr_choice" taborder="0" left="160" top="41" height="70" codecolumn="FIR_NAME" datacolumn="FIR_NAME" displaynulltext="등록하실 제품을 선택해주세요" border="1px solid #dbdee2" onitemchanged="Combo00_onitemchanged" text="" cursor="pointer" right="10" innerdataset="Fir_Code"/>
+              <Edit id="pr_name" taborder="1" left="160" top="110" height="71" maxlength="20" right="10" displaynulltext="상품명을 입력해주세요"/>
+              <Edit id="pr_price" taborder="2" left="160" top="180" height="71" onchanged="Edit00_00_onchanged" maxlength="50" right="10" displaynulltext="설정하실 가격을 입력해주세요"/>
+              <Edit id="pr_quantity" taborder="3" left="160" top="250" height="71" onchanged="Edit00_00_onchanged" displaynulltext="재고가 있으면 입력해주세요(기본: 0)" right="10"/>
+              <FileUpload id="up" taborder="8" top="354" height="37" buttontext="등록" buttonsize="2000" itemheight="37" borderRadius="5px" multiselect="true" uploadurl="C:\Users\Public\Downloads" tooltiptype="default" scrollbarbarminsize="0" onsuccess="Main_up_onsuccess" onitemchanged="Main_up_onitemchanged" left="160" right="10" tabstop="false"/>
+              <Grid id="in_img" taborder="9" left="160" top="320" height="37" right="10" border="1px solid #dbdee2" binddataset="File" color="white" tabstop="false">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -62,9 +47,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Edit id="pr_book_publication_date" taborder="7" left="160" top="530" height="70" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
-              <Edit id="pr_writer" taborder="6" left="160" top="460" height="71" onchanged="Edit00_00_onchanged" maxlength="50" right="10" visible="false"/>
-              <Combo id="pr_category" taborder="5" left="160" displaynulltext="카테고리를 선택해주세요" border="1px solid #dbdee2" text="" cursor="pointer" right="10" height="71" top="390" visible="true"/>
+              <Combo id="pr_category" taborder="4" left="160" displaynulltext="카테고리를 선택해주세요" border="1px solid #dbdee2" text="" cursor="pointer" right="10" height="71" top="390" visible="true" innerdataset="Sec_Code" codecolumn="SEC_NAME" datacolumn="SEC_NAME"/>
               <Static id="s_img" text="사진을 등록해주세요" left="170" top="321" width="120" height="36" color="black"/>
             </Layout>
           </Layouts>
@@ -72,8 +55,6 @@
             <Edit id="pr_name" maxlength="50"/>
             <Edit id="pr_price" maxlength="15"/>
             <Edit id="pr_quantity" maxlength="15"/>
-            <Edit id="pr_book_publication_date" maxlength="15"/>
-            <Edit id="pr_writer" maxlength="15"/>
           </InitValue>
         </Div>
       </Layout>
@@ -87,41 +68,6 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ProductManagement" updatecontrol="false">
-        <ColumnInfo>
-          <Column id="Class" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="Class">FOOD</Col>
-          </Row>
-          <Row>
-            <Col id="Class">BOOK</Col>
-          </Row>
-        </Rows>
-      </Dataset>
-      <Dataset id="Book_Category">
-        <ColumnInfo>
-          <Column id="Category" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="Category">만화</Col>
-          </Row>
-          <Row>
-            <Col id="Category">소설</Col>
-          </Row>
-          <Row>
-            <Col id="Category">잡지</Col>
-          </Row>
-          <Row>
-            <Col id="Category">시집</Col>
-          </Row>
-          <Row>
-            <Col id="Category">동화</Col>
-          </Row>
-        </Rows>
-      </Dataset>
       <Dataset id="Menu">
         <ColumnInfo>
           <Column id="id" type="STRING" size="256"/>
@@ -131,19 +77,19 @@
             <Col id="id">제품 선택</Col>
           </Row>
           <Row>
-            <Col id="id">상품명</Col>
+            <Col id="id">카테고리</Col>
           </Row>
           <Row>
-            <Col id="id">상품가격</Col>
+            <Col id="id">상품명</Col>
           </Row>
           <Row>
             <Col id="id">재고</Col>
           </Row>
           <Row>
-            <Col id="id">사진</Col>
+            <Col id="id">사진등록</Col>
           </Row>
           <Row>
-            <Col id="id">카테고리</Col>
+            <Col id="id"/>
           </Row>
         </Rows>
       </Dataset>
@@ -178,6 +124,30 @@
           </Row>
         </Rows>
       </Dataset>
+      <Dataset id="Fir_Code">
+        <ColumnInfo>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="Sec_Code">
+        <ColumnInfo>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="Fir_SELECT">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.Main_up_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
  {	
@@ -191,69 +161,20 @@
 
 this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	//제품 선택
-	if(e.postvalue == "BOOK"){
+		this.Fir_SELECT.setColumn(0,"FIR_CODE",e.postvalue)
+	var id = "sec_code"
+	var url = "svc::sec_code.do"
+	var set = "Fir_Code = Fir_SELECT"
+	var get = "Sec_Code = Sec_Code"
+	var arg = "";
+	var callback = "upload";
 	
-	//카테고리 바인딩
-	this.Main.form.pr_category.set_innerdataset(this.Book_Category)
-	this.Main.form.pr_category.set_codecolumn("Category")
-	this.Main.form.pr_category.set_datacolumn("Category")
-	
-	//dataset 형태 초기화
-	this.Menu.reset()
-	
-	this.Main.form.ED_MA.set_text("도서 등록")
-	this.Main.form.pr_price.set_value("대여가격은 1,000원 입니다.")
-	this.Main.form.pr_price.set_enable(false)// 선택 불가부여
-	this.Main.form.pr_price.set_readonly(true);
-	//그리드 포맷 변경
-	this.Main.form.gr_inserProduct.set_formatid("BOOK")
-	
-	//Row 생성
-	//Column 이름 변경
-	this.Menu.addRow();
-	this.Menu.setColumn(6,"id","저자")
-	this.Menu.addRow()
-	this.Menu.setColumn(7,"id","출판일")
-	this.Menu.setColumn(2,"id","대여가격")
-	
-	//화면 보이기
-	this.Main.form.pr_writer.set_visible(true) //저자
-	this.Main.form.pr_book_publication_date.set_visible(true) //출판일
-	
-	//입력칸 이동
- 	this.Main.form.pr_writer.set_top("460")//저자
-	this.Main.form.pr_book_publication_date.set_top("530")// 출판일
-	
-	}
-	
-	else if(e.postvalue == "FOOD"){
-	
-	//카테고리 바인딩
-	this.Main.form.pr_category.set_innerdataset(this.Food_Category)
-	this.Main.form.pr_category.set_codecolumn("Category")
-	this.Main.form.pr_category.set_datacolumn("Category")
-	
-	
-	this.Main.form.ED_MA.set_text("음식 등록")
-	this.Main.form.pr_price.set_value("");
-	this.Main.form.pr_price.set_readonly(false);
-	this.Main.form.pr_price.set_enable(true)
-	
-	//그리드 포맷 변경
-	this.Main.form.gr_inserProduct.set_formatid("FOOD")
-	
-	//dataset 초기형태로 리셋
-	this.Menu.reset()
-
-	//화면에서 안보이기
-	this.Main.form.pr_writer.set_visible(false)
- 	this.Main.form.pr_book_publication_date.set_visible(false);
-	}
+	this.transaction(id, url, set, get, arg, callback)
 
 	
 };
 
+//제품등록 버튼
 this.Main_send_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
 	this.PM.setColumn(0,"PRODUCT_CHOICE",this.Main.form.pr_choice.value)
@@ -271,18 +192,6 @@ this.Main_send_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 	}
 	
-
-}
-
-this.upload = function(id,ErrorCode,ErrorMag){
-
-	 if(ErrorCode < 0)
-    {
-        // 에러 처리
-        alter("Error" + ErrorMag);
-        return;
-    }
-
 }
 
 
@@ -295,37 +204,58 @@ this.Main_up_onsuccess = function(obj:nexacro.FileUpload,e:nexacro.FileUploadEve
 	if(this.Main.form.pr_quantity.value == null){
 	this.Main.form.pr_quantity.set_value(0);
 	}
-	alert(this.PM.saveXML());
-	this.update()
+	this.update()// 함수호출
 	}
 	else if(this.PM.getColumn() == "BOOK"){
 	this.Main.form.pr_price.set_value("1000");//도서 대여가격 1000원
 	this.PM.setColumn(0,"PRODUCT_CATEGORY",this.Main.form.pr_category.value)// 카테고리에 값 입력
-	alert(this.PM.saveXML());
-	this.update()
+	this.update()// 함수호출 
 	
 	}
 	
 };
 
- this.update = function(vv){
-	this.alert("전송")
+
+
+ this.update = function(){
 	
 	var id = "product"
   	var url = "svc::product.do";
-   	var indata = "PM=PM";
-   	var outdata = "";
+   	var set = "PM=PM";
+   	var get = "";
+	var arg = "";
    	var callback = "upload";
 	
- 	this.transaction(id,url,indata,outdata,callback);
+ 	this.transaction(id,url,set,get,arg,callback);
 }
+
+
+this.upload = function(id,code,massage){
+
+	 if(code = 0)
+    {
+		alert("aaa")
+		//성공하면 화면 재시작
+		this.reload()
+    }
+}
+
+this.BookCafe_ProductManageMent_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+{
+	var fir_id = "fir_code"
+  	var fir_url = "svc::fir_code.do";
+   	var fir_set = "";
+   	var fir_get = "Fir_Code = Fir_Code";
+	var fir_arg = "";
+   	var fir_callback = "upload";
+	
+ 	this.transaction(fir_id, fir_url, fir_set, fir_get, fir_arg, fir_callback);
+};
 ]]></Script>
     <InitValue/>
     <Bind>
       <BindItem id="item0" compid="Main.form.pr_price" propid="value" datasetid="PM" columnid="PRODUCT_PRICE"/>
       <BindItem id="item1" compid="Main.form.pr_quantity" propid="value" datasetid="PM" columnid="PRODUCT_QUANTITY"/>
-      <BindItem id="item2" compid="Main.form.pr_book_publication_date" propid="value" datasetid="PM" columnid="PRODUCT_BOOK_PUBLICATION_DATE"/>
-      <BindItem id="item4" compid="Main.form.pr_writer" propid="value" datasetid="PM" columnid="PRODUCT_WRITER"/>
       <BindItem id="item5" compid="Main.form.pr_name" propid="value" datasetid="PM" columnid="PRODUCT_NAME"/>
     </Bind>
   </Form>

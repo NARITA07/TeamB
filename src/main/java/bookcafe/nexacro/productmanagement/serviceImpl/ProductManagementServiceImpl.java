@@ -1,5 +1,6 @@
 package bookcafe.nexacro.productmanagement.serviceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		
 	}
 	
-	
-	
 	//음식 등록
 	@Override
 	public int food_insert(Map<String, String> pM) {
@@ -41,6 +40,18 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	public int book_insert(Map<String, String> pM) {
 		
 		return pmm.book_insert(pM);
+	}
+
+	//음식 정보
+	@Override
+	public List<Map<String, Object>> food_date() {
+		return pmm.food_date();
+	}
+	
+	//도서 정보
+	@Override
+	public List<Map<String, Object>> book_date() {
+		return pmm.book_date();
 	}
 
 

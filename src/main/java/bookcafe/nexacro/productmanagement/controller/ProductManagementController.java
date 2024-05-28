@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.soap.Addressing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.nexacro.productmanagement.service.ProductManagementService;
@@ -160,5 +164,28 @@ public class ProductManagementController {
         return result;
     }
 	
+	@RequestMapping("food_date.do")
+	public NexacroResult Food_Date() {
+		System.out.println("음식");
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> date = pms.food_date();
+		
+		result.addDataSet("Food", date);
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("book_date.do")
+	public NexacroResult Bood_Date() {
+		System.out.println("책");
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> date = pms.book_date();
+		
+		result.addDataSet("Book", date);
+		return result;
+	}
 	
 }

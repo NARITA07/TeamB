@@ -1,5 +1,6 @@
 package bookcafe.nexacro.productmanagement.serviceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -19,4 +20,11 @@ public interface ProductManagementMapper {
 	//도서 등록
 	int book_insert(Map<String, String> pM);
 
+	//음식 등록
+	List<Map<String, Object>> food_date();
+
+	//도서 등록
+	List<Map<String, Object>> book_date();
+
+	
 }

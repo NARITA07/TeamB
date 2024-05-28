@@ -4,17 +4,17 @@
 
 	<!-- 음식 이미지 등록 -->
 	<insert id="Food_Product">
-	INSERT INTO FOODS(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH)
-	VALUES('TEST', 'TEST', 0, 0, 'TEST', #{path})
+	INSERT INTO FOOD(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH)
+	VALUES(fnCode('food'), 'TEST', 0, 0, 'TEST', #{path})
 	</insert>
 	
 	<insert id="BooK_Product">
-	INSERT INTO BOOKS (BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH)
-	VALUES ('TEST', 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', #{path});
+	INSERT INTO BOOK(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH)
+	VALUES (fnCode('book'), 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', #{path});
 	</insert>
 	
 	<update id="book_insert">
-	UPDATE BOOKS 
+	UPDATE BOOK 
 	SET 
     BOOK_NAME = #{PRODUCT_NAME}, 
     BOOK_QUANTITY = #{PRODUCT_QUANTITY}, 
@@ -31,7 +31,7 @@ WHERE
 	
 	<!-- 음식 등록 -->
 	<update id="food_insert">
-	UPDATE FOODS 
+	UPDATE FOOD 
 	SET 
     PRODUCT_NAME = #{PRODUCT_NAME}, 
     PRODUCT_PRICE = #{PRODUCT_PRICE}, 
@@ -40,4 +40,15 @@ WHERE
 WHERE 
     PRODUCT_PATH = #{PRODUCT_PATH}
 	</update>
+	
+	<!-- 음식 정보 -->
+	<select id="food_date" resultType="java.util.Map"> 
+	SELECT * FROM FOOD
+	</select>
+	
+	<!-- 도서 정보 -->
+	<select id="book_date" resultType="java.util.Map"> 
+	SELECT * FROM BOOK
+	</select>
+	
 </mapper>

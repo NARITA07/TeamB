@@ -67,13 +67,14 @@ this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
  	
 	
 };
-//nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
 		//this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
 
 this.login = function(id,code,message){
 		
     if(code == 0){//리턴 결과 
 	
+	
+		
 		if(this.Result_Data.getColumn(0,"ERROR") == "1"){//아이디가 틀릴 시
 		alert("아이디가 틀렸습니다")
 		
@@ -82,6 +83,8 @@ this.login = function(id,code,message){
 		alert("비밀번호가 틀렸습니다")
 	
 	}else{
+	nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
+	
 		this.go("FrameBase::BookCafe_Main.xfdl")
 	
 	}
@@ -105,10 +108,6 @@ this.Main_S_Membership_onclick = function(obj:nexacro.Static,e:nexacro.ClickEven
 	this.go("FrameBase::BookCafe_Membership.xfdl")
 };
 
-//dataset 초기화
-this.clear = function(){
-	this.Result_Data.clear();
-}
 //아이디 입력 시
 this.Main_Ed_ID_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
 {
@@ -145,9 +144,11 @@ this.Main_btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 		
 		this.Main.form.btn_view.set_visible(false)//버튼도 없어져라
 		this.Main.form.Ed_PASS.set_value(null)// value값은 다시 null이 됨
+		this.Main.form.Ed_PASS.set_password(true)// 
 	}
-};
-]]></Script>
+	
+	
+};]]></Script>
     <Bind>
       <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Admin_Login" columnid="ADMIN_ID"/>
       <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Admin_Login" columnid="ADMIN_PASS"/>

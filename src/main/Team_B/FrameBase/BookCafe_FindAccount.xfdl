@@ -32,6 +32,7 @@
             </Layout>
           </Layouts>
         </Div>
+        <Button id="btn_Cansle" taborder="3" text="취소" top="Main00:8.62%" height="50" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="73%" font="20px/normal &quot;Gulim&quot;" minwidth="" right="10%" minheight="" maxwidth="242"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -94,8 +95,8 @@ this.Main00_Btn_CHANGE_PASS_onclick = function(obj:nexacro.Button,e:nexacro.Clic
 //아이디찾기 버튼
 this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-		this.Main00.form.ADMIN_NAME.length
-		this.Main00.form.ADMIN_EMAIL.length
+		//this.Main00.form.ADMIN_NAME.length
+		//this.Main00.form.ADMIN_EMAIL.length
 		
 		
 		
@@ -113,8 +114,6 @@ this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 this.findaccount = function(id, code, message){
 	
 	if(code == 0){
-		alert("아이디")
-		alert("패스워드");
 		if(this.Find_ID.getColumn(0,"ADMIN_ID") != null){
 	this.Main00.form.ADMIN_PASS.set_enable(true); // 변경 패스워드 입력가능
 	this.Change_Pass.setColumn(0,"ADMIN_ID",this.Main00.form.ADMIN_ID.value)
@@ -128,6 +127,18 @@ this.findaccount = function(id, code, message){
 	
 }
 
+
+this.Main_btn_Cansle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var arg = this.confirm("로그인화면으로 이동하시겠습니까?")
+		
+		if(arg = true){
+		
+		this.go("FrameBase::BookCafe_Login.xfdl")
+		
+		}
+	
+};
 ]]></Script>
   </Form>
 </FDL>

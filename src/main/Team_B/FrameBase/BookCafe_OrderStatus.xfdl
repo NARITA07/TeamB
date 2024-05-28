@@ -124,7 +124,7 @@
 this.Form_Work_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {//form 초기화
 	this.fnSelect_orders();
-	//this.setTimer(1, 3000);
+	this.setTimer(1, 3000);
 };
 
 this.Form_Work_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)

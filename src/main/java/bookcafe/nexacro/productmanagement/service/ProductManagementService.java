@@ -1,5 +1,6 @@
 package bookcafe.nexacro.productmanagement.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ProductManagementService {
@@ -15,6 +16,13 @@ public interface ProductManagementService {
 	
 	//도서 등록
 	int book_insert(Map<String, String> pM);
+
+	//음식 정보
+	List<Map<String, Object>> food_date();
+
+	//도서 정보
+	List<Map<String, Object>> book_date();
+
 
 
 

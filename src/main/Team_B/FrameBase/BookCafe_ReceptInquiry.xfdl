@@ -3,8 +3,19 @@
   <Form id="BookCafe_ReceptInquiry" width="1080" height="720" titletext="접수조회">
     <Layouts>
       <Layout height="720" width="1080">
-        <Static id="Static00" taborder="0" text="접수조회" left="176" top="164" width="352" height="100"/>
+        <Button id="Button00" taborder="0" text="Button00" left="168" top="93" width="152" height="75" onclick="Button00_onclick"/>
       </Layout>
     </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.aaa.copyData(nexacro.getApplication().Session_login)
+	
+	alert(this.aaa.saveXML());
+};
+]]></Script>
+    <Objects>
+      <Dataset id="aaa"/>
+    </Objects>
   </Form>
 </FDL>

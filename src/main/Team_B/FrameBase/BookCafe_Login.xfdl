@@ -65,7 +65,6 @@ this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 	
  	this.transaction(id, url, set, get, arg, callback); 
  	
-	
 };
 //nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
 		//this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
@@ -82,6 +81,8 @@ this.login = function(id,code,message){
 		alert("비밀번호가 틀렸습니다")
 	
 	}else{
+	//세션
+		nexacro.getApplication().Session_login.copyData(this.Result_Data);
 		this.go("FrameBase::BookCafe_Main.xfdl")
 	
 	}

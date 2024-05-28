@@ -28,7 +28,9 @@ public class OrderController {
 	    }
 	    @RequestMapping(value = "/update_orders.do")
 	    public NexacroResult updateOrders(@ParamDataSet(name = "ds_orders_updaterdy", required = false) List<Map<String,String>> orders) {
+	    	
 	    	NexacroResult result = new NexacroResult();
+	    	
 	    	System.out.print("orders count :" + orders.size()+" : ");
 	    	System.out.println(orders);
 	    	int temp = orderService.updateOrders(orders);

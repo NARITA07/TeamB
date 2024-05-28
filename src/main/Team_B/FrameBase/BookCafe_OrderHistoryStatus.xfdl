@@ -17,30 +17,32 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="성명"/>
+                <Cell text="이름"/>
                 <Cell col="1" text="메뉴"/>
                 <Cell col="2" text="갯수"/>
-                <Cell col="3" text="기간"/>
+                <Cell col="3" text="주문날짜"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:USER_NAME"/>
-                <Cell col="1" text="bind:PRODUCT_NAME"/>
+                <Cell text="bind:USER_NAME" textAlign="center" verticalAlign="middle"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center" verticalAlign="middle"/>
                 <Cell col="2" text="bind:ORDER_QUANTITY"/>
                 <Cell col="3" text="bind:PAYMENT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss ddd" calendareditformat="yyyy-MM-dd HH:mm:ss ddd"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Edit id="Edit00" taborder="1" left="85" top="30" width="176" height="40" displaynulltext="성명"/>
-        <Combo id="Combo00" taborder="2" text="Combo00" left="297" top="30" width="176" height="40" innerdataset="food_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE" onitemchanged="Combo00_onitemchanged" type="search"/>
-        <Combo id="Combo01" taborder="3" text="" left="85" top="90" width="176" height="40" value="" index="-1" innerdataset="month_combo" datacolumn="PAYMENT_MONTH" codecolumn="PAYMENT_MONTH" rtl="" onitemchanged="Combo01_onitemchanged" displaynulltext="월"/>
-        <Combo id="Combo02" taborder="4" text="일" left="297" top="90" width="176" height="40" value="" index="-1" innerdataset="day_combo" datacolumn="PAYMENT_DAY" codecolumn="PAYMENT_DAY" displayrowcount="10" onitemchanged="Combo02_onitemchanged" displaynulltext="일"/>
-        <Calendar id="Calendar00" taborder="5" left="594" top="90" width="176" height="40" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00" taborder="6" top="90" height="40" onchanged="Calendar00_00_onchanged" width="176" left="800"/>
-        <Button id="Button00" taborder="7" text="조회하기" left="595" top="30" width="176" height="40" onclick="Button00_onclick"/>
-        <Button id="Button01" taborder="8" text="초기화" top="30" height="40" onclick="Button01_onclick" width="176" left="800"/>
-        <Static id="Static01" taborder="9" text="월" left="266" top="100" width="12" height="20"/>
-        <Static id="Static01_00" taborder="10" text="일" left="476" top="100" width="12" height="20"/>
+        <Edit id="Edit00" taborder="1" left="85" top="44" width="91" height="20" displaynulltext="이름"/>
+        <Combo id="Combo00" taborder="2" text="Combo00" left="85" top="74" width="91" height="20" innerdataset="food_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE" onitemchanged="Combo00_onitemchanged" type="search"/>
+        <Combo id="Combo01" taborder="3" text="" left="85" top="104" width="91" height="20" value="" index="-1" innerdataset="month_combo" datacolumn="PAYMENT_MONTH" codecolumn="PAYMENT_MONTH" rtl="" onitemchanged="Combo01_onitemchanged" displaynulltext="월"/>
+        <Calendar id="Calendar00" taborder="4" left="85" top="131" width="91" height="20" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="5" top="131" height="20" onchanged="Calendar00_00_onchanged" width="91" left="192"/>
+        <Button id="Button00" taborder="6" text="조회하기" left="325" top="128" width="91" height="27" onclick="Button00_onclick"/>
+        <Static id="Static01" taborder="7" text="월" left="180" top="104" width="12" height="20"/>
+        <Static id="Static00" taborder="8" text="이름" left="40" top="47" width="24" height="14"/>
+        <Static id="Static02" taborder="9" text="메뉴" left="40" top="77" width="24" height="14"/>
+        <Static id="Static03" taborder="10" text="날짜" left="40" top="107" width="24" height="14"/>
+        <Static id="Static04" taborder="11" text="-" left="181" top="133" width="6" height="17"/>
+        <Button id="Button02" taborder="12" text="엑셀파일 저장" left="928" top="128" width="91" height="27" onclick="Button02_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
@@ -71,25 +73,11 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.search_combo.setColumn(0,"USER_NAME",this.Edit00.value);
 	this.search_combo.setColumn(0,"PRODUCT_CODE",this.Combo00.value);
 	this.search_combo.setColumn(0,"PAYMENT_MONTH",this.Combo01.value);
-	this.search_combo.setColumn(0,"PAYMENT_DAY",this.Combo02.value);
 	this.search_combo.setColumn(0,"PAYMENT_WEEK1",this.Calendar00.value);
 	this.search_combo.setColumn(0,"PAYMENT_WEEK2",this.Calendar00_00.value);
 	
 	this.fnViewList();
 };
-
-/* 2-2. 초기화 버튼 이벤트*/
-this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-
-	this.Edit00.set_value("");
-	this.Combo00.set_value("");
-	this.Combo01.set_value("");
-	this.Combo02.set_value("");
-	this.Calendar00.set_value("");
-	this.Calendar00_00.set_value("");
-};
-
 
 /* 3. fnMenuCombo() : 음식메뉴 콤보 */
 this.fnMenuCombo=function(){
@@ -155,20 +143,12 @@ this.Combo01_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.Calendar00_00.set_value(null);
 	}
 };
-this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
-{
-	var day = this.Combo02.value;
-	if(day != null){
-	this.Calendar00.set_value(null);
-	this.Calendar00_00.set_value(null);
-	}
-};
+
 this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var Calendar00 = this.Calendar00.value;
 	if(Calendar00 != null){
 	this.Combo01.set_value(null);
-	this.Combo02.set_value(null);
 	}
 };
 this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
@@ -176,8 +156,17 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
 	var Calendar00_00 = this.Calendar00_00.value;
 	if(Calendar00_00 != null){
 	this.Combo01.set_value(null);
-	this.Combo02.set_value(null);
 	}
+};
+
+/* 엑셀 파일 저장 버튼 */
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.result_grid.getRowCount() == 0){
+		alert("조회된 데이터가 없습니다.");
+		return;
+	}
+	
 };
 ]]></Script>
     <Objects>
@@ -192,6 +181,7 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
       </Dataset>
       <Dataset id="result_grid">
         <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256" description="회원성명"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="메뉴"/>
           <Column id="ORDER_QUANTITY" type="STRING" size="256" description="갯수"/>
@@ -249,106 +239,6 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
           </Row>
           <Row>
             <Col id="PAYMENT_MONTH">12</Col>
-          </Row>
-        </Rows>
-      </Dataset>
-      <Dataset id="day_combo">
-        <ColumnInfo>
-          <Column id="PAYMENT_DAY" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="PAYMENT_DAY">01</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">02</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">03</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">04</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">05</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">06</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">07</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">08</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">09</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">10</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">11</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">12</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">13</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">14</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">15</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">16</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">17</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">18</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">19</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">20</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">21</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">22</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">23</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">24</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">25</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">26</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">27</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">28</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">29</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">30</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">31</Col>
           </Row>
         </Rows>
       </Dataset>

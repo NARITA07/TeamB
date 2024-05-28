@@ -33,10 +33,6 @@
          AND SUBSTR(D.PAYMENT_DATE,5,2) = #{PAYMENT_MONTH}
       </if>
       <if
-         test="PAYMENT_DAY !='전체보기' and PAYMENT_DAY != null and PAYMENT_DAY != ''">
-         AND SUBSTR(D.PAYMENT_DATE,7,2) = #{PAYMENT_DAY}
-      </if>
-      <if
          test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and
                    (PAYMENT_WEEK2 == null or PAYMENT_WEEK2 == '')">
          AND TO_DATE(D.PAYMENT_DATE, 'YYYYMMDD') >= TO_DATE(#{PAYMENT_WEEK1},

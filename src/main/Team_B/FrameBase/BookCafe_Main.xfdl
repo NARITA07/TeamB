@@ -100,6 +100,10 @@
           <Row>
             <Col id="title">대여현황</Col>
           </Row>
+          <Row>
+            <Col id="title">재고관리</Col>
+            <Col id="url">FrameBase::BookCafe_StockOrder.xfdl</Col>
+          </Row>
         </Rows>
       </Dataset>
       <Dataset id="Account">

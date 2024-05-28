@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.nexacro.stockorder.serviceImpl.StockOrderMapper">
+
+	<!-- 재고관리 -->
+	
+	<!-- grid1 메뉴콤보 -->
+	<select id="grid1MenuList" resultType="java.util.Map">
+		SELECT
+		PRODUCT_NAME,PRODUCT_CODE,PRODUCT_QUANTITY, '0' as PRODUCT_CHECK
+		FROM
+		FOOD
+	</select>
+	
+	<!-- 발주신청서 저장 -->
+	<!-- 시퀀스 -->
+	<insert id="saveStockOrder">
+	  INSERT INTO STOCKORDER (ADMIN_CODE,PRODUCT_CODE,STOCK_ORDER_CODE,STOCK_ORDER_QUANTITY,STOCK_ORDER_DATE,STOCK_ORDER_STATUS) 
+	  VALUES (#{ADMIN_CODE},#{PRODUCT_CODE},NEXTVAL(stock_seq),#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0);
+	</insert>
+
+</mapper>

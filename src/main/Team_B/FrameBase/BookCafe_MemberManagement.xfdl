@@ -76,7 +76,6 @@ this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.Even
 	
 	this.transaction(id, url, indata, outdata, callback)
 	
-	
 };
 
 this.user_table_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)

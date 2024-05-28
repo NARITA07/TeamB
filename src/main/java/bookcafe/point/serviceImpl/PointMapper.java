@@ -14,4 +14,7 @@ public interface PointMapper {
 	// 포인트 내역 기록
 	public int insertPointLog(PointVO pointVO);
 	
+	// 회원 포인트 업데이트
+	public int updateUserPoint(String user_code);
+	
 }

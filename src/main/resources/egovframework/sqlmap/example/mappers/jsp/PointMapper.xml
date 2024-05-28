@@ -35,10 +35,21 @@
   	
 	<!-- 포인트 내역 기록 -->
 	<insert id="insertPointLog">
-		INSERT INTO POINTLOG (POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
+		INSERT INTO POINTLOG (
+			POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
 	    VALUES (
-	        #{POINT_CODE}, #{USER_CODE}, #{ORDER_CODE}, #{POINT_CHANGE}, #{POINT_JOINDATE}
-	    )
+	    	fnCode('pointlog'), #{USER_CODE}, #{ORDER_CODE}, #{POINT_CHANGE}, #{POINT_JOINDATE} )
 	</insert>
+	
+	<!-- 회원 포인트 업데이트 -->
+	<update id="updateUserPoint">
+		UPDATE USER 
+		SET USER_POINT = (
+		    SELECT SUM(POINT_CHANGE) 
+		    FROM POINTLOG 
+		    WHERE USER_CODE = #{USER_CODE}
+		) 
+		WHERE USER_CODE = #{USER_CODE};
+	</update>
 	
 </mapper>

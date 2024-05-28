@@ -30,10 +30,14 @@ public class MyPageController {
 	@Autowired
 	private MyPageService myPageService;
 	
+	@Autowired
+	private PointService pointService;
+	
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPage(HttpSession session, Model model) {
 		String userId = (String) session.getAttribute("sessionId");
+		
 		
 		System.out.println("UserId: " + userId);
 	}

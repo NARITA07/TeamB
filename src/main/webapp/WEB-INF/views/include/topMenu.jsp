@@ -1,3 +1,4 @@
+<%@page import="bookcafe.member.service.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -11,6 +12,7 @@
 <body>
 <%
     String sUID = (String)session.getAttribute("sessionId");
+	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
     Boolean isNonMember = (Boolean)session.getAttribute("isNonMember");
 %>
 
@@ -27,7 +29,7 @@
             <li class="nav-item"><a class="nav-link" href="/bookList.do">책</a></li>
             <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
 				<%
-					if(sUID == null){
+					if(sUID == null || loginInfo == null){
 				%>
 			<li class="nav-item"><a class="nav-link" href="/login.do">로그인</a></li>
 				<%
@@ -35,20 +37,18 @@
 				%>
 			<li class="nav-item"><a class="nav-link" href="/myPage/myPage">마이페이지</a></li>
 <!-- 			<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#logoutmodal">로그아웃</a></li> -->
-			<li class="nav-item"><a class="nav-link" href="logout.do">로그아웃</a></li>
+			<li class="nav-item"><a class="nav-link" href="/logout.do">로그아웃</a></li>
+	      </ul>
 			<form class="d-flex ms-lg-3">
-                <button class="btn btn-outline-dark" type="button" onclick="goCart('${loginInfo.user_code}')">
+                <button class="btn btn-outline-dark" type="button" onclick="goCart()">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
-
 				<%
 					}
 				%>
-	      </ul>
-            
 	    </div>
 	 </div>
 	</nav>
@@ -72,9 +72,8 @@
 		</div>
 	</div>
 	<script>
-		function goCart(user_code){
-			alert("유저코드."+user_code)
-			var url = 'cartList.do?user_code='+user_code;
+		function goCart(){
+			var url = 'cartList.do';
 			window.location.href = url;
 		}
 	</script>

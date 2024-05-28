@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.cart.serviceImpl.CartMapper">
-	<insert id="insertCart" parameterType="bookcafe.cart.service.CartVO">
-		INSERT INTO CART(USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
-		SELECT 
-		    #{user_code}, 
-		    #{product_code}, 
-		    #{order_quantity}, 
-	    IFNULL(
-	        (SELECT CART_CODE FROM CART WHERE USER_CODE = #{user_code} LIMIT 1), 
-	        fnCode('cart')
-	    );
+    <insert id="insertCart" parameterType="bookcafe.cart.service.CartVO">
+    INSERT INTO CART (USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
+    VALUES (
+        #{user_code},
+        #{product_code},
+        #{order_quantity},
+        <choose>
+            <when test="cart_code == null or cart_code == ''">
+                fnCode('cart')
+            </when>
+            <otherwise>
+                #{cart_code}
+            </otherwise>
+        </choose>
+    )
 	</insert>
+	<insert id="insertOrder" parameterType="bookcafe.cart.service.OrdersVO">
+		INSERT INTO ORDERS (ORDER_CODE,
+			ADMIN_CODE,
+			USER_CODE,
+			CART_CODE,
+			ORDER_STATE,
+			TOTAL_PRICE,
+			PAYMENT_DATE,
+			PAYMENT_METHOD,
+			PAYMENT_STATE)
+		VALUES (fnCode('order'),
+			'AD001',
+			#{user_code},
+			#{cart_code},
+			1,
+			#{total_price},
+			NOW(),
+			#{payment_method},
+			1)
+	</insert>
+	
+	<!--order 테이블 정보 받기-->
+	<select id="selectOrders" resultType="bookcafe.orders.service.OrdersVO">
+		SELECT USER_CODE, CART_CODE
+		FROM ORDERS
+	</select>
+	
 	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
 		SELECT 
         F.PRODUCT_NAME, 
@@ -32,10 +64,33 @@
 	    ORDER BY 
 	        C.CART_CODE;
 	</select>
+	
+	<select id="selectCartCode" parameterType="String" resultType="String">
+    	SELECT MAX(CART_CODE) FROM CART WHERE USER_CODE = #{user_code};
+	</select>
+	
 	<delete id="deleteCart">
   		DELETE FROM CART 
 		WHERE USER_CODE = #{user_code}
 		AND PRODUCT_CODE = #{product_code}
 		AND CART_CODE = #{cart_code}
+		AND ORDER_QUANTITY = #{order_quantity}
 	</delete>
+	
+	<select id="selectTotalPrice" parameterType="string" resultType="int">
+	    SELECT 
+		    SUM(f.product_price * c.order_quantity) AS total_price
+		FROM 
+		    CART c
+		JOIN 
+		    FOOD f 
+		ON 
+		    c.product_code = f.product_code
+		JOIN
+		    USER u
+		ON
+		    c.user_code = u.user_code
+		WHERE 
+		    c.cart_code = #{cart_code}
+	</select>
 </mapper>

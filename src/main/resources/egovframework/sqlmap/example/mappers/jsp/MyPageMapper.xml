@@ -14,18 +14,32 @@
 	<!-- 회원정보 수정하기 -->
 	<update id="updateMember">
 		update USER set
+			user_name = #{user_name},
 			user_tel = #{user_tel},
 			user_email = #{user_email},
-			user_address = #{user_address}
+			user_address = #{user_address},
+			user_point = #{user_point},
 		where user_id = #{user_id}
 	</update>
 
+
+	<!-- 탈퇴회원 기록하기 -->
+<!-- 	<insert id="registerDelMember"> -->
+<!-- 		insert into TBL_DEL_MEMBER -->
+<!-- 			(del_id, del_name, del_email, del_birth, del_phone,  -->
+<!-- 				del_zip_code, del_addr, del_cdate, del_ddate, -->
+<!-- 				 del_point, del_adminck) -->
+<!-- 		values -->
+<!-- 			(#{mem_id},#{mem_name},#{mem_email},#{mem_birth},#{mem_phone}, -->
+<!-- 				#{mem_zip_code},#{mem_addr}, #{mem_cdate}, now(),  -->
+<!-- 				#{mem_point}, #{mem_adminck}) -->
+<!-- 	</insert> -->
+	
 	<!-- 회원정보 삭제하기 -->
-	<update id="deleteMember">
-		update USER set
-			user_authority = "5"
-		where user_id = #{user_id}
-	</update>
+<!-- 	<delete id="deleteMember"> -->
+<!-- 		delete from TBL_MEMBER -->
+<!-- 		where mem_id = #{mem_id} -->
+<!-- 	</delete> -->
 	
 	<!-- 예약정보 현재시각기준 업데이트 -->
 <!-- 	<update id="updateTBLReserve"> -->
@@ -53,25 +67,21 @@
 <!--    	]]> -->
 <!-- 	</update> -->
 	
-	<!-- 카페주문내역 조회하기(ORDERS + CART) -->
- 	<select id="getMyOrderList" resultType="bookcafe.myPage.service.MyOrderDTO">
- 		SELECT O.* , C.PRODUCT_CODE , C.CART_CODE , C.ORDER_QUANTITY 
-		FROM ORDERS O 
-		JOIN CART C ON O.USER_CODE = C.USER_CODE 
-		WHERE O.USER_CODE = #{user_code} 
-		GROUP BY O.ORDER_CODE 
-		ORDER BY O.PAYMENT_DATE;
-  	</select>
-	
-	<!-- 주문 건 1개 조회(CART + FOOD) -->
-<!--  	<select id="getMyOrderListByOne" resultType="bookcafe.myPage.service.MyOrderDTO"> -->
-<!--  		SELECT O.* , C.PRODUCT_CODE , C.CART_CODE , C.ORDER_QUANTITY  -->
-<!-- 		FROM ORDERS O  -->
-<!-- 		JOIN CART C ON O.USER_CODE = C.USER_CODE  -->
-<!-- 		WHERE O.USER_CODE = #{user_code}  -->
-<!-- 		GROUP BY O.ORDER_CODE  -->
-<!-- 		ORDER BY O.PAYMENT_DATE; -->
+	<!-- 예약정보 조회하기(한사람) -->
+<!--  	<select id="getReserveList" resultType="com.kh.rent.myPage.domain.GetStatusDTO"> -->
+<!--  		select r.*, p.pay_status, p.pay_pid -->
+<!-- 		from TBL_RESERVE as r -->
+<!-- 		left join TBL_PAYMENT as p on r.res_rid = p.pay_res_rid -->
+<!--  		where res_mem_id = #{mem_id} -->
 <!--   	</select> -->
+	
+	<!-- 예약번호로 차종 조회하기 -->
+<!-- 	<select id="getCarName" resultType="String"> -->
+<!-- 		select ci.car_name -->
+<!-- 		from rent001.TBL_RESERVE as r -->
+<!-- 		join rent001.TBL_CAR_INFO as ci on r.res_car_id = ci.car_index -->
+<!-- 		where r.res_rid = #{res_rid} and r.res_car_id = #{res_car_id} -->
+<!-- 	</select> -->
 	
 	<!-- 예약취소 -->
 <!-- 	<update id="cancelReservation"> -->
@@ -129,7 +139,7 @@
 <!-- 		AND (R.res_status = '예약중' OR R.res_status = '예약완료') -->
 <!-- 		ORDER BY R.res_rental_date ASC; -->
 <!-- 	</select> -->
-
+	
 	<!-- 예약정보 조회하기(예약번호 1개 정보) -->
 <!-- 	<select id="getMyResInfo" resultType="com.kh.rent.myPage.domain.GetStatusDTO"> -->
 <!--  		select r.*,  -->

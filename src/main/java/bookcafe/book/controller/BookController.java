@@ -2,14 +2,17 @@ package bookcafe.book.controller;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import bookcafe.book.service.BookService;
 import bookcafe.book.service.BorrowService;
 import bookcafe.member.service.MemberService;
+import bookcafe.member.service.MemberVO;
 
 @Controller
 public class BookController { 

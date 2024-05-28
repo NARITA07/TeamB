@@ -1,7 +1,5 @@
 package bookcafe.myPage.service;
 
-import java.util.List;
-
 import bookcafe.member.service.MemberVO;
 
 public interface MyPageService {
@@ -12,14 +10,17 @@ public interface MyPageService {
 	// 회원정보 수정하기
 	public int updateMember(MemberVO updateVO);
 	
-	// 회원정보 삭제하기
-	public int deleteMember(String user_id);
+//	// 탈퇴회원 기록하기
+//	public int registerDelMember(MemberVO deleteVO);
+//	
+//	// 회원정보 삭제하기
+//	public int deleteMember(String mem_id);
 //	
 //	// 예약정보 현재시각기준 업데이트
 //	public void updateTBLReserve(String mem_id);
 //	
-	// 카페주문내역 조회하기(전체내역)
-	public List<MyOrderDTO> getMyOrderList(String user_code);
+//	// 예약정보 조회하기
+//	public List<GetStatusDTO> getReserveList(String mem_id);
 //
 //	// 예약번호로 차종 조회하기
 //	public String getCarName(GetCarNameDTO getCarNameDTO);

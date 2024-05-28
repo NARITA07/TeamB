@@ -9,8 +9,8 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("borrowService")
 public class BorrowServiceImpl extends EgovAbstractServiceImpl implements BorrowService {
-//	@Resource(name = "borrowMapper")
-//    private BorrowMapper borrowMapper;
+	@Resource(name = "borrowMapper")
+    private BorrowMapper borrowMapper;
 
 
 }

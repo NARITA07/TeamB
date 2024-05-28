@@ -26,10 +26,14 @@ $(function() {
 	
 	// 주소 split
 	var str = "${loginInfo.user_address}";
+// 	console.log("str:" + str);
 	var addr = str.split("# ");
 	var addr1 = addr[0];
 	var addr2 = addr[1];
 	var addr3 = addr[2];
+// 	console.log("addr1:" + addr1);
+// 	console.log("addr2:" + addr2);
+// 	console.log("addr3:" + addr3);
 	$("#sample2_postcode").val(addr1);
 	$("#sample2_address").val(addr2);
 	$("#sample2_detailAddress").val(addr3);
@@ -45,25 +49,21 @@ $(function() {
 	$("#btn-delete-save").click(function() {
 		console.log("탈퇴하기 버튼");
 		
-		var user_id = $("#user_id").val(); 
-		var password = $("#user_pass").val();
+		var mem_id = $("#id").val(); 
+		var password = $("#password").val();
 		console.log("password:", password);
 		var del_enter_pwd = $("#del_enter_pwd").val();
 		console.log("del_enter_pwd:", del_enter_pwd);
-// 		var shaDelPassword = sha256(del_enter_pwd);
-// 		console.log("shaDelPassword:", shaDelPassword);
+		var shaDelPassword = sha256(del_enter_pwd);
+		console.log("shaDelPassword:", shaDelPassword);
 		
-// 		if (password != shaDelPassword) {
-// 			alert("비밀번호가 맞지 않습니다.");
-// 			return;
-		if (password != del_enter_pwd) {
+		if (password != shaDelPassword) {
 			alert("비밀번호가 맞지 않습니다.");
-			return;
-		} else if (password == del_enter_pwd) {
+		} else if (password == shaDelPassword) {
 			alert("비밀번호 일치확인");
 			// 폼 데이터 생성
 			var formData = {
-					user_id: user_id
+                mem_id: mem_id
             };
 			
 			$.ajax({
@@ -72,9 +72,9 @@ $(function() {
 	            success: function(rData) {
 	                console.log("rData:", rData);
 	                if (rData == "success") {
-		                alert("회원탈퇴성공! 메인 페이지로 이동합니다.");
+		                alert("회원탈퇴성공! 로그인 페이지로 이동합니다.");
 		                $("#modal-delForm").modal("hide");
-		                location.href = "/";
+		                location.href = "/login/login";
 	                } else if (rData == "fail") {
 	                	alert("회원탈퇴실패!");
 	                }
@@ -117,23 +117,23 @@ $(function() {
 					  <form>
 					    <div class="form-group">
 					      <label for="id">아이디</label>
-					      <input type="text" class="form-control" id="user_id" name="user_id" value="${loginInfo.user_id}" readonly>
+					      <input type="text" class="form-control" id="id" name="id" value="${loginInfo.user_id}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="pwd">비밀번호</label>
-					      <input type="password" class="form-control" id="user_pass" name="user_pass" value="${loginInfo.user_pass}" readonly>
+					      <input type="password" class="form-control" id="password" name="password" value="${loginInfo.user_pass}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="name">이름</label>
-					      <input type="text" class="form-control" id="user_name" name="user_name" value="${loginInfo.user_name}" readonly>
+					      <input type="text" class="form-control" id="name" name="name" value="${loginInfo.user_name}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
-					      <input type="text" class="form-control" id="user_tel" name="user_tel" value="${loginInfo.user_tel}" readonly>
+					      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${loginInfo.user_tel}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="email">이메일</label>
-					      <input type="email" class="form-control" id="user_email" name="user_email" value="${loginInfo.user_email}" readonly>
+					      <input type="email" class="form-control" id="email" name="email" value="${loginInfo.user_email}" readonly>
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
@@ -162,15 +162,15 @@ $(function() {
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">회원탈퇴</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <form>
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div align="center">
-				                            탈퇴 후 복구가 불가능합니다. <br>
-				                            정말로 탈퇴 하시겠습니까? <br>
+                            탈퇴 후 복구가 불가능합니다. <br>
+                            정말로 탈퇴 하시겠습니까? <br>
                         </div>
                         <br>
                             <label for="userPwd" class="mr-sm-2">비밀번호 : </label>

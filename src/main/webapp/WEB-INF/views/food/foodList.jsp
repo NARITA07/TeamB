@@ -42,15 +42,18 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">${coffee.product_name}</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted">${coffee.product_price}</span>
                                 </div>
                                 <div class="cart_btn_box">
                                     <div>
                                         <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${coffee.product_code}" oninput="calculateTotalPrice('${coffee.product_price}', '${coffee.product_code}')"  min="1">
                                     </div>
-                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)">담기</button>
-                                	<span class="total-price-span" id="total_price_${coffee.product_code}"></span>
+                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)">장바구니 담기</button>
+                                	<span class="total-price-span" id="total_price_${coffee.product_code}">${coffee.product_price}원</span>
+                                </div>
+                                <div class="direct_buy">
+                                	<button type="button" class="btn btn-primary" 
+                                	onclick="direct_buy('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)"
+                                	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +91,35 @@
             </div>
         </div>
     </section>
+    <!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">구매하기</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<form>
+	      		<div class="form-group">
+	      		
+			    </div>
+	      	</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	        <button type="button" class="btn btn-primary">결제</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
     <script>
+	    var myModal = document.getElementById('myModal')
+		var myInput = document.getElementById('myInput')
+		
+		myModal.addEventListener('shown.bs.modal', function () {
+		  myInput.focus()
+		})
         function isLogin(user_code, product_code, order_quantity){
             console.log("isLogin function called with sUID:", sUID);
             if(sUID == "null"){
@@ -125,6 +156,20 @@
             var totalPrice = parseInt(price) * parseInt(quantity);
             document.getElementById('total_price_' + productCode).textContent = totalPrice + '원';
         }
+        
+        function direct_buy(user_code, product_code, order_quantity){
+			alert("카트코드."+user_code+product_code+order_quantity)
+			
+			if(sUID == "null"){
+                alert('로그인 후 이용해 하세요.');
+                var url = 'login.do';
+                window.location.href = url;
+            } else{
+            	var url = 'selectTotalPrice.do?cart_code=' +cart_code;
+    			window.location.href = url;
+            }
+			
+		}
     </script>
 
     <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>

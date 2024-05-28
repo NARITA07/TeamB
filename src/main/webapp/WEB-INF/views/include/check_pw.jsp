@@ -57,7 +57,7 @@
 	    		return CryptoJS.SHA256(password).toString();
 			}
 	
-		var password = $("#mem_pw").val();
+		var password = $("#user_pass").val();
 	    var password1 = $("#password1").val();
 	    var newPassword = $("#newPassword").val();
 	    var confirmPassword = $("#confirmPassword").val();
@@ -103,7 +103,7 @@
 	
 	    // PWchangeDTO 객체 생성
 	    var pwChangeDTO = {
-	        "mem_id": $("#mem_id").val(),
+	        "user_id": $("#user_id").val(),
 	        "password": password,
 	        "newPassword": shaNewPassword
 	    };

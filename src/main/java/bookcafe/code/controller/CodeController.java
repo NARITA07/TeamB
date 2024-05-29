@@ -27,9 +27,9 @@ public class CodeController {
 	@RequestMapping("fir_code.do")
 	public NexacroResult f_code() {
 		NexacroResult result = new NexacroResult();
-		
+			System.out.println("연결");
 		List<Map<String, Object>> fir_codes = codeservice.fir_select();
-			
+			System.out.println(fir_codes);
 		result.addDataSet("Fir_Code", fir_codes);
 		
 		
@@ -60,11 +60,7 @@ public class CodeController {
 			
 		List<Map<String, Object>> ss = codeservice.sec_select(Fir_Code);
 		
-		for(int i = 0; i < ss.size(); i++) {
-			
-			System.out.println(ss.get(i));
-		}
-		
+		System.out.println(ss);
 		result.addDataSet("Sec_Code",ss);
 		
 		return result;

@@ -106,11 +106,7 @@
           <Row>
             <Col id="title">등록</Col>
             <Col id="LEVEL">1</Col>
-            <Col id="url">FrameBase::BookCafe_ProductManagement.xfdl</Col>
-          </Row>
-          <Row>
-            <Col id="title">분류</Col>
-            <Col id="LEVEL">1</Col>
+            <Col id="url"></Col>
           </Row>
           <Row>
             <Col id="title">대여현황</Col>
@@ -119,6 +115,12 @@
           </Row>
           <Row>
             <Col id="title">품목관리</Col>
+            <Col id="LEVEL">0</Col>
+          </Row>
+          <Row>
+            <Col id="title">공통코드관리</Col>
+            <Col id="url">FrameBase::BookCafe_CodeManagement.xfdl</Col>
+            <Col id="LEVEL">0</Col>
           </Row>
         </Rows>
       </Dataset>
@@ -160,7 +162,7 @@
 			this.nav.setTreeStatus(e.row,true)// 제품관리 하위 트리 열기
 	}
 	else if(this.nav.getTreePath(e.row) == "제품수정.등록"){
-		this.Grid_val("FrameBase::BookCafe_ProductModify.xfdl")
+		this.Grid_val("FrameBase::BookCafe_ProductManagement.xfdl")
 	}else if(this.nav.getTreePath(e.row) == "제품관리.삭제"){
 	alert(this.Nav.getColumn(e.row,1))
 	}else{

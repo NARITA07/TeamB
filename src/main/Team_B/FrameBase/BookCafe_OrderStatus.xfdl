@@ -4,7 +4,7 @@
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
         <Static id="Static00" taborder="0" text="회원주문관리" left="58" top="25" width="149" height="43"/>
-        <Grid id="Grid00" taborder="1" left="50" top="80" width="997" height="530" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup">
+        <Grid id="Grid00" taborder="1" left="50" top="80" width="997" height="530" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>

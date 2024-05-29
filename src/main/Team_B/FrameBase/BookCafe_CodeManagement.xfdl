@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Sales_Board" width="1080" height="670" titletext="품목수정" oninit="Sales_Board_oninit">
+  <Form id="Sales_Board" width="1080" height="670" titletext="코드관리" oninit="Sales_Board_oninit">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
         <Div id="Main" taborder="0" left="5%" top="5%" right="5%" bottom="5%" border="1px solid black">

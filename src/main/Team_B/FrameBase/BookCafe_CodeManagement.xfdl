@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Sales_Board" width="1080" height="670" titletext="코드관리" oninit="Sales_Board_oninit">
+    <Layouts>
+      <Layout height="670" mobileorientation="landscape" width="1080">
+        <Div id="Main" taborder="0" left="5%" top="5%" right="5%" bottom="5%" border="1px solid black">
+          <Layouts>
+            <Layout>
+              <Grid id="Fir_code" taborder="0" left="5%" top="50" maxwidth="500" minwidth="" minheight="" binddataset="Fir_Code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="52.5%" bottom="4.98%" maxheight="500">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="코드"/>
+                      <Cell col="1" text="항목"/>
+                      <Cell col="2" text="사용여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:FIR_CODE"/>
+                      <Cell col="1" text="bind:FIR_NAME"/>
+                      <Cell col="2" text="bind:USE_STATUS" textAlign="center" textDecoration="none"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static00" taborder="1" text="대분류" left="4.43%" top="20" width="185" height="46"/>
+              <Grid id="Sec_code" taborder="2" left="52.5%" top="50" binddataset="Sec_Code" scrollbartype="none" bottom="4.98%" right="4.95%" maxwidth="500" minwidth="" maxheight="500" minheight="">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="60"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                      <Cell col="1" text="코드"/>
+                      <Cell col="2" text="장르"/>
+                      <Cell col="3" text="사용여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                      <Cell col="1" text="bind:SEC_CODE"/>
+                      <Cell col="2" text="bind:SEC_NAME"/>
+                      <Cell col="3" text="bind:USE_STATUS" textAlign="center"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static00_00" taborder="3" text="중분류" left="55.67%" top="10" width="185" height="46"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Fir_Code">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+          <Column id="USE_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Sec_Code">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256" datapath=""/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+          <Column id="USE_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Fir_insert">
+        <ColumnInfo>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="Sec_insert">
+        <ColumnInfo>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="Fir_select">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+
+//대분류 조회
+this.Sales_Board_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+{
+	var id = "fir_code";
+	var url = "svc::fir_code.do";
+	var set = "";
+	var get = "Fir_Code = Fir_Code";
+	var arg = "";
+	var callback ="code";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+};
+
+//대분류 셀을 클릭 시
+this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	this.Fir_select.setColumn(0,"FIR_CODE",this.Fir_Code.getColumn(e.row,0))
+	
+	
+	
+	var id = "Sec_Code";
+	var url = "svc::sec_code.do";
+	var set = "Fir_Code= Fir_select";
+	var get = "Sec_Code = Sec_Code";
+	var arg = "";
+	var callback ="code";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+	if(this.Fir_Code.getColumn(e.row,1) != '전체' ){
+		
+	}
+	
+};
+
+
+this.Main_btn_Fir_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.Main.form.Fir_in.getLength() <= 0){
+	alert("1자 이상 입력해주세요")
+	return false;
+	}else{
+	
+	var id = "Fir_insert";
+	var url = "svc::fir_insert.do";
+	var set = "Fir_insert = Fir_insert";
+	var get = "";
+	var arg = "" ;
+	var callback ="code";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+	
+	}
+};
+
+//중분류
+this.Main_btn_Sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.alert(this.Main.form.Sec_in.getLength())
+	if(this.Main.form.Sec_in.getLength() <= 0){
+	alert("1자 이상 입력해주세요")
+	return false;
+	}else{
+
+	this.Sec_insert.setColumn(0,"FIR_CODE",this.Main.form.Fir_combo.value);
+
+	
+ 	var id = "Sec_insert";
+ 	var url = "svc::sec_insert.do";
+ 	var set = "Sec_insert = Sec_insert";
+ 	var get = "";
+ 	var arg = "" ;
+ 	var callback ="code";
+ 	
+ 	this.transaction(id, url, set, get, arg, callback)
+};
+}
+
+
+
+
+
+
+//콜백
+this.code = function(id, code, message){
+	//성공
+	if(id == "fir_code"){
+		this.Fir_Code.addRow()
+		this.Fir_Code.setColumn(this.Fir_Code.getRowCount() -1 , "FIR_CODE", "추가");
+		for(i = 0; i < this.Fir_Code.getRowCount(); i++){
+				if (this.Fir_Code.getColumn(i,"USE_STATUS") == "N")
+				{
+					var d = this.Fir_Code.getRowCount(); //사용 여부가 N인것
+					
+					//this.Fir_Code.setColumn(d-2,"FIR_NAME","사용 안함")
+				}
+		}
+	}
+	
+	if(code == 0){
+	
+	}
+	
+	
+
+
+}]]></Script>
+  </Form>
+</FDL>

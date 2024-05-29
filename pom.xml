@@ -78,6 +78,18 @@
 	</repositories>
 
 	<dependencies>
+		<!--  비밀번호 암호화 S  -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>4.2.13.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>4.2.13.RELEASE</version>
+		</dependency>
+		<!--  비밀번호 암호화 E  -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>

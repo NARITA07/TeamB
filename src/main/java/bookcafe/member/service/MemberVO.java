@@ -11,7 +11,7 @@ public class MemberVO {
 	private String user_joindate;
 	private String user_authority;
 	private int user_point;
-	
+	private String user_sns_id;
 	public String getUser_code() {
 		return user_code;
 	}
@@ -55,12 +55,11 @@ public class MemberVO {
 		this.user_address = user_address;
 	}
 	public String getUser_joindate() {
-        return user_joindate;
-    }
-    
-    public void setUser_joindate(String user_joindate) {
-        this.user_joindate = user_joindate;
-    }
+		return user_joindate;
+	}
+	public void setUser_joindate(String user_joindate) {
+		this.user_joindate = user_joindate;
+	}
 	public String getUser_authority() {
 		return user_authority;
 	}
@@ -73,5 +72,10 @@ public class MemberVO {
 	public void setUser_point(int user_point) {
 		this.user_point = user_point;
 	}
-
+	public String getUser_sns_id() {
+		return user_sns_id;
+	}
+	public void setUser_sns_id(String user_sns_id) {
+		this.user_sns_id = user_sns_id;
+	}
 }

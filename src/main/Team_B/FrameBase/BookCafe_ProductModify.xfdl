@@ -6,76 +6,69 @@
         <Div id="Div00" taborder="0" text="Div00" left="10" top="10" right="10" bottom="10">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="2.00%" top="60" right="57%" binddataset="Food" bottom="0%" border="1px solid #dbdee2" scrollbartype="none" cellsizebandtype="body" autosizebandtype="allband">
+              <Grid id="Grid00" taborder="0" left="2.00%" top="130" binddataset="Food" bottom="45" border="1px solid #dbdee2" scrollbartype="none" cellsizebandtype="body" autosizebandtype="body" autofittype="col" minwidth="" width="465" maxwidth="485">
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="114%"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="56"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="음식명" autosizecol="limitmax"/>
-                      <Cell col="1" text="종류" autosizecol="limitmax"/>
-                      <Cell col="2" text="이미지" autosizecol="limitmax"/>
-                      <Cell col="3" text="가격" autosizecol="limitmax" maskedittype="string"/>
-                      <Cell col="4" text="재고" autosizecol="limitmax"/>
+                      <Cell text="종류"/>
+                      <Cell col="1" text="상품명"/>
+                      <Cell col="2" text="가격"/>
+                      <Cell col="3" text="재고"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:PRODUCT_NAME" border="1px solid #dbdee2" edittype="text"/>
-                      <Cell col="1" text="bind:PRODUCT_CATEGORY" border="1px solid #dbdee2" edittype="text"/>
-                      <Cell col="2" text="bind:PRODUCT_PATH" border="1px solid #dbdee2" edittype="date"/>
-                      <Cell col="3" text="bind:PRODUCT_PRICE" border="1px solid #dbdee2" edittype="text"/>
-                      <Cell col="4" text="bind:PRODUCT_QUANTITY" border="1px solid #dbdee2" edittype="text"/>
+                      <Cell text="bind:SEC_NAME" textAlign="center" edittype="none"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" edittype="text"/>
+                      <Cell col="2" text="bind:PRODUCT_PRICE" edittype="text"/>
+                      <Cell col="3" text="bind:PRODUCT_QUANTITY" edittype="text"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="Grid01" taborder="1" top="60" left="45.00%" right="2.00%" binddataset="Book" bottom="15%" border="1px solid #dbdee2" scrollbartype="none">
+              <Grid id="Grid01" taborder="1" top="130" binddataset="Book" bottom="45" border="1px solid #dbdee2" scrollbartype="none" autofittype="col" right="2%" minwidth="" width="465" maxwidth="485">
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="150%"/>
-                      <Column size="50"/>
-                      <Column size="120"/>
+                      <Column size="62"/>
+                      <Column size="200"/>
                       <Column size="100"/>
                       <Column size="100"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="도서명" autosizerow="default" autosizecol="limitmin"/>
-                      <Cell col="1" text="장르"/>
+                      <Cell text="장르"/>
+                      <Cell col="1" text="도서명"/>
                       <Cell col="2" text="저자"/>
                       <Cell col="3" text="출판일"/>
-                      <Cell col="4" text="이미지"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:BOOK_NAME" edittype="text"/>
-                      <Cell col="1" text="bind:BOOK_CATEGORY" edittype="text"/>
-                      <Cell col="2" text="bind:BOOK_WRITER" edittype="text"/>
-                      <Cell col="3" text="bind:BOOK_PUBLICATION_DATE" edittype="text"/>
-                      <Cell col="4" text="bind:BOOK_PATH"/>
+                      <Cell text="bind:SEC_NAME" textAlign="center"/>
+                      <Cell col="1" text="bind:BOOK_NAME" edittype="text"/>
+                      <Cell col="2" text="bind:BOOK_WRITER" textAlign="center" edittype="text"/>
+                      <Cell col="3" text="bind:BOOK_PUBLICATION_DATE" displaytype="mask" edittype="text" maskedittype="string" maskeditformat="@@@@-@@-@@" textAlign="right"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="stc_food" taborder="2" text="음식" left="2.00%" top="5" height="43" right="57%" textAlign="center" font="24px/normal &quot;Gulim&quot;"/>
-              <Static id="stc_food00" taborder="3" text="도서" left="45.00%" top="5" height="43" right="2%" textAlign="center" font="24px/normal &quot;Gulim&quot;"/>
-              <Div id="Div01" taborder="4" left="45.00%" top="87.69%" right="2.00%" bottom="0.00%">
-                <Layouts>
-                  <Layout/>
-                </Layouts>
-              </Div>
-              <Static id="Static00" taborder="5" text="대여가격 변경" left="450" height="20" right="30" border="0px solid black, 0px solid black, 1px solid black" bottom="11.85%"/>
+              <Button id="Button00" taborder="2" text="삭제" left="415" top="80" width="70" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" bottom="Grid00:10"/>
+              <Button id="Button00_00" taborder="3" text="수정" top="80" width="70" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" right="Button00:10" bottom="Grid00:10"/>
+              <Button id="Button00_01" taborder="5" text="삭제" left="91.00%" top="80" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" bottom="Grid01:10" right="2%"/>
+              <Button id="Button00_00_00" taborder="4" text="수정" width="70" height="40" bottom="Grid01:10" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" right="Button00_01:10"/>
+              <Static id="Static01" text="음식" left="2%" font="20px/normal &quot;Gulim&quot;" bottom="Grid00:10" taborder="6" height="26" width="100"/>
+              <Static id="Static01_00" text="도서" font="20px/normal &quot;Gulim&quot;" bottom="Grid01:10" taborder="7" height="26" right="Button00_01:295" width="100"/>
+              <Static id="Static00" taborder="8" text="제품수정" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="5" left="2%"/>
             </Layout>
           </Layouts>
         </Div>
@@ -88,8 +81,9 @@
           <Column id="BOOK_NAME" type="STRING" size="256"/>
           <Column id="BOOK_CATEGORY" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
-          <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="DATE" size="256"/>
           <Column id="BOOK_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="Food">
@@ -100,6 +94,7 @@
           <Column id="PRODUCT_QUANTITY" type="INT" size="256"/>
           <Column id="PRODUCT_CATEGORY" type="STRING" size="256"/>
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

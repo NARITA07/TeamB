@@ -3,49 +3,91 @@
   <Form id="주문이력현황_test3" width="1080" height="670" titletext="주문이력현황" oninit="주문이력현황_test3_oninit">
     <Layouts>
       <Layout height="670" width="1080">
-        <Grid id="Grid00" taborder="0" left="40" top="160" height="410" binddataset="result_grid" autofittype="col" right="60">
+        <Div id="Div01" taborder="13" left="33" top="40" width="1015" height="120" background="#dbdee2"/>
+        <Grid id="Grid00" taborder="0" left="31" top="220" height="186" binddataset="result_grid" autofittype="col" width="1017">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="53"/>
-                <Column size="74"/>
-                <Column size="45"/>
-                <Column size="80"/>
+                <Column size="64"/>
+                <Column size="84"/>
+                <Column size="58"/>
+                <Column size="156"/>
               </Columns>
               <Rows>
                 <Row size="24" band="head"/>
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="성명"/>
+                <Cell text="이름"/>
                 <Cell col="1" text="메뉴"/>
-                <Cell col="2" text="갯수"/>
-                <Cell col="3" text="기간"/>
+                <Cell col="2" text="주문수량"/>
+                <Cell col="3" text="주문날짜"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:USER_NAME"/>
-                <Cell col="1" text="bind:PRODUCT_NAME"/>
+                <Cell text="bind:USER_NAME" textAlign="center" verticalAlign="middle"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center" verticalAlign="middle"/>
                 <Cell col="2" text="bind:ORDER_QUANTITY"/>
                 <Cell col="3" text="bind:PAYMENT_DATE" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss ddd" calendareditformat="yyyy-MM-dd HH:mm:ss ddd"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Edit id="Edit00" taborder="1" left="85" top="30" width="176" height="40" displaynulltext="성명"/>
-        <Combo id="Combo00" taborder="2" text="Combo00" left="297" top="30" width="176" height="40" innerdataset="food_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE" onitemchanged="Combo00_onitemchanged" type="search"/>
-        <Combo id="Combo01" taborder="3" text="" left="85" top="90" width="176" height="40" value="" index="-1" innerdataset="month_combo" datacolumn="PAYMENT_MONTH" codecolumn="PAYMENT_MONTH" rtl="" onitemchanged="Combo01_onitemchanged" displaynulltext="월"/>
-        <Combo id="Combo02" taborder="4" text="일" left="297" top="90" width="176" height="40" value="" index="-1" innerdataset="day_combo" datacolumn="PAYMENT_DAY" codecolumn="PAYMENT_DAY" displayrowcount="10" onitemchanged="Combo02_onitemchanged" displaynulltext="일"/>
-        <Calendar id="Calendar00" taborder="5" left="594" top="90" width="176" height="40" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00" taborder="6" top="90" height="40" onchanged="Calendar00_00_onchanged" width="176" left="800"/>
-        <Button id="Button00" taborder="7" text="조회하기" left="595" top="30" width="176" height="40" onclick="Button00_onclick"/>
-        <Button id="Button01" taborder="8" text="초기화" top="30" height="40" onclick="Button01_onclick" width="176" left="800"/>
-        <Static id="Static01" taborder="9" text="월" left="266" top="100" width="12" height="20"/>
-        <Static id="Static01_00" taborder="10" text="일" left="476" top="100" width="12" height="20"/>
+        <Edit id="Edit00" taborder="1" left="113" top="83" width="91" height="20" displaynulltext="이름"/>
+        <Combo id="Combo00" taborder="2" text="Combo00" left="450" top="83" width="91" height="20" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE" onitemchanged="Combo00_onitemchanged" type="search" displaynulltext="소분류" displayrowcount="6"/>
+        <Combo id="Combo01" taborder="3" text="" left="615" top="83" width="91" height="20" value="" index="-1" innerdataset="month_combo" datacolumn="PAYMENT_MONTH" codecolumn="PAYMENT_MONTH" rtl="" onitemchanged="Combo01_onitemchanged" displaynulltext="월" displayrowcount="6"/>
+        <Calendar id="Calendar00" taborder="4" left="748" top="83" width="102" height="20" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="5" top="83" height="20" onchanged="Calendar00_00_onchanged" width="102" left="886"/>
+        <Button id="Button00" taborder="6" text="조회" left="989" top="10" width="59" height="20" onclick="Button00_onclick"/>
+        <Static id="Static01" taborder="7" text="월" left="708" top="83" width="12" height="20"/>
+        <Static id="Static00" taborder="8" text="이름" left="84" top="86" width="24" height="14"/>
+        <Static id="Static02" taborder="9" text="분류" left="229" top="86" width="24" height="14"/>
+        <Static id="Static03" taborder="10" text="날짜" left="586" top="86" width="24" height="14"/>
+        <Static id="Static04" taborder="11" text="~" left="865" top="86" width="6" height="14"/>
+        <Button id="Button02" taborder="12" text="엑셀" left="989" top="190" width="59" height="20" onclick="Button02_onclick"/>
+        <Static id="Static05" taborder="14" text="카페 주문 이력 " left="30" top="193" width="120" height="14"/>
+        <Static id="Static06" taborder="15" text="도서 대여 이력" left="30" top="439" width="120" height="14"/>
+        <Grid id="Grid01" taborder="16" left="31" top="466" width="1017" height="186" binddataset="result_book" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="48"/>
+                <Column size="99"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="67"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="이름"/>
+                <Cell col="1" text="구분"/>
+                <Cell col="2" text="책 이름"/>
+                <Cell col="3" text="대여날짜"/>
+                <Cell col="4" text="반납날짜"/>
+                <Cell col="5" text="연체료"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:USER_NAME"/>
+                <Cell col="1"/>
+                <Cell col="2" text="bind:BOOK_NAME"/>
+                <Cell col="3" text="bind:BORROW_DATE"/>
+                <Cell col="4" text="bind:FINAL_DATE"/>
+                <Cell col="5" text="bind:MONEY"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Combo id="Combo03" taborder="17" text="Combo03" left="258" top="83" width="91" height="20" innerdataset="find_fir_combo" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="Combo03_onitemchanged" displaynulltext="대분류"/>
+        <Combo id="Combo02" taborder="18" text="Combo02" left="354" top="83" width="91" height="20" innerdataset="find_sec_combo" codecolumn="SEC_CODE" datacolumn="SEC_NAME" onitemchanged="Combo02_onitemchanged" displaynulltext="중분류"/>
+        <Button id="Button01" taborder="19" text="엑셀" left="989" top="436" width="59" height="20"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
 1. 화면 초기화
-2. 버튼 이벤트
+2. 이벤트
 3. 함수
 4. 기간조건 디테일
 */
@@ -53,50 +95,108 @@
 /* 1. 화면 초기화 */
 this.주문이력현황_test3_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
-	this.fnMenuCombo();
-	this.month_combo.insertRow(0);
-	this.month_combo.setColumn(0, "PAYMENT_MONTH", "전체보기");
-	this.day_combo.insertRow(0);
-	this.day_combo.setColumn(0, "PAYMENT_DAY", "전체보기");
+	this.fnFind_Fir_Combo();
+	this.fnFind_Sec_Combo();
+	this.fnFind_Thir_Combo();
 };
 
 
-/* 2. 조회하기 버튼 이벤트 */
+
+/* 2. 이벤트 */
+/* 2-1. 대분류 선택 시 중분류 변화 */
+this.Combo03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.find_sec_combo.clearData();
+	this.find_sec_combo.addRow();
+	
+	this.find_sec_combo.setColumn(0,"FIR_CODE",this.Combo03.value);
+	/*alert(this.find_sec_combo.saveXML());*/
+	
+	this.fnSelect_Sec_Combo();
+};
+
+/* 2-2. 조회하기 버튼 이벤트 */
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
-	
 	// 새로운 행 추가
-	this.search_combo.addRow();	
-	// 사용자가 선택한 Combo값으로 컬럼값 설정
+	this.search_combo.addRow();
+	
+	// 이름
 	this.search_combo.setColumn(0,"USER_NAME",this.Edit00.value);
+	// 대분류
+	this.search_combo.setColumn(0,"FIR_CODE",this.Combo03.value);
+	alert(this.Combo03.value);
+	// 중분류
+	this.search_combo.setColumn(0,"PRODUCT_CATEGORY",this.Combo02.value);
+	alert(this.Combo02.value);
+	// 소분류
 	this.search_combo.setColumn(0,"PRODUCT_CODE",this.Combo00.value);
+	// 월별
 	this.search_combo.setColumn(0,"PAYMENT_MONTH",this.Combo01.value);
-	this.search_combo.setColumn(0,"PAYMENT_DAY",this.Combo02.value);
+	//주간별
 	this.search_combo.setColumn(0,"PAYMENT_WEEK1",this.Calendar00.value);
 	this.search_combo.setColumn(0,"PAYMENT_WEEK2",this.Calendar00_00.value);
-	
-	this.fnViewList();
+
+ 	this.fnViewList();
 };
 
-/* 2-2. 초기화 버튼 이벤트*/
-this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+/* 2-3. 엑셀파일 버튼 이벤트 */
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-
-	this.Edit00.set_value("");
-	this.Combo00.set_value("");
-	this.Combo01.set_value("");
-	this.Combo02.set_value("");
-	this.Calendar00.set_value("");
-	this.Calendar00_00.set_value("");
+	if(this.result_grid.getRowCount() == 0){
+		alert("조회된 데이터가 없습니다.");
+		return;
+	}
+	
 };
 
 
-/* 3. fnMenuCombo() : 음식메뉴 콤보 */
-this.fnMenuCombo=function(){
-  var strSvcId    = "MenuCombo";
-  var strSvcUrl   = "svc::MenuCombo.do";
+
+/* 3. 함수 */
+/* 3-1. 콜백함수 */
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+   // 에러 시 화면 처리 내역
+   if(errorCode == -1)
+   {
+      this.alert("이상해!");
+      return;
+   }
+   // 분기문
+   switch(svcID)
+   {
+        // 콤보 조회 시
+       case "OHSecCombo" :
+          this.find_sec_combo.insertRow(0);  
+		  this.find_sec_combo.setColumn(0, "SEC_CODE", ""); //코드도 같이 채워주어야 선택 시 빈칸이 되지 않는다
+          this.find_sec_combo.setColumn(0, "SEC_NAME", "전체보기"); 
+         break;
+		case "SelSecCombo" :
+          this.find_sec_combo.insertRow(0);  
+		  this.find_sec_combo.setColumn(0, "SEC_CODE", "");
+          this.find_sec_combo.setColumn(0, "SEC_NAME", "전체보기"); 
+         break;
+		case "OHThirCombo" :
+          this.find_sec_combo.insertRow(0);  
+		  this.find_thir_combo.setColumn(0, "PRODUCT_CODE", "");
+          this.find_thir_combo.setColumn(0, "PRODUCT_NAME", "전체보기"); 
+         break; 
+      // 조회버튼을 누를 시 
+       case "ViewList" :
+          if(this.result_grid.rowcount < 1){
+             this.alert("조회된 결과가 없습니다.");
+             break;
+          }
+   };
+   
+};
+
+/* 3-2. fnFind_Fir_Combo() : 대분류 콤보 */
+this.fnFind_Fir_Combo=function(){
+  var strSvcId    = "OHFirCombo";
+  var strSvcUrl   = "svc::OHFirCombo.do";
   var inData      = "";
-  var outData     = "food_combo=food_combo";
+  var outData     = "find_fir_combo=find_fir_combo";
   var strArg      = "";
   var callBackFnc = "fnCallback";
   var isAsync     = true;
@@ -104,7 +204,47 @@ this.fnMenuCombo=function(){
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 };
 
-/* 3-1. fnViewList() : 조회하기 */
+/* 3-3. fnFind_Sec_Combo() : 중분류 콤보 */
+this.fnFind_Sec_Combo=function(){
+  var strSvcId    = "OHSecCombo";
+  var strSvcUrl   = "svc::OHSecCombo.do";
+  var inData      = "";
+  var outData     = "find_sec_combo=find_sec_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+/* 3-4. fnFind_Thir_Combo() : 소분류 콤보 */
+this.fnFind_Thir_Combo=function(){
+  var strSvcId    = "OHThirCombo";
+  var strSvcUrl   = "svc::OHThirCombo.do";
+  var inData      = "";
+  var outData     = "find_thir_combo=find_thir_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+/* 3-5. 대분류 선택 시 중분류 변화 */
+this.fnSelect_Sec_Combo=function()
+{
+  var strSvcId    = "SelSecCombo";
+  var strSvcUrl   = "svc::SelSecCombo.do";
+  var inData	  = "find_sec_combo=find_sec_combo";
+  var outData     = "find_sec_combo=find_sec_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+  
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);  	
+}
+
+/* 3-6. 조회하기 버튼 이벤트 */
 this.fnViewList = function()
 {
   var strSvcId    = "ViewList";
@@ -118,32 +258,6 @@ this.fnViewList = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-2. 콜백함수 */
-this.fnCallback = function(svcID,errorCode,errorMsg)
-{
-   // 에러 시 화면 처리 내역
-   if(errorCode == -1)
-   {
-      this.alert("이상해!");
-      return;
-   }
-   // 분기문
-   switch(svcID)
-   {
-       // 콤보 조회 시
-       case "MenuCombo" :
-          this.food_combo.insertRow(0);   // food_combo dataset에 첫번째 행 추가
-          this.food_combo.setColumn(0, "PRODUCT_NAME", "메뉴전체");   // 추가한 행의 내용을 설정
-         break;
-      // 조회버튼을 누를 시 
-       case "ViewList" :
-          if(this.result_grid.rowcount < 1){
-             this.alert("조회된 결과가 없습니다.");
-             break;
-          }
-   };
-   
-};
 
 
 /* 4. 기간조건 디테일 */
@@ -155,20 +269,11 @@ this.Combo01_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.Calendar00_00.set_value(null);
 	}
 };
-this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
-{
-	var day = this.Combo02.value;
-	if(day != null){
-	this.Calendar00.set_value(null);
-	this.Calendar00_00.set_value(null);
-	}
-};
 this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var Calendar00 = this.Calendar00.value;
 	if(Calendar00 != null){
 	this.Combo01.set_value(null);
-	this.Combo02.set_value(null);
 	}
 };
 this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
@@ -176,35 +281,32 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
 	var Calendar00_00 = this.Calendar00_00.value;
 	if(Calendar00_00 != null){
 	this.Combo01.set_value(null);
-	this.Combo02.set_value(null);
 	}
 };
 ]]></Script>
     <Objects>
-      <Dataset id="food_combo">
+      <Dataset id="find_fir_combo">
         <ColumnInfo>
-          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
-          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
       <Dataset id="result_grid">
         <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256" description="회원성명"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="메뉴"/>
           <Column id="ORDER_QUANTITY" type="STRING" size="256" description="갯수"/>
           <Column id="PAYMENT_DATE" type="STRING" size="256" description="기간"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="search_combo">
+      <Dataset id="search_combo" useclientlayout="true">
         <ColumnInfo>
-          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
-          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256" description="대분류"/>
+          <Column id="PRODUCT_CATEGORY" type="STRING" size="256" description="중분류"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256" description="소분류"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="PAYMENT_MONTH" type="STRING" size="256"/>
-          <Column id="PAYMENT_DAY" type="STRING" size="256"/>
           <Column id="PAYMENT_WEEK1" type="STRING" size="256"/>
           <Column id="PAYMENT_WEEK2" type="STRING" size="256"/>
         </ColumnInfo>
@@ -214,6 +316,9 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
           <Column id="PAYMENT_MONTH" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
+          <Row>
+            <Col id="PAYMENT_MONTH">전체보기</Col>
+          </Row>
           <Row>
             <Col id="PAYMENT_MONTH">01</Col>
           </Row>
@@ -252,105 +357,31 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="day_combo">
+      <Dataset id="result_book">
         <ColumnInfo>
-          <Column id="PAYMENT_DAY" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256" description="회원 이름"/>
+          <Column id="BOOK_NAME" type="STRING" size="256" description="책 이름"/>
+          <Column id="BORROW_DATE" type="STRING" size="256" description="대여날짜"/>
+          <Column id="FINAL_DATE" type="STRING" size="256" description="반납날짜"/>
+          <Column id="MONEY" type="STRING" size="256" description="연체료"/>
+          <Column id="RETURN_PAYMENT" type="STRING" size="256" description="결제방식"/>
         </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="PAYMENT_DAY">01</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">02</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">03</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">04</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">05</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">06</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">07</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">08</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">09</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">10</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">11</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">12</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">13</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">14</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">15</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">16</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">17</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">18</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">19</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">20</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">21</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">22</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">23</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">24</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">25</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">26</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">27</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">28</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">29</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">30</Col>
-          </Row>
-          <Row>
-            <Col id="PAYMENT_DAY">31</Col>
-          </Row>
-        </Rows>
+      </Dataset>
+      <Dataset id="find_sec_combo" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="find_thir_combo">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256" description="대분류코드"/>
+          <Column id="SEC_CODE" type="STRING" size="256" description="중분류코드"/>
+          <Column id="PRODUCT_CATEGORY" type="STRING" size="256" description="중분류코드"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256" description="PRODUCT_CODE"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256" description="PRODUCT_NAME"/>
+        </ColumnInfo>
       </Dataset>
     </Objects>
   </Form>

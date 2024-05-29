@@ -5,7 +5,7 @@
 	<!-- 회원가입(관리자) -->
 	<insert id="insert_data">
 	  INSERT INTO MANAGER VALUES (
-        fnCode(admin), 
+        #{ADMIN_CODE}, 
         #{ADMIN_ID}, 
         #{ADMIN_PASS}, 
         #{ADMIN_NAME}, 
@@ -25,6 +25,10 @@
 	 <!-- 아이디 찾기 -->
 	 <select id="select_admin_id" resultType="java.util.Map">
 	SELECT * FROM MANAGER WHERE ADMIN_ID = #{ADMIN_ID}
+	</select>
+	
+	<select id="find_code" resultType="String">
+	SELECT COALESCE(MAX(ADMIN_CODE), '0')AS ADMIN_CODE FROM MANAGER;
 	</select>
 	
 	

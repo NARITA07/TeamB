@@ -5,6 +5,9 @@ public class PWchangeDTO {
     private String password;
     private String newPassword;
     
+    public PWchangeDTO() {
+    }
+
 	public String getUser_id() {
 		return user_id;
 	}
@@ -23,5 +26,10 @@ public class PWchangeDTO {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-    
+	
+	@Override
+	public String toString() {
+		return "PWchangeDTO [user_id=" + user_id + ", password=" + password + ", newPassword=" + newPassword + "]";
+	}
+	
 }

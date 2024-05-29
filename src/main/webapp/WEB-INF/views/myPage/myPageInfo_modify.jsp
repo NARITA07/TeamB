@@ -61,7 +61,7 @@ $(function() {
         $("#password1").val("");
         $("#newPassword").val("");
         $("#confirmPassword").val("");
-        $("#invalid-message1").text("비밀번호는 영문 대/소문자, 숫자, 특수문자를 1개 이상 포함한 8~16자입니다.");
+        $("#invalid-message1").text("비밀번호는 공백 문자를 제외한 모든 문자로 이루어진 2~16자입니다.");
         $("#invalid-message2").hide();
         $("#modal-pwdChangeForm").modal("show");
     });
@@ -139,7 +139,7 @@ $(function() {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">비밀번호 변경</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -160,7 +160,7 @@ $(function() {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="btn-pwdChange-save">저장</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

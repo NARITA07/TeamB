@@ -87,6 +87,14 @@ MemberMapper memberMapper;
     public boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception {
         return memberMapper.updateNonMember(userTel, userName, userEmail, userAddress) > 0;
     }
+    
+	// 회원정보 조회하기
+	@Override
+	public MemberVO getUserInfo(String user_id) {
+		MemberVO memberVO = memberMapper.getUserInfo(user_id);
+		return memberVO;
+	}
+    
 }
  
  

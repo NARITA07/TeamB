@@ -34,18 +34,22 @@
   	</select>
   	
 	<!-- 포인트 내역 기록 -->
-<!-- 	<insert id="addPointTable"> -->
-<!-- 		INSERT INTO TBL_POINT (point_code, point_use_date, point_cost) -->
-<!-- 	    VALUES ( -->
-<!-- 	        #{point_user_id}, #{point_code}, NOW(), #{point_cost} -->
-<!-- 	    ) -->
-<!-- 	</insert> -->
+	<insert id="insertPointLog">
+		INSERT INTO POINTLOG (
+			POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
+	    VALUES (
+	    	fnCode('pointlog'), #{USER_CODE}, #{ORDER_CODE}, #{POINT_CHANGE}, #{POINT_JOINDATE} )
+	</insert>
 	
-	<!-- 갱신 포인트 조회 -->
-<!-- 	<select id="getMemPoint" resultType="Integer"> -->
-<!-- 		SELECT MEM_POINT -->
-<!-- 		FROM TBL_MEMBER -->
-<!-- 		WHERE MEM_ID = #{user_id} -->
-<!-- 	</select> -->
+	<!-- 회원 포인트 업데이트 -->
+	<update id="updateUserPoint">
+		UPDATE USER 
+		SET USER_POINT = (
+		    SELECT SUM(POINT_CHANGE) 
+		    FROM POINTLOG 
+		    WHERE USER_CODE = #{USER_CODE}
+		) 
+		WHERE USER_CODE = #{USER_CODE};
+	</update>
 	
 </mapper>

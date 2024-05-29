@@ -9,11 +9,12 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface PointMapper {
 
 	// 포인트 전체 조회하기(한사람)
-	public List<PointVO> getPointList(String mem_id);
+	public List<PointVO> getPointList(String user_id);
 	
 	// 포인트 내역 기록
-	public int addPointTable(PointVO pointVO);
+	public int insertPointLog(PointVO pointVO);
 	
-	// 갱신 포인트 조회
-	public int getMemPoint(String mem_id);
+	// 회원 포인트 업데이트
+	public int updateUserPoint(String user_code);
+	
 }

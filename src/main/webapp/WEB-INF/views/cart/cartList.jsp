@@ -76,7 +76,6 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-	<h2>cartList</h2>
 		<table>
             <tr>
             	<th>주문코드</th>
@@ -91,17 +90,106 @@
                     <td>${cart.product_name}</td>
                     <td>${cart.product_price}</td>
                     <td>${cart.order_quantity}</td>
-                    <td><button onclick="deleteCart(${cart.cart_code})">삭제</button></td>
+                    <td><button onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
                 </tr>
             </c:forEach>
         </table>
+        
+        <!-- Button trigger modal -->
+	        <div class="cart-item">
+	            <!-- Other cart item details -->
+	            <button type="button" class="btn btn-light buy_btn" 
+	            		data-cart-code="${cart_code}"
+	                    data-bs-toggle="modal" 
+	                    data-bs-target="#exampleModal" 
+	                   >
+	               	구매
+	            </button>
+	        </div>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">구매하기</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		      	 <form id="orderForm" action="/submitOrder" method="post">
+                    <div class="form-group">
+                        <label for="totalPrice">총 금액</label>
+                        <input type="text" class="form-control" id="totalPrice"  value="${total_price}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPoints">유저 포인트</label>
+                        <input type="text" class="form-control" id="userPoints" name="userPoints" value="${loginInfo.user_point}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="usePoints">사용 포인트 입력</label>
+                        <input type="text" class="form-control" id="usePoints" name="usePoints" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="amountOfPayment">결제 금액</label>
+                        <input type="text" class="form-control" id="amountOfPayment" name="total_price" value="${total_price}" readonly>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="radio" name="payment_method" value="0"> 현금
+                        </label>
+                        <label>
+                            <input type="radio" name="payment_method"  value="1" checked> 카드
+                        </label>
+                    </div>
+                    <input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
+    				<input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
+                </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+		        <button type="submit" form="orderForm" class="btn btn-primary">결제</button>
+     			</div>
+		    </div>
+		  </div>
+		</div>
+        
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 	<script>
-		function deleteCart(cart_code){
-			alert("삭제되었습니다."+cart_code)
-			var url = 'deleteCart.do?cart_code='+cart_code;
+		var myModal = document.getElementById('myModal');
+		var myInput = document.getElementById('myInput');
+		
+		/*삭제 함수  */
+		function deleteCart(cart_code,product_code,user_code,order_quantity){
+			alert("삭제되었습니다."+cart_code+product_code+user_code);
+			var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
+              '&product_code=' + encodeURIComponent(product_code) +
+              '&user_code=' + encodeURIComponent(user_code)+
+              '&order_quantity='+encodeURIComponent(order_quantity);
 			window.location.href = url;
 		}
+		
+		// 결제 금액 계산 함수
+		function calculateAmountOfPayment() {
+		    // 총 금액, 사용 포인트 입력값 가져오기
+		    var totalPrice = parseInt(document.getElementById("totalPrice").value);
+		    var usePoints = parseInt(document.getElementById("usePoints").value);
+
+		    // 유효한 숫자인지 확인
+		    if (!isNaN(totalPrice) && !isNaN(usePoints)) {
+		        // 결제 금액 계산
+		        var amountOfPayment = totalPrice - usePoints;
+		        // 결제 금액 필드에 값을 설정
+		        document.getElementById("amountOfPayment").value = amountOfPayment;
+		    } else {
+		        // 입력값이 유효하지 않은 경우 에러 메시지 표시
+		        alert("올바른 숫자를 입력해주세요.");
+		    }
+		}
+
+		// 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
+		document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
+		
+		
+		
 	</script>
 </body>
 </html>

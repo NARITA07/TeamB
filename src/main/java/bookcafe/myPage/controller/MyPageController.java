@@ -1,7 +1,5 @@
 package bookcafe.myPage.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
 import bookcafe.point.service.PointService;
-import bookcafe.point.service.PointVO;
 
 
 @Controller
@@ -39,12 +36,10 @@ public class MyPageController {
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPage(HttpSession session, Model model) {
-
 		String userId = (String) session.getAttribute("sessionId");
-		MemberVO loginInfo = myPageService.getUserVO(userId);
-		System.out.println("UserId: " + userId);
 		
-		session.setAttribute("loginInfo", loginInfo);
+		
+		System.out.println("UserId: " + userId);
 	}
 	
 	// 내 정보관리 페이지
@@ -94,36 +89,23 @@ public class MyPageController {
 	}
 	
 	
-	// 회원탈퇴
-	@DeleteMapping("/delete/{mem_id}")
-	@ResponseBody
-	@Transactional
-	public String deleteMember(HttpSession session, @PathVariable("userId") String userId) {
-		System.out.println("deleteMember...");
-		MemberVO deleteVO = myPageService.getUserVO(userId);
-		System.out.println("deleteVO:" + deleteVO);
-		//myPageService.registerDelMember(deleteVO);
-		System.out.println("deleteVO 등록완료");
+//	// 회원탈퇴
+//	@DeleteMapping("/delete/{mem_id}")
+//	@ResponseBody
+//	@Transactional
+//	public String deleteMember(HttpSession session, @PathVariable("userId") String userId) {
+//		System.out.println("deleteMember...");
+//		MemberVO deleteVO = myPageService.getUserVO(userId);
+//		System.out.println("deleteVO:" + deleteVO);
+//		//myPageService.registerDelMember(deleteVO);
+//		System.out.println("deleteVO 등록완료");
 //		int count = myPageService.deleteMember(mem_id);
 //		if (count == 1) {
 //			session.invalidate();
-			return "success";
+//			return "success";
 //		} else {
 //			return "fail";
 //		}
-	}
-	
-	// 포인트페이지 이동
-	@GetMapping("/pointList")
-	public void pointList(HttpSession session, Model model) {
-		
-		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-		String user_id = loginInfo.getUser_id();
-		
-		// 포인트 내역
-		List<PointVO> pointList = pointService.getPointList(user_id);
-		
-		model.addAttribute("pointList", pointList);
-	}	
+//	}
 	
 }

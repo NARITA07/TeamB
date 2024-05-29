@@ -62,6 +62,16 @@
     #cartTable th {
         background-color: #f2f2f2;
     }
+    .btn.btn-light.buy_btn {
+	    margin-left: 50%;
+	    margin-top: 30px;
+	    background-color: #AB8212;
+	    color: white;
+	}
+	.btn.btn-light.delete_btn{
+		background-color: #AB8212;
+		color: white;
+	}
 </style>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
    	<meta name="description" content="" />
@@ -90,22 +100,26 @@
                     <td>${cart.product_name}</td>
                     <td>${cart.product_price}</td>
                     <td>${cart.order_quantity}</td>
-                    <td><button onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
+                    <td><button class="btn btn-light delete_btn" onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
                 </tr>
             </c:forEach>
         </table>
         
         <!-- Button trigger modal -->
 	        <div class="cart-item">
-	            <!-- Other cart item details -->
-	            <button type="button" class="btn btn-light buy_btn" 
-	            		data-cart-code="${cart_code}"
-	                    data-bs-toggle="modal" 
-	                    data-bs-target="#exampleModal" 
-	                   >
-	               	구매
-	            </button>
-	        </div>
+			    <c:choose>
+			        <c:when test="${not empty total_price}">
+			            <button type="button" class="btn btn-light buy_btn"
+			                data-cart-code="${cart_code}"
+			                data-bs-toggle="modal"
+			                data-bs-target="#exampleModal">
+			                구매
+			            </button>
+			        </c:when>
+			        <c:otherwise>
+			        </c:otherwise>
+			    </c:choose>
+			</div>
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">

@@ -33,15 +33,16 @@
 			#{cart_code},
 			1,
 			#{total_price},
-			 DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
+			date_format(now(),'%Y%m%d%H%m%s'),
 			#{payment_method},
 			1)
 	</insert>
 	
 	<!--order 테이블 정보 받기-->
-	<select id="selectOrders" resultType="bookcafe.orders.service.OrdersVO">
-		SELECT USER_CODE, CART_CODE
+	<select id="selectOrders" resultType="int">
+		SELECT COUNT(*)
 		FROM ORDERS
+		WHERE CART_CODE = #{cart_code}
 	</select>
 	
 	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
@@ -51,8 +52,7 @@
         C.ORDER_QUANTITY, 
         C.USER_CODE, 
         C.CART_CODE,
-        F.PRODUCT_CODE,
-        ROW_NUMBER() OVER (ORDER BY C.CART_CODE) AS SEQUENCE_NUMBER
+        F.PRODUCT_CODE
 	    FROM 
 	        CART C
 	    JOIN 
@@ -61,12 +61,16 @@
 	        C.PRODUCT_CODE = F.PRODUCT_CODE
 	    WHERE 
 	        C.USER_CODE = #{user_code}
+	    AND 
+	    	C.CART_CODE = #{cart_code}
 	    ORDER BY 
 	        C.CART_CODE;
 	</select>
 	
-	<select id="selectCartCode" parameterType="String" resultType="String">
-    	SELECT MAX(CART_CODE) FROM CART WHERE USER_CODE = #{user_code};
+	<select id="selectCartCode" parameterType="String" resultType="bookcafe.cart.service.CartVO">
+    	SELECT USER_CODE, MAX(CART_CODE) as CART_CODE
+    	FROM CART 
+    	WHERE USER_CODE = #{user_code};
 	</select>
 	
 	<delete id="deleteCart">

@@ -3,63 +3,13 @@
   <Form id="BookCafe_ProductManageMent" left="0" top="0" width="1020" height="670" titletext="제품관리" border="" background="" oninit="BookCafe_ProductManageMent_oninit">
     <Layouts>
       <Layout height="670" width="1020" stepcount="0">
-        <Grid id="Pr_gird" taborder="0" left="20" top="100" right="20" bottom="20" binddataset="Fir_date" oncloseup="Pr_gird_oncloseup" autoenter="none" autofittype="col" autosizingtype="none" cellcombopopuptype="normal" fillareatype="none" cellcombopopupsize="100" autosizebandtype="head">
-          <Formats>
-            <Format id="FOOD">
-              <Columns>
-                <Column size="155"/>
-                <Column size="821"/>
-              </Columns>
-              <Rows>
-                <Row size="50"/>
-                <Row size="50"/>
-                <Row size="50"/>
-              </Rows>
-              <Band id="body">
-                <Cell text="제품선택" font="14px/normal &quot;Gulim&quot;"/>
-                <Cell col="1" text="bind:FIR_CODE" cssclass="DI" displaytype="combocontrol" edittype="combo" combodataset="Fir_result" combodatacol="FIR_NAME" combocodecol="FIR_CODE"/>
-                <Cell row="1" text="카테고리" font="14px/normal &quot;Gulim&quot;"/>
-                <Cell row="1" col="1" text="bind:SEC_CODE" cssclass="DI" displaytype="combocontrol" edittype="combo" combodataset="Sec_Code" combodatacol="SEC_NAME" combocodecol="SEC_CODE"/>
-                <Cell row="2" text="가격" font="14px/normal &quot;Gulim&quot;"/>
-                <Cell row="2" col="1" text="bind:PRODUCT_PRICE" displaytype="number" edittype="text" editinputfilter="none" editinputtype="number" editmaxlength="10"/>
-              </Band>
-            </Format>
-            <Format id="BOOK">
-              <Columns>
-                <Column size="143"/>
-                <Column size="658"/>
-              </Columns>
-              <Rows>
-                <Row size="60" band="head"/>
-                <Row size="50"/>
-                <Row size="50"/>
-                <Row size="50"/>
-                <Row size="50"/>
-                <Row size="50"/>
-              </Rows>
-              <Band id="head">
-                <Cell colspan="2" text="제품등록"/>
-              </Band>
-              <Band id="body">
-                <Cell text="제품선택"/>
-                <Cell col="1" text="bind:FIR_CODE" cssclass="DI" displaytype="combocontrol" edittype="combo" combodataset="Fir_result" combodatacol="FIR_NAME" combocodecol="FIR_CODE"/>
-                <Cell row="1" text="카테고리"/>
-                <Cell row="1" col="1" text="bind:SEC_CODE" cssclass="DI" displaytype="combocontrol" edittype="combo" combodataset="Sec_Code" combodatacol="SEC_NAME" combocodecol="SEC_CODE"/>
-                <Cell row="2" text="저자"/>
-                <Cell row="2" col="1" text="bind:BOOK_WRITER" displaytype="editcontrol" edittype="normal" editinputfilter="none" editinputtype="normal" editmaxlength="20"/>
-                <Cell row="3" text="출판일"/>
-                <Cell row="3" col="1" text="bind:BOOK_PUBLICATION_DATE" displaytype="calendarcontrol" edittype="normal" editinputfilter="none" editinputtype="number" editmaxlength="8" calendardisplaynulltype="nullmask" calendardateformat="yyyy-MM-dd"/>
-                <Cell row="4" text="사진등록"/>
-                <Cell row="4" col="1" displaytype="editcontrol" edittype="normal" editinputfilter="none" editinputtype="number" editmaxlength="10"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="Static00" taborder="1" text="제품 등록" left="20" top="42" width="187" height="50" font="32px/normal &quot;Gulim&quot;"/>
+        <Static id="Static00" taborder="0" text="제품 등록" left="10" top="40" width="187" height="50" font="32px/normal &quot;Gulim&quot;"/>
+        <Button id="btn_add" taborder="1" text="등록" top="40" height="39" width="100" right="20" onclick="btn_add_onclick" borderRadius="5px"/>
+        <Div id="Div00" taborder="2" text="Div00" left="10" top="100" border="1px solid black" right="10" bottom="10"/>
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="Fir_result" onrowposchanged="Fir_result_onrowposchanged">
+      <Dataset id="Fir_result" onrowposchanged="Fir_result_onrowposchanged" onvaluechanged="Fir_result_onvaluechanged">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
           <Column id="FIR_NAME" type="STRING" size="256"/>
@@ -87,67 +37,7 @@
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
-
-
-//콜백
-this.Product = function(id, code, message){
-
-	if(id == "fir_code"){
-		
-	
-	}
-
-
-
-
-}
-
-//화면이 켜지면 
-this.BookCafe_ProductManageMent_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
-{
-//제품선택에 카테고리 초기화
-	var id = "fir_code";
-		var url = "svc::fir_code.do";
-		var set = "";
-		var get = "Fir_result = Fir_Code"
-		var arg = "";
-		var callback = "Product";
-		
-		this.transaction(id, url, set, get, arg, callback)
-};
-
-
-
-
-//팝업창이 닫히면 이벤트가 발생
-this.Pr_gird_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
-{
-
-		if(this.Fir_date.getColumn(0,"FIR_CODE") == null){
-			
-			var sec_id = "sec_code"
-			var sec_url = "svc::sec_code.do"
-			var sec_set = "Fir_Code = Fir_date"
-			var sec_get = "Sec_Code = Sec_Code"
-			var sec_arg = ""
-			var sec_callback = "Product"
-			
-			this.transaction(sec_id, sec_url, sec_set, sec_get, sec_arg, sec_callback)
-	}
-		if(this.Fir_date.getColumn(0,"FIR_CODE") == "fir_001"){
-			this.Pr_gird.setFormat("BOOK")
-		
-		}
-	
-	
-};
-
-this.Fir_result_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
-{
-	
-};
-]]></Script>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
     <InitValue/>
   </Form>
 </FDL>

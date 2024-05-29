@@ -13,7 +13,6 @@
 <%
     String sUID = (String)session.getAttribute("sessionId");
 	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-    Boolean isNonMember = (Boolean)session.getAttribute("isNonMember");
 %>
 
 	<!-- Navigation-->

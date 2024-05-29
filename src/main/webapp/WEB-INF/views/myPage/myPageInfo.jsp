@@ -26,17 +26,13 @@ $(function() {
 	
 	// 주소 split
 	var str = "${loginInfo.user_address}";
-// 	console.log("str:" + str);
 	var addr = str.split("# ");
 	var addr1 = addr[0];
 	var addr2 = addr[1];
 	var addr3 = addr[2];
-// 	console.log("addr1:" + addr1);
-// 	console.log("addr2:" + addr2);
-// 	console.log("addr3:" + addr3);
-	$("#sample2_postcode").val(addr1);
-	$("#sample2_address").val(addr2);
-	$("#sample2_detailAddress").val(addr3);
+	$("#postcode").val(addr1);
+	$("#address").val(addr2);
+	$("#detailAddress").val(addr3);
 	
 	
 	// 회원탈퇴 모달
@@ -49,32 +45,34 @@ $(function() {
 	$("#btn-delete-save").click(function() {
 		console.log("탈퇴하기 버튼");
 		
-		var mem_id = $("#id").val(); 
-		var password = $("#password").val();
+		var user_id = $("#user_id").val(); 
+		var password = $("#user_pass").val();
 		console.log("password:", password);
 		var del_enter_pwd = $("#del_enter_pwd").val();
 		console.log("del_enter_pwd:", del_enter_pwd);
-		var shaDelPassword = sha256(del_enter_pwd);
-		console.log("shaDelPassword:", shaDelPassword);
+// 		var shaDelPassword = sha256(del_enter_pwd);
+// 		console.log("shaDelPassword:", shaDelPassword);
 		
-		if (password != shaDelPassword) {
+		if (password != del_enter_pwd) {
 			alert("비밀번호가 맞지 않습니다.");
-		} else if (password == shaDelPassword) {
+		} else if (password == null) {
+			alert("비밀번호를 입력하세요.");
+		} else if (password == del_enter_pwd) {
 			alert("비밀번호 일치확인");
 			// 폼 데이터 생성
 			var formData = {
-                mem_id: mem_id
+				user_id: user_id
             };
 			
 			$.ajax({
 	            method: "DELETE",
-	            url: "/myPage/delete/" + mem_id,
+	            url: "/myPage/delete/" + user_id,
 	            success: function(rData) {
 	                console.log("rData:", rData);
 	                if (rData == "success") {
 		                alert("회원탈퇴성공! 로그인 페이지로 이동합니다.");
 		                $("#modal-delForm").modal("hide");
-		                location.href = "/login/login";
+		                location.href = "/";
 	                } else if (rData == "fail") {
 	                	alert("회원탈퇴실패!");
 	                }
@@ -117,30 +115,30 @@ $(function() {
 					  <form>
 					    <div class="form-group">
 					      <label for="id">아이디</label>
-					      <input type="text" class="form-control" id="id" name="id" value="${loginInfo.user_id}" readonly>
+					      <input type="text" class="form-control" id="user_id" name="user_id" value="${loginInfo.user_id}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="pwd">비밀번호</label>
-					      <input type="password" class="form-control" id="password" name="password" value="${loginInfo.user_pass}" readonly>
+					      <input type="password" class="form-control" id="user_pass" name="user_pass" value="${loginInfo.user_pass}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="name">이름</label>
-					      <input type="text" class="form-control" id="name" name="name" value="${loginInfo.user_name}" readonly>
+					      <input type="text" class="form-control" id="user_name" name="user_name" value="${loginInfo.user_name}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="phoneNumber">휴대폰 번호</label>
-					      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${loginInfo.user_tel}" readonly>
+					      <input type="text" class="form-control" id="user_tel" name="user_tel" value="${loginInfo.user_tel}" readonly>
 					    </div>
 					    <div class="form-group">
 					      <label for="email">이메일</label>
-					      <input type="email" class="form-control" id="email" name="email" value="${loginInfo.user_email}" readonly>
+					      <input type="email" class="form-control" id="user_email" name="user_email" value="${loginInfo.user_email}" readonly>
 					    </div>
 					    <div class="form-group">
 			              <small>주소</small>
 			             	<input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
-					        <input type="text" class="form-control" id="sample2_postcode" readonly>
-					        <input type="text" class="form-control" id="sample2_address" readonly>
-					        <input type="text" class="form-control" id="sample2_detailAddress" readonly>			              	
+					        <input type="text" class="form-control" id="postcode" readonly>
+					        <input type="text" class="form-control" id="address" readonly>
+					        <input type="text" class="form-control" id="detailAddress" readonly>			              	
 		             	</div>
 						<hr>
 					  </form>
@@ -162,15 +160,15 @@ $(function() {
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">회원탈퇴</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 </div>
 
                 <form>
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div align="center">
-                            탈퇴 후 복구가 불가능합니다. <br>
-                            정말로 탈퇴 하시겠습니까? <br>
+				                            탈퇴 후 복구가 불가능합니다. <br>
+				                            정말로 탈퇴 하시겠습니까? <br>
                         </div>
                         <br>
                             <label for="userPwd" class="mr-sm-2">비밀번호 : </label>

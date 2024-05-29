@@ -12,8 +12,8 @@
                     <Columns>
                       <Column size="80"/>
                       <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
+                      <Column size="54"/>
+                      <Column size="62"/>
                     </Columns>
                     <Rows>
                       <Row size="24" band="head"/>
@@ -22,14 +22,14 @@
                     <Band id="head">
                       <Cell text="메뉴명"/>
                       <Cell col="1" text="메뉴코드"/>
-                      <Cell col="2" text="발주수량"/>
-                      <Cell col="3" text="신청일자"/>
+                      <Cell col="2" text="현재수량"/>
+                      <Cell col="3" text="발주수량"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:PRODUCT_NAME"/>
+                      <Cell text="bind:PRODUCT_NAME" textAlign="center"/>
                       <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:STOCK_ORDER_QUANTITY" displaytype="editcontrol" edittype="text" editinputtype="number" editmaxlength="100" editautoselect="true"/>
-                      <Cell col="3" text="bind:STOCK_ORDER_DATE" displaytype="date" edittype="date"/>
+                      <Cell col="2" text="bind:PRODUCT_QUANTITY" textAlign="center"/>
+                      <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" displaytype="editcontrol" edittype="text" editinputtype="number" editmaxlength="100" editautoselect="true"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -40,8 +40,8 @@
         <Div id="Div01" taborder="1" text="Div01" left="9" top="9" width="583" height="43" background="#dbdee2">
           <Layouts>
             <Layout>
-              <Static id="Static01" taborder="0" text="관리자 : " left="305" top="14" width="72" height="14"/>
-              <Button id="Button00" taborder="1" text="신청하기" left="487" top="3" width="90" height="38" onclick="Div01_Button00_onclick"/>
+              <Static id="Static01" taborder="0" text="신청자" left="314" top="15" width="36" height="14"/>
+              <Button id="Button00" taborder="1" text="신청하기" left="484" top="12" width="95" height="20" onclick="Div01_Button00_onclick"/>
               <Edit id="Edit00" taborder="2" left="356" top="12" width="95" height="20" readonly="true"/>
             </Layout>
           </Layouts>
@@ -54,6 +54,7 @@
           <Column id="ADMIN_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256"/>
           <Column id="STOCK_ORDER_DATE" type="STRING" size="256"/>
         </ColumnInfo>
@@ -90,7 +91,8 @@
 /* 신청하기 버튼 클릭 ㄴ*/
 this.Div01_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
-	this.fnSaveStockOrder();
+	alert("신청하기 버튼 클릭!");
+	/*this.fnSaveStockOrder();*/
 };
 
 /* 발주신청서에 인서트 */

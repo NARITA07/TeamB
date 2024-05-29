@@ -5,13 +5,14 @@
         http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
 	
 	<!-- mariaDB -->
+	<!--     -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
       <property name="driverClassName" value="org.mariadb.jdbc.Driver" />
       <property name="url" value="jdbc:mariadb://192.168.10.37:2205/hcnc_Team_B" />
       <property name="username" value="BTeam" />
       <property name="password" value="1234" />
    </bean>
-   
+
    
    <!-- 곽문경 HOME DB -->
    <!-- mariaDB
@@ -20,7 +21,8 @@
       <property name="url" value="jdbc:mariadb://127.0.0.1:3306/hcnc_team_b_public" />
       <property name="username" value="tester" />
       <property name="password" value="1234" />
-   </bean> -->
+   </bean>  
+    -->
    
    
    

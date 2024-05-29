@@ -3,11 +3,11 @@
   <Form id="주문관리" width="1080" height="720" titletext="New Form" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Static id="Static00" taborder="0" text="주문관리(발주)" left="40" top="30" width="120" height="60" onclick="Static00_onclick"/>
-        <Div id="stock01_div" taborder="1" left="27" top="20" width="493" height="318" text="" background="red">
+        <Static id="Static00" taborder="0" text="주문관리(발주)" left="31" top="166" width="120" height="60" onclick="Static00_onclick"/>
+        <Div id="stock01_div" taborder="1" left="27" top="210" width="1008" height="180" text="" background="red">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="12" top="142" width="470" height="167" autofittype="col" binddataset="stock_grid1" onheadclick="stock01_div_Grid00_onheadclick">
+              <Grid id="Grid00" taborder="0" left="15" top="30" width="978" height="93" autofittype="col" binddataset="stock_grid1" onheadclick="stock01_div_Grid00_onheadclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -35,24 +35,13 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Div id="Div00" taborder="1" left="13" top="10" width="470" height="120" text="" background="#dbdee2">
-                <Layouts>
-                  <Layout>
-                    <Edit id="Edit00" taborder="0" left="16" top="43" width="85" height="20" onchanged="stock01_div_Div00_Edit00_onchanged" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="1" text="카테고리" left="106" top="43" width="85" height="20" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged"/>
-                    <Button id="Button00" taborder="2" text="발주신청" left="375" top="93" width="85" height="20" onclick="stock01_div_Div00_Button00_onclick"/>
-                    <Button id="Button02" taborder="3" text="조회하기" left="375" top="70" width="85" height="20"/>
-                    <Static id="Static00" taborder="4" text="재고확인" left="16" top="13" width="48" height="14" textDecoration="underline"/>
-                  </Layout>
-                </Layouts>
-              </Div>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="stock02_div" taborder="2" left="542" top="20" width="493" height="318" background="blue">
+        <Div id="stock02_div" taborder="2" left="30" top="398" width="1005" height="142" background="blue">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="12" top="142" width="470" height="167" binddataset="stock_grid2" autofittype="col">
+              <Grid id="Grid00" taborder="0" left="15" top="15" width="978" height="93" binddataset="stock_grid2" autofittype="col">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -83,45 +72,13 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Div id="Div00" taborder="1" left="12" top="10" width="470" height="120" background="#dbdee2" text="">
-                <Layouts>
-                  <Layout>
-                    <Combo id="Combo00" taborder="0" text="신청자" left="196" top="43" width="85" height="20" value="" index="-1"/>
-                    <Combo id="Combo02" taborder="1" text="" left="16" top="70" width="85" height="20" value="" index="-1" innerdataset="stock_order_month" codecolumn="STOCK_ORDER_MONTH" datacolumn="STOCK_ORDER_MONTH" displayrowcount="6" displaynulltext="월별"/>
-                    <Calendar id="Calendar00" taborder="2" left="106" top="70" width="85" height="20"/>
-                    <Calendar id="Calendar01" taborder="3" left="207" top="70" width="85" height="20"/>
-                    <Static id="Static00" taborder="4" text="-" left="196" top="73" width="6" height="14"/>
-                    <Edit id="Edit00" taborder="5" left="16" top="43" width="85" height="20" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="6" text="카테고리" left="106" top="43" width="85" height="20" value="" index="-1"/>
-                    <Button id="Button02" taborder="7" text="조회하기" left="374" top="70" width="85" height="20"/>
-                    <Combo id="Combo04" taborder="8" text="발주현황" left="286" top="43" width="85" height="20" displaynulltext="발주현황" value="" index="-1"/>
-                    <Button id="Button00" taborder="9" text="엑셀받기" left="374" top="93" width="85" height="20"/>
-                    <Static id="Static01" taborder="10" text="발주신청서" left="16" top="13" width="60" height="14" textDecoration="underline"/>
-                  </Layout>
-                </Layouts>
-              </Div>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="stock03_div" taborder="3" left="27" top="383" width="1008" height="320" background="gold">
+        <Div id="stock03_div" taborder="3" left="27" top="553" width="1008" height="137" background="gold">
           <Layouts>
             <Layout>
-              <Div id="Div00" taborder="0" text="Div00" left="15" top="92" width="978" height="105" background="#dbdee2">
-                <Layouts>
-                  <Layout>
-                    <Button id="Button02" taborder="0" text="조회하기" left="886" top="55" width="85" height="20"/>
-                    <Edit id="Edit00" taborder="1" left="16" top="43" width="85" height="20" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="2" text="메뉴코드" left="106" top="43" width="85" height="20" value="" index="-1"/>
-                    <Combo id="Combo02" taborder="3" text="" left="196" top="43" width="85" height="20" value="" index="-1" innerdataset="stock_order_month" codecolumn="STOCK_ORDER_MONTH" datacolumn="STOCK_ORDER_MONTH" displayrowcount="6" displaynulltext="월별"/>
-                    <Calendar id="Calendar00" taborder="4" left="286" top="43" width="85" height="20"/>
-                    <Static id="Static00" taborder="5" text="-" left="376" top="46" width="6" height="14"/>
-                    <Calendar id="Calendar01" taborder="6" left="387" top="43" width="85" height="20"/>
-                    <Button id="Button00" taborder="7" text="엑셀받기" left="886" top="78" width="85" height="20"/>
-                    <Static id="Static01" taborder="8" text="입출고 현황" left="16" top="11" width="64" height="14" textDecoration="underline"/>
-                  </Layout>
-                </Layouts>
-              </Div>
-              <Grid id="Grid00" taborder="1" left="15" top="211" width="978" height="93" binddataset="stock_grid3" autofittype="col">
+              <Grid id="Grid00" taborder="1" left="15" top="14" width="978" height="93" binddataset="stock_grid3" autofittype="col">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -155,6 +112,17 @@
             </Layout>
           </Layouts>
         </Div>
+        <Div id="Div00" taborder="4" left="27" top="56" width="1003" height="74" text="" background="#dbdee2">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="0" left="16" top="43" width="85" height="20" onchanged="stock01_div_Div00_Edit00_onchanged" displaynulltext="메뉴명"/>
+              <Combo id="Combo03" taborder="1" text="카테고리" left="106" top="43" width="85" height="20" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged"/>
+              <Static id="Static00" taborder="2" text="재고확인" left="16" top="13" width="48" height="14" textDecoration="underline"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="Button00" taborder="5" text="발주신청" left="940" top="216" width="85" height="20" onclick="stock01_div_Div00_Button00_onclick"/>
+        <Button id="Button02" taborder="6" text="조회하기" left="945" top="30" width="85" height="20"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*

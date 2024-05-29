@@ -13,7 +13,6 @@
 <%
     String sUID = (String)session.getAttribute("sessionId");
 	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-    Boolean isNonMember = (Boolean)session.getAttribute("isNonMember");
 %>
 
 	<!-- Navigation-->
@@ -72,6 +71,9 @@
 		</div>
 	</div>
 	<script>
+		var user_code = "${loginInfo.user_code}";
+		console.log("유저코드:"+user_code);
+		
 		function goCart(){
 			var url = 'cartList.do';
 			window.location.href = url;

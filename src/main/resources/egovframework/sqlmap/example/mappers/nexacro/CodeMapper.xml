@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.code.serviceImpl.CodeMapper">
+
+	<!-- 대분류 코드 -->
+	<select id="fir_select" resultType="java.util.Map">
+	SELECT * FROM FIR_CODE ORDER BY FIR_CODE ;
+	</select>
+
+	<!-- 대분류 등록 -->
+	<insert id="Fir_insert">
+	INSERT INTO FIR_CODE(FIR_CODE, FIR_NAME) VALUES(fnCode('fir'),#{FIR_NAME});
+	</insert>
+	
+	<select id="sec_select" resultType="java.util.Map">
+		<choose>
+		 <when test="FIR_CODE.equals('fir_000')">
+				SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
+			</when>
+			<otherwise>
+				SELECT fc.FIR_CODE, fc.FIR_NAME , sc.SEC_NAME, sc.SEC_CODE, sc.USE_STATUS  FROM SEC_CODE sc JOIN FIR_CODE fc
+				ON sc.FIR_CODE  = fc.FIR_CODE
+				WHERE sc.FIR_CODE = #{FIR_CODE} or FIR_NAME = #{FIR_CODE}
+				ORDER by SEC_CODE ;
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="sec_insert">
+	INSERT INTO SEC_CODE(SEC_CODE,FIR_CODE, SEC_NAME) VALUES(fnCode('sec'),#{FIR_CODE},#{SEC_NAME});
+	</insert>
+
+</mapper>

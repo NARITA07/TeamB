@@ -12,6 +12,7 @@ tmp/
 *~.nib
 local.properties
 .settings/
+.settings
 .loadpath
 .recommenders
 
@@ -99,3 +100,4 @@ replay_pid*
 /.project
 .settings/org.eclipse.wst.common.component
 target/m2e-wtp/web-resources/META-INF/maven/com/a/pom.properties
+*/target/*

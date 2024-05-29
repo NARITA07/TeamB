@@ -22,7 +22,7 @@ public class MyOrderDTO {
 	private int order_state;			//주문상태(0:준비중, 1:준비중(재고감소), 2:준비완료, 3:픽업완료)
 	private int total_price;			//총 금액
 	private String payment_date;		//결제일자
-	private int payment_method;			//결제방식(0:현금, 1:카드, 2:포인트)
+	private int payment_method;			//결제방식(1:카드, 2:포인트)
 	private int payment_state;			//결제상태(0:결제중, 1:결제완료, 2:환불, 3:취소)
 	
 	

@@ -1,10 +1,13 @@
 package bookcafe.myPage.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
 
@@ -30,28 +33,20 @@ public class MyPageServiceImpl implements MyPageService{
 		return result;
 	}
 
-//	// 탈퇴회원 기록하기
-//	@Transactional
-//	@Override
-//	public int registerDelMember(MemberVO deletedVO) {
-//		int result = myPageMapper.registerDelMember(deletedVO);
-//		return result;
-//	}
-//
-//	// 회원정보 삭제하기
-//	@Transactional
-//	@Override
-//	public int deleteMember(String mem_id) {
-//		int result = myPageMapper.deleteMember(mem_id);
-//		return result;
-//	}
-//
-//	// 예약정보 조회하기
-//	@Override
-//	public List<GetStatusDTO> getReserveList(String mem_id) {
-//		List<GetStatusDTO> list = myPageMapper.getReserveList(mem_id);
-//		return list;
-//	}
+	// 회원정보 삭제하기
+	@Transactional
+	@Override
+	public int deleteMember(String user_id) {
+		int result = myPageMapper.deleteMember(user_id);
+		return result;
+	}
+
+	// 카페주문내역 조회하기(전체내역)
+	@Override
+	public List<MyOrderDTO> getMyOrderList(String user_code) {
+		List<MyOrderDTO> list = myPageMapper.getMyOrderList(user_code);
+		return list;
+	}
 //
 //	// 예약번호로 차종 조회하기
 //	@Override

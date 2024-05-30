@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="0" top="0" width="1080" height="600" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col">
+        <Grid id="user_table" taborder="0" left="10" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="10" bottom="10">
           <Formats>
             <Format id="default">
               <Columns>
@@ -46,6 +46,7 @@
             </Format>
           </Formats>
         </Grid>
+        <Static id="Static00" taborder="1" text="회원관리" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
       </Layout>
     </Layouts>
     <Objects>

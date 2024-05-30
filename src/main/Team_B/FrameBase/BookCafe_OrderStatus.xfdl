@@ -3,8 +3,7 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Static id="Static00" taborder="0" text="회원주문관리" left="58" top="25" width="149" height="43"/>
-        <Grid id="Grid00" taborder="1" left="50" top="80" width="997" height="530" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col">
+        <Grid id="Grid00" taborder="0" left="2%" top="80" height="530" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="2%">
           <Formats>
             <Format id="default">
               <Columns>
@@ -41,7 +40,8 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button00" taborder="2" text="새로고침" left="870" top="24" width="148" height="44" onclick="Button00_onclick"/>
+        <Button id="Button00" taborder="1" text="새로고침" left="989" top="30" width="70" onclick="Button00_onclick" minwidth="70" maxwidth="70" minheight="40" maxheight="40" bottom="Grid00:10" borderRadius="5px"/>
+        <Static id="Static00" taborder="2" text="주문현황" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
       </Layout>
     </Layouts>
     <Objects>

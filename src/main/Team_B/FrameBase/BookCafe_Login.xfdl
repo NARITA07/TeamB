@@ -6,11 +6,11 @@
         <Div id="Main" taborder="0" left="25.00%" top="25%" border="1px solid #dbdee2" maxheight="328" right="25.00%" maxwidth="580" height="328" minheight="" text="">
           <Layouts>
             <Layout>
-              <Button id="Btn_Login" taborder="3" text="로그인" left="70" borderRadius="5px" onclick="Main_Btn_Login_onclick" right="80" height="52" top="220" font="24px/normal &quot;Gulim&quot;"/>
+              <Edit id="Ed_PASS" taborder="1" left="150" top="120" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="16px/normal &quot;Gulim&quot;" password="true" onkeyup="Main_Ed_PASS_onkeyup"/>
+              <Button id="Btn_Login" taborder="3" text="로그인" left="150" borderRadius="5px" onclick="Main_Btn_Login_onclick" right="150" height="52" top="Ed_PASS:68" font="24px/normal &quot;Gulim&quot;"/>
               <Static id="S_Membership" taborder="2" text="회원가입" left="70" top="159" height="32" textAlign="left" onclick="Main_S_Membership_onclick" cursor="pointer" width="60" font="14px/normal &quot;Gulim&quot;" color="#888888"/>
               <Static id="S_Find" taborder="4" text="아이디 및 비밀번호 찾기" top="160" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
               <Edit id="Ed_ID" taborder="0" left="150" top="50" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="16px/normal &quot;Gulim&quot;" onchanged="Main_Ed_ID_onchanged" onkeyup="Main_Ed_ID_onchanged"/>
-              <Edit id="Ed_PASS" taborder="1" left="150" top="120" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="16px/normal &quot;Gulim&quot;" password="true" onkeyup="Main_Ed_PASS_onkeyup"/>
               <Button id="btn_id_reset" taborder="5" text="X" left="470" top="40" height="31" borderRadius="100px" background="none" width="30" cursor="pointer" visible="false" onclick="Main_btn_id_reset_onclick"/>
               <Button id="btn_view" taborder="6" text="O" top="110" height="31" borderRadius="100px" background="none" left="470" width="30" cursor="pointer" visible="false" onclick="Main_btn_view_onclick"/>
               <Static id="tac_id" taborder="7" text="아이디" left="70" top="50" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>

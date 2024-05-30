@@ -90,4 +90,11 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
  		MemberVO memberVO = memberMapper.getUserInfo(user_id);
  		return memberVO;
  	}
+ 	
+    /* 회원 메일 받아오기 */
+	@Override
+	public String selectMemberEmail(String user_code) {
+		System.out.println(user_code);
+		return memberMapper.selectMemberEmail(user_code);
+	}
 }

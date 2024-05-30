@@ -9,7 +9,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface MemberMapper {    
 	/* 회원가입 */
 	int insertMember(MemberVO memberVO);
-
+	
 	/* 로그인 */
 	int loginProc(MemberVO memberVO);
 	

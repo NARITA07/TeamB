@@ -16,15 +16,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 @Resource(name = "memberMapper") 
 MemberMapper memberMapper;
-
-	/* 회원가입 */
-	@Override
-	public String insertMember(MemberVO memberVO) throws Exception {
-	    memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	    int result = memberMapper.insertMember(memberVO);
-	    return result > 0 ? "ok" : "fail";
-	}
-
+ 
+private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /* 회원가입 */
     @Override

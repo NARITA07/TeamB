@@ -96,7 +96,7 @@ $(function() {
                             <label for="pwd">비밀번호</label>
                             <div style="display: flex; align-items: center;">
                                 <input type="password" class="form-control" id="user_pass" name="user_pass" value="${loginInfo.user_pass}" style="margin-right: 10px;" readonly>
-                                <button type="button" id="pwdChange" class="btn btn-primary" style="flex-shrink: 0;">변경</button>
+                                <button type="button" id="pwdChange" class="btn btn-primary" style="flex-shrink: 0; background-color:#AB8212; border: none;">변경</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -116,7 +116,7 @@ $(function() {
                             <div class="input-group" style="display: flex; align-items: center;">
                                 <input type="text" class="form-control" id="postcode" style="margin-right: 10px;" required>
                                 <span class="input-group-btn">
-                                    <input type="button" onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-info">
+                                    <input type="button" onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-primary" style="background-color:#AB8212; border: none;"> 
                                 </span>
                             </div>
                             <input type="text" class="form-control" id="address" required>
@@ -124,7 +124,7 @@ $(function() {
                             <input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
                         </div>
                         <hr>
-                        <button type="submit" id="btn_submit" class="btn btn-success">수정완료</button>
+                        <button type="submit" id="btn_submit" class="btn btn-primary" style="background-color:#AB8212; border: none;">수정완료</button>
                     </form>
                 </div>
             </div>
@@ -160,7 +160,7 @@ $(function() {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="btn-pwdChange-save">저장</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

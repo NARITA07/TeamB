@@ -1,5 +1,6 @@
 package bookcafe.member.service;
 
+
 public interface MemberService {
 
 /* 회원 등록 처리 */
@@ -12,7 +13,7 @@ public int selectIdChk(String user_id);
 public int loginProc(MemberVO memberVO);
 
 /* 아이디 찾기 */
-public String findId(String userName, String userEmail) throws Exception;
+String findId(String userName, String userTel) throws Exception;
 
 /* 비밀번호 찾기 */
 boolean findPw(String userId, String userName, String userTel) throws Exception;
@@ -22,15 +23,11 @@ boolean resetPassword(String userId, String newPassword) throws Exception;
 
 boolean checkUserInfo(String userId, String userName, String userTel, String userEmail);
 
-/* 사용자 정보 조회 */
-MemberVO getUserByPhoneAndEmail(String userTel, String userEmail);
+public String insertbMember(MemberVO memberVO) throws Exception;	
 
-// 네이버 로그인
-public String insertNaverMember(MemberVO memberVO) throws Exception;
+public int selectTelChk(String user_tel);
 
-// user_sns_id 중복 체크
-public int selectSnsIdChk(String user_sns_id);
+boolean updateNonMember(String userTel, String userName, String userEmail, String userAddress) throws Exception;
 
-//회원정보 조회하기
-public MemberVO getUserInfo(String user_id);
+String selectMemberEmail(String user_code);
 }

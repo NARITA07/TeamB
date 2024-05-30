@@ -6,7 +6,7 @@
         <Div id="Main" taborder="0" top="25.00%" border="1px solid #dbdee2" maxheight="328" maxwidth="580" height="290" minheight="" text="" width="512" right="50.00%">
           <Layouts>
             <Layout>
-              <Button id="Btn_FIND_ID" taborder="2" text="아이디 찾기" left="150" borderRadius="5px" onclick="Main_Btn_Login_onclick" right="150" height="52" top="190" font="20px/normal &quot;Gulim&quot;" defaultbutton="false"/>
+              <Button id="Btn_FIND_ID" taborder="2" text="아이디 찾기" left="79" borderRadius="5px" onclick="Main_Btn_Login_onclick" right="81" height="52" top="190" font="20px/normal &quot;Gulim&quot;" defaultbutton="false"/>
               <Edit id="ADMIN_NAME" taborder="0" left="150" top="50" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="14px/normal &quot;Gulim&quot;"/>
               <Edit id="ADMIN_EMAIL" taborder="1" left="150" top="120" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="14px/normal &quot;Gulim&quot;" displaynulltext="이메일 전체 입력"/>
               <Static id="tac_name" taborder="3" text="이름" left="70" top="50" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>
@@ -24,7 +24,7 @@
         <Div id="Main00" taborder="2" left="50.94%" top="25.00%" border="1px solid #dbdee2" maxheight="328" right="10.00%" maxwidth="580" height="290" minheight="" text="">
           <Layouts>
             <Layout>
-              <Button id="Btn_CHANGE_PASS" taborder="4" text="비밀번호 변경" left="150" borderRadius="5px" right="150" height="52" top="190" font="20px/normal &quot;Gulim&quot;" onclick="Main00_Btn_CHANGE_PASS_onclick"/>
+              <Button id="Btn_CHANGE_PASS" taborder="4" text="비밀번호 변경" left="80" borderRadius="5px" right="80" height="52" top="190" font="20px/normal &quot;Gulim&quot;" onclick="Main00_Btn_CHANGE_PASS_onclick"/>
               <Edit id="ADMIN_ID" left="150" top="50" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="14px/normal &quot;Gulim&quot;" readonly="true" displaynulltext="아이디를 찾으시면 자동입력 됩니다" enable="false" tabstop="false"/>
               <Edit id="ADMIN_PASS" taborder="2" left="150" top="120" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="14px/normal &quot;Gulim&quot;" displaynulltext="변경하실 비밀번호를 입력해주세요" enable="false"/>
               <Static id="tac_id" taborder="1" text="아이디" left="70" top="50" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>
@@ -32,7 +32,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btn_Cansle" taborder="3" text="취소" top="Main00:5.17%" height="50" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="934" font="20px/normal &quot;Gulim&quot;" minwidth="" right="10.00%" minheight="" maxwidth="200"/>
+        <Button id="btn_Cansle" taborder="3" text="취소" top="Main00:8.62%" height="50" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="73%" font="20px/normal &quot;Gulim&quot;" minwidth="" right="10%" minheight="" maxwidth="242"/>
       </Layout>
     </Layouts>
     <Objects>

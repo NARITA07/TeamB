@@ -27,8 +27,4 @@ public interface OrderHistoryStatusMapper {
 	List<Map<String, Object>> ViewList(Map<String, String> param);
 
 	
-
-
-
-	
 }

@@ -21,6 +21,5 @@ public interface OrderHistoryStatusService {
 	//조회하기버튼
 	List<Map<String, Object>> ViewList(Map<String, String> param);
 
-	
 
 }

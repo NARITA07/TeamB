@@ -3,7 +3,6 @@ package bookcafe.cart.controller;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
@@ -31,14 +31,9 @@ public class CartController {
     public String insertCart(
             @RequestParam("user_code") String user_code,
             @RequestParam("product_code") String product_code,
-            @RequestParam("order_quantity") int order_quantity
-           ) {
+            @RequestParam("order_quantity") int order_quantity) {
 		
-		CartVO cart = cartService.selectCartCode(user_code);
-		if(cart == null) {
-			cart = new CartVO();
-		}
-		
+		CartVO cart = new CartVO();
 		cart.setUser_code(user_code);
 		cart.setProduct_code(product_code);
 		cart.setOrder_quantity(order_quantity);
@@ -55,30 +50,16 @@ public class CartController {
 		
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 		String user_code = loginInfo.getUser_code();
+		List<CartVO> cartList= cartService.selectCartList(user_code);
+		String cart_code = cartService.selectCartCode(user_code);
+		int total_price = cartService.selectTotalPrice(cart_code);
 		
-		//OrdersVO orders = new OrdersVO();
-		
-		System.out.println("컨트롤러"+user_code);
-		
-		String cart_code = (cartService.selectCartCode(user_code)).getCart_code();
-		System.out.println("컨트롤러1");
-		//order에 있는지 없는지 체크
-		int order_code=cartService.selectOrder(cart_code);
-		System.out.println("컨트롤러2");
-		List<CartVO> cartList;
-		if(order_code>=1) {
-			cartList = new ArrayList<CartVO>();
-			
-		}else {
-			cartList= cartService.selectCartList(user_code,cart_code);
-			int total_price = cartService.selectTotalPrice(cart_code);
-	        model.addAttribute("total_price", total_price);
-		}
-		
-		System.out.println("컨트롤러"+cart_code);
+	  	System.out.println("컨트롤러"+user_code);
+	  	System.out.println("컨트롤러"+cart_code);
+	  	
 	  	model.addAttribute("cartList",cartList);
 	  	model.addAttribute("cart_code", cart_code);
-	  	
+	  	model.addAttribute("total_price", total_price);
 		return "/cart/cartList";
 	}
 	
@@ -102,12 +83,19 @@ public class CartController {
 	
 	
 	@PostMapping("/submitOrder")
+    @ResponseBody
     public String submitOrder(@ModelAttribute OrdersVO order) {
 		order.setPayment_date(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 		System.out.println("결제 컨틀롤러"+order.getCart_code());
 		System.out.println("결제VO: "+order.toString());
-		cartService.insertOrder(order);
+		int result = cartService.insertOrder(order);
+		String returnPage="";
 		
-		return "redirect:/cartList.do";
+		if (result == 1) {
+			returnPage = "redirect:/index";
+		} else {
+			returnPage = "redirect:/cartList.do";
+		}
+		return returnPage;
     }
 }

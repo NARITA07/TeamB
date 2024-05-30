@@ -2,9 +2,8 @@ package bookcafe.cart.serviceImpl;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import bookcafe.cart.service.CartVO;
+import bookcafe.orders.service.OrdersVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("cartMapper")
@@ -12,13 +11,13 @@ public interface CartMapper {
 
 	public void insertCart(CartVO cart);
 
-	public List<CartVO> selectCartList(@Param("user_code") String  user_code, @Param("cart_code") String  cart_code);
+	public List<CartVO> selectCartList(String  user_code);
 	
-	public CartVO selectCartCode(@Param("user_code") String user_code);
+	String selectCartCode(String user_code);
 
 	public void deleteCart(CartVO cart);
 
-	public int selectOrders(String cart_code);
+	public List<OrdersVO> selectOrders(CartVO cart);
 
 	public void insertCartWithExistingCode(CartVO cart);
 

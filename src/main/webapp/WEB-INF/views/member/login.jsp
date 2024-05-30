@@ -122,7 +122,7 @@ $(function() {
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #ccc;
-    background: AB8212;
+    background: white;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     width: 40%;
 }
@@ -136,12 +136,11 @@ $(function() {
 
 .close-modal {
     cursor: pointer;
-    background-color: #AB8212;
 }
 
 .form-group button,
 .btn {
-    background-color: #AB8212;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
@@ -166,7 +165,6 @@ $(function() {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
 }
 
 .loginBtns a {
@@ -202,7 +200,7 @@ $(function() {
                         <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
                     </div>
                     <div class="form-group">
-                        <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5" style="background-color:#AB8212; font-weight: bold; font-size: 16px;">
+                        <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5">
                         <a id="naver_login_link" href="naverLogin.do">
                             <img id="btn_naver_login" alt="logo" src="/images/NaverBtn.png" class="naver-login-img">
                         </a>

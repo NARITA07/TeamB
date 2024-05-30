@@ -21,7 +21,6 @@ boolean findPw(String userId, String userName, String userTel) throws Exception;
 /* 비밀번호 재설정 */
 boolean resetPassword(String userId, String newPassword) throws Exception;
 
-
 // 네이버 로그인
 public String insertNaverMember(MemberVO memberVO) throws Exception;
 

@@ -232,15 +232,15 @@ function sample2_execDaumPostcode() {
         border-radius: 4px;
     }
     .form-group button {
-        background-color: #AB8212;
+        background-color: #007bff;
         color: white;
         border: none;
         cursor: pointer;
         margin-left: 10px;
-        font-weight: bold; /* 글씨 굵게 */
-        font-size: 16px; /* 글씨 크기 */
     }
-    
+    .form-group button:hover {
+        background-color: #0056b3;
+    }
     .div_btn {
         display: flex;
         justify-content: center;
@@ -248,15 +248,15 @@ function sample2_execDaumPostcode() {
     }
     .div_btn button {
         padding: 10px 20px;
-        background-color: #AB8212;
+        background-color: #007bff;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 4px;
-        font-weight: bold; /* 글씨 굵게 */
-        font-size: 16px; /* 글씨 크기 */
     }
-    
+    .div_btn button:hover {
+        background-color: #0056b3;
+    }
     .address-group {
         display: flex;
         align-items: center;
@@ -279,8 +279,6 @@ function sample2_execDaumPostcode() {
         color: white;
         border: none;
         cursor: pointer;
-        font-weight: bold; /* 글씨 굵게 */
-        font-size: 16px; /* 글씨 크기 */
     }
     .address-group button:hover {
         background-color: #0056b3;
@@ -344,7 +342,7 @@ function sample2_execDaumPostcode() {
         <button type="button" id="reset">취소</button>
     </div>
 </div>
-<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

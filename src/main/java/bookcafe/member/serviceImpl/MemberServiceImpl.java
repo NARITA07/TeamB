@@ -36,7 +36,7 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             return 0;
         }
     }
-
+    
     /*아이디 중복체크*/
     @Override 
     public int selectIdChk(String user_id) { 
@@ -77,11 +77,30 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         int result = memberMapper.resetPassword(userId, newPassword);
         return result > 0;
     }
+
+    @Override
+    public boolean checkUserInfo(String userId, String userName, String userTel, String userEmail) {
+        MemberVO memberVO = memberMapper.getUserInfo(userId);
+        if (memberVO != null && 
+                memberVO.getUser_name().equals(userName) && 
+                memberVO.getUser_tel().equals(userTel) && 
+                memberVO.getUser_email().equals(userEmail)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /* 사용자 정보 조회 */
+    @Override
+    public MemberVO getUserByPhoneAndEmail(String userTel, String userEmail) {
+        return memberMapper.getUserByPhoneAndEmail(userTel, userEmail);
+    }
     
 
     /* 네이버 로그인 */
     @Override
     public String insertNaverMember(MemberVO memberVO) throws Exception {
+        memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         // 주소나 필수가 아닌 정보가 누락된 경우 기본값 할당
         if(memberVO.getUser_address() == null) {
@@ -98,7 +117,7 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return memberMapper.selectSnsIdChk(user_sns_id);
     }	
     
-    /* 회원정보 조회하기 */
+ // 회원정보 조회하기
  	@Override
  	public MemberVO getUserInfo(String user_id) {
  		MemberVO memberVO = memberMapper.getUserInfo(user_id);

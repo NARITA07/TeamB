@@ -10,15 +10,14 @@
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="114%"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="56"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="종류" background="#FFF8EE"/>
@@ -39,15 +38,14 @@
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="150%"/>
-                      <Column size="50"/>
-                      <Column size="120"/>
+                      <Column size="62"/>
+                      <Column size="200"/>
                       <Column size="100"/>
                       <Column size="100"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="장르" background="#FFF8EE"/>
@@ -56,11 +54,10 @@
                       <Cell col="3" text="출판일" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:BOOK_NAME" edittype="text"/>
-                      <Cell col="1" text="bind:BOOK_CATEGORY" edittype="text"/>
-                      <Cell col="2" text="bind:BOOK_WRITER" edittype="text"/>
-                      <Cell col="3" text="bind:BOOK_PUBLICATION_DATE" edittype="text"/>
-                      <Cell col="4" text="bind:BOOK_PATH"/>
+                      <Cell text="bind:SEC_NAME" textAlign="center"/>
+                      <Cell col="1" text="bind:BOOK_NAME" edittype="text"/>
+                      <Cell col="2" text="bind:BOOK_WRITER" textAlign="center" edittype="text"/>
+                      <Cell col="3" text="bind:BOOK_PUBLICATION_DATE" displaytype="mask" edittype="text" maskedittype="string" maskeditformat="@@@@-@@-@@" textAlign="right"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -84,8 +81,9 @@
           <Column id="BOOK_NAME" type="STRING" size="256"/>
           <Column id="BOOK_CATEGORY" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
-          <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="DATE" size="256"/>
           <Column id="BOOK_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="Food">
@@ -96,6 +94,7 @@
           <Column id="PRODUCT_QUANTITY" type="INT" size="256"/>
           <Column id="PRODUCT_CATEGORY" type="STRING" size="256"/>
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

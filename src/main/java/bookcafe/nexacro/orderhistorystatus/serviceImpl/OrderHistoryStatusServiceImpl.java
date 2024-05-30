@@ -26,19 +26,11 @@ public class OrderHistoryStatusServiceImpl extends EgovAbstractServiceImpl imple
 			return ohmapper.MenuCombo();	
 		}  
 		
-		// 중분류 선택 시 소분류 변화
-		@Override
-		public List<Map<String, Object>> SelThirCombo(Map<String, String> param) {
-			return ohmapper.SelThirCombo(param);
-		}
-		
 		//조회하기(
 		@Override
 		public List<Map<String, Object>> ViewList(Map<String, String> param) {
 			return ohmapper.ViewList(param);
 		}
-
-	
 
 
 }

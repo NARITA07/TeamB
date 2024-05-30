@@ -108,7 +108,7 @@ $(function() {
     				<h3>
 						내 정보
 					</h3>
-					<a href="myPageInfo_modify" class="btn btn-primary" style="background-color:#AB8212; border: none;">회원정보 수정</a>
+					<a href="myPageInfo_modify" class="btn btn-primary">회원정보 수정</a>
 					</div>
 					<br>
 					<div class="container">

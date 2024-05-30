@@ -58,7 +58,7 @@ public class OrderController {
 	    	if(temp ==1 ) {//성공
 	    		if(Integer.valueOf(String.valueOf(orders.get(0).get("ORDER_STATE")))> 1) {
 	    			String to = memberService.selectMemberEmail(orders.get(0).get("USER_CODE"));
-	    			emailService.sendMail(to, "주문하신 음식이 준비완료되었습니다.");
+//	    			emailService.sendMail(to, "주문하신 음식이 준비완료되었습니다.");
 	    		}
 	    	}else {// 에러
 	    		System.out.println("update Orders : 실패");

@@ -208,8 +208,8 @@ $(function() {
                         </a>
                     </div>
                     <div class="loginBtns" style="margin-top:20px;">
-                        <a href="memberWrite.do" style="color:#AB8212; font-size:20px; font-weight: 900;" >회원가입</a>
-                        <a href="findIdPwForm.do" style="color:#AB8212; font-size:20px; font-weight: 900;">아이디/비밀번호 찾기</a>
+                        <a href="memberWrite.do" style="color:black; font-size:16px;" >회원가입</a>
+                        <a href="findIdPwForm.do" style="color:black; font-size:16px;">아이디/비밀번호 찾기</a>
                     </div>
                 </form>
             </div>

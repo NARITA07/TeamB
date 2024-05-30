@@ -3,10 +3,10 @@
   <Form id="Sales_Board" width="1080" height="670" titletext="코드관리" oninit="Sales_Board_oninit">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Div id="Main" taborder="0" left="0%" top="1.34%" right="0%" bottom="4.93%">
+        <Div id="Main" taborder="0" left="0%" top="1.34%" right="0%" bottom="4.93%" text="" cssclass="btn_dafault">
           <Layouts>
             <Layout>
-              <Grid id="Fir_code" taborder="0" left="2%" top="100" height="200" minwidth="" maxheight="200" minheight="200" binddataset="Fir_Code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="2%" autofittype="col" border="1px solid #dbdee2">
+              <Grid id="Fir_code" taborder="0" left="2%" top="100" height="200" minwidth="" maxheight="200" minheight="200" binddataset="Fir_Code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="2%" autofittype="col" border="1px solid #4F4537">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -19,9 +19,9 @@
                       <Row size="30"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="상위코드"/>
-                      <Cell col="1" text="명칭"/>
-                      <Cell col="2" text="사용여부"/>
+                      <Cell text="상위코드" background="#FFF8EE"/>
+                      <Cell col="1" text="명칭" background="#FFF8EE"/>
+                      <Cell col="2" text="사용여부" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:FIR_CODE" textAlign="center"/>
@@ -31,7 +31,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="Sec_code" taborder="1" left="2%" top="400" binddataset="Sec_Code" scrollbartype="none" right="2%" autofittype="col" minheight="200" maxheight="200" height="200" border="1px solid #dbdee2">
+              <Grid id="Sec_code" taborder="1" left="2%" top="400" binddataset="Sec_Code" scrollbartype="none" right="2%" autofittype="col" minheight="200" maxheight="200" height="200" border="1px solid #4F4537">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -44,9 +44,9 @@
                       <Row size="30"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="하위코드"/>
-                      <Cell col="1" text="명칭"/>
-                      <Cell col="2" text="사용여부"/>
+                      <Cell text="하위코드" background="#FFF8EE"/>
+                      <Cell col="1" text="명칭" background="#FFF8EE"/>
+                      <Cell col="2" text="사용여부" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:SEC_CODE" textAlign="center"/>
@@ -56,18 +56,18 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_Fir01" taborder="8" text="삭제" left="989" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" minwidth="70" maxwidth="70" right="1.94%" top="51" bottom="Fir_code:10"/>
-              <Button id="btn_Fir00" taborder="7" text="수정" top="50" width="70" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_Fir01:10" height="40"/>
-              <Button id="btn_Fir" taborder="4" text="등록" top="50" width="70" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" bottom="Fir_code:10" minwidth="70" maxwidth="70" right="btn_Fir00:10"/>
-              <Edit id="Fir_in" taborder="2" top="51" minheight="40" maxheight="40" borderRadius="5px" width="150" bottom="Fir_code:10" minwidth="150" maxwidth="150" right="btn_Fir:10"/>
-              <Button id="btn_Fir02" taborder="9" text="등록" width="70" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" bottom="Sec_code:10" minwidth="70" maxwidth="70" right="181" height="40"/>
-              <Edit id="Sec_in" taborder="3" top="350" onchanged="Main_Sec_in_onchanged" minheight="40" maxheight="40" minwidth="150" maxwidth="150" borderRadius="5px" width="150" bottom="Sec_code:10" right="btn_Fir02:10"/>
-              <Combo id="Fir_combo" taborder="5" text="Combo00" top="350" innerdataset="Fir_Code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="40" maxheight="40" width="150" borderRadius="5px" displaynulltext="카테고리 선택" bottom="Sec_code:10" minwidth="150" maxwidth="150" right="Sec_in:10"/>
+              <Button id="btn_Fir01" taborder="8" text="삭제" left="990" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="1.76%" cssclass="btn_dafault" height="30" bottom="Fir_code:5"/>
+              <Button id="btn_Fir00" taborder="7" text="수정" top="65" width="70" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_Fir01:10" height="30" cssclass="btn_dafault"/>
+              <Button id="btn_Fir" taborder="4" text="등록" width="70" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_Fir00:10" cssclass="btn_dafault" top="65" height="30"/>
+              <Edit id="Fir_in" taborder="2" minheight="30" maxheight="30" borderRadius="5px" width="150" minwidth="150" maxwidth="150" right="btn_Fir:10" height="30" bottom="534"/>
+              <Button id="btn_Fir02" taborder="9" text="등록" width="70" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="181" height="30" cssclass="btn_dafault" bottom="Sec_code:5"/>
+              <Edit id="Sec_in" taborder="3" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="btn_Fir02:10" height="30" bottom="Sec_code:5"/>
+              <Combo id="Fir_combo" taborder="5" text="Combo00" innerdataset="Fir_Code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:5"/>
               <Static id="Static00" taborder="6" text="코드관리" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="5"/>
               <Static id="Static01" text="상위 코드" left="25" top="64" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Fir_code:10"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="21" top="362" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Sec_code:10"/>
-              <Button id="btn_Fir00_00" taborder="13" text="수정" top="350" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" bottom="238" minwidth="70" maxwidth="70" width="70" right="101"/>
-              <Button id="btn_Fir01_00" taborder="14" text="삭제" left="989" top="350" onclick="Main_btn_Fir_onclick" minheight="40" maxheight="40" borderRadius="5px" bottom="238" minwidth="70" maxwidth="70" right="2%"/>
+              <Button id="btn_Fir00_00" taborder="13" text="수정" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" width="70" right="101" cssclass="btn_dafault" height="30" bottom="Sec_code:5"/>
+              <Button id="btn_Fir01_00" taborder="14" text="삭제" left="989" onclick="Main_btn_Fir_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="2%" cssclass="btn_dafault" height="30" bottom="Sec_code:5"/>
             </Layout>
           </Layouts>
         </Div>

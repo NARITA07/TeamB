@@ -27,6 +27,7 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
+	// 장바구니 담기
 	@RequestMapping("insertCart.do")
     public String insertCart(
             @RequestParam("user_code") String user_code,
@@ -50,6 +51,7 @@ public class CartController {
         return "redirect:/foodList.do";
     }
 	
+	// 장바구니 리스트 보기
 	@RequestMapping("cartList.do")
 	public String selectCartList(Model model,HttpSession session) {
 		
@@ -61,6 +63,13 @@ public class CartController {
 		System.out.println("컨트롤러"+user_code);
 		
 		String cart_code = (cartService.selectCartCode(user_code)).getCart_code();
+		
+		/*
+		 * CartVO cartVO = cartService.selectCartCode(user_code); String cart_code; if
+		 * (cartVO == null || cartVO.getCart_code() == null) { cart_code = ""; } else {
+		 * cart_code = cartVO.getCart_code(); }
+		 */
+		
 		System.out.println("컨트롤러1");
 		//order에 있는지 없는지 체크
 		int order_code=cartService.selectOrder(cart_code);
@@ -82,6 +91,7 @@ public class CartController {
 		return "/cart/cartList";
 	}
 	
+	// 장바구니 상품 지우기
 	@RequestMapping("deleteCart.do")
 	public String deleteCart(
 			@RequestParam(name = "cart_code")String cart_code,
@@ -100,7 +110,7 @@ public class CartController {
 		return "redirect:/cartList.do";
 	}
 	
-	
+	// 주문 넣기
 	@PostMapping("/submitOrder")
     public String submitOrder(@ModelAttribute OrdersVO order) {
 		order.setPayment_date(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));

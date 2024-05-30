@@ -34,7 +34,7 @@ public class EmailController {
         SendVO vo = new SendVO();
         vo.setSend(email);
 
-        String verificationCode = emailService.generateVerificationCode();
+        String verificationCode = generateVerificationCode();
         vo.setVerificationCode(verificationCode);
 
         session.setAttribute("emailAuthCode", verificationCode);
@@ -44,5 +44,9 @@ public class EmailController {
         return "인증 코드가 이메일로 전송되었습니다.";
     }
 
-
+    private String generateVerificationCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
 }

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-	namespace="bookcafe.nexacro.orderhistorystatus.serviceImpl.OrderHistoryStatusMapper">
-	<!-- 이력현황 조회 -->
+<mapper namespace="bookcafe.nexacro.orderhistorystatus.serviceImpl.OrderHistoryStatusMapper">
+<!-- 음식 주문이력현황 조회  -->
 
-	<!-- 대분류 combo -->
-	<select id="OHFirCombo" resultType="java.util.Map">
-		SELECT FIR_CODE, FIR_NAME
-		FROM FIR_CODE
-		ORDER BY FIR_CODE;
-	</select>
+   <select id="MenuCombo" resultType="java.util.Map">
+      SELECT
+      PRODUCT_CODE,PRODUCT_NAME
+      FROM
+      FOOD
+   </select>
 
 	<!-- 중분류 combo -->
 	<select id="OHSecCombo" resultType="java.util.Map">

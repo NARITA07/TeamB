@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="주문이력현황_test3" width="1080" height="670" titletext="주문이력현황" oninit="주문이력현황_test3_oninit">
     <Layouts>

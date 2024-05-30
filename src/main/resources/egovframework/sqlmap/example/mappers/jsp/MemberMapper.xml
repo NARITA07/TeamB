@@ -9,7 +9,6 @@
 </insert>
 
  
-    
     <!-- 아이디 중복 체크 -->
     <select id="selectIdChk" resultType="int" parameterType="String">
         SELECT COUNT(*)
@@ -28,7 +27,7 @@
 <!--  네이버 회원 등록 메소드  -->
 <insert id="insertNaverMember" parameterType="bookcafe.member.service.MemberVO"> 
 	INSERT INTO USER (USER_CODE, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY, USER_SNS_ID) 
-	VALUES (fnCode('user'), #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address}, date_format(now(),'%Y%m%d%H%m%s'), #{user_authority, jdbcType=VARCHAR}, #{user_sns_id, jdbcType=VARCHAR}) 
+	VALUES (fnCode('user'), #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address}, #{user_joindate, jdbcType=VARCHAR}, #{user_authority, jdbcType=VARCHAR}, #{user_sns_id, jdbcType=VARCHAR}) 
 </insert>
 
 <!--  user_sns_id 중복 체크  -->
@@ -69,11 +68,11 @@
 	WHERE USER_ID = #{user_id} 
 </select>
 
-	<!-- 회원 email 주소 받아오기 -->
-	<select id="selectMemberEmail" parameterType="String" resultType="String">
-		SELECT USER_EMAIL
-		  FROM USER
-		 WHERE USER_CODE = #{USER_CODE}
-	</select>
+<!-- 회원 email 주소 받아오기 -->
+<select id="selectMemberEmail" parameterType="String" resultType="String">
+  SELECT USER_EMAIL
+    FROM USER
+   WHERE USER_CODE = #{USER_CODE}
+</select>
   
 </mapper>

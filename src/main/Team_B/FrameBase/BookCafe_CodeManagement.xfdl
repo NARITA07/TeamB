@@ -10,13 +10,13 @@
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="100"/>
-                      <Column size="150"/>
-                      <Column size="100"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="상위코드" background="#FFF8EE"/>
@@ -24,9 +24,9 @@
                       <Cell col="2" text="사용여부" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:FIR_CODE" textAlign="center"/>
-                      <Cell col="1" text="bind:FIR_NAME" textAlign="center"/>
-                      <Cell col="2" text="bind:USE_STATUS" textAlign="center" editinputmode="upper" editinputtype="alpha" editmaxlength="1" edittype="text"/>
+                      <Cell text="bind:FIR_CODE"/>
+                      <Cell col="1" text="bind:FIR_NAME"/>
+                      <Cell col="2" text="bind:USE_STATUS" textAlign="center" textDecoration="none"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -35,13 +35,14 @@
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="100"/>
-                      <Column size="150"/>
-                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
+                      <Column size="115"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
-                      <Row size="30"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
                     </Rows>
                     <Band id="head">
                       <Cell text="하위코드" background="#FFF8EE"/>
@@ -49,9 +50,10 @@
                       <Cell col="2" text="사용여부" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:SEC_CODE" textAlign="center"/>
-                      <Cell col="1" text="bind:SEC_NAME" textAlign="center"/>
-                      <Cell col="2" text="bind:USE_STATUS" textAlign="center" edittype="text" editinputmode="upper" editinputtype="alpha" editmaxlength="1"/>
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                      <Cell col="1" text="bind:SEC_CODE"/>
+                      <Cell col="2" text="bind:SEC_NAME"/>
+                      <Cell col="3" text="bind:USE_STATUS" textAlign="center"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -83,7 +85,7 @@
       </Dataset>
       <Dataset id="Sec_Code">
         <ColumnInfo>
-          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256" datapath=""/>
           <Column id="SEC_CODE" type="STRING" size="256"/>
           <Column id="SEC_NAME" type="STRING" size="256"/>
           <Column id="USE_STATUS" type="STRING" size="256"/>
@@ -128,6 +130,7 @@ this.Sales_Board_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	var callback ="code";
 	
 	this.transaction(id, url, set, get, arg, callback)
+	
 };
 
 //대분류 셀을 클릭 시
@@ -135,7 +138,8 @@ this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 {	
 	this.Fir_select.setColumn(0,"FIR_CODE",this.Fir_Code.getColumn(e.row,0))
 	
-
+	
+	
 	var id = "Sec_Code";
 	var url = "svc::sec_code.do";
 	var set = "Fir_Code= Fir_select";
@@ -144,6 +148,11 @@ this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 	var callback ="code";
 	
 	this.transaction(id, url, set, get, arg, callback)
+	
+	if(this.Fir_Code.getColumn(e.row,1) != '전체' ){
+		
+	}
+	
 };
 
 
@@ -198,14 +207,26 @@ this.Main_btn_Sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 //콜백
 this.code = function(id, code, message){
 	//성공
-	if(code == 0){
+	if(id == "fir_code"){
+		this.Fir_Code.addRow()
+		this.Fir_Code.setColumn(this.Fir_Code.getRowCount() -1 , "FIR_CODE", "추가");
+		for(i = 0; i < this.Fir_Code.getRowCount(); i++){
+				if (this.Fir_Code.getColumn(i,"USE_STATUS") == "N")
+				{
+					var d = this.Fir_Code.getRowCount(); //사용 여부가 N인것
+					
+					//this.Fir_Code.setColumn(d-2,"FIR_NAME","사용 안함")
+				}
+		}
 	}
+	
+	if(code == 0){
+	
+	}
+	
+	
 
 
 }]]></Script>
-    <Bind>
-      <BindItem id="item0" compid="Main.form.Fir_in" propid="value" datasetid="Fir_insert" columnid="FIR_NAME"/>
-      <BindItem id="item1" compid="Main.form.Sec_in" propid="value" datasetid="Sec_insert" columnid="SEC_NAME"/>
-    </Bind>
   </Form>
 </FDL>

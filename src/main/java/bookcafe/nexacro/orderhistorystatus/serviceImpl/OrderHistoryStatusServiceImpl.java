@@ -20,29 +20,11 @@ public class OrderHistoryStatusServiceImpl extends EgovAbstractServiceImpl imple
 	    private OrderHistoryStatusMapper ohmapper;
 
 	 
-	    // 대분류 combo
+	    //food_combo
 		@Override
-		public List<Map<String, Object>> OHFirCombo() {
-			return ohmapper.OHFirCombo();	
-		}
-		
-		// 중분류 combo
-		@Override
-		public List<Map<String, Object>> OHSecCombo() {
-			return ohmapper.OHSecCombo();
-		}
-		
-		// 소분류 combo
-		@Override
-		public List<Map<String, Object>> OHThirCombo() {
-			return ohmapper.OHThirCombo();
-		}
-		
-		// 대분류 선택 시 중분류 변화
-		@Override
-		public List<Map<String, Object>> SelSecCombo(Map<String, String> param) {
-			return ohmapper.SelSecCombo(param);
-		}
+		public List<Map<String, Object>> MenuCombo() {
+			return ohmapper.MenuCombo();	
+		}  
 		
 		//조회하기(
 		@Override
@@ -50,10 +32,5 @@ public class OrderHistoryStatusServiceImpl extends EgovAbstractServiceImpl imple
 			return ohmapper.ViewList(param);
 		}
 
-
-
-
-
-	
 
 }

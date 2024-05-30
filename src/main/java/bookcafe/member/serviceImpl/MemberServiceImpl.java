@@ -37,7 +37,7 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             return 0;
         }
     }
-
+    
     /*아이디 중복체크*/
     @Override 
     public int selectIdChk(String user_id) { 
@@ -63,10 +63,11 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         int result = memberMapper.resetPassword(userId, passwordEncoder.encode(newPassword)); // 비밀번호 암호화
         return result > 0;
     }
-    
+
     /* 네이버 로그인 */
     @Override
     public String insertNaverMember(MemberVO memberVO) throws Exception {
+        memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         // 주소나 필수가 아닌 정보가 누락된 경우 기본값 할당
         if(memberVO.getUser_address() == null) {
@@ -83,10 +84,17 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return memberMapper.selectSnsIdChk(user_sns_id);
     }	
     
-    /* 회원정보 조회하기 */
+ // 회원정보 조회하기
  	@Override
  	public MemberVO getUserInfo(String user_id) {
  		MemberVO memberVO = memberMapper.getUserInfo(user_id);
  		return memberVO;
  	}
+ 	
+    /* 회원 메일 받아오기 */
+	@Override
+	public String selectMemberEmail(String user_code) {
+		System.out.println(user_code);
+		return memberMapper.selectMemberEmail(user_code);
+	}
 }

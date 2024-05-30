@@ -9,21 +9,21 @@
 </insert>
 
  
-<!--  아이디 중복 체크  -->
-<select id="selectIdChk" resultType="int" parameterType="String"> 
-	SELECT COUNT(*) 
-	FROM USER 
-	WHERE USER_ID = #{value} 
-</select>
+    <!-- 아이디 중복 체크 -->
+    <select id="selectIdChk" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE USER_ID = #{value}
+    </select>
     
-<!--  로그인 처리  -->
-<select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO"> 
-	SELECT COUNT(*) 
-	FROM USER 
-	WHERE USER_ID = #{user_id} 
-	AND USER_PASS = #{user_pass} 
-</select>
-
+    <!-- 로그인 처리 -->
+    <select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE USER_ID = #{user_id}
+            AND USER_PASS = #{user_pass}
+    </select>
+    
 <!--  네이버 회원 등록 메소드  -->
 <insert id="insertNaverMember" parameterType="bookcafe.member.service.MemberVO"> 
 	INSERT INTO USER (USER_CODE, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY, USER_SNS_ID) 

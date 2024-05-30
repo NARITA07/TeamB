@@ -16,81 +16,86 @@
             </otherwise>
         </choose>
     )
-	</insert>
-	<insert id="insertOrder" parameterType="bookcafe.cart.service.OrdersVO">
-		INSERT INTO ORDERS (ORDER_CODE,
-			ADMIN_CODE,
-			USER_CODE,
-			CART_CODE,
-			ORDER_STATE,
-			TOTAL_PRICE,
-			PAYMENT_DATE,
-			PAYMENT_METHOD,
-			PAYMENT_STATE)
-		VALUES (fnCode('order'),
-			'AD001',
-			#{user_code},
-			#{cart_code},
-			1,
-			#{total_price},
-			 DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
-			#{payment_method},
-			1)
-	</insert>
-	
-	<!--order 테이블 정보 받기-->
-	<select id="selectOrders" resultType="bookcafe.orders.service.OrdersVO">
-		SELECT USER_CODE, CART_CODE
-		FROM ORDERS
-	</select>
-	
-	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
-		SELECT 
+   </insert>
+   <insert id="insertOrder" parameterType="bookcafe.cart.service.OrdersVO">
+      INSERT INTO ORDERS (ORDER_CODE,
+         ADMIN_CODE,
+         USER_CODE,
+         CART_CODE,
+         ORDER_STATE,
+         TOTAL_PRICE,
+         PAYMENT_DATE,
+         PAYMENT_METHOD,
+         PAYMENT_STATE)
+      VALUES (fnCode('order'),
+         'AD001',
+         #{user_code},
+         #{cart_code},
+         1,
+         #{total_price},
+         now(),
+         #{payment_method},
+         1)
+   </insert>
+   
+   <!--order 테이블 정보 받기-->
+   <select id="selectOrders" resultType="int">
+      SELECT COUNT(*)
+      FROM ORDERS
+      WHERE CART_CODE = #{cart_code}
+   </select>
+   
+   <select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
+      SELECT 
         F.PRODUCT_NAME, 
         F.PRODUCT_PRICE, 
         C.ORDER_QUANTITY, 
         C.USER_CODE, 
         C.CART_CODE,
-        F.PRODUCT_CODE,
-        ROW_NUMBER() OVER (ORDER BY C.CART_CODE) AS SEQUENCE_NUMBER
-	    FROM 
-	        CART C
-	    JOIN 
-	        FOOD F 
-	    ON 
-	        C.PRODUCT_CODE = F.PRODUCT_CODE
-	    WHERE 
-	        C.USER_CODE = #{user_code}
-	    ORDER BY 
-	        C.CART_CODE;
-	</select>
-	
-	<select id="selectCartCode" parameterType="String" resultType="String">
-    	SELECT MAX(CART_CODE) FROM CART WHERE USER_CODE = #{user_code};
-	</select>
-	
-	<delete id="deleteCart">
-  		DELETE FROM CART 
-		WHERE USER_CODE = #{user_code}
-		AND PRODUCT_CODE = #{product_code}
-		AND CART_CODE = #{cart_code}
-		AND ORDER_QUANTITY = #{order_quantity}
-	</delete>
-	
-	<select id="selectTotalPrice" parameterType="string" resultType="int">
-	    SELECT 
-		    SUM(f.product_price * c.order_quantity) AS total_price
-		FROM 
-		    CART c
-		JOIN 
-		    FOOD f 
-		ON 
-		    c.product_code = f.product_code
-		JOIN
-		    USER u
-		ON
-		    c.user_code = u.user_code
-		WHERE 
-		    c.cart_code = #{cart_code}
-	</select>
+        F.PRODUCT_CODE
+       FROM 
+           CART C
+       JOIN 
+           FOOD F 
+       ON 
+           C.PRODUCT_CODE = F.PRODUCT_CODE
+       WHERE 
+           C.USER_CODE = #{user_code}
+       AND 
+          C.CART_CODE = #{cart_code}
+       ORDER BY 
+           C.CART_CODE;
+   </select>
+   
+   <select id="selectCartCode" parameterType="String" resultType="bookcafe.cart.service.CartVO">
+       SELECT USER_CODE, MAX(CART_CODE) as CART_CODE
+       FROM CART 
+       WHERE USER_CODE = #{user_code};
+   </select>
+   
+   <delete id="deleteCart">
+        DELETE FROM CART 
+      WHERE USER_CODE = #{user_code}
+      AND PRODUCT_CODE = #{product_code}
+      AND CART_CODE = #{cart_code}
+      AND ORDER_QUANTITY = #{order_quantity}
+   </delete>
+   
+   <select id="selectTotalPrice" parameterType="string" resultType="int">
+       SELECT 
+          SUM(f.product_price * c.order_quantity) AS total_price
+      FROM 
+          CART c
+      JOIN 
+          FOOD f 
+      ON 
+          c.product_code = f.product_code
+      JOIN
+          USER u
+      ON
+          c.user_code = u.user_code
+      WHERE 
+          c.cart_code = #{cart_code}
+   </select>
+
 </mapper>

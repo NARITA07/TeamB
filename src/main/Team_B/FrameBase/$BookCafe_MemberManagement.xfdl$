@@ -46,6 +46,7 @@
             </Format>
           </Formats>
         </Grid>
+        <Static id="Static00" taborder="1" text="회원관리" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
       </Layout>
     </Layouts>
     <Objects>

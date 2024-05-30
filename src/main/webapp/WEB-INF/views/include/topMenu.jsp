@@ -75,7 +75,7 @@
 		console.log("유저코드:"+user_code);
 		
 		function goCart(){
-			var url = 'cartList.do';
+			var url = '/cartList.do';
 			window.location.href = url;
 		}
 	</script>

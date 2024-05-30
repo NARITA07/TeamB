@@ -2,20 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.nexacro.orderstatus.serviceImpl.OrderMapper">
 
-	<select id="selectOrders" resultType="java.util.Map">
+	<select id="selectOrders" parameterType="int" resultType="java.util.Map">
 		SELECT o.USER_CODE, u.USER_ID , fc.PRODUCT_NAME , fc.ORDER_QUANTITY,
-				o.PAYMENT_STATE, o.PAYMENT_DATE, o.ORDER_STATE, o.ORDER_CODE, fc.PRODUCT_CODE
+				o.PAYMENT_STATE, o.PAYMENT_DATE, o.ORDER_STATE, o.ORDER_CODE, fc.PRODUCT_CODE, o.TOTAL_PRICE
 		  FROM ORDERS o
 	INNER JOIN USER u 
-	        ON o.user_code = u.user_code
+	        ON o.USER_CODE = u.USER_CODE
 	INNER JOIN ( SELECT c.USER_CODE ,c.PRODUCT_CODE ,c.ORDER_QUANTITY ,c.CART_CODE ,f.PRODUCT_NAME, f.PRODUCT_PRICE
 				   FROM CART c
 			 INNER JOIN FOOD f
-					 ON c.PRODUCT_CODE = f.PRODUCT_CODE) fc
+					 ON c.PRODUCT_CODE = f.PRODUCT_CODE) fc  
 			ON fc.CART_CODE = o.CART_CODE
-		WHERE o.ORDER_STATE <![CDATA[<]]> 3
+		   AND fc.USER_CODE = u.USER_CODE 
+		WHERE o.ORDER_STATE <![CDATA[<]]> #{end_state}
+		  AND o.ORDER_STATE <![CDATA[>]]> #{start_state}
+		  <if test="start_state == 4">
+		  AND DATE(o.PAYMENT_DATE) = DATE(NOW())
+		  </if>
 		  AND o.PAYMENT_STATE <![CDATA[=]]> 1
-		ORDER BY o.PAYMENT_DATE ASC
+	ORDER BY o.PAYMENT_DATE ASC
 	</select>
 	<update id="updateOrders">
 		UPDATE ORDERS

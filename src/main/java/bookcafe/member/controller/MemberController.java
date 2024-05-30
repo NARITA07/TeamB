@@ -22,6 +22,7 @@ import bookcafe.member.service.MemberVO;
 @Controller
 public class MemberController { 
 
+
 @Resource(name = "memberService")
 public MemberService memberService;
 
@@ -170,13 +171,6 @@ public String checkEmailAuthCode(@RequestParam("emailAuthCode") String emailAuth
     }
 }
 
-@RequestMapping("checkUserInfo.do")
-@ResponseBody
-public String checkUserInfo(@RequestParam("user_id") String userId, @RequestParam("user_name") String userName, @RequestParam("user_tel") String userTel, @RequestParam("user_email") String userEmail) {
-    boolean validUserInfo = memberService.checkUserInfo(userId, userName, userTel, userEmail);
-    return validUserInfo ? "valid" : "invalid";
-}
-
 /* 네이버 로그인 */
 @RequestMapping("naverLogin.do")
 public String naverLogin(HttpSession session) {
@@ -241,12 +235,12 @@ public String naverCallback(@RequestParam("code") String code, @RequestParam("st
 
     int userExists = memberService.selectSnsIdChk(userId); // 중복 체크도 user_sns_id로
     if (userExists == 0) {
-        memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         memberService.insertNaverMember(memberVO);
     }
 
     session.setAttribute("sessionId", userId);
     session.setAttribute("accessToken", accessToken);
+    session.setAttribute("loginInfo", memberVO);
     
     return "redirect:/";
 }

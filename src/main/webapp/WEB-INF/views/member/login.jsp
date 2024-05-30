@@ -95,6 +95,14 @@ $(function() {
 });
 </script>
 <style>
+.ftco-section {
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+	flex-direction: column;
+}
+
 .naver-login-img {
     display: inline-block;
     height: 56px;
@@ -198,8 +206,8 @@ $(function() {
                         </a>
                     </div>
                     <div class="loginBtns" style="margin-top:20px;">
-                        <a href="memberWrite.do">회원가입</a>
-                        <a href="findIdPwForm.do">아이디/비밀번호 찾기</a>
+                        <a href="memberWrite.do" style="color:black; font-size:16px;" >회원가입</a>
+                        <a href="findIdPwForm.do" style="color:black; font-size:16px;">아이디/비밀번호 찾기</a>
                     </div>
                 </form>
             </div>

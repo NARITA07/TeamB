@@ -36,6 +36,62 @@ public class OrderHistoryStatusCtroller {
 	    	return result;
 	    }
 	    
+	    // 중분류 조회
+	    @RequestMapping(value = "/OHSecCombo.do")
+	    public NexacroResult OHSecCombo() {
+	    
+	    	List<Map<String, Object>> dataList = ohservice.OHSecCombo();
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_sec_combo", dataList);
+	    	return result;
+	    }
+	    
+	    // 소분류 조회
+	    @RequestMapping(value = "/OHThirCombo.do")
+	    public NexacroResult OHThirCombo() {
+	    
+	    	List<Map<String, Object>> dataList = ohservice.OHThirCombo();
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_thir_combo", dataList);
+	    	
+	    	System.out.println("보내준다 : " + dataList);
+	    	
+	    	return result;
+	    }
+	    
+	    
+	    // 대분류 선택 시 중분류 변화
+	    @RequestMapping(value = "/SelSecCombo.do")
+	    public NexacroResult SelSecCombo(@ParamDataSet(name = "find_sec_combo",required = false) Map<String,String> find_sec_combo){
+	    	
+	    	System.out.println("분류코드 들어왔니?" + find_sec_combo);
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.SelSecCombo(find_sec_combo);
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_sec_combo", dataList);
+	    	return result;
+	    }
+	    
+	    // 중분류 선택 시 소분류 변화
+	    @RequestMapping(value = "/SelThirCombo.do")
+	    public NexacroResult SelThirCombo(@ParamDataSet(name = "find_thir_combo",required = false) Map<String,String> find_thir_combo){
+	    	
+	    	System.out.println("분류코드 들어왔니?" + find_thir_combo);
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.SelThirCombo(find_thir_combo);
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_thir_combo", dataList);
+	    	return result;
+	    }
+	    
 	    // 조회하기 버튼
 	    @RequestMapping(value = "/ViewList.do")
 	    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){

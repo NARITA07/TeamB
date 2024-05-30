@@ -17,7 +17,7 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 @Resource(name = "memberMapper") 
 MemberMapper memberMapper;
-
+ 
 private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /* 회원가입 */

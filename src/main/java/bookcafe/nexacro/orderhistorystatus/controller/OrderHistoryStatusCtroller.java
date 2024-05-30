@@ -24,15 +24,18 @@ public class OrderHistoryStatusCtroller {
 		PlatformTransactionManager transationManager;
 		
 	    @Resource(name = "orderhistoryService")
-	    private OrderHistoryStatusService hoservice;
+	    private OrderHistoryStatusService ohservice;
 	    
 	    
-	    // food_combo 조회
-	    @RequestMapping(value = "/MenuCombo.do")
-	    public NexacroResult MenuCombo() {
-	    	List<Map<String, Object>> dataList = hoservice.MenuCombo();
+	    // 대분류 조회
+	    @RequestMapping(value = "/OHFirCombo.do")
+	    public NexacroResult OHFirCombo() {
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.OHFirCombo();
+	    	
 	    	NexacroResult result = new NexacroResult();
-	    	result.addDataSet("food_combo", dataList);
+	    	
+	    	result.addDataSet("find_fir_combo", dataList);
 	    	return result;
 	    }
 	    
@@ -98,7 +101,7 @@ public class OrderHistoryStatusCtroller {
 	    	
 	    	System.out.println("조회하기버튼 클릭! : " + search_combo);
 	    	
-	    	List<Map<String, Object>> dataList = hoservice.ViewList(search_combo);
+	    	List<Map<String, Object>> dataList = ohservice.ViewList(search_combo);
 	    	
 		    NexacroResult result = new NexacroResult();
 		    result.addDataSet("result_grid", dataList);

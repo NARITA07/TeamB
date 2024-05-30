@@ -7,7 +7,6 @@
 <link href="/css/style.css" rel="stylesheet" />
 <style>
     body {
-         margin-bottom: 100px;
          min-height: 100vh; /* 최소 높이를 화면의 높이로 설정 */
     }
     

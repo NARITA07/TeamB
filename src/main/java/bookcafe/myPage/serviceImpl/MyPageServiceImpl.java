@@ -10,9 +10,10 @@ import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service
-public class MyPageServiceImpl implements MyPageService{
+public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPageService{
 	
 	@Autowired
 	private MyPageMapper myPageMapper;
@@ -20,8 +21,8 @@ public class MyPageServiceImpl implements MyPageService{
 	// 비밀번호 변경하기
 	@Transactional
 	@Override
-	public int changePassword(PWchangeDTO pwChangeDTO) {
-		int result = myPageMapper.changePassword(pwChangeDTO);
+	public int updatePassword(PWchangeDTO pwChangeDTO) {
+		int result = myPageMapper.updatePassword(pwChangeDTO);
 		return result;
 	}
 

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <script>
-
 	// 비밀번호 변경 유효성 검사 모듈
 	$(function() {
 	    // 검사 결과 저장 객체
@@ -15,18 +14,25 @@
 	
 		// 비밀번호 유효성 검사
 		$("#newPassword").blur(function() {
-// 			var regex = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*?=+_-])[A-Za-z0-9!@#$%^&*?=+_-]{8,16}$/i;
-			var regex = /^[A-Za-z0-9!@#$%^&*?=+_-]{2,16}$/i;;	//유효성 테스트 생략
-		    var isValid = regex.test($(this).val());
-		    valid.newPWValid = isValid;
+// 			var pattern = /^[A-Za-z0-9!@#$%^&*?=+_-]{2,16}$/i; //"비밀번호는 영문 대/소문자, 숫자, 특수문자를 1개 이상 포함한 8~16자입니다."
+			var pattern = /^[^\s]{2,16}$/;
 		    var $invalidMessage1 = $(this).siblings('#invalid-message1');
 		    if (!isValid) {
-// 		        $invalidMessage1.text("비밀번호는 영문 대/소문자, 숫자, 특수문자를 1개 이상 포함한 8~16자입니다."); // 유효한 경우 텍스트 설정
 		        $invalidMessage1.text("비밀번호는 공백 문자를 제외한 모든 문자로 이루어진 2~16자입니다."); // 유효한 경우 텍스트 설정
 		        $invalidMessage1.show(); // 유효하지 않은 경우 메시지 표시
 		    } else {
 		        $invalidMessage1.text("사용가능한 비밀번호입니다."); // 유효한 경우 텍스트 설정
 		        $invalidMessage1.show(); // 유효한 경우 메시지 표시
+		    }
+		    
+		    if(pattern.test($(this).val())){
+		        $("#invalid-message1").text("사용가능한 비밀번호입니다.");
+		        $("#invalid-message1").css("color", "green");
+		        valid.newPWValid = true;
+		    } else {
+		        $("#invalid-message1").text("비밀번호는 공백 문자를 제외한 모든 문자로 이루어진 2~16자입니다.");
+		        $("#invalid-message1").css("color", "red");
+		        valid.newPWValid = false;
 		    }
 		});
 		
@@ -55,8 +61,8 @@
 
 	// 비밀번호 변경 폼 제출 전 유효성 검사
 	function validatePasswordChangeForm() {
-		function sha256(password) {
-	    		return CryptoJS.SHA256(password).toString();
+		function BCrypt(password) {
+	    		return BCryptPasswordEncoder.encode(password).toString();
 			}
 	
 		var password = $("#user_pass").val();				//기존 비밀번호

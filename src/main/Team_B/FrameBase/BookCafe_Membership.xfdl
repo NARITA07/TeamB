@@ -6,9 +6,8 @@
         <Div id="Main" taborder="2" left="25.00%" top="10.00%" right="25.00%" text="" bottom="70" border="1px solid #dbdee2" maxwidth="580" minwidth="" enable="true" maxheight="580" minheight="">
           <Layouts>
             <Layout>
-              <Edit id="Ed_ADMIN_ADDRESS" taborder="11" left="150" top="70%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="75" background="none" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus"/>
-              <Button id="btn_Membership" taborder="12" text="가입" left="80" top="Ed_ADMIN_ADDRESS:115.63%" height="40" borderRadius="5px" onclick="Main_btn_Membership_onclick" right="55%" font="20px/normal &quot;Gulim&quot;"/>
-              <Button id="btn_Cansle" taborder="13" text="취소" top="Ed_ADMIN_ADDRESS:115.63%" height="40" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="54.86%" right="80" font="20px/normal &quot;Gulim&quot;"/>
+              <Button id="btn_Membership" taborder="12" text="가입" left="80" top="82%" height="50" borderRadius="5px" onclick="Main_btn_Membership_onclick" right="55%" font="20px/normal &quot;Gulim&quot;"/>
+              <Button id="btn_Cansle" taborder="13" text="취소" top="82%" height="50" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="55%" right="80" font="20px/normal &quot;Gulim&quot;"/>
               <Edit id="Ed_ADMIN_ID" taborder="6" left="150" top="20%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="75" background="none" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus"/>
               <Static id="Static00" taborder="15" text="회원가입" left="80" top="5%" height="30" right="80" textAlign="center" font="22px/normal &quot;Gulim&quot;"/>
               <Edit id="Ed_ADMIN_PASS" taborder="7" left="150" top="30%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="75" background="none" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus"/>
@@ -16,6 +15,7 @@
               <Edit id="Ed_ADMIN_TEL" taborder="9" left="150" top="50%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="75" background="none" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus"/>
               <Edit id="Ed_ADMIN_EMAIL" taborder="10" left="150" top="60%" height="32" border="0px none, 0px none, 1px solid #dbdee2" background="none" onsetfocus="Main_Ed_ADMIN_EMAIL_onsetfocus" right="40%"/>
               <Combo id="Ed_ADMIN_EMAIL_1" taborder="14" text="@naver.com" left="350" top="60%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="69" background="none" innerdataset="Email" codecolumn="Email" datacolumn="Email" value="@naver.com" index="0" tabstop="false"/>
+              <Edit id="Ed_ADMIN_ADDRESS" taborder="11" left="150" top="70%" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="75" background="none" onsetfocus="Main_Ed_ADMIN_ID_onsetfocus"/>
               <Static id="tac_id" taborder="0" text="1. 아이디" left="75" top="20%" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="12px/normal &quot;Gulim&quot;" textDecoration="none"/>
               <Static id="tac_pass" taborder="1" text="2. 비밀번호" left="75" top="30%" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="12px/normal &quot;Gulim&quot;"/>
               <Static id="Static01_01" taborder="2" text="3. 이름" left="75" top="40%" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="12px/normal &quot;Gulim&quot;"/>

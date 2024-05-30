@@ -71,12 +71,5 @@ public class PointVO {
 		this.point_section = point_section;
 	}
 	
-	@Override
-	public String toString() {
-		return "PointVO [point_code=" + point_code + ", user_code=" + user_code + ", order_code=" + order_code
-				+ ", point_change=" + point_change + ", point_joindate=" + point_joindate + ", rowNum=" + rowNum
-				+ ", payment_state=" + payment_state + ", user_point=" + user_point + ", point_section=" + point_section
-				+ "]";
-	}
-	
+
 }

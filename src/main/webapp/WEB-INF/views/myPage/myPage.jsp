@@ -12,6 +12,21 @@
 	<link href="/css/style.css" rel="stylesheet" />
 </head>
 <body>
+<script>
+//금액 자릿수 표시하기(콤마)
+function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+$(document).ready(function() {
+	
+	var myPoint = $("#myPoint").text();
+	if (myPoint.length > 0) {
+		$("#myPoint").text(formatNumberWithCommas(myPoint));
+	}
+	
+});
+</script>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 	
 	<section class="ftco-section">
@@ -47,8 +62,8 @@
 									</c:if>
 									)
 								</h5>
-								<hr><hr>
-								<div style="padding-top: 30px; padding-bottom: 30px;">
+								<hr>
+								<div style="padding-top: 50px; padding-bottom: 50px;">
 									<div style="display: flex; justify-content: space-between; align-items: center;">
 										<h3 style="margin-right:20px;">나의 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3>
 										<a href="/point/pointList">포인트 내역조회
@@ -62,20 +77,66 @@
 							<div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
 								<div style="display: flex; justify-content: space-between;" style="padding-bottom: 50px;">
 									<h3>
-										주문이력조회
+										최근 카페 주문목록
 									</h3>
-									<a href="/myPage/reservationList">전체 예약내역
+									<a href="orderList">전체 주문내역
 									<i class="fa fa-arrow-circle-right"></i>
 									</a>
 								</div>
 								<%-- 주문내역이 없는 경우 --%>
-					         	<c:if test="${empty reserveList}">
+					         	<c:if test="${empty myOrderList}">
 									<div class="jumbotron card card-block">
-							            <p>주문 건이 없습니다.</p>
-							            <p><a class="btn btn-primary btn-large" href="/reserve/reserve">주문하러 가기</a></p>
+							            <p>최근 카페 주문 건이 없습니다.</p>
+							            <p><a class="btn btn-primary btn-large" href="/foodList.do">맛있는 커피 주문하러 가기</a></p>
 							        </div>
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
+					          	<c:if test="${not empty myOrderList}">
+						          	<div class="row">
+										<table id="tbl_order" class="table table-hover table-sm" style="text-align: center;">
+											<thead>
+												<tr class="table-warning">
+													<th>#</th>
+													<th>날짜(최근순)</th>
+													<th>사유</th>
+													<th>포인트</th>
+													<th>구분</th>
+												</tr>
+											</thead>
+											<tbody>						          		
+							          		<c:forEach var="myOrder" items="${myOrderList}">
+												<tr>
+													<td>${point.rowNum}</td>
+													<td class="point_use_date">${point.point_use_date}</td>
+													<td>${point.code_name}</td>
+													<td class="point_cost">${point.point_cost} P</td>
+													<td>${point.point_section}</td>
+												</tr>
+											</c:forEach>
+											</tbody>
+										</table>
+									</div>
+								</c:if>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12" style="padding-top: 30px;">
+								<div style="display: flex; justify-content: space-between;" style="padding-bottom: 50px;">
+									<h3>
+										나의 대여 도서목록
+									</h3>
+									<a href="borrowList">책 대여 내역조회
+									<i class="fa fa-arrow-circle-right"></i>
+									</a>
+								</div>
+								<%-- 대여중인 도서가 없는 경우 --%>
+					         	<c:if test="${empty reserveList}">
+									<div class="jumbotron card card-block">
+							            <p>현재 대여중인 도서가 없습니다.</p>
+							            <p><a class="btn btn-primary btn-large" href="/bookList.do">재밌는 책 보러 가기</a></p>
+							        </div>
+					          	</c:if>
+					          	<%-- 대여중인 도서가 있는 경우 --%>
 					          	<c:if test="${not empty reserveList}">
 						          	<div class="row">
 						          		<c:forEach var="myReserve" items="${reserveList}">
@@ -103,6 +164,7 @@
 								</c:if>
 							</div>
 						</div>
+						<hr>
 					</div>
 					<div class="col-md-2">
 					</div>

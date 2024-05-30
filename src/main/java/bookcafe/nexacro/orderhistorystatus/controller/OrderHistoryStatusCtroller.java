@@ -95,7 +95,6 @@ public class OrderHistoryStatusCtroller {
 	    	return result;
 	    }
 	    
-	    
 	    // 조회하기 버튼
 	    @RequestMapping(value = "/ViewList.do")
 	    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){

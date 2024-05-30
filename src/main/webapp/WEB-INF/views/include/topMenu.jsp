@@ -1,6 +1,6 @@
-<%@page import="bookcafe.member.service.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="bookcafe.member.service.MemberVO"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +25,7 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/bookList.do">책</a></li>
+            <li class="nav-item"><a class="nav-link" href="/bookList.do">도서</a></li>
             <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
 				<%
 					if(sUID == null || loginInfo == null){
@@ -59,12 +59,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="logoutModalLabel">로그아웃 하시겠습니까?</h5> 
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button> 
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button> 
 					<a class="btn btn-primary"	href="/logout.do">로그아웃</a>
 				</div>
 			</div>
@@ -75,7 +75,7 @@
 		console.log("유저코드:"+user_code);
 		
 		function goCart(){
-			var url = 'cartList.do';
+			var url = '/cartList.do';
 			window.location.href = url;
 		}
 	</script>

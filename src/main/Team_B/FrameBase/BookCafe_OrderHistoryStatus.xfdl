@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="주문이력현황_test3" width="1080" height="670" titletext="주문이력현황" oninit="주문이력현황_test3_oninit">
     <Layouts>
@@ -37,12 +37,12 @@
         <Combo id="Combo01" taborder="3" text="" left="559" top="57" width="91" height="20" value="" index="-1" innerdataset="month_combo" datacolumn="PAYMENT_MONTH" codecolumn="PAYMENT_MONTH" rtl="" onitemchanged="Combo01_onitemchanged" displaynulltext="월" displayrowcount="6" cssclass="default"/>
         <Calendar id="Calendar00" taborder="4" left="768" top="57" width="102" height="20" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Calendar id="Calendar00_00" taborder="5" top="57" height="20" onchanged="Calendar00_00_onchanged" width="102" left="885" cssclass="cal_default"/>
-        <Button id="Button00" taborder="6" text="조회" left="989" top="20" height="20" onclick="Button00_onclick" right="20" cssclass="btn_dafault"/>
+        <Button id="Button00" taborder="6" text="조회" left="989" top="20" height="30" onclick="Button00_onclick" cssclass="btn_dafault" borderRadius="5px" width="70"/>
         <Static id="Static00" taborder="7" text="이름" left="39" top="60" width="24" height="14"/>
         <Static id="Static02" taborder="8" text="분류" left="190" top="60" width="24" height="14"/>
         <Static id="Static03" taborder="9" text="월별" left="529" top="60" width="24" height="14"/>
         <Static id="Static04" taborder="10" text="~" left="873" top="60" width="9" height="14"/>
-        <Button id="Button02" taborder="11" text="엑셀" left="989" top="110" height="20" onclick="Button02_onclick" right="20" cssclass="btn_dafault"/>
+        <Button id="Button02" taborder="11" text="엑셀" left="989" onclick="Button02_onclick" right="20" cssclass="btn_dafault" borderRadius="5px" height="30" bottom="540"/>
         <Static id="Static05" taborder="13" text="카페 주문 이력 " left="20" top="113" width="120" height="14" cssclass="title_sub"/>
         <Static id="Static06" taborder="14" text="도서 대여 이력" left="20" top="366" width="120" height="14" cssclass="title_sub"/>
         <Grid id="Grid01" taborder="15" left="20" top="390" binddataset="book_test" autofittype="col" right="20" bottom="20" border="1px solid #4F4537">
@@ -78,7 +78,7 @@
         </Grid>
         <Combo id="Combo03" taborder="16" text="Combo03" left="220" top="57" width="91" height="20" innerdataset="find_fir_combo" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="Combo03_onitemchanged" displaynulltext="음식/도서" cssclass="default"/>
         <Combo id="Combo02" taborder="17" text="Combo02" left="314" top="57" width="91" height="20" innerdataset="find_sec_combo" codecolumn="SEC_CODE" datacolumn="SEC_NAME" onitemchanged="Combo02_onitemchanged" displaynulltext="전체보기" cssclass="default"/>
-        <Button id="Button01" taborder="18" text="엑셀" left="989" top="363" height="20" right="20" cssclass="btn_dafault"/>
+        <Button id="Button01" taborder="18" text="엑셀" left="989" top="363" height="30" right="20" cssclass="btn_dafault" borderRadius="5px"/>
         <Static id="Static07" taborder="19" text="주문/대여 이력 조회" left="20" top="23" width="140" height="17" onclick="Static07_onclick" cssclass="title"/>
         <Static id="Static01" taborder="20" text="주문/대여 기간" left="680" top="60" width="82" height="14"/>
       </Layout>

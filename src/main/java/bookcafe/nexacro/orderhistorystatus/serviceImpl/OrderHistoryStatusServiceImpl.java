@@ -56,12 +56,5 @@ public class OrderHistoryStatusServiceImpl extends EgovAbstractServiceImpl imple
 			return ohmapper.ViewList(param);
 		}
 
-	
-
-
-
-
-
-	
 
 }

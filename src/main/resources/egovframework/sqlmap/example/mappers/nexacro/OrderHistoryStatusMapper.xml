@@ -42,6 +42,17 @@
 		ORDER BY SEC_CODE;
 	</select>
 
+	<!-- 중분류 선택 시 소분류 변화 -->
+	<select id="SelThirCombo" resultType="java.util.Map">
+		SELECT FIR_CODE, SEC_CODE, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CATEGORY
+		FROM SEC_CODE SC
+		JOIN FOOD F ON SC.SEC_CODE = F.PRODUCT_CATEGORY 
+		WHERE 1=1
+			AND PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
+		ORDER BY SEC_CODE;
+	</select>
+
+
 	<!-- 조회하기 -->
 	<select id="ViewList" parameterType="java.util.Map"
 		resultType="java.util.Map">
@@ -65,39 +76,40 @@
 			AND U.USER_NAME = #{USER_NAME}
 		</if>
 		<!--대분류 -->
-		<if test="FIR_CODE != null and FIR_CODE != ''">
+		<if
+			test="FIR_CODE != 'fir_000' and FIR_CODE != null and FIR_CODE != ''">
 			AND F.FIR_CODE = #{FIR_CODE}
 		</if>
 		<!--중분류 -->
-		<if test="PRODUCT_CATEGORY != null and PRODUCT_CATEGORY != ''">
+		<if
+			test="FIR_CODE != 'fir_000' and PRODUCT_CATEGORY != null and PRODUCT_CATEGORY != ''">
 			AND F.PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
 		</if>
 		<!--소분류 -->
-		<if test="PRODUCT_CODE != null and PRODUCT_CODE != ''">
+		<if
+			test="FIR_CODE != 'fir_000' and PRODUCT_CODE != null and PRODUCT_CODE != ''">
 			AND C.PRODUCT_CODE = #{PRODUCT_CODE}
 		</if>
 		<if
 			test="PAYMENT_MONTH !='전체보기' and PAYMENT_MONTH != null and PAYMENT_MONTH != ''">
 			AND SUBSTR(O.PAYMENT_DATE,5,2) = #{PAYMENT_MONTH}
 		</if>
-		
-		
-		<!-- 인풋날짜부터 이력 조회-->
+
+		<!-- 인풋날짜부터 이력 조회 -->
 		<if
 			test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and
-                   (PAYMENT_WEEK2 == null or PAYMENT_WEEK2 == '')">
-			AND STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d%H%i%s') >= STR_TO_DATE(#{PAYMENT_WEEK1},
+	                   (PAYMENT_WEEK2 == null or PAYMENT_WEEK2 == '')">
+			AND STR_TO_DATE(SUBSTR(O.PAYMENT_DATE,1,8), '%Y%m%d%H%i%s') >=
+			STR_TO_DATE(#{PAYMENT_WEEK1},
 			'%Y%m%d')
 		</if>
-		<!-- 인풋날짜까지 이력 조회-->
+		<!-- 인풋날짜까지 이력 조회 -->
 		<if
 			test="PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != '' and
-                   (PAYMENT_WEEK1 == null or PAYMENT_WEEK1 == '')">
-			AND STR_TO_DATE(#{PAYMENT_WEEK2}, '%Y%m%d') >= STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d%H%i%s')
+	                   (PAYMENT_WEEK1 == null or PAYMENT_WEEK1 == '')">
+			AND STR_TO_DATE(#{PAYMENT_WEEK2}, '%Y%m%d') >=
+			STR_TO_DATE(SUBSTR(O.PAYMENT_DATE,1,8), '%Y%m%d%H%i%s')
 		</if>
-		
-		
-		
 		<if
 			test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != ''">
 			AND O.PAYMENT_DATE BETWEEN #{PAYMENT_WEEK1} AND #{PAYMENT_WEEK2}

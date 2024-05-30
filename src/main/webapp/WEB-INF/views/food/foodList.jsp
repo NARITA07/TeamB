@@ -8,6 +8,12 @@
    	<meta name="description" content="" />
     <meta name="author" content="" />
 	<title>foodList</title>
+	<style>
+	.btn.btn-light.push_cart,.btn.btn-light{
+		background-color: #AB8212;
+	    color: white;
+	}
+	</style>
 	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
@@ -32,27 +38,27 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1 style="text-align:center; margin-bottom:50px;">커피</h1>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <c:forEach items="${coffees}" var="coffee">
+                <c:forEach items="${foodess}" var="food">
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="${coffee.product_img}" alt="..." />
+                            <img class="card-img-top" src="${food.product_img}" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder">${coffee.product_name}</h5>
+                                    <h5 class="fw-bolder">${food.product_name}</h5>
                                 </div>
                                 <div class="cart_btn_box">
                                     <div>
-                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${coffee.product_code}" oninput="calculateTotalPrice('${coffee.product_price}', '${coffee.product_code}')"  min="1">
+                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
                                     </div>
-                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)">장바구니 담기</button>
-                                	<span class="total-price-span" id="total_price_${coffee.product_code}">${coffee.product_price}원</span>
+                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니 담기</button>
+                                	<span class="total-price-span" id="total_price_${food.product_code}">${food.product_price}원</span>
                                 </div>
                                 <div class="direct_buy">
-                                	<button type="button" class="btn btn-primary" 
-                                	onclick="direct_buy('${loginInfo.user_code}', '${coffee.product_code}', document.getElementById('order_quantity-${coffee.product_code}').value)"
+                                	<button type="button" class="btn btn-light" 
+                                	onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)"
                                 	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
                                 </div>
                             </div>
@@ -61,7 +67,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 mt-5">
+<%--         <div class="container px-4 px-lg-5 mt-5">
             <h1 style="text-align:center; margin-bottom:50px;">음식</h1>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <c:forEach items="${foodess}" var="food">
@@ -89,7 +95,7 @@
                     </div>
                 </c:forEach>
             </div>
-        </div>
+        </div> --%>
     </section>
     <!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,9 +123,6 @@
 	    var myModal = document.getElementById('myModal')
 		var myInput = document.getElementById('myInput')
 		
-		myModal.addEventListener('shown.bs.modal', function () {
-		  myInput.focus()
-		})
         function isLogin(user_code, product_code, order_quantity){
             console.log("isLogin function called with sUID:", sUID);
             if(sUID == "null"){

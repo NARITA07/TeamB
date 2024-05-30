@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.nexacro.findaccount.serviceImpl.FindAccountMapper">
+
+	<select id="find_id" resultType="java.util.Map">
+	
+	SELECT ADMIN_ID FROM MANAGER WHERE ADMIN_EMAIL = #{ADMIN_EMAIL} AND ADMIN_NAME = #{ADMIN_NAME}
+	</select>
+	
+	<update id="change_pass">
+	UPDATE MANAGER SET ADMIN_PASS = #{CHANGE_PASS} WHERE ADMIN_ID =#{ADMIN_ID};
+	</update>
+	
+</mapper>

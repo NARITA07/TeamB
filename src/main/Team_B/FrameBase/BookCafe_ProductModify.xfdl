@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_ProductManagemnet_Modify" width="1020" height="670" titletext="제품수정" oninit="BookCafe_ProductManagemnet_Modify_oninit">
+    <Layouts>
+      <Layout height="670" mobileorientation="landscape" width="1020">
+        <Div id="Div00" taborder="0" text="Div00" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="Grid00" taborder="0" left="2.00%" top="130" binddataset="Food" bottom="45" border="1px solid #dbdee2" scrollbartype="none" cellsizebandtype="body" autosizebandtype="body" autofittype="col" minwidth="" width="465" maxwidth="485">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="종류"/>
+                      <Cell col="1" text="상품명"/>
+                      <Cell col="2" text="가격"/>
+                      <Cell col="3" text="재고"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:SEC_NAME" textAlign="center" edittype="none"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" edittype="text"/>
+                      <Cell col="2" text="bind:PRODUCT_PRICE" edittype="text"/>
+                      <Cell col="3" text="bind:PRODUCT_QUANTITY" edittype="text"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="Grid01" taborder="1" top="130" binddataset="Book" bottom="45" border="1px solid #dbdee2" scrollbartype="none" autofittype="col" right="2%" minwidth="" width="465" maxwidth="485">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="62"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="장르"/>
+                      <Cell col="1" text="도서명"/>
+                      <Cell col="2" text="저자"/>
+                      <Cell col="3" text="출판일"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:SEC_NAME" textAlign="center"/>
+                      <Cell col="1" text="bind:BOOK_NAME" edittype="text"/>
+                      <Cell col="2" text="bind:BOOK_WRITER" textAlign="center" edittype="text"/>
+                      <Cell col="3" text="bind:BOOK_PUBLICATION_DATE" displaytype="mask" edittype="text" maskedittype="string" maskeditformat="@@@@-@@-@@" textAlign="right"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="Button00" taborder="2" text="삭제" left="415" top="80" width="70" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" bottom="Grid00:10"/>
+              <Button id="Button00_00" taborder="3" text="수정" top="80" width="70" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" right="Button00:10" bottom="Grid00:10"/>
+              <Button id="Button00_01" taborder="5" text="삭제" left="91.00%" top="80" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" bottom="Grid01:10" right="2%"/>
+              <Button id="Button00_00_00" taborder="4" text="수정" width="70" height="40" bottom="Grid01:10" minwidth="70" maxwidth="70" minheight="40" maxheight="40" borderRadius="5px" right="Button00_01:10"/>
+              <Static id="Static01" text="음식" left="2%" font="20px/normal &quot;Gulim&quot;" bottom="Grid00:10" taborder="6" height="26" width="100"/>
+              <Static id="Static01_00" text="도서" font="20px/normal &quot;Gulim&quot;" bottom="Grid01:10" taborder="7" height="26" right="Button00_01:295" width="100"/>
+              <Static id="Static00" taborder="8" text="제품수정" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="5" left="2%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Book">
+        <ColumnInfo>
+          <Column id="BOOK_CODE" type="STRING" size="256"/>
+          <Column id="BOOK_NAME" type="STRING" size="256"/>
+          <Column id="BOOK_CATEGORY" type="STRING" size="256"/>
+          <Column id="BOOK_WRITER" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="DATE" size="256"/>
+          <Column id="BOOK_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Food">
+        <ColumnInfo>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_PRICE" type="INT" size="256"/>
+          <Column id="PRODUCT_QUANTITY" type="INT" size="256"/>
+          <Column id="PRODUCT_CATEGORY" type="STRING" size="256"/>
+          <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+{
+	
+	//음식정보
+	
+	var food_id ="food_date"
+	var food_url ="svc::food_date.do"
+	var food_set = "";
+	var food_get = "Food = Food";
+	var food_arg =""
+	var food_callback = "food_date";
+	
+	this.transaction(food_id, food_url, food_set, food_get, food_arg, food_callback)
+	
+	
+	
+	//도서정보
+	
+	var book_id ="book_date"
+	var book_url ="svc::book_date.do"
+	var book_set = "";
+	var book_get = "Book = Book";
+	var book_arg =""
+	var book_callback = "book_date";
+	
+	this.transaction(book_id, book_url, book_set, book_get, book_arg, book_callback)
+	
+};
+
+this.food_date = function(id, code, message){
+	
+	if(code == 0){
+		
+	}
+}
+
+this.book_date = function(id, code, message){
+if(code == 0){
+	
+	}
+
+}
+]]></Script>
+  </Form>
+</FDL>

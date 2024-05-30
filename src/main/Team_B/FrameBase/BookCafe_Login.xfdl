@@ -3,19 +3,25 @@
   <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인" oninit="BookCafe_Login_oninit">
     <Layouts>
       <Layout height="720" width="1280">
-        <Div id="Main" taborder="0" left="289" top="60" width="703" height="515">
+        <Div id="Main" taborder="0" left="25.00%" top="25%" border="1px solid #dbdee2" maxheight="328" right="25.00%" maxwidth="580" height="328" minheight="" text="">
           <Layouts>
             <Layout>
-              <GroupBox id="Box_Login" taborder="0" text="로그인" left="11" top="111" width="681" height="260"/>
-              <Edit id="Ed_ID" taborder="1" left="52" top="176" width="599" height="52" borderRadius="5px" displaynulltext="아이디를 입력해주세요" onchanged="Main_Ed_ID_onchanged"/>
-              <Edit id="Ed_PASS" taborder="2" left="52" top="261" width="599" height="52" borderRadius="5px" displaynulltext="비밀번호를 입력해주세요"/>
-              <Static id="Static00" taborder="4" text="아이디" left="52" top="151" width="159" height="25"/>
-              <Static id="Static00_00" taborder="7" text="비밀번호" left="52" top="236" width="159" height="25"/>
-              <Button id="Btn_Login" taborder="3" text="로그인" left="11" top="385" width="681" height="53" borderRadius="5px" onclick="Main_Btn_Login_onclick"/>
-              <Static id="S_Find" taborder="6" text="아이디 및 비밀번호 찾기" left="273" top="459" width="294" height="32" textAlign="center" onclick="Main_S_Find_onclick" cursor="pointer"/>
-              <Static id="S_Membership" taborder="5" text="회원가입" left="550" top="459" width="144" height="32" textAlign="center" onclick="Main_S_Membership_onclick" cursor="pointer"/>
-              <ImageViewer id="ImageViewer00" taborder="8" text="로고" left="11" top="34" width="292" height="75"/>
-              <Static id="Static02" taborder="9" text="타이틀" left="313" top="37" width="379" height="75"/>
+              <Edit id="Ed_PASS" taborder="1" left="150" top="120" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="16px/normal &quot;Gulim&quot;" password="true" onkeyup="Main_Ed_PASS_onkeyup"/>
+              <Button id="Btn_Login" taborder="3" text="로그인" left="150" borderRadius="5px" onclick="Main_Btn_Login_onclick" right="150" height="52" top="Ed_PASS:68" font="24px/normal &quot;Gulim&quot;"/>
+              <Static id="S_Membership" taborder="2" text="회원가입" left="70" top="159" height="32" textAlign="left" onclick="Main_S_Membership_onclick" cursor="pointer" width="60" font="14px/normal &quot;Gulim&quot;" color="#888888"/>
+              <Static id="S_Find" taborder="4" text="아이디 및 비밀번호 찾기" top="160" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
+              <Edit id="Ed_ID" taborder="0" left="150" top="50" height="32" border="0px none, 0px none, 1px solid #dbdee2" right="80" background="none" font="16px/normal &quot;Gulim&quot;" onchanged="Main_Ed_ID_onchanged" onkeyup="Main_Ed_ID_onchanged"/>
+              <Button id="btn_id_reset" taborder="5" text="X" left="470" top="40" height="31" borderRadius="100px" background="none" width="30" cursor="pointer" visible="false" onclick="Main_btn_id_reset_onclick"/>
+              <Button id="btn_view" taborder="6" text="O" top="110" height="31" borderRadius="100px" background="none" left="470" width="30" cursor="pointer" visible="false" onclick="Main_btn_view_onclick"/>
+              <Static id="tac_id" taborder="7" text="아이디" left="70" top="50" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>
+              <Static id="tac_pass" taborder="8" text="비밀번호" left="70" top="120" width="70" height="32" border="0px none, 1px solid #dbdee2,1px solid #dbdee2, 0px none" font="14px/normal &quot;Gulim&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div00" taborder="1" text="Div00" left="25.00%" top="20%" height="34" right="25.00%" maxheight="34" minheight="" maxwidth="580" minwidth="">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" text="BOOKBREAD" left="80" top="0" height="34" font="25px/normal &quot;Gulim&quot;" onclick="Div00_Static00_onclick" right="80" textAlign="center"/>
             </Layout>
           </Layouts>
         </Div>
@@ -31,7 +37,7 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="Result_Data" onrowposchanged="Main_Btn_Login_onclick">
+      <Dataset id="Result_Data">
         <ColumnInfo>
           <Column id="ADMIN_CODE" type="STRING" size="256"/>
           <Column id="ADMIN_ID" type="STRING" size="256"/>
@@ -46,56 +52,46 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Bind>
-      <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Admin_Login" columnid="ADMIN_ID"/>
-      <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Admin_Login" columnid="ADMIN_PASS"/>
-    </Bind>
     <Script type="xscript5.1"><![CDATA[//로그인 버튼 클릭 시
 this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	if(this.Main.form.Ed_ID.getLength() <= 0 || this.Main.form.Ed_PASS.getLength() <= 0){ //아이디 or 비밀번호의 길이가 0보다 작다면 
- 		alert("아이디 또는 비밀번호를 입력해주세요"); // 입력문구 알림
-		return false; //실행 멈춤
-		}
-		
-	if (this.Result_Data.getColumn(0,"ADMIN_ID") != null) //아이디가 null이 아니라면
- 		{
-			
- 			nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
- 		
- 			this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
- 		}
 
-else if(this.Result_Data.getColumn(0,0) == "1"){//아이디가 틀릴 시
-		alert("아이디가 틀렸습니다")
-		this.clear()
-		
-	}else if(this.Result_Data.getColumn(0,0) == "2"){// 비밀번호가 틀릴 시
-		alert("비밀번호가 틀렸습니다")
-		this.clear()
-	}
-	
  	var id = "login";
  	var url = "svc::admin_login.do";
- 	var in_Dataset = "Admin_Login = Admin_Login";
- 	var out_Dataset = "Result_Data = Result_Data";
- 	var callback = "checklogin";
+ 	var set = "Admin_Login = Admin_Login";
+ 	var get = "Result_Data = Result_Data";
+	var arg = "";
+ 	var callback = "login";
 	
- 	this.transaction(id,url,in_Dataset,out_Dataset,callback); 
+ 	this.transaction(id, url, set, get, arg, callback); 
  	
 	
 };
+		//this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
 
-
-this.checklogin = function(id,ErrorCode,ErrorMag){
-
-	 if(ErrorCode < 0)
-    {
-        // 에러 처리
-        alter("Error" + ErrorMag);
-        return;
-    }
+this.login = function(id,code,message){
+		
+    if(code == 0){//리턴 결과 
 	
+	
+		
+		if(this.Result_Data.getColumn(0,"ERROR") == "1"){//아이디가 틀릴 시
+		alert("아이디가 틀렸습니다")
+		
+		
+	}else if(this.Result_Data.getColumn(0,"ERROR") == "2"){// 비밀번호가 틀릴 시
+		alert("비밀번호가 틀렸습니다")
+	
+	}else{
+	nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
+	
+		this.go("FrameBase::BookCafe_Main.xfdl")
+	
+	}
+			
+	
+	
+	}
 	
 
 }
@@ -112,9 +108,50 @@ this.Main_S_Membership_onclick = function(obj:nexacro.Static,e:nexacro.ClickEven
 	this.go("FrameBase::BookCafe_Membership.xfdl")
 };
 
-//dataset 초기화
-this.clear = function(){
-	this.Result_Data.clear();
-}]]></Script>
+//아이디 입력 시
+this.Main_Ed_ID_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	this.Main.form.btn_id_reset.set_visible(true);//아이디가 입력되면 리셋버튼 생성
+};
+
+//아이디 리셋버튼
+this.Main_btn_id_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.Main.form.Ed_ID.set_value(null); // 아이디 값이 다시 null로 초기화
+	this.Main.form.btn_id_reset.set_visible(false);// 버튼은 사라짐.
+};
+
+//비밀번호 입력 시
+this.Main_Ed_PASS_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	this.Main.form.btn_view.set_visible(true);
+};
+
+this.Main_btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+ 
+	if (this.Main.form.Ed_PASS.password == true)//비밀번호가 *로 표시되면
+	{
+			this.Main.form.Ed_PASS.set_password(false); // 문자로 보이고 표시
+			
+	}else if(this.Main.form.Ed_PASS.password == false){// 비밀번호가 문자라면
+	
+		this.Main.form.Ed_PASS.set_password(true)// 다시 *로 표시
+		
+	}
+	
+	if(this.Main.form.Ed_PASS.value == ""){//만약 패스워드에 값이 없다면
+		
+		this.Main.form.btn_view.set_visible(false)//버튼도 없어져라
+		this.Main.form.Ed_PASS.set_value(null)// value값은 다시 null이 됨
+		this.Main.form.Ed_PASS.set_password(true)// 
+	}
+	
+	
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Admin_Login" columnid="ADMIN_ID"/>
+      <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Admin_Login" columnid="ADMIN_PASS"/>
+    </Bind>
   </Form>
 </FDL>

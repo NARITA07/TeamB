@@ -6,22 +6,29 @@
 <title></title>
 <link href="/css/style.css" rel="stylesheet" />
 <style>
-    body {
-         min-height: 100vh; /* 최소 높이를 화면의 높이로 설정 */
-    }
-    
-    footer {
-    width: 100%;
-    bottom: 0;
-    margin-top : 70px;
-}
+	body {
+		min-height: 100vh; /* 최소 높이를 화면의 높이로 설정 */
+		margin: 0;
+		padding: 0;
+	}
+	
+	footer {
+		width: 100%;
+		height: 150px;
+		bottom: 0;
+		margin-top : auto;
+		justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        position: relative; /* 기본값을 relative로 설정 */
+	}
 </style>
 </head>
 <body>
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; 책빵 2024</p></div>
+        <p class="m-0 text-center text-white">Copyright &copy; 책빵 2024</p>
     </footer>
 
     <!-- Bootstrap core JS-->

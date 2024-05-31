@@ -31,24 +31,24 @@ public class ProductManagementController {
 	ProductManagementService pms;
 	
 	@RequestMapping("product.do")
-	public NexacroResult product(@ParamDataSet(name="PM")Map<String,String>PM) {
-		System.out.println(PM);
+	public NexacroResult product(@ParamDataSet(name="Pr_date", required = false)Map<String,String>Pr_date) {
+		NexacroResult re = new NexacroResult();
+		System.out.println("제품 업글 "+ Pr_date);
 		
 		int result = 0;
-		
-			if(PM.get("PRODUCT_CHOICE").equals("FOOD")) {
-				
-			 result =pms.food_insert(PM);
+			System.out.println(Pr_date.get("FIR_CODE"));
+			if(Pr_date.get("FIR_CODE").equals("fir_002")) {
+				System.out.println("음식임");
+			 result =pms.food_insert(Pr_date);
 			
-			}else if(PM.get("PRODUCT_CHOICE").equals("BOOK")) {
-				System.out.println("책 시작");
-				result = pms.book_insert(PM);
-				System.out.println(result);
+			}else if(Pr_date.get("FIR_CODE").equals("fir_001")) {
+					System.out.println("책임");
+				result = pms.book_insert(Pr_date);
 			}
-		NexacroResult ss = new NexacroResult();
-		
-		
-		return ss;
+			
+			re.addDataSet("re", result);
+			
+		return re;
 	}
 	
 	
@@ -57,7 +57,7 @@ public class ProductManagementController {
     public NexacroResult food(HttpServletRequest request, Object success, Map<String,Object> data) {
 		NexacroResult result = new NexacroResult();
 		
-		String savePath = "C:/Users/hcnc/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
+		String savePath = "C:/Users/wornt/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
 		
 		LocalDateTime dateTime = LocalDateTime.now();
 
@@ -112,7 +112,7 @@ public class ProductManagementController {
     public NexacroResult book(HttpServletRequest request, Object success, Map<String,Object> data) {
 		NexacroResult result = new NexacroResult();
 		
-		String savePath = "C:/Users/hcnc/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
+		String savePath = "C:/Users/wornt/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
 		
 		LocalDateTime dateTime = LocalDateTime.now();
 
@@ -164,28 +164,20 @@ public class ProductManagementController {
         return result;
     }
 	
-	@RequestMapping("food_date.do")
-	public NexacroResult Food_Date() {
-		System.out.println("음식");
+	//등록된 제품
+	@RequestMapping("getproduct_date.do")
+	public NexacroResult getproduct_date() {
+		System.out.println("제품");
 		NexacroResult result = new NexacroResult();
 		
-		List<Map<String, Object>> date = pms.food_date();
+		List<Map<String, Object>> date = pms.getProudct_date();
 		
-		result.addDataSet("Food", date);
+		result.addDataSet("product", date);
 		
 		return result;
 		
 	}
 	
-	@RequestMapping("book_date.do")
-	public NexacroResult Bood_Date() {
-		System.out.println("책");
-		NexacroResult result = new NexacroResult();
-		
-		List<Map<String, Object>> date = pms.book_date();
-		
-		result.addDataSet("Book", date);
-		return result;
-	}
+	
 	
 }

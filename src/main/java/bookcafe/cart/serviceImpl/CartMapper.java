@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import bookcafe.cart.service.CartVO;
+import bookcafe.cart.service.PointLogVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("cartMapper")
@@ -28,6 +29,13 @@ public interface CartMapper {
 
    public int insertOrder(bookcafe.cart.service.OrdersVO order);
 
-   
+	public void updateQuantity(String cart_code);
+
+	public void addPoint(PointLogVO  pointLog);
+
+	public String getLastInsertOrderCode(String user_code);
+
+	public int getTotalPrice(String order_code);
+	
 
 }

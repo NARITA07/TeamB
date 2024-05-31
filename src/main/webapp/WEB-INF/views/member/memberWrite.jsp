@@ -37,7 +37,7 @@ $(function() {
             return false;
         }
         if (!telPattern.test(user_tel)) {
-            alert("연락처는 3자리-3~4자리-4자리 형식이어야 합니다.");
+            alert("연락처 예):010-0000-0000 ");
             return false;
         }
         if (!emailPattern.test(user_email)) {
@@ -232,15 +232,15 @@ function sample2_execDaumPostcode() {
         border-radius: 4px;
     }
     .form-group button {
-        background-color: #007bff;
+        background-color: #AB8212;
         color: white;
         border: none;
         cursor: pointer;
         margin-left: 10px;
+        font-weight: bold; /* 글씨 굵게 */
+        font-size: 16px; /* 글씨 크기 */
     }
-    .form-group button:hover {
-        background-color: #0056b3;
-    }
+    
     .div_btn {
         display: flex;
         justify-content: center;
@@ -248,15 +248,15 @@ function sample2_execDaumPostcode() {
     }
     .div_btn button {
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: #AB8212;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 4px;
+        font-weight: bold; /* 글씨 굵게 */
+        font-size: 16px; /* 글씨 크기 */
     }
-    .div_btn button:hover {
-        background-color: #0056b3;
-    }
+    
     .address-group {
         display: flex;
         align-items: center;
@@ -279,6 +279,8 @@ function sample2_execDaumPostcode() {
         color: white;
         border: none;
         cursor: pointer;
+        font-weight: bold; /* 글씨 굵게 */
+        font-size: 16px; /* 글씨 크기 */
     }
     .address-group button:hover {
         background-color: #0056b3;
@@ -342,7 +344,7 @@ function sample2_execDaumPostcode() {
         <button type="button" id="reset">취소</button>
     </div>
 </div>
-
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

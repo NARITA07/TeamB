@@ -29,21 +29,18 @@
 	<update id="food_insert"> UPDATE FOOD SET PRODUCT_NAME = #{PRODUCT_NAME},
 		PRODUCT_PRICE = #{PRODUCT_PRICE}, PRODUCT_CATEGORY = #{SEC_CODE} WHERE
 		PRODUCT_PATH = #{PRODUCT_PATH} </update>
-	<!-- 음식 정보 -->
-	<select id="food_date" resultType="java.util.Map"> 
-		SELECT PRODUCT_NAME,
-		PRODUCT_PRICE, PRODUCT_QUANTITY, SEC_NAME 
-		FROM FOOD f JOIN SEC_CODE sc
-		on f.PRODUCT_CATEGORY = sc.SEC_CODE
-		ORDER BY SEC_CODE;
-		 </select>
-	<!-- 도서 정보 -->
-	<select id="book_date" resultType="java.util.Map"> 
-		SELECT SEC_NAME,
-		BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_QUANTITY, BOOK_NAME 
-		FROM BOOK b
-		JOIN SEC_CODE sc on b.BOOK_CATEGORY = sc.SEC_CODE
-		ORDER BY SEC_CODE;
-		 </select>
+
+	<select id="getProduct_date" resultType="java.util.Map">
+
+		SELECT PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, SEC_NAME FROM FOOD F JOIN SEC_CODE SC
+		ON F.PRODUCT_CATEGORY = SC.SEC_CODE
+
+		UNION
+
+		SELECT BOOK_CODE, BOOK_NAME, BOOK_PRICE, SEC_NAME FROM BOOK B JOIN SEC_CODE
+		SC
+		ON B.BOOK_CATEGORY = SC.SEC_CODE;
+	</select>
+		
 
 </mapper>

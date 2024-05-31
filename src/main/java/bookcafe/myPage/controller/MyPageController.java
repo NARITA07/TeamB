@@ -38,7 +38,7 @@ public class MyPageController {
 	public void myPageMain(HttpSession session) {
 		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
 		
-    	System.out.println("loginInfo: " + loginInfo);
+    	System.out.println("loginInfo: " + loginInfo.toString());
 	}
 	
 	// 내 정보관리 페이지

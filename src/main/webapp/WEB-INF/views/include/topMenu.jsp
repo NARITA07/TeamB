@@ -25,7 +25,7 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/bookList.do">책</a></li>
+            <li class="nav-item"><a class="nav-link" href="/bookList.do">도서</a></li>
             <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
 				<%
 					if(sUID == null || loginInfo == null){
@@ -75,7 +75,7 @@
 		console.log("유저코드:"+user_code);
 		
 		function goCart(){
-			var url = 'cartList.do';
+			var url = '/cartList.do';
 			window.location.href = url;
 		}
 	</script>

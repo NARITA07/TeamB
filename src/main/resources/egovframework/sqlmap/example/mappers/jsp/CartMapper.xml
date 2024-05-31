@@ -33,7 +33,7 @@
 			#{cart_code},
 			1,
 			#{total_price},
-			date_format(now(),'%Y%m%d%H%m%s'),
+			NOW(),
 			#{payment_method},
 			1)
 	</insert>
@@ -96,5 +96,50 @@
 		    c.user_code = u.user_code
 		WHERE 
 		    c.cart_code = #{cart_code}
+	</select>
+	
+	<update id="updateQuantity" parameterType="String">
+		UPDATE FOOD
+		SET product_quantity = product_quantity - (
+		    SELECT SUM(order_quantity)
+		    FROM CART
+		    WHERE CART.cart_code = #{cart_code}
+		)
+		WHERE product_code IN (
+		    SELECT product_code
+		    FROM CART
+		    WHERE CART.cart_code = #{cart_code}
+		);
+	</update>
+	
+	<select id="getLastInsertOrderCode" parameterType="string" resultType="string">
+	    SELECT ORDER_CODE 
+	    FROM ORDERS 
+	    WHERE USER_CODE = #{user_code}
+	    ORDER BY PAYMENT_DATE DESC
+	    LIMIT 1;
+	</select>
+	
+	<insert id="addPoint" parameterType="bookcafe.cart.service.PointLogVO">
+		INSERT INTO POINTLOG (
+        POINT_CODE,
+        USER_CODE,
+        ORDER_CODE,
+        POINT_CHANGE,
+        POINT_JOINDATE
+    	)
+    	VALUES (
+        fnCode('pointlog'),
+        #{user_code},
+        #{order_code},
+        #{point_change},
+        NOW()
+    	);
+	</insert>
+	
+	<select id="getTotalPrice" parameterType="string" resultType="int">
+	    SELECT total_price 
+	    FROM ORDERS 
+	    WHERE order_code = #{order_code}
 	</select>
 </mapper>

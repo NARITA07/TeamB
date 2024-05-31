@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
+import bookcafe.cart.service.PointLogVO;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -64,6 +65,8 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public int insertOrder(bookcafe.cart.service.OrdersVO order) {
+		 order.setOrder_code(cartMapper.getLastInsertOrderCode(order.getUser_code()));
+		 //order.setTotal_price(total_price);
 		return cartMapper.insertOrder(order);
 		
 	}
@@ -71,6 +74,21 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public int selectOrder(String cart_code) {
 		return cartMapper.selectOrders(cart_code);
+	}
+
+	@Override
+	public void updateQuantity(String cart_code) {
+		cartMapper.updateQuantity(cart_code);
+	}
+
+	@Override
+	public void addPoint(PointLogVO  pointLog) {
+		cartMapper.addPoint(pointLog);
+	}
+
+	@Override
+	public int getTotalPrice(String order_code) {
+		return cartMapper.getTotalPrice(order_code);
 	}
 
 	

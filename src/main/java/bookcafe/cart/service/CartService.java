@@ -19,5 +19,11 @@ public interface CartService {
 	
 	public int selectOrder(String cart_code);
 
+	public void updateQuantity(String cart_code);
+
+	public void addPoint(PointLogVO  pointLog);
+	
+	public int getTotalPrice(String order_code);
+
 
 }

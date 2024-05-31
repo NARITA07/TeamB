@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +34,7 @@
         border: 1px solid black;
         padding: 8px;
         text-align: center;
+        
     }
     th {
         background-color: #f2f2f2;
@@ -63,12 +65,17 @@
         background-color: #f2f2f2;
     }
     .btn.btn-light.buy_btn {
-	    margin-left: 50%;
+	    margin-left: 47%;
 	    margin-top: 30px;
 	    background-color: #AB8212;
 	    color: white;
+	    font-style: 
 	}
 	.btn.btn-light.delete_btn{
+		background-color: #AB8212;
+		color: white;
+	}
+	.btn.btn-light{
 		background-color: #AB8212;
 		color: white;
 	}
@@ -88,17 +95,15 @@
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 		<table>
             <tr>
-            	<th>주문코드</th>
-                <th>음식이름</th>
-                <th>음식가격</th>
-                <th>음식수량</th>
-                <th>삭제</th>
+                <th style="text-align: center;">음식이름</th>
+                <th style="text-align: center;">음식가격</th>
+                <th style="text-align: center;">음식수량</th>
+                <th style="text-align: center;">삭제</th>
             </tr>
             <c:forEach items="${cartList}" var="cart">
                 <tr>
-                	<td>${cart.sequence_number}</td>	
                     <td>${cart.product_name}</td>
-                    <td>${cart.product_price}</td>
+                    <td><fmt:formatNumber value="${cart.product_price}" type="number" groupingUsed="true" />원</td>
                     <td>${cart.order_quantity}</td>
                     <td><button class="btn btn-light delete_btn" onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
                 </tr>
@@ -125,7 +130,7 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">구매하기</h5>
+		        <h5 class="modal-title" id="exampleModalLabel">장바구니 구매하기</h5>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 		      <div class="modal-body">
@@ -160,7 +165,7 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-		        <button type="submit" form="orderForm" class="btn btn-primary">결제</button>
+		        <button type="submit" form="orderForm" class="btn btn-light">결제</button>
      			</div>
 		    </div>
 		  </div>
@@ -168,12 +173,25 @@
         
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 	<script>
+		function formatPrice(price) {
+	        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+	    }
+	
+	    // 포맷팅된 값을 설정하는 함수
+	    function setFormattedPrice() {
+	        const totalPriceField = document.getElementById('totalPrice');
+	        const amountOfPaymentField = document.getElementById('amountOfPayment');
+	
+	        totalPriceField.value = formatPrice(totalPriceField.value);
+	        amountOfPaymentField.value = formatPrice(amountOfPaymentField.value);
+	    }
+		
 		var myModal = document.getElementById('myModal');
 		var myInput = document.getElementById('myInput');
 		
 		/*삭제 함수  */
 		function deleteCart(cart_code,product_code,user_code,order_quantity){
-			alert("삭제되었습니다."+cart_code+product_code+user_code);
+			alert("삭제되었습니다.");
 			var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
               '&product_code=' + encodeURIComponent(product_code) +
               '&user_code=' + encodeURIComponent(user_code)+
@@ -184,7 +202,7 @@
 		// 결제 금액 계산 함수
 		function calculateAmountOfPayment() {
 		    // 총 금액, 사용 포인트 입력값 가져오기
-		    var totalPrice = parseInt(document.getElementById("totalPrice").value);
+		    var totalPrice = parseInt(document.getElementById("totalPrice").value.replace(/,/g, ''));
 		    var usePoints = parseInt(document.getElementById("usePoints").value);
 
 		    // 유효한 숫자인지 확인
@@ -192,7 +210,7 @@
 		        // 결제 금액 계산
 		        var amountOfPayment = totalPrice - usePoints;
 		        // 결제 금액 필드에 값을 설정
-		        document.getElementById("amountOfPayment").value = amountOfPayment;
+		        document.getElementById("amountOfPayment").value = formatPrice(amountOfPayment);
 		    } else {
 		        // 입력값이 유효하지 않은 경우 에러 메시지 표시
 		        alert("올바른 숫자를 입력해주세요.");

@@ -3,7 +3,7 @@
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
-        <Grid id="nav" taborder="0" left="0" width="200" height="68.06%" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="false" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all" borderRadius="0px 0px 0px 20px" bottom="0">
+        <Grid id="nav" taborder="0" left="0" width="200" height="65.28%" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="false" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all" borderRadius="0px 0px 0px 20px" bottom="20">
           <Formats>
             <Format id="default">
               <Columns>
@@ -64,7 +64,7 @@
           </Row>
           <Row>
             <Col id="title">제품수정</Col>
-            <Col id="url">FrameBase::BookCafe_ProductModify.xfdl</Col>
+            <Col id="url">FrameBase::BookCafe_Product.xfdl</Col>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
@@ -75,7 +75,7 @@
           <Row>
             <Col id="title">대여현황</Col>
             <Col id="LEVEL">0</Col>
-            <Col id="url">FrameBase::aaa.xfdl</Col>
+            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">품목관리</Col>

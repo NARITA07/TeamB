@@ -3,25 +3,28 @@
   <Form id="BookCafe_ProductManagemnet_Modify" width="1020" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1020">
-        <ListView id="ListView00" taborder="0" left="20" binddataset="product" top="100" bottom="20" right="20" onnodataareaclick="ListView00_onnodataareaclick" onselectchanged="ListView00_onselectchanged" oncellclick="ListView00_oncellclick" border="1px solid #4F4537">
+        <ListView id="ListView00" taborder="0" left="20" binddataset="product" top="130" bottom="20" right="20" oncellclick="ListView00_oncellclick" border="1px solid #4F4537" onselectchanged="ListView00_onselectchanged">
           <Formats>
             <Format id="default">
               <Band id="body" width="100%" height="100">
-                <Cell id="Cell00" left="660" top="5" width="120" height="24" text="항목코드"/>
-                <Cell id="Cell01" left="785" top="5" width="180" height="24" text="bind:PRODUCT_CODE"/>
-                <Cell id="Cell02" left="10" top="6" width="120" height="24" text="상품명"/>
-                <Cell id="Cell03" left="135" top="6" width="180" height="24" text="bind:PRODUCT_NAME"/>
-                <Cell id="Cell04" left="10" top="66" width="120" height="24" text="가격"/>
-                <Cell id="Cell05" left="135" top="66" width="180" height="24" text="bind:PRODUCT_PRICE" displaytype="mask" maskeditformat="0,000"/>
-                <Cell id="Cell06" left="10" top="34" width="120" height="24" text="종류"/>
-                <Cell id="Cell07" left="135" top="34" width="180" height="24" text="bind:SEC_NAME"/>
-                <Cell id="btn_modi" left="669" top="64" width="101" height="27" text="수정" textAlign="center"/>
-                <Cell id="btn_del" left="774" top="64" width="101" height="27" text="삭제" textAlign="center"/>
+                <Cell id="Cell01" left="30" text="bind:PRODUCT_CODE" bottom="5" height="25" width="150" opacity="0.7"/>
+                <Cell id="Cell08" left="30" top="5" width="150" bottom="5" text="이미지 준비중" textAlign="center"/>
+                <Cell id="Cell07" left="190" width="180" text="bind:SEC_NAME" top="36" bottom="37" border="1px none #dbdee2" color="gainsboro"/>
+                <Cell id="Cell03" left="Cell08:10" top="5" width="240" text="bind:PRODUCT_NAME" bottom="Cell07:5" edittype="text" border="1px none #dbdee2" font="18px/normal &quot;Gulim&quot;"/>
+                <Cell id="Cell05" left="220" top="68" width="60" height="25" text="bind:PRODUCT_PRICE" displaytype="mask" maskeditformat="0,000" edittype="text" border="1px none black" font="18px/normal &quot;Gulim&quot;"/>
+                <Cell id="btn_modi" top="7" width="101" height="30" text="수정" textAlign="center" right="17" borderRadius="5px" border="1px none #dbdee2" displaytype="buttoncontrol" edittype="button"/>
+                <Cell id="chk_box" left="5" top="5" width="25" height="25" displaytype="checkboxcontrol" edittype="checkbox" border="1px none #dbdee2" checkboxsize="25"/>
+                <Cell id="Cell00" left="193" top="68" width="25" height="25" border="1px none black" text="₩" font="18px/normal &quot;Gulim&quot;"/>
               </Band>
             </Format>
           </Formats>
         </ListView>
         <Static id="Static00" taborder="1" text="제품관리" left="2.84%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
+        <Combo id="Combo00" taborder="2" text="카테고리" left="20" top="80" width="130" height="38" value="" index="-1"/>
+        <Combo id="Combo00_00" taborder="3" text="카테고리" left="160" top="81" width="130" height="38" value="" index="-1"/>
+        <Button id="Button01" taborder="5" text="삭제" left="874" top="90" width="126" bottom="ListView00:5"/>
+        <Button id="btn_allselect" taborder="4" text="전체 선택" left="760" top="90" onclick="btn_allselect_onclick" bottom="ListView00:5" right="Button01:10"/>
+        <Static id="product_db" taborder="6" left="584" top="104" width="102" height="17"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -31,6 +34,11 @@
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="제품명"/>
           <Column id="PRODUCT_PRICE" type="INT" size="256" description="제품가격"/>
           <Column id="SEC_NAME" type="STRING" size="256" description="종류"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Dataset00">
+        <ColumnInfo>
+          <Column id="ch" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -56,6 +64,10 @@ this.fn_product = function(id, code, message){
 	
 	if(code == 0){
 		
+		if(id = "product_date"){
+		this.product_db.set_text("등록된 물품 갯수: " + this.product.getRowCount());
+		
+		}
 	}
 }
 
@@ -73,7 +85,7 @@ this.ListView00_oncellclick = function(obj:nexacro.ListView,e:nexacro.ListViewCl
 
 this.modify = function(v){
 	
-	alert(this.product.getColumn(v,"PRODUCT_CODE"))
+	
 
 
 }
@@ -85,6 +97,11 @@ this.del = function(v){
 
 
 
+this.btn_allselect_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var select = this.product.getRowCount();
+	alert(select)
+};
 ]]></Script>
   </Form>
 </FDL>

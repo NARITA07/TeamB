@@ -171,7 +171,6 @@
 		  </div>
 		</div>
         
-	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 	<script>
 		function formatPrice(price) {
 	        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";

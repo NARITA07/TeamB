@@ -3,66 +3,30 @@
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
-        <Grid id="nav" taborder="1" left="0" top="0" width="200" height="720" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="false" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all">
+        <Grid id="nav" taborder="0" left="0" width="200" height="65.28%" binddataset="Nav" oncellclick="nav_oncellclick" border="0px none, 1px solid black, 0px none, 0px none" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="false" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all" borderRadius="0px 0px 0px 20px" bottom="20">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="199"/>
               </Columns>
               <Rows>
-                <Row size="50" band="head"/>
                 <Row size="50"/>
               </Rows>
-              <Band id="head">
-                <Cell text="책빵" background="black" color="white" font="normal 700 24px/normal &quot;Gulim&quot;"/>
-              </Band>
               <Band id="body">
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" font="30px/normal &quot;Gulim&quot;" border="1px none #dbdee2, 1px none #dbdee2, 1px solid #dbdee2" cursor="pointer"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Div id="Main" taborder="2" text="Main" left="200" top="50" height="93.06%" formscrolltype="none" url="FrameBase::BookCafe_OrderStatus.xfdl" right="0"/>
-        <Div id="login_data" taborder="3" text="안녕하세요~님" left="200" top="0" width="1080" height="50" formscrolltype="none" formscrollbartype="none" background="#dbdee2">
+        <Div id="Main" taborder="1" text="Main" left="200" top="0" height="100.00%" formscrolltype="none" url="FrameBase::BookCafe_OrderStatus.xfdl" right="0"/>
+        <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
+        <Div id="Div00" taborder="3" text="Div00" left="0" top="0" width="200" height="32%" border="1px solid black" maxwidth="200" minwidth="" minheight="" borderRadius="20px 0px 0px" background="url('imagerc::logo.png') no-repeat center 1% /200px 150px">
           <Layouts>
             <Layout>
-              <Menu id="Menu_bar" taborder="0" left="979" top="-1" width="100" height="50" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" color="pink" onmenuclick="login_data_Menu_bar_onmenuclick" innerdataset="innerdataset" visible="true" tabstop="false" borderRadius="5px">
-                <Dataset id="innerdataset">
-                  <ColumnInfo>
-                    <Column id="captioncolumn" size="256"/>
-                    <Column id="checkboxcolumn" size="256"/>
-                    <Column id="enablecolumn" size="256"/>
-                    <Column id="hotkeycolumn" size="256"/>
-                    <Column id="iconcolumn" size="256"/>
-                    <Column id="idcolumn" size="256"/>
-                    <Column id="levelcolumn" size="256"/>
-                    <Column id="userdatacolumn" size="256"/>
-                  </ColumnInfo>
-                  <Rows>
-                    <Row>
-                      <Col id="captioncolumn">메뉴</Col>
-                      <Col id="levelcolumn">0</Col>
-                      <Col id="userdatacolumn"/>
-                    </Row>
-                    <Row>
-                      <Col id="userdatacolumn"/>
-                      <Col id="captioncolumn">내 정보</Col>
-                      <Col id="levelcolumn">1</Col>
-                      <Col id="idcolumn">my</Col>
-                    </Row>
-                    <Row>
-                      <Col id="userdatacolumn"/>
-                      <Col id="captioncolumn">로그아웃</Col>
-                      <Col id="levelcolumn">1</Col>
-                      <Col id="idcolumn">logout</Col>
-                    </Row>
-                  </Rows>
-                </Dataset>
-              </Menu>
+              <Edit id="Edit00" taborder="1" left="20" top="78.51%" height="20" border="0px solid" textAlign="center" enable="false" background="whtie" right="19" maxheight="30" minheight="" font="14px/normal &quot;Gulim&quot;"/>
             </Layout>
           </Layouts>
         </Div>
-        <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -100,18 +64,18 @@
           </Row>
           <Row>
             <Col id="title">제품수정</Col>
-            <Col id="url">FrameBase::BookCafe_ProductModify.xfdl</Col>
+            <Col id="url">FrameBase::BookCafe_Product.xfdl</Col>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
             <Col id="title">등록</Col>
             <Col id="LEVEL">1</Col>
-            <Col id="url"></Col>
+            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">대여현황</Col>
             <Col id="LEVEL">0</Col>
-            <Col id="url">FrameBase::aaa.xfdl</Col>
+            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">품목관리</Col>
@@ -196,7 +160,7 @@ this.login_data_Menu_bar_onmenuclick = function(obj:nexacro.Menu,e:nexacro.MenuC
 };
 ]]></Script>
     <Bind>
-      <BindItem id="item1" compid="login_id" propid="text" datasetid="Session_login" columnid="ADMIN_ID"/>
+      <BindItem id="item0" compid="Div00.form.Edit00" propid="value" datasetid="Session_login" columnid="ADMIN_ID"/>
     </Bind>
   </Form>
 </FDL>

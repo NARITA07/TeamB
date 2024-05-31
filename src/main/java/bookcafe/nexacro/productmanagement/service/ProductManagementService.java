@@ -17,11 +17,8 @@ public interface ProductManagementService {
 	//도서 등록
 	int book_insert(Map<String, String> pM);
 
-	//음식 정보
-	List<Map<String, Object>> food_date();
-
-	//도서 정보
-	List<Map<String, Object>> book_date();
+	//제품 등록
+	List<Map<String, Object>> getProudct_date();
 
 
 

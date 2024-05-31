@@ -29,6 +29,7 @@ public int selectSnsIdChk(String user_sns_id);
 //회원정보 조회하기
 public MemberVO getUserInfo(String user_id);
 
-/* 회원 메일 받아오기 */
+/* 회원 코드로 이메일 받아오기 */
 public String selectMemberEmail(String user_code);
+
 }

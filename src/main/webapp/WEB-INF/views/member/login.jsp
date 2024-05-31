@@ -95,6 +95,14 @@ $(function() {
 });
 </script>
 <style>
+.ftco-section {
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+	flex-direction: column;
+}
+
 .naver-login-img {
     display: inline-block;
     height: 56px;
@@ -114,7 +122,7 @@ $(function() {
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #ccc;
-    background: white;
+    background: AB8212;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     width: 40%;
 }
@@ -128,11 +136,12 @@ $(function() {
 
 .close-modal {
     cursor: pointer;
+    background-color: #AB8212;
 }
 
 .form-group button,
 .btn {
-    background-color: #007bff;
+    background-color: #AB8212;
     color: white;
     border: none;
     cursor: pointer;
@@ -157,6 +166,7 @@ $(function() {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
 }
 
 .loginBtns a {
@@ -192,14 +202,14 @@ $(function() {
                         <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
                     </div>
                     <div class="form-group">
-                        <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5">
+                        <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5" style="background-color:#AB8212; font-weight: bold; font-size: 16px;">
                         <a id="naver_login_link" href="naverLogin.do">
                             <img id="btn_naver_login" alt="logo" src="/images/NaverBtn.png" class="naver-login-img">
                         </a>
                     </div>
                     <div class="loginBtns" style="margin-top:20px;">
-                        <a href="memberWrite.do">회원가입</a>
-                        <a href="findIdPwForm.do">아이디/비밀번호 찾기</a>
+                        <a href="memberWrite.do" style="color:black; font-size:16px;" >회원가입</a>
+                        <a href="findIdPwForm.do" style="color:black; font-size:16px;">아이디/비밀번호 찾기</a>
                     </div>
                 </form>
             </div>

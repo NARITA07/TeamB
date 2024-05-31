@@ -1,6 +1,6 @@
-<%@page import="bookcafe.member.service.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="bookcafe.member.service.MemberVO"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,12 +59,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="logoutModalLabel">로그아웃 하시겠습니까?</h5> 
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button> 
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button> 
 					<a class="btn btn-primary"	href="/logout.do">로그아웃</a>
 				</div>
 			</div>

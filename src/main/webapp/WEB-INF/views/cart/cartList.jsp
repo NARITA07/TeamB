@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>CartList</title>
-	<style>
+   <meta charset="UTF-8">
+   <title>CartList</title>
+   <style>
     html, body {
         height: 100%;
         margin: 0;
@@ -80,11 +80,11 @@
 		color: white;
 	}
 </style>
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   	<meta name="description" content="" />
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
     <meta name="author" content="" />
-	<title>foodList</title>
-	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+   <title>foodList</title>
+   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -92,8 +92,8 @@
     <link href="css/food.css" rel="stylesheet" />
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-		<table>
+   <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+      <table>
             <tr>
                 <th style="text-align: center;">음식이름</th>
                 <th style="text-align: center;">음식가격</th>
@@ -160,7 +160,7 @@
                         </label>
                     </div>
                     <input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
-    				<input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
+                <input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
                 </form>
 		      </div>
 		      <div class="modal-footer">
@@ -217,11 +217,12 @@
 		    }
 		}
 
-		// 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
-		document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
-		
-		
-		
-	</script>
+      // 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
+      document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
+      
+      
+      
+   </script>
+   <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>
 </html>

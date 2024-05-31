@@ -17,7 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 <!-- 비밀번호변경 유효성 검사 스크립트 include -->
-<%@ include file="/WEB-INF/views/include/check_pw.jsp" %>
+<%@ include file="/WEB-INF/views/include/check_pw2.jsp" %>
 
 <script>
 // 카카오 주소 api
@@ -116,7 +116,7 @@ $(function() {
                             <div class="input-group" style="display: flex; align-items: center;">
                                 <input type="text" class="form-control" id="postcode" style="margin-right: 10px;" required>
                                 <span class="input-group-btn">
-                                    <input type="button" onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-info">
+                                    <input type="button" onclick="openZipSearch()" value="우편번호 찾기" class="btn btn-primary">
                                 </span>
                             </div>
                             <input type="text" class="form-control" id="address" required>
@@ -124,7 +124,7 @@ $(function() {
                             <input type="hidden" id="user_address" name="user_address" value="${loginInfo.user_address}">
                         </div>
                         <hr>
-                        <button type="submit" id="btn_submit" class="btn btn-success">수정완료</button>
+                        <button type="submit" id="btn_submit" class="btn btn-primary">수정완료</button>
                     </form>
                 </div>
             </div>
@@ -160,7 +160,7 @@ $(function() {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="btn-pwdChange-save">저장</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

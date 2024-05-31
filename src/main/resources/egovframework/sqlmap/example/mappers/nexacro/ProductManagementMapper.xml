@@ -1,54 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="bookcafe.nexacro.productmanagement.serviceImpl.ProductManagementMapper">
+<mapper
+	namespace="bookcafe.nexacro.productmanagement.serviceImpl.ProductManagementMapper">
 
 	<!-- 음식 이미지 등록 -->
-	<insert id="Food_Product">
-	INSERT INTO FOOD(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH)
-	VALUES(fnCode('food'), 'TEST', 0, 0, 'TEST', #{path})
-	</insert>
-	
-	<insert id="BooK_Product">
-	INSERT INTO BOOK(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH)
-	VALUES (fnCode('book'), 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', #{path});
-	</insert>
-	
-	<update id="book_insert">
-	UPDATE BOOK 
-	SET 
-    BOOK_NAME = #{PRODUCT_NAME}, 
-    BOOK_QUANTITY = #{PRODUCT_QUANTITY}, 
-    BOOK_PRICE = #{PRODUCT_PRICE}, 
-    BOOK_CATEGORY = #{PRODUCT_CATEGORY},
-    BOOK_WRITER = #{PRODUCT_WRITER},
-    BOOK_PUBLICATION_DATE = #{PRODUCT_BOOK_PUBLICATION_DATE}
-WHERE 
-    BOOK_PATH = #{PRODUCT_PATH}
-	
-	
-	</update>
-	
-	
+	<!-- <insert id="Food_Product"> -->
+	<!-- INSERT INTO FOOD(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, 
+		PRODUCT_CATEGORY, PRODUCT_PATH) -->
+	<!-- VALUES(fnCode('food'), 'TEST', 0, 0, 'TEST', #{path}) -->
+	<!-- </insert> -->
+	<insert id="Food_Product"> INSERT INTO FOOD(PRODUCT_NAME, PRODUCT_PRICE,
+		PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH) VALUES('TEST', 0, 0,
+		'TEST', #{path}) </insert>
+	<!-- <insert id="BooK_Product"> -->
+	<!-- INSERT INTO BOOK(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, 
+		BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH) -->
+	<!-- VALUES (fnCode('book'), 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', 
+		#{path}); -->
+	<!-- </insert> -->
+	<insert id="BooK_Product"> INSERT INTO BOOK(BOOK_NAME, BOOK_PRICE,
+		BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH) VALUES
+		('TEST', 0, 'TEST', 'TEST', 'TEST', #{path}); </insert>
+	<update id="book_insert"> UPDATE BOOK SET BOOK_NAME = #{PRODUCT_NAME},
+		BOOK_PRICE = #{PRODUCT_PRICE}, BOOK_CATEGORY = #{SEC_CODE},
+		BOOK_WRITER = #{PRODUCT_WRITER}, BOOK_PUBLICATION_DATE =
+		#{PRODUCT_PUBLICATION_DATE} WHERE BOOK_PATH = #{PRODUCT_PATH} </update>
 	<!-- 음식 등록 -->
-	<update id="food_insert">
-	UPDATE FOOD 
-	SET 
-    PRODUCT_NAME = #{PRODUCT_NAME}, 
-    PRODUCT_PRICE = #{PRODUCT_PRICE}, 
-    PRODUCT_QUANTITY = #{PRODUCT_QUANTITY}, 
-    PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
-WHERE 
-    PRODUCT_PATH = #{PRODUCT_PATH}
-	</update>
-	
+	<update id="food_insert"> UPDATE FOOD SET PRODUCT_NAME = #{PRODUCT_NAME},
+		PRODUCT_PRICE = #{PRODUCT_PRICE}, PRODUCT_CATEGORY = #{SEC_CODE} WHERE
+		PRODUCT_PATH = #{PRODUCT_PATH} </update>
 	<!-- 음식 정보 -->
 	<select id="food_date" resultType="java.util.Map"> 
-	SELECT * FROM FOOD
-	</select>
-	
+		SELECT PRODUCT_NAME,
+		PRODUCT_PRICE, PRODUCT_QUANTITY, SEC_NAME 
+		FROM FOOD f JOIN SEC_CODE sc
+		on f.PRODUCT_CATEGORY = sc.SEC_CODE
+		ORDER BY SEC_CODE;
+		 </select>
 	<!-- 도서 정보 -->
 	<select id="book_date" resultType="java.util.Map"> 
-	SELECT * FROM BOOK
-	</select>
-	
+		SELECT SEC_NAME,
+		BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_QUANTITY, BOOK_NAME 
+		FROM BOOK b
+		JOIN SEC_CODE sc on b.BOOK_CATEGORY = sc.SEC_CODE
+		ORDER BY SEC_CODE;
+		 </select>
+
 </mapper>

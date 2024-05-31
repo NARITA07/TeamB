@@ -5,7 +5,7 @@
 <mapper namespace="bookcafe.myPage.serviceImpl.MyPageMapper">
 
 	<!-- 비밀번호 변경하기 -->
-	<update id="changePassword">
+	<update id="updatePassword">
 		update USER set
 			user_pass = #{newPassword}
 		where user_id = #{user_id}

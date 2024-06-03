@@ -15,11 +15,6 @@ public class FoodServiceImpl extends EgovAbstractServiceImpl implements FoodServ
 	@Resource(name="foodMapper")
 	FoodMapper foodMapper;
 	
-	/*커피 리스트*/
-	@Override
-	public List<FoodVO> getCoffeesList(){
-		return foodMapper.selectCoffeesList();
-	}
 	/*음식 리스트*/
 	@Override
 	public List<FoodVO> getFoodesssList(){

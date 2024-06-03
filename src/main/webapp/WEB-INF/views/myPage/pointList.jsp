@@ -29,15 +29,6 @@
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
 		width: 20%;
 	}
-	.modal-dialog {
-		width: 500px;
-	    max-width: 100%;
-	    margin: 1.75rem auto;
-	}
-	
-	ul {
-    list-style-type: square;
-}
 </style>
 </head>
 <body>

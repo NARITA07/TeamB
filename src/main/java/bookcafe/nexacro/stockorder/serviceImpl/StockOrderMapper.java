@@ -14,5 +14,14 @@ public interface StockOrderMapper {
 	
 	// 발주신청서 저장
 	List<Map<String, Object>> saveStockOrder(List<Map<String, String>> stock_order);
+
+
+	// 중분류 콤보
+	List<Map<String, Object>> SOSecCombo();
+	// 소분류 콤보
+	List<Map<String, Object>> SOThirCombo();
+
+	// 중분류 선택 시 소분류 변화
+	List<Map<String, Object>> ChkThirCombo(Map<String, String> find_thir_combo);
 	
 }

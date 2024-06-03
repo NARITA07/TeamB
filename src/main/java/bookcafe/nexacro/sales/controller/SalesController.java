@@ -48,13 +48,15 @@ public class SalesController {
 	
 	//대분류
 	@RequestMapping(value = "/selectFirstCombo.do")
-    public NexacroResult selectFirstCombo() {       
+    public NexacroResult selectFirstCombo() {    
        List<Map<String, Object>> dataList = sales_service.selectFirstCombo();
        
        NexacroResult result = new NexacroResult();
        result.addDataSet("combo_con", dataList);
        return result;
     }
+	
+	//중분류 조회
 	@RequestMapping(value = "/selectSecondCombo.do")
     public NexacroResult selectSecondCombo() {       
        List<Map<String, Object>> dataList = sales_service.selectSecondCombo();
@@ -64,7 +66,7 @@ public class SalesController {
        return result;
     }
 	
-	//중분류
+	//중분류 조건 조회
 	@RequestMapping(value = "/selectSalesCombo.do")
     public NexacroResult selectSalesCombo(@ParamDataSet(name = "combo_dtl", required = false) Map<String,String> combo_dtl) {    	    	
 		List<Map<String, Object>> dataList = sales_service.selectSalesCombo(combo_dtl);

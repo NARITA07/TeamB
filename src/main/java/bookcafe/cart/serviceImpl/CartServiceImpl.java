@@ -92,7 +92,8 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public int getTotalPrice(String order_code) {
 		System.out.println("서비스임플"+order_code);
-		return cartMapper.getTotalPrice(order_code);
+		Integer getTotalPrice = cartMapper.getTotalPrice(order_code);
+        return getTotalPrice != null ? getTotalPrice : 0;
 	}
 	
 	@Override

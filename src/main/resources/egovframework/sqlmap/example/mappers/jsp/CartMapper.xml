@@ -99,7 +99,7 @@
 	</delete>
 	
 	<!-- 총 금액 계산하기(카트리스트) -->
-	<select id="selectTotalPrice" parameterType="string" resultType="int">
+	<select id="selectTotalPrice" parameterType="string" resultType="Integer">
 	    SELECT 
 		    SUM(f.product_price * c.order_quantity) AS total_price
 		FROM 
@@ -159,7 +159,7 @@
 	</insert>
 	
 	<!-- 총금액 계산(오더리스트) -->
-	<select id="getTotalPrice" parameterType="string" resultType="int">
+	<select id="getTotalPrice" parameterType="string" resultType="Integer">
 	    SELECT total_price 
 	    FROM ORDERS 
 	    WHERE order_code = #{order_code}

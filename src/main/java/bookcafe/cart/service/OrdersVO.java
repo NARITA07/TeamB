@@ -8,7 +8,6 @@ public class OrdersVO {
 	private int order_state;
 	private int total_price;
 	private String payment_date;
-	private String payment_method;
 	private int payment_state;
 	
 	
@@ -54,25 +53,18 @@ public class OrdersVO {
 	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
-	public String getPayment_method() {
-		return payment_method;
-	}
-	public void setPayment_method(String payment_method) {
-		this.payment_method = payment_method;
-	}
 	public int getPayment_state() {
 		return payment_state;
 	}
 	public void setPayment_state(int payment_state) {
 		this.payment_state = payment_state;
 	}
+	
 	@Override
 	public String toString() {
 		return "OrdersVO [order_code=" + order_code + ", admin_code=" + admin_code + ", user_code=" + user_code
 				+ ", cart_code=" + cart_code + ", order_state=" + order_state + ", total_price=" + total_price
-				+ ", payment_date=" + payment_date + ", payment_method=" + payment_method + ", payment_state="
-				+ payment_state + "]";
+				+ ", payment_date=" + payment_date + ", payment_state=" + payment_state + "]";
 	}
-	
 	
 }

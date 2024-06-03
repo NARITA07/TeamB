@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="10" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="10" bottom="10" border="1px solid #4F4537">
+        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="1.85%" bottom="2.78%" border="1px solid #4F4537">
           <Formats>
             <Format id="default">
               <Columns>
@@ -30,7 +30,7 @@
                 <Cell col="5" text="휴대폰" background="#FFF8EE"/>
                 <Cell col="6" text="주소" background="#FFF8EE"/>
                 <Cell col="7" text="포인트" background="#FFF8EE"/>
-                <Cell col="8" text="포인트 사용일" background="#FFF8EE"/>
+                <Cell col="8" text="포인트 사용일" background="#FFF8EE" maskedittype="string" maskeditformat="@@@@-@@-@@"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:USER_AUTHORITY" textAlign="center"/>
@@ -41,11 +41,12 @@
                 <Cell col="5" text="bind:USER_TEL" textAlign="center"/>
                 <Cell col="6" text="bind:USER_ADDRESS" wordWrap="english"/>
                 <Cell col="7" text="bind:USER_POINT"/>
-                <Cell col="8" text="bind:POINT_JOINDATE" textAlign="right"/>
+                <Cell col="8" text="bind:POINT_JOINDATE" textAlign="right" displaytype="mask"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
+        <Static id="Static00" taborder="1" text="회원관리" left="1.85%" width="128" height="37" top="2.78%" cssclass="main_title"/>
       </Layout>
     </Layouts>
     <Objects>

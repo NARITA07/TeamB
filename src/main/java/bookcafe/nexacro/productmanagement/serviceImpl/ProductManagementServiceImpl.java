@@ -42,16 +42,11 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		return pmm.book_insert(pM);
 	}
 
-	//음식 정보
+	//등록된 제품 
 	@Override
-	public List<Map<String, Object>> food_date() {
-		return pmm.food_date();
-	}
-	
-	//도서 정보
-	@Override
-	public List<Map<String, Object>> book_date() {
-		return pmm.book_date();
+	public List<Map<String, Object>> getProudct_date() {
+		// TODO Auto-generated method stub
+		return pmm.getProduct_date();
 	}
 
 

@@ -53,8 +53,7 @@
 	</select>
 
 
-	<!-- 조회하기 -->
-	<select id="ViewList" parameterType="java.util.Map"
+	<select id="TestList" parameterType="java.util.Map"
 		resultType="java.util.Map">
 		SELECT *
 		FROM USER U

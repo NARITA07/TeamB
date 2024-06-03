@@ -1,10 +1,13 @@
 package bookcafe.myPage.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,8 @@ import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
+import bookcafe.point.service.PointService;
+import bookcafe.point.service.PointVO;
 
 
 @Controller
@@ -30,15 +35,18 @@ public class MyPageController {
 	@Autowired
 	private MemberService memberService;
 	
-	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	@Autowired
+	private PointService pointService;
+	
 	// 비밀번호 암호화
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPageMain(HttpSession session) {
 		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
 		
-    	System.out.println("loginInfo: " + loginInfo);
+    	System.out.println("loginInfo: " + loginInfo.toString());
 	}
 	
 	// 내 정보관리 페이지
@@ -49,6 +57,18 @@ public class MyPageController {
 	// 내 정보 수정 페이지
 	@GetMapping("/myPageInfo_modify")
 	public void myPageInfo_modifyGet() {
+	}
+	
+	// 포인트페이지
+	@GetMapping("/pointList")
+	public void pointList(HttpSession session, Model model) {
+		String user_id = (String) session.getAttribute("sessionId");
+		
+		// 포인트 내역 조회
+		List<PointVO> pointList = pointService.getPointList(user_id);
+		System.out.println("pointList:" + pointList.toString());
+		
+		model.addAttribute("pointList", pointList);
 	}
 	
 	// 카페 전체 주문내역 페이지
@@ -113,12 +133,12 @@ public class MyPageController {
 		String encNewPassword = passwordEncoder.encode(newPassword);	// 입력한 새 비밀번호
 		System.out.println("encNewPassword:"+ encNewPassword);
 		
-		if (passwordEncoder.matches(encPassword1, loginInfo.getUser_pass())) {
+		if (loginInfo.getUser_pass().equals(encPassword1)) {
 			PWchangeDTO pwChangeDTO = new PWchangeDTO();
 			pwChangeDTO.setUser_id(loginInfo.getUser_id());
 			pwChangeDTO.setNewPassword(encNewPassword);
-			
 			int result = myPageService.updatePassword(pwChangeDTO);
+			
 			if (result == 1) {
 				System.out.println("updatePassword");
 				loginInfo.setUser_pass(encNewPassword);

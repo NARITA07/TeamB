@@ -29,7 +29,7 @@ public interface CartMapper {
 	
 	public String getLastInsertOrderCode(String user_code);
 	
-	public int getTotalPrice(String order_code);
+	public Integer getTotalPrice(String order_code);
 	
 	public String selectOrderCode(String cart_code);
 	   

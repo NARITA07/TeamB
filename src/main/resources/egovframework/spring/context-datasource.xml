@@ -31,7 +31,8 @@
     <property name="username" value="root"/>
     <property name="password" value="1234"/>
 </bean>
-    -->
+-->
+    
     <!-- oracle (POM에서 commons-dbcp, ojdbc(라이센스 사항으로 별도로 배포되지 않음) 관련 라이브러리 설정)
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>

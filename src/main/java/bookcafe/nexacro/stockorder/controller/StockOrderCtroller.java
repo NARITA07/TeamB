@@ -47,6 +47,44 @@ public class StockOrderCtroller {
     	return result;
     } 
     
+    
+    // 중분류 조회
+    @RequestMapping(value = "/SOSecCombo.do")
+    public NexacroResult SOSecCombo() {
+    
+    	List<Map<String, Object>> dataList = soservice.SOSecCombo();
+    	
+    	NexacroResult result = new NexacroResult();
+    	
+    	result.addDataSet("find_sec_combo", dataList);
+    	return result;
+    }
+    
+    // 소분류 조회
+    @RequestMapping(value = "/SOThirCombo.do")
+    public NexacroResult SOThirCombo() {
+    
+    	List<Map<String, Object>> dataList = soservice.SOThirCombo();
+    	
+    	NexacroResult result = new NexacroResult();
+    	
+    	result.addDataSet("find_thir_combo", dataList);
+    	
+    	return result;
+    }
+    
+    // 중분류 선택 시 소분류 변화
+    @RequestMapping(value = "/ChkThirCombo.do")
+    public NexacroResult ChkThirCombo(@ParamDataSet(name = "find_thir_combo",required = false) Map<String,String> find_thir_combo){
+    	
+    	List<Map<String, Object>> dataList = soservice.ChkThirCombo(find_thir_combo);
+    	
+    	NexacroResult result = new NexacroResult();
+    	
+    	result.addDataSet("find_thir_combo", dataList);
+    	return result;
+    }
+    
     //발주신청 버튼 누르면 발주신청서에 내용이 저장되도록
     @RequestMapping("/saveStockOrder.do")
     public NexacroResult saveStockOrder(@ParamDataSet(name = "stock_order", required = false) List<Map<String,String>> stock_order){
@@ -58,6 +96,23 @@ public class StockOrderCtroller {
         List<Map<String,Object>> dataList = soservice.saveStockOrder(stock_order);
 	    result.addDataSet("result_stock_order",dataList);
         return result;
+    }
+    
+    // 조회하기 버튼
+    @RequestMapping(value = "/ViewList.do")
+    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){
+    	
+    	System.out.println("조회하기버튼 클릭! : " + search_combo);
+    	
+    	List<Map<String, Object>> dataList = soservice.ViewList(search_combo);
+    	
+	    NexacroResult result = new NexacroResult();
+	    result.addDataSet("result_grid", dataList);
+	    
+	    System.out.println("기간이 선택 됐나요? : "+ dataList);
+	
+	    return result;
+    	
     }
     
 }

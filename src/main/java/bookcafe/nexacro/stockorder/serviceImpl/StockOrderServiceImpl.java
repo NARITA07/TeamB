@@ -31,6 +31,23 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 		return somapper.saveStockOrder(stock_order);
 	}
 
+	// 중분류 콤보
+	@Override
+	public List<Map<String, Object>> SOSecCombo() {
+		return somapper.SOSecCombo();
+	}
+	// 소분류 콤보
+	@Override
+	public List<Map<String, Object>> SOThirCombo() {
+		return somapper.SOThirCombo();
+	}
+	
+	// 중분류 선택 시 소분류 변화
+	@Override
+	public List<Map<String, Object>> ChkThirCombo(Map<String, String> find_thir_combo) {
+		return somapper.ChkThirCombo(find_thir_combo);
+	}
+
 	
 	
 	

@@ -8,6 +8,9 @@ public interface StockOrderService {
 	// grid1 메뉴리스트 불러오기
 	List<Map<String, Object>> grid1MenuList();
 	
+	// grid2 발주신청서 리스트 불러오기
+	List<Map<String, Object>> grid2OrderList();
+	
 	// popup창에서 신청완료 시 발주신청서 저장
 	int saveStockOrder(List<Map<String, String>> stock_order);
 
@@ -20,4 +23,6 @@ public interface StockOrderService {
 
 	// combo를 통해 grid1 메뉴리스트 필터링
 	List<Map<String, Object>> ViewList(Map<String, String> search_so_grid);
+
+
 }

@@ -24,17 +24,26 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 	public List<Map<String, Object>> grid1MenuList() {
 		return somapper.grid1MenuList();
 	}
+	
+	// grid2 발주신청서 리스트 불러오기
+	@Override
+	public List<Map<String, Object>> grid2OrderList() {
+		return somapper.grid2OrderList();
+	}
 
 	// popup창에서 신청완료 시 발주신청서 저장
 	@Override
 	public int saveStockOrder(List<Map<String, String>> stock_orders) {
+		int successCount = 0;
 		for(Map<String,String> stock_order : stock_orders) {
 			int result = somapper.saveStockOrder(stock_order);
 			if(result == 1) {
-				return result;
-			}
+				successCount ++;
+			}else{
+				System.out.println("저장 실패한 발주신청서 : " + stock_order);
+				}
 		}
-		return 0;
+		return successCount;
 	}
 
 	// 중분류 콤보
@@ -59,6 +68,8 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 	public List<Map<String, Object>> ViewList(Map<String, String> search_so_grid) {
 		return somapper.ViewList(search_so_grid);
 	}
+
+
 }
 	
 // 서비스에서는 연산과 가공

@@ -31,22 +31,32 @@ public class StockOrderCtroller {
 	@Resource(name = "stockorderService")
     private StockOrderService soservice;
 	
-	
-	// 재고관리
     // grid1 list 불러오기
     @RequestMapping(value = "/grid1MenuList.do")
     public NexacroResult grid1MenuList() {
     	
-    	System.out.println("grid1 메뉴리스트 조회 요청이 들어왔습니다.");
-    	
     	List<Map<String, Object>> dataList = soservice.grid1MenuList();
+    	
     	NexacroResult result = new NexacroResult();
+    	
     	result.addDataSet("stock_grid1", dataList);
     	
-    	System.out.println("전송되는 데이터 : " + dataList);
     	return result;
     } 
     
+    @RequestMapping(value = "/grid2OrderList.do")
+    public NexacroResult grid2OrderList() {
+    	
+    	System.out.println("grid2 메뉴리스트 조회 요청이 들어왔습니다.");
+    	
+    	List<Map<String, Object>> dataList = soservice.grid2OrderList();
+    	
+    	NexacroResult result = new NexacroResult();
+    	result.addDataSet("stock_grid2", dataList);
+    	
+    	System.out.println("전송되는 데이터 : " + dataList);
+    	return result;
+    }     
     
     // 중분류 조회
     @RequestMapping(value = "/SOSecCombo.do")

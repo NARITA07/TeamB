@@ -160,7 +160,7 @@ $(function() {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="btn-pwdChange-save">저장</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookcafe.nexacro.codemanagement.serviceImpl.CodeManagementMapper">
+
+	<!-- 대분류 코드  --> 
+	<select id="init_fir_code" resultType="java.util.Map">
+	SELECT * FROM FIR_CODE ORDER BY FIR_CODE ;
+	</select>
+	
+	<select id="sec_category_select" resultType="java.util.Map">
+	<choose>
+	<when test="FIR_CODE.equals('fir_000')">
+		SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
+	</when>
+	<otherwise>
+		SELECT * FROM SEC_CODE 
+		WHERE FIR_CODE =#{FIR_CODE}
+	</otherwise>
+	</choose>
+	</select>
+	
+	<update id="C_sec_code_chx">
+	UPDATE SEC_CODE SET USE_STATUS = #{USE_STATUS} WHERE FIR_CODE = #{FIR_CODE}
+	</update>
+	
+	<update id="C_fir_code_chx">
+	UPDATE FIR_CODE SET USE_STATUS = #{USE_STATUS}, FIR_NAME = #{FIR_NAME} WHERE FIR_CODE = #{FIR_CODE}
+	
+	</update>
+	
+	<insert id="add_fir_code">
+	insert into FIR_CODE(FIR_CODE, FIR_NAME) values(fnCode('fir'),#{FIR_NAME});
+	</insert>
+ 
+ 	<delete id="C_del_date">
+	  DELETE FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
+	</delete>
+ 
+</mapper>

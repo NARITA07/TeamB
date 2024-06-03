@@ -179,12 +179,12 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 			if(this.stock_grid1.getColumn(i, "PRODUCT_CHECK") == "1"){
 				var row = this.stock_order.addRow();
 				//dataset에 ADMIN_CODE 추가
-				this.stock_order.setColumn(row,"ADMIN_CODE",adminCode);
+				this.stock_order.setColumn(row,"USER_CODE",adminCode);
 				this.stock_order.copyRow(row, this.stock_grid1, i);
 			}
 		}
 		// 저장
-		/*this.fnSaveStockOrder();*/
+		this.fnSaveStockOrder();
 	}
 	/*alert(this.stock_order.saveXML());*/
 };
@@ -360,7 +360,7 @@ this.stock01_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="stock_order">
+      <Dataset id="stock_order" useclientlayout="true">
         <ColumnInfo>
           <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_CODE" type="STRING" size="256" description="발주신청서 코드"/>

@@ -12,13 +12,6 @@
 		ORDER BY PRODUCT_QUANTITY;
 	</select>
 	
-	<!-- 발주신청서 저장 -->
-	<!-- 시퀀스 -->
-	<insert id="saveStockOrder">
-	  INSERT INTO STOCKORDER (USER_CODE,PRODUCT_CODE,STOCK_ORDER_CODE,STOCK_ORDER_QUANTITY,STOCK_ORDER_DATE,STOCK_ORDER_STATUS) 
-	  VALUES (#{ADMIN_CODE},#{PRODUCT_CODE},NEXTVAL(stock_seq),#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0);
-	</insert>
-	
 	<!-- 중분류 combo -->
 	<select id="SOSecCombo" resultType="java.util.Map">
 		SELECT FIR_CODE, SEC_CODE, SEC_NAME
@@ -27,7 +20,7 @@
 		ORDER BY SEC_CODE;
 	</select>
 	
-	<!-- 중분류 combo -->
+	<!-- 소분류 combo -->
 	<select id="SOThirCombo" resultType="java.util.Map">
 		SELECT SC.FIR_CODE, SC.SEC_CODE, F.PRODUCT_CODE, F.PRODUCT_NAME
 		FROM SEC_CODE SC
@@ -36,7 +29,7 @@
 		ORDER BY SC.SEC_CODE, F.PRODUCT_CODE;
 	</select>
 	
-	<!-- 소분류 combo -->
+	<!-- 중분류 선택 시 소분류 변경 combo -->
 	<select id="ChkThirCombo" resultType="java.util.Map">
 		SELECT SC.FIR_CODE, SC.SEC_CODE, F.PRODUCT_CODE, F.PRODUCT_NAME
 		FROM SEC_CODE SC
@@ -46,7 +39,7 @@
 		ORDER BY F.PRODUCT_CODE;
 	</select>
 	
-	<!-- 조회하기 -->
+	<!-- 조회하기 버튼 -->
 	<select id="ViewList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT F.PRODUCT_NAME , F.PRODUCT_CODE, F.PRODUCT_QUANTITY
 		FROM SEC_CODE SC
@@ -61,5 +54,10 @@
 		ORDER BY F.PRODUCT_QUANTITY ;			
 	</select>
 	
-
+	<!-- 발주신청서 저장 -->
+	<!-- 시퀀스 -->
+	<insert id="saveStockOrder" >
+	  INSERT INTO STOCKORDER (USER_CODE, STOCK_ORDER_CODE, PRODUCT_CODE, STOCK_ORDER_QUANTITY, STOCK_ORDER_DATE, STOCK_ORDER_STATUS) 
+	  VALUES (#{USER_CODE},NEXTVAL(stockorder_seq),#{PRODUCT_CODE},#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0)
+	</insert>
 </mapper>

@@ -27,8 +27,14 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 
 	// popup창에서 신청완료 시 발주신청서 저장
 	@Override
-	public List<Map<String, Object>> saveStockOrder(List<Map<String, String>> stock_order) {
-		return somapper.saveStockOrder(stock_order);
+	public int saveStockOrder(List<Map<String, String>> stock_orders) {
+		for(Map<String,String> stock_order : stock_orders) {
+			int result = somapper.saveStockOrder(stock_order);
+			if(result == 1) {
+				return result;
+			}
+		}
+		return 0;
 	}
 
 	// 중분류 콤보
@@ -53,10 +59,6 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 	public List<Map<String, Object>> ViewList(Map<String, String> search_so_grid) {
 		return somapper.ViewList(search_so_grid);
 	}
-
-	
-	
-	
 }
 	
-
+// 서비스에서는 연산과 가공

@@ -93,8 +93,8 @@ public class StockOrderCtroller {
     	
     	NexacroResult result = new NexacroResult();	
     
-        List<Map<String,Object>> dataList = soservice.saveStockOrder(stock_order);
-	    result.addDataSet("result_stock_order",dataList);
+        int service_result = soservice.saveStockOrder(stock_order);
+	    //result.addDataSet("result_stock_order",dataList);
         return result;
     }
     
@@ -116,3 +116,5 @@ public class StockOrderCtroller {
     }
     
 }
+
+// 어떤 뷰로 갈지, 어떤 서비스로 갈지

@@ -9,7 +9,7 @@ public interface StockOrderService {
 	List<Map<String, Object>> grid1MenuList();
 	
 	// popup창에서 신청완료 시 발주신청서 저장
-	List<Map<String, Object>> saveStockOrder(List<Map<String, String>> stock_order);
+	int saveStockOrder(List<Map<String, String>> stock_order);
 
 	// 중분류 콤보
 	List<Map<String, Object>> SOSecCombo();

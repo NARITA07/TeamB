@@ -275,15 +275,37 @@
 			<version>2.9.0</version>
 		</dependency>
 		<!-- mysql이나 oracle DB 사용시 아래 설정 추가 <dependency> <groupId>com.googlecode.log4jdbc</groupId> 
-			<artifactId>log4jdbc</artifactId> <version>1.2</version> <exclusions> <exclusion> 
-			<artifactId>slf4j-api</artifactId> <groupId>org.slf4j</groupId> </exclusion> 
-			</exclusions> </dependency> <dependency> <groupId>commons-dbcp</groupId> 
-			<artifactId>commons-dbcp</artifactId> <version>1.4</version> </dependency> 
-			<dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
-			<version>5.1.31</version> </dependency> <dependency> <groupId>ojdbc</groupId> 
-			<artifactId>ojdbc</artifactId> <version>14</version> <scope>system</scope> 
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc-14.jar</systemPath> 
+			<artifactId>log4jdbc</artifactId> 
+			<version>1.2</version> 
+			<exclusions> <exclusion> 
+			<artifactId>slf4j-api</artifactId> 
+			<groupId>org.slf4j</groupId> </exclusion> 
+			</exclusions> </dependency>
+			 <dependency> 
+			 <groupId>commons-dbcp</groupId> 
+			<artifactId>commons-dbcp</artifactId>
+			 <version>1.4</version> 
+			 </dependency> 
+			<dependency> 
+			<groupId>mysql</groupId> 
+			<artifactId>mysql-connector-java</artifactId> 
+			<version>5.1.31</version> 
 			</dependency> -->
+
+	<dependency>
+		<groupId>ojdbc</groupId>
+		<artifactId>ojdbc</artifactId>
+		<version>8</version>
+		<scope>system</scope>
+		<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc8.jar</systemPath>
+	</dependency>
+	
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version> <!-- Ensure this version matches the one compatible with your MySQL server -->
+</dependency>
+			
 	</dependencies>
 
 	<build>

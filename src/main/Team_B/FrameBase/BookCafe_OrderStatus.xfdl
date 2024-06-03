@@ -3,8 +3,7 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer" visible="true">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Static id="Static00" taborder="0" text="회원주문관리" left="18" top="25" width="149" height="43"/>
-        <Grid id="Grid00" taborder="1" left="20" top="80" height="250" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="20" border="1px solid #4F4537">
+        <Grid id="Grid00" taborder="1" left="1.76%" top="109" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="280">
           <Formats>
             <Format id="default">
               <Columns>
@@ -44,7 +43,8 @@
             </Format>
           </Formats>
         </Grid>
-        <Grid id="Grid00_00" taborder="2" left="20" top="395" height="250" binddataset="ds_orders_end" autoupdatetype="none" oncloseup="Grid00_00_oncloseup" autofittype="col" right="20" border="1px solid #4F4537">
+        <Static id="Static00" taborder="0" text="회원주문관리" left="1.85%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
+        <Grid id="Grid00_00" taborder="2" left="1.76%" height="210" binddataset="ds_orders_end" autoupdatetype="none" oncloseup="Grid00_00_oncloseup" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%">
           <Formats>
             <Format id="default">
               <Columns>
@@ -84,7 +84,8 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static01" taborder="3" text="주문처리완료" left="21" top="345" width="163" onclick="Static01_onclick" height="31"/>
+        <Static id="Static01" taborder="3" text="주문처리완료" left="1.85%" onclick="Static01_onclick" cssclass="title_sub" bottom="Grid00_00:5" right="935" height="24" width="126"/>
+        <Static id="Static02" taborder="4" text="주문현황" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
       </Layout>
     </Layouts>
     <Objects>

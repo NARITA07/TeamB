@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.food.serviceImpl.FoodMapper">
-	<!-- 커피 목록 조회 -->
-    <select id="selectCoffeesList" resultType="bookcafe.food.service.FoodVO">
-        SELECT * FROM FOOD
-        WHERE PRODUCT_CODE LIKE 'd_%'
-    </select>
     
-    <!-- 음식 목록 조회 -->
+    <!-- 음식 목록 조회 (커피, 푸드 통합) -->
     <select id="selectFoodessList" resultType="bookcafe.food.service.FoodVO">
         SELECT * FROM FOOD
         WHERE PRODUCT_CODE LIKE 'f_%'

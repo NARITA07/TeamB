@@ -104,7 +104,6 @@ this.주문이력현황_test3_oninit = function(obj:nexacro.Form,e:nexacro.Event
 };
 
 
-
 /* 2. 이벤트 */
 /* 2-1. 대분류 선택 시 변화 */
 this.Combo03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
@@ -158,31 +157,31 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 };
 
 /* 2-4. 조회하기 버튼 이벤트 */
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{	
-	// 새로운 행 추가
-	this.search_combo.addRow();
-
-	// 이름
-	this.search_combo.setColumn(0,"USER_NAME",this.Edit00.value);
-	// 대분류
-	this.search_combo.setColumn(0,"FIR_CODE",this.Combo03.value);
-	alert(this.Combo03.value);
-	
-	// 중분류
-	this.search_combo.setColumn(0,"PRODUCT_CATEGORY",this.Combo02.value);
-	alert(this.Combo02.value);
-	// 소분류
-	this.search_combo.setColumn(0,"PRODUCT_CODE",this.Combo00.value);
-	alert(this.Combo00.value);
-	// 월별
-	this.search_combo.setColumn(0,"PAYMENT_MONTH",this.Combo01.value);
-	//주간별
-	this.search_combo.setColumn(0,"PAYMENT_WEEK1",this.Calendar00.value);
-	this.search_combo.setColumn(0,"PAYMENT_WEEK2",this.Calendar00_00.value);
-
- 	this.fnViewList();
-};
+// this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// {	
+// 	// 새로운 행 추가
+// 	this.search_combo.addRow();
+// 
+// 	// 이름
+// 	this.search_combo.setColumn(0,"USER_NAME",this.Edit00.value);
+// 	// 대분류
+// 	this.search_combo.setColumn(0,"FIR_CODE",this.Combo03.value);
+// 	alert(this.Combo03.value);
+// 	
+// 	// 중분류
+// 	this.search_combo.setColumn(0,"PRODUCT_CATEGORY",this.Combo02.value);
+// 	alert(this.Combo02.value);
+// 	// 소분류
+// 	this.search_combo.setColumn(0,"PRODUCT_CODE",this.Combo00.value);
+// 	alert(this.Combo00.value);
+// 	// 월별
+// 	this.search_combo.setColumn(0,"PAYMENT_MONTH",this.Combo01.value);
+// 	//주간별
+// 	this.search_combo.setColumn(0,"PAYMENT_WEEK1",this.Calendar00.value);
+// 	this.search_combo.setColumn(0,"PAYMENT_WEEK2",this.Calendar00_00.value);
+// 
+//  	this.fnViewList();
+// };
 
 /* 2-5. 엑셀파일 버튼 이벤트 */
 this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)

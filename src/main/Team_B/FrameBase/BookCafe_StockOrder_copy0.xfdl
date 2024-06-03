@@ -141,18 +141,18 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.search_so_grid.addRow();
 	
 	// 중분류
-	this.search_so_grid.setColumn(0,"SEC_CODE",this.Combo00.value);
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.stock01_div.form.Div00.form.Combo00.value);
 	alert(this.stock01_div.form.Div00.form.Combo00.value);
 	
 	// 소분류
-// 	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Combo03.value);
-// 	alert(this.Combo03.value);
-// 
-// 	//주간별
-// 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Calendar00.value);
-// 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Calendar01.value);
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.stock01_div.form.Div00.form.Combo03.value);
+	alert(this.stock01_div.form.Div00.form.Combo03.value);
 
- 	/*this.fnViewList();*/
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.stock01_div.form.Div00.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.stock01_div.form.Div00.form.Calendar01.value);
+
+ 	this.fnViewList();
 };
 
 
@@ -248,7 +248,21 @@ this.fnCheck_Thir_Combo=function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);  	
 }
 
-/* 3-5. 발주신청서에 인서트 */
+/* 3-5. 조회하기 버튼 이벤트 */
+this.fnViewList = function()
+{
+  var strSvcId    = "ViewList";
+  var strSvcUrl   = "svc::ViewList.do";
+  var inData      = "search_so_grid=search_so_grid";
+  var outData     = "stock_grid1=stock_grid1";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+}
+
+/* 3-6. 발주신청서에 인서트 */
 this.fnSaveStockOrder = function()
 {
 

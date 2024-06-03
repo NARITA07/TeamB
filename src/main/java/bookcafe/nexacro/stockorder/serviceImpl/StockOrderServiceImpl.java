@@ -48,6 +48,12 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 		return somapper.ChkThirCombo(find_thir_combo);
 	}
 
+	// combo를 통해 grid1 메뉴리스트 필터링
+	@Override
+	public List<Map<String, Object>> ViewList(Map<String, String> search_so_grid) {
+		return somapper.ViewList(search_so_grid);
+	}
+
 	
 	
 	

@@ -100,16 +100,16 @@ public class StockOrderCtroller {
     
     // 조회하기 버튼
     @RequestMapping(value = "/ViewList.do")
-    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){
+    public NexacroResult ViewList(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
     	
-    	System.out.println("조회하기버튼 클릭! : " + search_combo);
+    	System.out.println("조회하기버튼 클릭! : " + search_so_grid);
     	
-    	List<Map<String, Object>> dataList = soservice.ViewList(search_combo);
+    	List<Map<String, Object>> dataList = soservice.ViewList(search_so_grid);
     	
 	    NexacroResult result = new NexacroResult();
-	    result.addDataSet("result_grid", dataList);
+	    result.addDataSet("stock_grid1", dataList);
 	    
-	    System.out.println("기간이 선택 됐나요? : "+ dataList);
+	    System.out.println("보내는 데이터 : "+ dataList);
 	
 	    return result;
     	

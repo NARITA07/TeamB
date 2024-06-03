@@ -29,7 +29,7 @@
                       <Cell text="bind:PRODUCT_NAME" textAlign="center"/>
                       <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center"/>
                       <Cell col="2" text="bind:PRODUCT_QUANTITY" textAlign="center"/>
-                      <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" displaytype="editcontrol" edittype="text" editinputtype="number" editmaxlength="100" editautoselect="true"/>
+                      <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" displaytype="normal" edittype="text" editinputtype="number" editmaxlength="100" editautoselect="true"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -92,7 +92,7 @@
 this.Div01_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
 	alert("신청하기 버튼 클릭!");
-	/*this.fnSaveStockOrder();*/
+	
 };
 
 /* 발주신청서에 인서트 */

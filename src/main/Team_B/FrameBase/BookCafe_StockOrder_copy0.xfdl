@@ -52,7 +52,7 @@
                 </Layouts>
               </Div>
               <Button id="Button00" taborder="3" text="발주신청" onclick="stock01_div_Button00_onclick" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5" height="30" width="71"/>
-              <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_dafault" bottom="Div00:5" right="1.85%" width="70" onclick="stock01_div_Button01_onclick"/>
+              <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_dafault" bottom="Div00:5" right="1.85%" width="70" onclick="Button01_onclick"/>
               <Static id="Static01" taborder="5" text="재고 관리" left="1.85%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
               <Static id="Static02" taborder="6" text="기간/발주현황 검색조건은 GRID2인데 상단에 둬야하는지&#13;&#10;저장기능/엑셀" left="348" top="23" width="308" height="28" color="red" onclick="stock01_div_Static02_onclick"/>
             </Layout>
@@ -134,11 +134,27 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 };
 
 /* 2-2. 조회 버튼 */
-this.stock01_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+
+	// 새로운 행 추가
 	this.search_so_grid.addRow();
 	
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Combo00.value);
+	alert(this.stock01_div.form.Div00.form.Combo00.value);
+	
+	// 소분류
+// 	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Combo03.value);
+// 	alert(this.Combo03.value);
+// 
+// 	//주간별
+// 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Calendar00.value);
+// 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Calendar01.value);
+
+ 	/*this.fnViewList();*/
 };
+
 
 /* 2-3. 발주신청 버튼 */
 this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -356,7 +372,7 @@ this.stock01_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="search_so_grid">
+      <Dataset id="search_so_grid" useclientlayout="true">
         <ColumnInfo>
           <Column id="SEC_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>

@@ -19,11 +19,11 @@
             </Format>
           </Formats>
         </ListView>
-        <Static id="Static00" taborder="1" text="제품관리" left="2.84%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
-        <Combo id="Combo00" taborder="2" text="카테고리" left="20" top="80" width="130" height="38" value="" index="-1"/>
-        <Combo id="Combo00_00" taborder="3" text="카테고리" left="160" top="81" width="130" height="38" value="" index="-1"/>
-        <Button id="Button01" taborder="5" text="삭제" left="874" top="90" width="126" bottom="ListView00:5"/>
-        <Button id="btn_allselect" taborder="4" text="전체 선택" left="760" top="90" onclick="btn_allselect_onclick" bottom="ListView00:5" right="Button01:10"/>
+        <Static id="Static00" taborder="1" text="제품관리" left="1.96%" width="128" height="37" top="2.78%" cssclass="main_title"/>
+        <Combo id="Combo00_00" taborder="3" text="카테고리" width="150" height="30" value="" index="-1" cssclass="combo_default" bottom="ListView00:5" left="180"/>
+        <Combo id="Combo00" taborder="2" text="카테고리" height="30" value="" index="-1" cssclass="combo_default" bottom="ListView00:5" left="1.86%" right="Combo00_00:10"/>
+        <Button id="Button01" taborder="5" text="삭제" width="70" bottom="ListView00:5" cssclass="btn_dafault" height="35" right="1.96%"/>
+        <Button id="btn_allselect" taborder="4" text="전체 선택" onclick="btn_allselect_onclick" bottom="ListView00:5" right="Button01:10" cssclass="btn_dafault" width="70" height="35"/>
         <Static id="product_db" taborder="6" left="584" top="104" width="102" height="17"/>
       </Layout>
     </Layouts>

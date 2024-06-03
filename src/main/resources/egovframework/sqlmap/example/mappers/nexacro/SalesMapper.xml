@@ -27,12 +27,13 @@
 	        <if test="MENU != null and MENU != ''">
 	            AND F.PRODUCT_NAME = #{MENU}
 	        </if>
-	              <!-- 인풋날짜부터 이력 조회-->
+	        <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
+			    AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
+			</if>
 			<if
 			   test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
 			   AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d') >= STR_TO_DATE(#{DATE1},'%Y%m%d')
 			</if>
-			<!-- 인풋날짜까지 이력 조회-->
 			<if
 			   test="DATE2 != null and DATE2 != '' and (DATE1 == null or DATE1 == '')">
 			   AND STR_TO_DATE(#{DATE2}, '%Y%m%d') >= STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d')
@@ -54,7 +55,6 @@
 			O.ORDER_CODE,
 		    U.USER_NAME AS NAME,
 		    B.BOOK_NAME AS BOOK,
-		    B.BOOK_PRICE AS SALES,
 		    DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME
 		FROM 
 		    ORDERS O
@@ -72,6 +72,9 @@
 		    <if test="BOOK != null and BOOK != ''">
 		        AND B.BOOK_NAME = #{BOOK}
 		    </if>
+		    <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
+			    AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
+			</if>
 		    <!-- 인풋날짜부터 이력 조회-->
 			<if test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
 			   AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d') >= STR_TO_DATE(#{DATE1},'%Y%m%d')
@@ -111,5 +114,57 @@
 	            AND FIR_CODE = #{FIR_CODE}
 	        </if>
 		ORDER BY SEC_CODE
+	</select>
+	<!-- 매출 차트 SELECT -->
+	<select id="selectSalesChart" parameterType="java.util.Map" resultType="java.util.Map">
+	    SELECT 
+	        M.MONTH,
+	        IFNULL(S.SALES, 0) AS SALES
+	    FROM (
+	        SELECT '01' AS MONTH UNION ALL
+	        SELECT '02' UNION ALL
+	        SELECT '03' UNION ALL
+	        SELECT '04' UNION ALL
+	        SELECT '05' UNION ALL
+	        SELECT '06' UNION ALL
+	        SELECT '07' UNION ALL
+	        SELECT '08' UNION ALL
+	        SELECT '09' UNION ALL
+	        SELECT '10' UNION ALL
+	        SELECT '11' UNION ALL
+	        SELECT '12'
+	    ) AS M
+	    LEFT JOIN (
+	        SELECT 
+	            SUBSTRING(O.PAYMENT_DATE,5,2) AS MONTH,
+	            SUM(F.PRODUCT_PRICE * C.ORDER_QUANTITY) AS SALES
+	        FROM 
+	            ORDERS O
+	        INNER JOIN 
+	            CART C ON O.CART_CODE = C.CART_CODE
+	        INNER JOIN 
+	            FOOD F ON C.PRODUCT_CODE = F.PRODUCT_CODE
+	        INNER JOIN 
+	            USER U ON C.USER_CODE = U.USER_CODE
+	        WHERE 
+	            O.ORDER_STATE = 3
+	            <if test="NAME != null and NAME != ''">
+	                AND U.USER_NAME = #{NAME}
+	            </if>
+	            <if test="MENU != null and MENU != ''">
+	                AND F.PRODUCT_NAME = #{MENU}
+	            </if>
+	            <!-- 인풋날짜부터 이력 조회-->
+	            <if test="YEAR != null and YEAR != ''">
+	                AND SUBSTRING(O.PAYMENT_DATE,1,4) = #{YEAR}
+	            </if>
+	            <if test="SEC_CODE != null and SEC_CODE != ''">
+	                AND F.PRODUCT_CATEGORY = #{SEC_CODE}
+	            </if>
+	        GROUP BY 
+	            SUBSTRING(O.PAYMENT_DATE,5,2)
+	    ) AS S ON M.MONTH = S.MONTH
+	    ORDER BY 
+	        M.MONTH
 	</select>
 </mapper>

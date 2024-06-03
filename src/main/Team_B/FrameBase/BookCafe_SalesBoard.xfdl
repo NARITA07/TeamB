@@ -3,14 +3,15 @@
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Div id="Div00" taborder="21" text="" left="2%" top="114" height="108" background="#dbdee2" right="2%">
+        <Static id="Static00_00" taborder="21" text="매출현황" left="1.76%" width="128" top="2.99%" cssclass="main_title" height="37"/>
+        <Div id="Div00" taborder="19" text="" left="1.85%" top="Static00_00:50" right="1.85%" cssclass="main_nav" height="60">
           <Layouts>
             <Layout>
-              <Edit id="Edit00" taborder="0" left="544" top="37" width="100" height="25"/>
+              <Edit id="Edit00" taborder="0" top="15" width="100" height="30" cssclass="edit_default" left="581"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="0" left="2%" top="256" width="460" height="300" binddataset="sales_dtl" scrollbartype="none default" autofittype="col">
+        <Grid id="Grid00" taborder="0" left="2%" top="256" width="460" height="300" binddataset="sales_dtl" scrollbartype="none default" autofittype="col" cssclass="grid_default">
           <Formats>
             <Format id="default">
               <Columns>
@@ -26,11 +27,11 @@
                 <Row size="24" band="summ"/>
               </Rows>
               <Band id="head">
-                <Cell text="이름"/>
-                <Cell col="1" text="메뉴"/>
-                <Cell col="2" text="수량"/>
-                <Cell col="3" text="매출액"/>
-                <Cell col="4" text="주문일시"/>
+                <Cell text="이름" background="#FFF8EE"/>
+                <Cell col="1" text="메뉴" background="#FFF8EE"/>
+                <Cell col="2" text="수량" background="#FFF8EE"/>
+                <Cell col="3" text="매출액" background="#FFF8EE"/>
+                <Cell col="4" text="주문일자" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:NAME" suppress="1" suppressalign="middle" textAlign="center"/>
@@ -40,28 +41,30 @@
                 <Cell col="4" text="bind:TIME" textAlign="center" suppress="2" suppressalign="middle"/>
               </Band>
               <Band id="summary">
-                <Cell/>
-                <Cell col="1"/>
-                <Cell col="2"/>
-                <Cell col="3" text="TOTAL"/>
-                <Cell col="4" text="expr:dataset.getSum('SALES')"/>
+                <Cell background="#FAEBD7"/>
+                <Cell col="1" background="#FAEBD7"/>
+                <Cell col="2" background="#FAEBD7"/>
+                <Cell col="3" text="TOTAL" background="#FAEBD7"/>
+                <Cell col="4" text="expr:dataset.getSum('SALES')" background="#FAEBD7"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Edit id="Edit00" taborder="1" left="305" top="151" height="25" onchanged="Edit00_onchanged" width="70"/>
-        <Edit id="Edit01" taborder="2" left="420" top="151" width="100" height="25" onchanged="Edit01_onchanged"/>
-        <Static id="Static00" taborder="3" text="이름" left="275" top="151" width="30" height="25"/>
-        <Static id="Static01" taborder="4" text="메뉴" left="392" top="151" width="38" height="25"/>
-        <Combo id="Combo00" taborder="5" text="" left="720" top="151" width="40" height="25" innerdataset="month_combo" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged"/>
-        <Static id="Static02" taborder="6" text="월" left="762" top="151" width="28" height="25"/>
-        <Button id="Button00" taborder="7" text="조회" left="990" top="64" width="70" height="40" onclick="Button00_onclick" borderRadius="5px"/>
-        <Calendar id="Calendar00" taborder="8" left="830" top="151" width="100" height="25" onchanged="Calendar00_onchanged"/>
-        <Static id="Static05" taborder="9" text="월별" left="690" top="151" width="25" height="25" onclick="Static05_onclick"/>
-        <Static id="Static06" taborder="10" text="기간" left="798" top="151" width="25" height="25" onclick="Static06_onclick"/>
-        <Static id="Static07" taborder="11" text="카페 매출 현황" left="20" width="113" textAlign="left" height="33" bottom="414"/>
-        <Static id="Static07_00" taborder="12" text="도서 매출 현황" left="498" top="223" width="113" height="33" textAlign="left"/>
-        <Grid id="Grid01" taborder="13" top="256" width="562" height="300" binddataset="book_sales_dtl" autofittype="col" right="2%">
+        <Static id="Static04" taborder="15" text="분류" left="2.78%" top="130" height="14" onclick="Static04_onclick" width="24"/>
+        <Combo id="Combo01" taborder="14" text="" left="Static04:5" top="122" height="30" innerdataset="combo_con" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="Combo01_onitemchanged" cssclass="combo_default" width="100"/>
+        <Combo id="Combo02" taborder="16" text="Combo02" left="Combo01:3" top="122" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
+        <Static id="Static00" taborder="3" text="이름" left="Combo02:30" top="130" width="24" height="14"/>
+        <Edit id="Edit00" taborder="1" left="Static00:5" top="122" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
+        <Static id="Static01" taborder="4" text="메뉴" left="Edit00:10" top="130" width="24" height="14"/>
+        <Edit id="Edit01" taborder="2" left="Static01:5" top="122" width="100" height="30" onchanged="Edit01_onchanged" cssclass="edit_default"/>
+        <Combo id="Combo00" taborder="5" text="" left="748" top="122" width="40" height="30" innerdataset="month_combo" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged" cssclass="combo_default"/>
+        <Button id="Button00" taborder="6" text="조회" width="70" onclick="Button00_onclick" borderRadius="5px" cssclass="btn_dafault" right="1.85%" bottom="Div00:5" height="30"/>
+        <Calendar id="Calendar00" taborder="7" left="835" top="122" width="100" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
+        <Static id="Static05" taborder="8" text="월별" left="722" top="130" width="24" height="14" onclick="Static05_onclick"/>
+        <Static id="Static06" taborder="9" text="기간" left="803" top="130" width="24" height="14" onclick="Static06_onclick"/>
+        <Static id="Static07" taborder="10" text="카페 매출 현황" left="20" width="138" textAlign="left" height="24" cssclass="title_sub" top="232"/>
+        <Static id="Static07_00" taborder="11" text="도서 매출 현황" left="498" top="223" width="138" height="24" textAlign="left" cssclass="title_sub"/>
+        <Grid id="Grid01" taborder="12" top="256" width="562" height="300" binddataset="book_sales_dtl" autofittype="col" right="2%" cssclass="grid_default">
           <Formats>
             <Format id="default">
               <Columns>
@@ -78,12 +81,12 @@
                 <Row size="24" band="summ"/>
               </Rows>
               <Band id="head">
-                <Cell text="이름"/>
-                <Cell col="1" text="책 이름"/>
-                <Cell col="2" text="매출액"/>
-                <Cell col="3" text="연체료"/>
-                <Cell col="4" text="대여일시"/>
-                <Cell col="5" text="반납일시"/>
+                <Cell text="이름" background="#FFF8EE"/>
+                <Cell col="1" text="책 이름" background="#FFF8EE"/>
+                <Cell col="2" text="매출액" background="#FFF8EE"/>
+                <Cell col="3" text="연체료" background="#FFF8EE"/>
+                <Cell col="4" text="대여일자" background="#FFF8EE"/>
+                <Cell col="5" text="반납일자" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:NAME" suppress="1" suppressalign="middle" textAlign="center"/>
@@ -94,17 +97,17 @@
                 <Cell col="5" text="bind:RETURN_DATE" textAlign="center"/>
               </Band>
               <Band id="summary">
-                <Cell/>
-                <Cell col="1"/>
-                <Cell col="2" text="expr:dataset.getSum('SALES')"/>
-                <Cell col="3" text="expr:dataset.getSum('LATE_FEE')"/>
-                <Cell col="4" text="TOTAL"/>
-                <Cell col="5"/>
+                <Cell background="#FAEBD7"/>
+                <Cell col="1" background="#FAEBD7"/>
+                <Cell col="2" text="expr:dataset.getSum('SALES')" background="#FAEBD7"/>
+                <Cell col="3" text="expr:dataset.getSum('LATE_FEE')" background="#FAEBD7"/>
+                <Cell col="4" text="TOTAL" background="#FAEBD7"/>
+                <Cell col="5" background="#FAEBD7"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Grid id="Grid02" taborder="14" top="590" width="323" height="52" binddataset="total" right="2%">
+        <Grid id="Grid02" taborder="13" top="590" width="323" height="52" binddataset="total" right="2%" cssclass="grid_default">
           <Formats>
             <Format id="default">
               <Columns>
@@ -117,9 +120,9 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="카페 매출액"/>
-                <Cell col="1" text="도서 매출액"/>
-                <Cell col="2" text="합 계"/>
+                <Cell text="카페 매출액" background="#FFF8EE"/>
+                <Cell col="1" text="도서 매출액" background="#FFF8EE"/>
+                <Cell col="2" text="합 계" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CAFE_SALES"/>
@@ -129,14 +132,10 @@
             </Format>
           </Formats>
         </Grid>
-        <Combo id="Combo01" taborder="15" text="" left="60" top="151" width="70" height="25" innerdataset="combo_con" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="Combo01_onitemchanged"/>
-        <Static id="Static04" taborder="16" text="대분류" left="23" top="151" width="40" height="25"/>
-        <Static id="Static08" taborder="17" text="중분류" left="147" top="151" width="40" height="25" onclick="Static08_onclick"/>
-        <Combo id="Combo02" taborder="18" text="Combo02" left="185" top="151" width="70" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
-        <Static id="Static09" taborder="19" text="-" left="930" top="151" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
-        <Calendar id="Calendar01" taborder="20" left="950" top="151" width="100" height="25"/>
-        <Static id="Static01_00" taborder="22" text="도서" left="532" top="151" width="38" height="25"/>
-        <Static id="Static00_00" taborder="23" text="매출현황" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
+        <Static id="Static09" taborder="17" text="-" left="935" top="122" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
+        <Calendar id="Calendar01" taborder="18" left="955" top="122" width="100" height="30" cssclass="cal_default"/>
+        <Static id="Static01_00" taborder="20" text="도서" left="Edit01:10" top="130" width="24" height="14"/>
+        <Static id="Static02" taborder="22" text="차트 / 엑셀 " left="303" top="35" width="465" height="60" color="red"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -470,6 +469,7 @@ this.fnSelectSecondCombo = function ()
 				   callBackFnc, 
 				   isAsync);    
 };
+
 
 ]]></Script>
     <Bind>

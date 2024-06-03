@@ -50,11 +50,5 @@ public class OrderHistoryStatusServiceImpl extends EgovAbstractServiceImpl imple
 			return ohmapper.SelThirCombo(param);
 		}
 		
-		//조회하기(
-		@Override
-		public List<Map<String, Object>> ViewList(Map<String, String> param) {
-			return ohmapper.ViewList(param);
-		}
-
 
 }

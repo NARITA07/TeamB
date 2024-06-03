@@ -83,7 +83,7 @@
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
-            <Col id="title">재고/발주 관리</Col>
+            <Col id="title">재고/입고 관리</Col>
             <Col id="url">FrameBase::BookCafe_StockOrder_copy0.xfdl</Col>
           </Row>
         </Rows>

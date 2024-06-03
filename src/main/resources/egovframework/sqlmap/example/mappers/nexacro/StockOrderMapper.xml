@@ -9,15 +9,16 @@
 		SELECT
 		PRODUCT_NAME,PRODUCT_CODE,PRODUCT_QUANTITY, '0' as PRODUCT_CHECK
 		FROM FOOD
-		ORDER BY PRODUCT_QUANTITY;
+		ORDER BY PRODUCT_QUANTITY
 	</select>
 	
-	<!-- 발주신청서 저장 -->
-	<!-- 시퀀스 -->
-	<insert id="saveStockOrder">
-	  INSERT INTO STOCKORDER (USER_CODE,PRODUCT_CODE,STOCK_ORDER_CODE,STOCK_ORDER_QUANTITY,STOCK_ORDER_DATE,STOCK_ORDER_STATUS) 
-	  VALUES (#{ADMIN_CODE},#{PRODUCT_CODE},NEXTVAL(stock_seq),#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0);
-	</insert>
+	<!-- grid2 발주신청서 리스트 불러오기 -->
+	<select id="grid2OrderList" resultType="java.util.Map">
+		SELECT F.PRODUCT_CODE, F.PRODUCT_NAME, SO.STOCK_ORDER_DATE, SO.STOCK_ORDER_QUANTITY, SO.USER_CODE, SO.STOCK_ORDER_STATUS, '0' as PRODUCT_CHECK 
+		FROM STOCKORDER SO
+		JOIN FOOD F ON SO.PRODUCT_CODE = F.PRODUCT_CODE;
+	</select>	
+	
 	
 	<!-- 중분류 combo -->
 	<select id="SOSecCombo" resultType="java.util.Map">
@@ -27,7 +28,7 @@
 		ORDER BY SEC_CODE;
 	</select>
 	
-	<!-- 중분류 combo -->
+	<!-- 소분류 combo -->
 	<select id="SOThirCombo" resultType="java.util.Map">
 		SELECT SC.FIR_CODE, SC.SEC_CODE, F.PRODUCT_CODE, F.PRODUCT_NAME
 		FROM SEC_CODE SC
@@ -36,6 +37,7 @@
 		ORDER BY SC.SEC_CODE, F.PRODUCT_CODE;
 	</select>
 	
+	<!-- 중분류 선택 시 소분류 변경 combo -->
 	<select id="ChkThirCombo" resultType="java.util.Map">
 		SELECT SC.FIR_CODE, SC.SEC_CODE, F.PRODUCT_CODE, F.PRODUCT_NAME
 		FROM SEC_CODE SC
@@ -44,5 +46,26 @@
 			AND F.PRODUCT_CATEGORY = #{SEC_CODE}
 		ORDER BY F.PRODUCT_CODE;
 	</select>
-
+	
+	<!-- 조회하기 버튼 -->
+	<select id="ViewList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT F.PRODUCT_NAME , F.PRODUCT_CODE, F.PRODUCT_QUANTITY
+		FROM SEC_CODE SC
+		JOIN FOOD F ON SC.SEC_CODE = F.PRODUCT_CATEGORY
+		WHERE 1=1
+		<if test="SEC_CODE != null and SEC_CODE != ''">
+			AND SC.SEC_CODE = #{SEC_CODE}
+		</if>
+		<if test="PRODUCT_CODE != null and PRODUCT_CODE != '' ">
+			AND F.PRODUCT_CODE = #{PRODUCT_CODE}
+		</if>
+		ORDER BY F.PRODUCT_QUANTITY ;			
+	</select>
+	
+	<!-- 발주신청서 저장 -->
+	<!-- 시퀀스 -->
+	<insert id="saveStockOrder" >
+	  INSERT INTO STOCKORDER (USER_CODE, STOCK_ORDER_CODE, PRODUCT_CODE, STOCK_ORDER_QUANTITY, STOCK_ORDER_DATE, STOCK_ORDER_STATUS) 
+	  VALUES (#{USER_CODE},NEXTVAL(stockorder_seq),#{PRODUCT_CODE},#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0)
+	</insert>
 </mapper>

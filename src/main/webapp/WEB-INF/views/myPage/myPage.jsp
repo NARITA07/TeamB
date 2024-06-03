@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,8 +66,11 @@ $(document).ready(function() {
 								<hr>
 								<div style="padding-top: 50px; padding-bottom: 50px;">
 									<div style="display: flex; justify-content: space-between; align-items: center;">
-										<h3 style="margin-right:20px;">나의 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3>
-										<a href="/point/pointList">포인트 내역조회
+<%-- 										<h3 style="margin-right:20px;">나의 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3> --%>
+										<h3 style="margin-right:20px;">나의 포인트 : 
+											<a id="myPoint" style="margin-left:10px;"><fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/></a>P 
+										</h3>
+										<a href="pointList">포인트 내역조회
 										<i class="fa fa-arrow-circle-right"></i>
 										</a>
 									</div>

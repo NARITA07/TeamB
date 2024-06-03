@@ -82,7 +82,7 @@ import bookcafe.point.service.PointService;
 			cartListVO.setCart_code(cart_code);
 			
 			cartList = cartService.selectCartList(cartListVO);
-			total_price = cartService.getTotalPrice(cart_code);
+			total_price = cartService.selectTotalPrice(cart_code);
 			System.out.println("total_price:" + total_price);
 		}
 		

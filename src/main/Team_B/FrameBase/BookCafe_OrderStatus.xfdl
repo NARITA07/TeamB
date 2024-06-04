@@ -7,7 +7,7 @@
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="58"/>
+                <Column size="35"/>
                 <Column size="96"/>
                 <Column size="136"/>
                 <Column size="168"/>
@@ -22,7 +22,7 @@
                 <Row size="32"/>
               </Rows>
               <Band id="head">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
                 <Cell col="1" text="주문번호" background="#FFF8EE"/>
                 <Cell col="2" text="아이디" background="#FFF8EE"/>
                 <Cell col="3" text="상품명" background="#FFF8EE"/>
@@ -51,7 +51,7 @@
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="48"/>
+                <Column size="35"/>
                 <Column size="96"/>
                 <Column size="103"/>
                 <Column size="168"/>
@@ -66,7 +66,7 @@
                 <Row size="32"/>
               </Rows>
               <Band id="head">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
                 <Cell col="1" text="주문번호" background="#FFF8EE"/>
                 <Cell col="2" text="아이디" background="#FFF8EE"/>
                 <Cell col="3" text="상품명" background="#FFF8EE"/>
@@ -348,9 +348,6 @@ this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCo
 		}
 	}
 };
-
-
-
 
 this.Button00_01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {//준비

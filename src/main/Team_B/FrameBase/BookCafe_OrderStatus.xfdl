@@ -3,8 +3,7 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer" visible="true">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Static id="Static00" taborder="0" text="회원주문관리" left="18" top="25" width="149" height="43"/>
-        <Grid id="Grid00" taborder="1" left="20" top="80" height="250" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="20" border="1px solid #4F4537">
+        <Grid id="Grid00" taborder="1" left="20" top="120" height="250" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="20" border="1px solid #4F4537">
           <Formats>
             <Format id="default">
               <Columns>
@@ -47,7 +46,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="0" text="회원주문관리" left="1.85%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
+        <Static id="Static00" taborder="0" text="회원주문관리" left="1.76%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
         <Grid id="Grid00_00" taborder="2" left="1.76%" height="210" binddataset="ds_orders_end" autoupdatetype="none" oncloseup="Grid00_00_oncloseup" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%">
           <Formats>
             <Format id="default">
@@ -93,12 +92,12 @@
         </Grid>
         <Static id="Static01" taborder="3" text="주문처리완료" left="1.85%" onclick="Static01_onclick" cssclass="title_sub" bottom="Grid00_00:5" right="935" height="24" width="126"/>
         <Static id="Static02" taborder="4" text="주문현황" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
-        <Button id="Button00" taborder="4" text="준비완료" left="990" top="30" width="70" cssclass="btn_dafault" height="30" onclick="Button00_onclick"/>
-        <Button id="Button00_00" taborder="5" text="준비중" left="915" top="31" cssclass="btn_dafault" height="30" right="Button00:5" onclick="Button00_00_onclick"/>
-        <Button id="Button00_01" taborder="6" text="준비" left="840" top="30" cssclass="btn_dafault" height="30" right="Button00_00:5" onclick="Button00_01_onclick"/>
-        <Button id="Button00_02" taborder="7" text="준비완료" left="990" top="350" width="70" cssclass="btn_dafault" height="30" onclick="Button00_02_onclick"/>
-        <Button id="Button00_00_00" taborder="8" text="준비중" left="915" top="351" cssclass="btn_dafault" height="30" right="95" onclick="Button00_00_00_onclick"/>
-        <Button id="Button00_01_00" taborder="9" text="준비" left="840" top="350" cssclass="btn_dafault" height="30" right="170" onclick="Button00_01_00_onclick"/>
+        <Button id="Button00" taborder="4" text="준비완료" left="990" top="80" width="70" cssclass="btn_dafault" height="30" onclick="Button00_onclick"/>
+        <Button id="Button00_00" taborder="5" text="준비중" left="915" top="81" cssclass="btn_dafault" height="30" right="Button00:5" onclick="Button00_00_onclick"/>
+        <Button id="Button00_01" taborder="6" text="준비" left="840" top="80" cssclass="btn_dafault" height="30" right="Button00_00:5" onclick="Button00_01_onclick"/>
+        <Button id="Button00_02" taborder="7" text="준비완료" left="990" top="400" width="70" cssclass="btn_dafault" height="30" onclick="Button00_02_onclick"/>
+        <Button id="Button00_00_00" taborder="8" text="준비중" left="915" top="401" cssclass="btn_dafault" height="30" right="95" onclick="Button00_00_00_onclick"/>
+        <Button id="Button00_01_00" taborder="9" text="준비" left="840" top="400" cssclass="btn_dafault" height="30" right="170" onclick="Button00_01_00_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -312,8 +311,8 @@ this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}
 	this.fnUpdate_orders();
 };
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{//준비중
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//준비완료
 	var val = 2;
 	this.ds_orders_updaterdy.clearData();
 	for(var i =0; i<this.ds_orders.rowcount; i++){
@@ -325,8 +324,8 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}
 	this.fnUpdate_orders();
 };
-this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{//준비완료
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//준비중
 	var val = 3;
 	this.ds_orders_updaterdy.clearData();
 	for(var i =0; i<this.ds_orders.rowcount; i++){
@@ -338,7 +337,6 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}
 	this.fnUpdate_orders();
 };
-
 this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
 	var nRow = e.row;

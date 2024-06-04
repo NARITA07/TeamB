@@ -19,9 +19,11 @@ public interface CodeManagementMapper {
 	//하위코드 변경
 	void C_sec_code_chx(Map<String, Object> modi_date);
 
+	//상위코드 생성
 	void add_fir_code(Map<String, Object> fir_code_add);
 
-	void C_del_date(List<Map<String, Object>> del_date);
+	//상위코드 삭제
+	void C_del_date(Map<String, Object> map);
 	
 
 	

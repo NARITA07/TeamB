@@ -13,4 +13,7 @@ public interface SalesService {
 	//대분류
 	public List<Map<String, Object>> selectFirstCombo();
 	public List<Map<String, Object>> selectSecondCombo();
+	
+	//매출 차트
+	public List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
 }

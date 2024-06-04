@@ -49,11 +49,16 @@ public class CodeManagementImpl implements CodeManagementService {
 		
 	}
 
-
+	//상위코드 삭제
 	@Override
 	public void del_date(List<Map<String, Object>> del_date) {
-		System.out.println(del_date.get(0).get("FIR_CODE"));
-		codemmapper.C_del_date(del_date);
+		
+		for(int i = 0; i < del_date.size(); i++ ) {
+			
+			codemmapper.C_del_date(del_date.get(i));
+			
+		}
+		
 		
 	}
 	

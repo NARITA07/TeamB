@@ -145,7 +145,6 @@
       <Dataset id="del_date" useclientlayout="true">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
-          <Column id="SEC_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

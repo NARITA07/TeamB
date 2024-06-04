@@ -13,9 +13,11 @@ public interface CodeManagementService {
 	List<Map<String, Object>> sec_category_select(Map<String, Object> sec_category_select);
 
 	void C_fir_code_chx(Map<String, Object> modi_date);
-
+	
+	//상위코드 생성
 	void add_fir_code(Map<String, Object> fir_code_add);
-
+	
+	//상위코드 삭제
 	void del_date(List<Map<String, Object>> del_date);
 
 

@@ -37,7 +37,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="Static00" taborder="2" text="재고/발주 관리" left="1.85%" top="4.88%" width="210" height="37" initvalueid="" cssclass="main_title"/>
+              <Static id="Static00" taborder="2" text="발주 목록" left="1.85%" top="4.88%" width="137" height="37" initvalueid="" cssclass="main_title"/>
               <Div id="Div00" taborder="1" left="1.85%" top="Static00:50" text="" cssclass="main_nav" right="1.85%" height="60">
                 <Layouts>
                   <Layout>
@@ -164,7 +164,7 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 /* 2-3. 발주신청 버튼 */
 this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-		/* (1) 체크된 row갯수 count */
+	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
     var condition = "PRODUCT_CHECK" + " == '1'";
 	
@@ -189,24 +189,26 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 			}
 		}
 		
-		//확인용
-		alert(this.stock_order.saveXML());
+			//확인용
+			alert(this.stock_order.saveXML());
 		
-		var objParam = { param :this.stock_order }
+			var objParam = { param :this.stock_order }
 		
-		alert(objParam);
+			alert(objParam);
 
-        var objChildFrame = new ChildFrame();
+			var objChildFrame = new ChildFrame();
 		
-        objChildFrame.init("stock_order_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_StockOrder_popup.xfdl");
-        objChildFrame.set_dragmovetype("all");
-        objChildFrame.set_openalign("center middle");
-		objChildFrame.set_resizable(false);
+			objChildFrame.init("발주신청서", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_StockOrder_popup.xfdl");
+			objChildFrame.set_dragmovetype("all");
+			objChildFrame.set_openalign("center middle");
+			objChildFrame.set_resizable(false);
 		
         objChildFrame.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback");
-    } else {
+	} else {
         this.alert("선택된 항목이 없습니다.");
-    }	
+    }
+	}else{
+		 this.alert("로그인을 해주세요.");
 	}
 };
 
@@ -443,6 +445,7 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
           <Column id="STOCK_ORDER_CODE" type="STRING" size="256" description="발주신청서 코드"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256" description="음식코드"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="음식명"/>
+          <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256" description="발주수량"/>
           <Column id="STOCK_ORDER_DATE" type="STRING" size="256" description="발주일자"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>

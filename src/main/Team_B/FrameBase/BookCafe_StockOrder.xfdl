@@ -3,59 +3,71 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Static id="Static00" taborder="0" text="주문관리(발주)" left="40" top="30" width="120" height="60" onclick="Static00_onclick"/>
-        <Div id="stock01_div" taborder="1" left="27" top="20" width="493" height="318" text="" background="red">
+        <Div id="stock01_div" taborder="0" left="0.00%" top="0" height="470" text="" right="0.00%">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="12" top="142" width="470" height="167" autofittype="col" binddataset="stock_grid1" onheadclick="stock01_div_Grid00_onheadclick">
+              <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="stock01_div_Grid00_onheadclick" oncellclick="stock01_div_Grid00_oncellclick" cssclass="grid_default" bottom="4.26%" height="203">
                 <Formats>
                   <Format id="default">
                     <Columns>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="113"/>
+                      <Column size="44"/>
+                      <Column size="105"/>
+                      <Column size="49"/>
+                      <Column size="37"/>
+                      <Column size="49"/>
                     </Columns>
                     <Rows>
                       <Row size="24" band="head"/>
                       <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="메뉴명"/>
-                      <Cell col="1" text="메뉴코드"/>
-                      <Cell col="2" text="재고"/>
-                      <Cell col="3" text="bind:PRODUCT_CHECK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell text="bind:PRODUCT_CHECK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" background="#FFF8EE"/>
+                      <Cell col="1" text="메뉴명" background="#FFF8EE"/>
+                      <Cell col="2" text="메뉴코드" background="#FFF8EE"/>
+                      <Cell col="3" text="현재재고" background="#FFF8EE"/>
+                      <Cell col="4" text="발주수량" editinputtype="number" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:PRODUCT_NAME" textAlign="center"/>
-                      <Cell col="1" text="bind:PRODUCT_CODE" textAlign="right"/>
-                      <Cell col="2" displaytype="normal" edittype="none" textAlign="right" text="bind:PRODUCT_QUANTITY"/>
-                      <Cell col="3" displaytype="checkboxcontrol" edittype="checkbox" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center"/>
+                      <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center"/>
+                      <Cell col="3" displaytype="decoratetext" edittype="none" textAlign="center" text="expr:PRODUCT_QUANTITY &lt; 10 ? '&lt;fc v=\&quot;red\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;' : '&lt;fc v=\&quot;#666666\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;'"/>
+                      <Cell col="4" displaytype="normal" textAlign="center" editinputfilter="none,space,comma" editinputtype="number" edittype="expr:PRODUCT_CHECK=='0'?'none':'text'" rtl="false" text="bind:STOCK_ORDER_QUANTITY" editmaxlength="2"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Div id="Div00" taborder="1" left="13" top="10" width="470" height="120" text="" background="#dbdee2">
+              <Static id="Static00" taborder="2" text="재고 관리" left="1.85%" top="4.26%" width="137" height="37" initvalueid="" cssclass="main_title"/>
+              <Div id="Div00" taborder="1" left="1.85%" top="Static00:50" text="" cssclass="main_nav" right="1.85%" height="60">
                 <Layouts>
                   <Layout>
-                    <Edit id="Edit00" taborder="0" left="16" top="43" width="85" height="20" onchanged="stock01_div_Div00_Edit00_onchanged" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="1" text="카테고리" left="106" top="43" width="85" height="20" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged"/>
-                    <Button id="Button00" taborder="2" text="발주신청" left="375" top="93" width="85" height="20" onclick="stock01_div_Div00_Button00_onclick"/>
-                    <Button id="Button02" taborder="3" text="조회하기" left="375" top="70" width="85" height="20"/>
-                    <Static id="Static00" taborder="4" text="재고확인" left="16" top="13" width="48" height="14" textDecoration="underline"/>
+                    <Combo id="Combo03" taborder="0" left="143" top="15" width="100" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
+                    <Static id="Static03" taborder="6" text="분류" left="11" top="23" width="24" height="14"/>
+                    <Combo id="Combo00" taborder="1" left="Static03:5" top="15" width="100" height="30" cssclass="combo_default" displaynulltext="중분류" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged"/>
+                    <Static id="Static00" taborder="4" text="기간" left="Combo03:30" top="23" width="24" height="14"/>
+                    <Calendar id="Calendar00" taborder="2" left="Static00:5" top="15" width="100" height="30" cssclass="cal_default"/>
+                    <Static id="Static01" taborder="5" text="~" left="Calendar00:3" top="23" width="9" height="14"/>
+                    <Calendar id="Calendar01" taborder="3" left="Static01:3" top="15" width="100" height="30" cssclass="cal_default"/>
+                    <Static id="Static02" taborder="7" text="발주현황" left="571" top="23" width="48" height="14"/>
+                    <Combo id="Combo01" taborder="8" text="Combo01" left="Static02:5" top="15" width="100" height="30" cssclass="combo_default" innerdataset="TEST" datacolumn="NAME" codecolumn="NAME"/>
                   </Layout>
                 </Layouts>
               </Div>
+              <Button id="Button00" taborder="3" text="발주신청" onclick="stock01_div_Button00_onclick" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5" height="30" width="71"/>
+              <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_dafault" bottom="Div00:5" right="1.85%" width="70" onclick="Button01_onclick"/>
+              <Static id="Static01" taborder="5" text="재고 관리" left="1.85%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+              <Static id="Static02" taborder="6" text="기간/발주현황 검색조건은 GRID2인데 상단에 둬야하는지&#13;&#10;엑셀&#13;&#10;오름차순&#13;&#10;" left="348" top="23" width="308" height="56" color="red" onclick="stock01_div_Static02_onclick"/>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="stock02_div" taborder="2" left="542" top="20" width="493" height="318" background="blue">
+        <Div id="stock02_div" taborder="1" left="0.00%" top="470" bottom="0.00%" right="0">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="12" top="142" width="470" height="167" binddataset="stock_grid2" autofittype="col">
+              <Grid id="Grid00" taborder="0" left="1.76%" binddataset="stock_grid2" autofittype="col" right="1.76%" bottom="8%" height="194" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
+                      <Column size="69"/>
                       <Column size="80"/>
                       <Column size="54"/>
                       <Column size="104"/>
@@ -67,91 +79,26 @@
                       <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="메뉴명"/>
-                      <Cell col="1" text="발주수량"/>
-                      <Cell col="2" text="발주일자"/>
-                      <Cell col="3" text="신청자"/>
-                      <Cell col="4" text="발주현황"/>
+                      <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                      <Cell col="1" text="메뉴명" background="#FFF8EE"/>
+                      <Cell col="2" text="발주수량" background="#FFF8EE"/>
+                      <Cell col="3" text="발주일자" background="#FFF8EE"/>
+                      <Cell col="4" text="신청자" background="#FFF8EE"/>
+                      <Cell col="5" text="발주현황" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:PRODUCT_NAME"/>
-                      <Cell col="1" text="bind:STOCK_ORDER_QUANTITY"/>
-                      <Cell col="2" text="bind:STOCK_ORDER_DATE"/>
-                      <Cell col="3" text="bind:ADMIN_CODE"/>
-                      <Cell col="4"/>
+                      <Cell displaytype="checkboxcontrol" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                      <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center"/>
+                      <Cell col="2" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
+                      <Cell col="3" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd " displaytype="date"/>
+                      <Cell col="4" text="bind:USER_CODE" textAlign="center"/>
+                      <Cell col="5" textAlign="center" displaytype="normal" calendardateformat="yyyy-MM-dd" text="expr:STOCK_ORDER_STATUS=='0'?'배송중':'입고완료'"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Div id="Div00" taborder="1" left="12" top="10" width="470" height="120" background="#dbdee2" text="">
-                <Layouts>
-                  <Layout>
-                    <Combo id="Combo00" taborder="0" text="신청자" left="196" top="43" width="85" height="20" value="" index="-1"/>
-                    <Combo id="Combo02" taborder="1" text="" left="16" top="70" width="85" height="20" value="" index="-1" innerdataset="stock_order_month" codecolumn="STOCK_ORDER_MONTH" datacolumn="STOCK_ORDER_MONTH" displayrowcount="6" displaynulltext="월별"/>
-                    <Calendar id="Calendar00" taborder="2" left="106" top="70" width="85" height="20"/>
-                    <Calendar id="Calendar01" taborder="3" left="207" top="70" width="85" height="20"/>
-                    <Static id="Static00" taborder="4" text="-" left="196" top="73" width="6" height="14"/>
-                    <Edit id="Edit00" taborder="5" left="16" top="43" width="85" height="20" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="6" text="카테고리" left="106" top="43" width="85" height="20" value="" index="-1"/>
-                    <Button id="Button02" taborder="7" text="조회하기" left="374" top="70" width="85" height="20"/>
-                    <Combo id="Combo04" taborder="8" text="발주현황" left="286" top="43" width="85" height="20" displaynulltext="발주현황" value="" index="-1"/>
-                    <Button id="Button00" taborder="9" text="엑셀받기" left="374" top="93" width="85" height="20"/>
-                    <Static id="Static01" taborder="10" text="발주신청서" left="16" top="13" width="60" height="14" textDecoration="underline"/>
-                  </Layout>
-                </Layouts>
-              </Div>
-            </Layout>
-          </Layouts>
-        </Div>
-        <Div id="stock03_div" taborder="3" left="27" top="383" width="1008" height="320" background="gold">
-          <Layouts>
-            <Layout>
-              <Div id="Div00" taborder="0" text="Div00" left="15" top="92" width="978" height="105" background="#dbdee2">
-                <Layouts>
-                  <Layout>
-                    <Button id="Button02" taborder="0" text="조회하기" left="886" top="55" width="85" height="20"/>
-                    <Edit id="Edit00" taborder="1" left="16" top="43" width="85" height="20" displaynulltext="메뉴명"/>
-                    <Combo id="Combo03" taborder="2" text="메뉴코드" left="106" top="43" width="85" height="20" value="" index="-1"/>
-                    <Combo id="Combo02" taborder="3" text="" left="196" top="43" width="85" height="20" value="" index="-1" innerdataset="stock_order_month" codecolumn="STOCK_ORDER_MONTH" datacolumn="STOCK_ORDER_MONTH" displayrowcount="6" displaynulltext="월별"/>
-                    <Calendar id="Calendar00" taborder="4" left="286" top="43" width="85" height="20"/>
-                    <Static id="Static00" taborder="5" text="-" left="376" top="46" width="6" height="14"/>
-                    <Calendar id="Calendar01" taborder="6" left="387" top="43" width="85" height="20"/>
-                    <Button id="Button00" taborder="7" text="엑셀받기" left="886" top="78" width="85" height="20"/>
-                    <Static id="Static01" taborder="8" text="입출고 현황" left="16" top="11" width="64" height="14" textDecoration="underline"/>
-                  </Layout>
-                </Layouts>
-              </Div>
-              <Grid id="Grid00" taborder="1" left="15" top="211" width="978" height="93" binddataset="stock_grid3" autofittype="col">
-                <Formats>
-                  <Format id="default">
-                    <Columns>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                      <Column size="80"/>
-                    </Columns>
-                    <Rows>
-                      <Row size="24" band="head"/>
-                      <Row size="24"/>
-                    </Rows>
-                    <Band id="head">
-                      <Cell text="메뉴명"/>
-                      <Cell col="1" text="메뉴코드"/>
-                      <Cell col="2" text="입고"/>
-                      <Cell col="3" text="출고"/>
-                      <Cell col="4" text="날짜"/>
-                    </Band>
-                    <Band id="body">
-                      <Cell text="bind:PRODUCT_NAME"/>
-                      <Cell col="1" text="bind:PRODUCT_CODE"/>
-                      <Cell col="2" text="bind:STOCK_IN_QUANTITY"/>
-                      <Cell col="3" text="bind:STOCK_OUT_QUANTITY"/>
-                      <Cell col="4" text="bind:STOCK_DATE"/>
-                    </Band>
-                  </Format>
-                </Formats>
-              </Grid>
+              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="1.85%" width="70" cssclass="btn_dafault"/>
+              <Static id="Static00" taborder="2" text="발주신청서 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
             </Layout>
           </Layouts>
         </Div>
@@ -159,34 +106,64 @@
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
 1. 화면 초기화
-2. 발주신청서 팝업창
+2. 이벤트
 3. 함수
 4. 체크박스
 */
 
-/* 테스트용 버튼 */
-this.stock01_div_Div00_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{	
-};
-
-
-
-
 /* 1. 화면 초기화 */
-this.주문관리_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	// grid1 list 불러오기
 	this.fnStockMenuList();
-	
-	this.stock_order_month.insertRow(0);  
-	this.stock_order_month.setColumn(0, "STOCK_ORDER_MONTH", ""); //코드도 같이 채워주어야 선택 시 빈칸이 되지 않는다
-    this.stock_order_month.setColumn(0, "STOCK_ORDER_MONTH", "전체보기");
+	this.fnStocksOrderList();
+	// 메뉴 combo
+	this.fnFind_Sec_Combo();
+	this.fnFind_Thir_Combo();
 
 };
 
-/* 2. 발주신청서 팝업창 */
-this.stock01_div_Div00_Button00_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo) {
+/* 2. 이벤트 */
+/* 2-1. 중분류 선택 시 소분류 변화 */ 
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	// 중분류
+	var sec_code = this.stock01_div.form.Div00.form.Combo00.value;
+	
+	this.stock01_div.form.Div00.form.Combo03.set_value(null);
+	this.find_thir_combo.clearData();
+	this.find_thir_combo.addRow();
+	this.find_thir_combo.setColumn(0,"SEC_CODE",sec_code);
+	
+	this.fnCheck_Thir_Combo();
+};
 
+/* 2-2. 조회 버튼 */
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.stock01_div.form.Div00.form.Combo00.value);
+	alert(this.stock01_div.form.Div00.form.Combo00.value);
+	
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.stock01_div.form.Div00.form.Combo03.value);
+	alert(this.stock01_div.form.Div00.form.Combo03.value);
+
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.stock01_div.form.Div00.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.stock01_div.form.Div00.form.Calendar01.value);
+
+ 	this.fnViewList();
+};
+
+
+/* 2-3. 발주신청 버튼 */
+this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
 	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
     var condition = "PRODUCT_CHECK" + " == '1'";
@@ -195,47 +172,62 @@ this.stock01_div_Div00_Button00_onclick = function(obj:nexacro.Button, e:nexacro
     var chkCnt = this.stock_grid1.getCaseCount(condition);
 	alert("체크된 메뉴 갯수 : " +chkCnt);
 	
-	/* (2) 체크된 행이 있으면 팝업창 열기 */
+	/* (2) 체크된 행 카운트 */
     if (chkCnt > 0) {
 		this.stock_order.clearData();
 		
 		// 세션에서 ADMIN_CODE 가져오기
 		var sessionLogin = nexacro.getApplication().Session_login;
 		var adminCode = sessionLogin.getColumn(0, "ADMIN_CODE");
-
+		if(adminCode != null){
 		for(var i=0; i<this.stock_grid1.rowcount; i++){
 			if(this.stock_grid1.getColumn(i, "PRODUCT_CHECK") == "1"){
 				var row = this.stock_order.addRow();
 				//dataset에 ADMIN_CODE 추가
-				this.stock_order.setColumn(row,0,adminCode);
+				this.stock_order.setColumn(row,"USER_CODE",adminCode);
 				this.stock_order.copyRow(row, this.stock_grid1, i);
 			}
 		}
 		
-		//확인용
-		alert(this.stock_order.saveXML());
-		/*alert(this.stock_order.getColumn(0,"ADMIN_CODE"));*/
+			//확인용
+			alert(this.stock_order.saveXML());
 		
-		/*데이터 보내기
-		var objParam = { PRODUCT_NAME : this.stock_order.getColumn(this.stock_orderrowposition,"PRODUCT_NAME"),
- 						 PRODUCT_CODE : this.stock_order.getColumn(this.stock_orderrowposition,"PRODUCT_CODE")};
-		*/
-		var objParam = { param :this.stock_order }
+			var objParam = { param :this.stock_order }
 		
-		alert(objParam);
+			alert(objParam);
 
-        var objChildFrame = new ChildFrame();
+			var objChildFrame = new ChildFrame();
 		
-        objChildFrame.init("stock_order_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_StockOrder_popup.xfdl");
-        objChildFrame.set_dragmovetype("all");
-        objChildFrame.set_openalign("center middle");
-		objChildFrame.set_resizable(false);
+			objChildFrame.init("발주신청서", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_StockOrder_popup.xfdl");
+			objChildFrame.set_dragmovetype("all");
+			objChildFrame.set_openalign("center middle");
+			objChildFrame.set_resizable(false);
 		
         objChildFrame.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback");
-    } else {
+	} else {
         this.alert("선택된 항목이 없습니다.");
-    }	
+    }
+	}else{
+		 this.alert("로그인을 해주세요.");
+	}
 };
+
+/* 엑셀버튼 */
+
+
+/* 콜백함수 */
+/* 팝업창의 콜백 함수 정의 (테스트용으로 비워둠) */
+this.fn_popupCallback = function(strPopupID, strReturn)
+{
+    if(strReturn == undefined){
+        return;
+    }
+
+    if(strPopupID == "stock_order_popup"){
+        this.alert("Return Value: " + strReturn);
+    }
+};
+
 
 /* 3. 함수 */
 /* 3-1. grid1 list 불러오기*/
@@ -252,136 +244,249 @@ this.fnStockMenuList = function()
 	this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);
 };
 
-/* 콜백함수 */
-/* 팝업창의 콜백 함수 정의 (테스트용으로 비워둠) */
-this.fn_popupCallback = function(strPopupID, strReturn)
+/* grid2 발주신청서 리스트 불러오기 */
+this.fnStocksOrderList = function()
 {
-    if(strReturn == undefined){
-        return;
-    }
+	var strSvcId    = "grid2OrderList";
+	var strSvcUrl   = "svc::grid2OrderList.do";
+	var inData      = "";
+	var outData     = "stock_grid2=stock_grid2";
+	var strArg      = "";
+	var callBackFnc = "fnCallback";
+	var isAsync     = true;
 
-    if(strPopupID == "stock_order_popup"){
-        this.alert("Return Value: " + strReturn);
-    }
+	this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);
+}
+
+/* 3-2. fnFind_Sec_Combo() : 중분류 콤보 */
+this.fnFind_Sec_Combo=function(){
+  var strSvcId    = "SOSecCombo";
+  var strSvcUrl   = "svc::SOSecCombo.do";
+  var inData      = "";
+  var outData     = "find_sec_combo=find_sec_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 };
 
+/* 3-3. fnFind_Thir_Combo() : 소분류 콤보 */
+this.fnFind_Thir_Combo=function(){
+  var strSvcId    = "SOThirCombo";
+  var strSvcUrl   = "svc::SOThirCombo.do";
+  var inData      = "";
+  var outData     = "find_thir_combo=find_thir_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
 
-/* 4. 체크박스 전체선택/전체해제 */
-this.stock01_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+/* 3-4. fnCheck_Thir_Combo() : 중분류 선택 시 소분류 변화 */
+this.fnCheck_Thir_Combo=function()
 {
-	/* 체크박스가 존재하는 3번째 column의 text값 가져오기
-	== var chkOrder = obj.getCellValue(-1,3); */
-	var chkOrder = obj.getCellProperty("head",3,"text");
-	
-	// 0:미체크 1:체크
-	if(chkOrder == "1") {
-		// 미체크로 초기화
-		chkOrder = "0";
-		obj.setCellProperty("head",3,"text",chkOrder);
-		for( var i=0; i<this.stock_grid1.rowcount; i++){
-			this.stock_grid1.setColumn(i,"PRODUCT_CHECK","0");
-		}
-	}else {
-		chkOrder = "1";
-		obj.setCellProperty("head",3,"text",chkOrder);
-		for( var i=0; i<this.stock_grid1.rowcount; i++){
-			this.stock_grid1.setColumn(i,"PRODUCT_CHECK","1");
-		}
+  var strSvcId    = "ChkThirCombo";
+  var strSvcUrl   = "svc::ChkThirCombo.do";
+  var inData	  = "find_thir_combo=find_thir_combo";
+  var outData     = "find_thir_combo=find_thir_combo";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+  
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);  	
+}
+
+/* 3-5. 조회하기 버튼 이벤트 */
+this.fnViewList = function()
+{
+  var strSvcId    = "ViewList";
+  var strSvcUrl   = "svc::ViewList.do";
+  var inData      = "search_so_grid=search_so_grid";
+  var outData     = "stock_grid1=stock_grid1";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+}
+
+/* 3-6. 발주신청서에 인서트 */
+this.fnSaveStockOrder = function()
+{
+
+  var strSvcId    = "saveStockOrder";
+  var strSvcUrl   = "svc::saveStockOrder.do";
+  var inData      = "stock_order = stock_order";
+  var outData     = "";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+}
+
+/* 3-6. 콜백함수 */
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+   // 에러 시 화면 처리 내역
+   if(errorCode == -1)
+   {
+      this.alert("이상해!");
+      return;
+   }
+   // 분기문
+   switch(svcID)
+   {
+        // 콤보 조회 시
+       case "SOSecCombo" :
+          this.find_sec_combo.insertRow(0);  
+		  this.find_sec_combo.setColumn(0, "SEC_CODE", ""); //코드도 같이 채워주어야 선택 시 빈칸이 되지 않는다
+          this.find_sec_combo.setColumn(0, "SEC_NAME", "전체보기"); 
+         break;
+       case "SOThirCombo" :
+          this.find_thir_combo.insertRow(0); 
+		  this.find_thir_combo.setColumn(0, "PRODUCT_CODE", "");
+          this.find_thir_combo.setColumn(0, "PRODUCT_NAME", "전체보기"); 
+         break;
+		case "ChkThirCombo" :
+          this.find_thir_combo.insertRow(0); 
+		  this.find_thir_combo.setColumn(0, "PRODUCT_CODE", "");
+          this.find_thir_combo.setColumn(0, "PRODUCT_NAME", "전체보기"); 
+         break;
 	}
 };
 
 
+/* 4. 재고 gird 체크박스 */
+this.stock01_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0){
+		/* 체크박스가 존재하는 0번째 column의 text값 가져오기
+		== var chkOrder = obj.getCellValue(-1,3); */
+		var chkOrder = obj.getCellProperty("head",0,"text");
+		
+		// 0:미체크 1:체크
+		if(chkOrder == "1") {
+			// 미체크로 초기화
+			chkOrder = "0";
+			obj.setCellProperty("head",0,"text",chkOrder);
+			for( var i=0; i<this.stock_grid1.rowcount; i++){
+				this.stock_grid1.setColumn(i,"PRODUCT_CHECK","0");
+			}
+		}else {
+			chkOrder = "1";
+			obj.setCellProperty("head",0,"text",chkOrder);
+			for( var i=0; i<this.stock_grid1.rowcount; i++){
+				this.stock_grid1.setColumn(i,"PRODUCT_CHECK","1");
+			}
+		}	
+	}
+	else if(e.cell == 2){
+		alert("오름차순!");
+	}
+};
 
-	
+
+/* 4-1. 발주신청서 grid 체크박스 */
+this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+		if(e.cell == 0){
+		/* 체크박스가 존재하는 0번째 column의 text값 가져오기
+		== var chkOrder = obj.getCellValue(-1,3); */
+		var chkOrder = obj.getCellProperty("head",0,"text");
+		
+		// 0:미체크 1:체크
+		if(chkOrder == "1") {
+			// 미체크로 초기화
+			chkOrder = "0";
+			obj.setCellProperty("head",0,"text",chkOrder);
+			for( var i=0; i<this.stock_grid2.rowcount; i++){
+				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","0");
+			}
+		}else {
+			chkOrder = "1";
+			obj.setCellProperty("head",0,"text",chkOrder);
+			for( var i=0; i<this.stock_grid2.rowcount; i++){
+				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","1");
+			}
+		}	
+	}
+	else if(e.cell == 2){
+		alert("오름차순!");
+	}
+};
 ]]></Script>
     <Objects>
-      <Dataset id="stock_grid1">
+      <Dataset id="stock_grid1" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
           <Column id="PRODUCT_CHECK" type="STRING" size="256" description="발주신청용체크"/>
+          <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="stock_grid2">
+      <Dataset id="stock_grid2" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_CODE" type="STRING" size="256" description="메뉴코드"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="메뉴명"/>
           <Column id="STOCK_ORDER_DATE" type="STRING" size="256" description="발주일자"/>
           <Column id="STOCK_ORDER_QUANTITY" type="STRING" size="256" description="발주수량"/>
-          <Column id="ADMIN_CODE" type="STRING" size="256" description="관리자 코드"/>
+          <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
+          <Column id="PRODUCT_CHECK" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="stock_order_month">
+      <Dataset id="stock_order" useclientlayout="true">
         <ColumnInfo>
-          <Column id="STOCK_ORDER_MONTH" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">01월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">02월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">03월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">04월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">05월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">06월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">07월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">08월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">09월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">10월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">11월</Col>
-          </Row>
-          <Row>
-            <Col id="STOCK_ORDER_MONTH">12월</Col>
-          </Row>
-        </Rows>
-      </Dataset>
-      <Dataset id="stock_grid3">
-        <ColumnInfo>
-          <Column id="PRODUCT_NAME" type="STRING" size="256" description="메뉴명"/>
-          <Column id="PRODUCT_CODE" type="STRING" size="256" description="메뉴코드"/>
-          <Column id="STOCK_IN_QUANTITY" type="STRING" size="256" description="입고"/>
-          <Column id="STOCK_OUT_QUANTITY" type="STRING" size="256" description="출고"/>
-          <Column id="STOCK_DATE" type="STRING" size="256" description="날짜"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="stock_order">
-        <ColumnInfo>
-          <Column id="ADMIN_CODE" type="STRING" size="256" description="관리자 코드"/>
+          <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_CODE" type="STRING" size="256" description="발주신청서 코드"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256" description="음식코드"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256" description="음식명"/>
           <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
-          <Column id="STOCK_ORDER_QUANTITY" type="STRING" size="256" description="발주수량"/>
+          <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256" description="발주수량"/>
           <Column id="STOCK_ORDER_DATE" type="STRING" size="256" description="발주일자"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="food_combo">
+      <Dataset id="find_sec_combo">
         <ColumnInfo>
-          <Column id="Column0" type="STRING" size="256"/>
-          <Column id="Column1" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="find_thir_combo">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="search_so_grid" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="STOCK_ORDER_DATE_1" type="STRING" size="256"/>
+          <Column id="STOCK_ORDER_DATE_2" type="STRING" size="256"/>
+          <Column id="STOCK_ORDER_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="TEST">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">배송중</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">입고완료</Col>
+          </Row>
+        </Rows>
       </Dataset>
     </Objects>
   </Form>

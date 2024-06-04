@@ -3,6 +3,7 @@ package bookcafe.cart.serviceImpl;
 import java.util.List;
 
 import bookcafe.cart.service.CartVO;
+import bookcafe.cart.service.OrdersVO;
 import bookcafe.cart.service.PointLogVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -34,6 +35,10 @@ public interface CartMapper {
 	public String selectOrderCode(String cart_code);
 	   
 	public void updateUserPoint(String user_code);
+
+	public int directInsertCart(CartVO cart);
+
+	public int directInsertOrders(OrdersVO orders);
 	
 	//public void minusPoint(int amountOfPayment, String user_code, String order_code);
 	

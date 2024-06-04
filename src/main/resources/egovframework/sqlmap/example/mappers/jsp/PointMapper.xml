@@ -33,7 +33,7 @@
 		    ROWNUM DESC;
   	</select>
   	
-	<!-- 포인트 내역 기록 -->
+	<!-- 포인트 내역 기록하기 -->
 	<insert id="insertPointLog">
 		INSERT INTO POINTLOG (
 			POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
@@ -49,7 +49,14 @@
 		    FROM POINTLOG 
 		    WHERE USER_CODE = #{USER_CODE}
 		) 
-		WHERE USER_CODE = #{USER_CODE};
+		WHERE USER_CODE = #{USER_CODE}
 	</update>
+	
+	<!-- 포인트내역 합신금액 조회 -->
+	<select id="selectTotalPoint" resultType="Integer">
+	    SELECT SUM(POINT_CHANGE) 
+	    FROM POINTLOG 
+	    WHERE USER_CODE = #{USER_CODE}
+	</select>
 	
 </mapper>

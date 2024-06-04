@@ -17,4 +17,6 @@ public interface PointMapper {
 	// 회원 포인트 업데이트
 	public int updateUserPoint(String user_code);
 	
+	// 포인트내역 합산금액 조회
+	public int selectTotalPoint(String user_code);
 }

@@ -18,10 +18,15 @@ import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
 import bookcafe.cart.service.PointLogVO;
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyPageService;
 import bookcafe.point.service.PointService;
+import bookcafe.point.service.PointVO;
 
 	@Controller
 	public class CartController {
+		
+	@Autowired
+	private MyPageService myPageService;
 	
 	@Autowired
 	private CartService cartService;
@@ -114,7 +119,7 @@ import bookcafe.point.service.PointService;
 	// 주문 넣기(결제)
 	@PostMapping("/submitOrder")
 	public String submitOrder(@ModelAttribute OrdersVO order, HttpSession session) {
-		System.out.println("결제 컨트롤러" + order.getCart_code());
+		System.out.println("결제 컨트롤러 - 카트코드: " + order.getCart_code());
 		System.out.println("결제VO: " + order.toString());
 		cartService.insertOrder(order);
 		
@@ -139,16 +144,24 @@ import bookcafe.point.service.PointService;
 		//cartService.minusPoint(amountOfPayment, user_code, order_code);
 		 
 		// 포인트 업데이트
-		cartService.updateUserPoint(user_code);
-		
-		PointLogVO pointLog = new PointLogVO();
+		PointVO pointLog = new PointVO();
 		pointLog.setUser_code(user_code);
 		pointLog.setOrder_code(order_code);
 		pointLog.setPoint_change(pointChange);
 		
-		cartService.addPoint(pointLog);
+		// 포인트 로그 입력
+		int result = pointService.insertPointLog(pointLog);
+		if (result == 1) {
+			// 합산 포인트 계산
+			int newSumPoint = pointService.selectTotalPoint(user_code);
+			loginInfo.setUser_point(newSumPoint);
+			session.setAttribute("loginInfo", loginInfo);
+			System.out.println("loginInfo_point:" + loginInfo.getUser_point());
+			myPageService.updateMember(loginInfo);
+		} else {
+			System.out.println("포인트적립실패");
+		}
 		
-		 
 		return "redirect:/cartList.do";
 	}
 }

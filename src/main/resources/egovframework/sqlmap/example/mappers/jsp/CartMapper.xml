@@ -31,7 +31,8 @@
 			TOTAL_PRICE,
 			PAYMENT_DATE,
 			PAYMENT_STATE)
-		VALUES (fnCode('order'),
+		VALUES (
+			fnCode('order'),
 			'AD001',
 			#{user_code},
 			#{cart_code},
@@ -167,10 +168,13 @@
 	
 	<!-- 유저포인트 업데이트 -->
 	<update id="updateUserPoint" parameterType="String">
-		UPDATE USER u
-		JOIN POINTLOG p ON u.USER_CODE = p.USER_CODE
-		SET u.USER_POINT = u.USER_POINT + p.POINT_CHANGE
-		WHERE p.USER_CODE = #{user_code}
+		UPDATE USER 
+		SET USER_POINT = (
+		    SELECT SUM(POINT_CHANGE) 
+		    FROM POINTLOG 
+		    WHERE USER_CODE = #{USER_CODE}
+		) 
+		WHERE USER_CODE = #{USER_CODE}
 	</update>
 	
 	<!-- 포인트 사용한 경우 -->

@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
-import bookcafe.cart.service.PointLogVO;
+import bookcafe.point.service.PointVO;
 import bookcafe.member.service.MemberVO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.point.service.PointService;
-import bookcafe.point.service.PointVO;
 
 	@Controller
 	public class CartController {

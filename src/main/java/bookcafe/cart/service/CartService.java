@@ -29,6 +29,10 @@ public interface CartService {
 	
 	public void updateUserPoint(String user_code);
 
+	public int directInsertCart(CartVO cart);
+
+	public int directInsertOrders(OrdersVO orders);
+
 	//public void minusPoint(int amountOfPayment, String user_code, String order_code);
 
 }

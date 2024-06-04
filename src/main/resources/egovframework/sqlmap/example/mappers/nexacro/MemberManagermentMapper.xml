@@ -5,6 +5,7 @@
 	<!-- 회원 관리 -->
 	<select id="select_member" resultType="java.util.Map">
 SELECT 
+	'N' as CHK,
     a.USER_CODE,
     a.USER_ID,
     a.USER_NAME,
@@ -14,12 +15,7 @@ SELECT
     a.USER_JOINDATE,
     a.USER_POINT,
     b.POINT_JOINDATE,
-    CASE 
-        WHEN a.USER_AUTHORITY = 0 THEN '비회원'
-        WHEN a.USER_AUTHORITY = 1 THEN '회원'
-        WHEN a.USER_AUTHORITY = 2 THEN 'VID'
-        ELSE a.USER_AUTHORITY 
-    END AS USER_AUTHORITY
+    a.USER_AUTHORITY
 FROM 
     USER a 
 LEFT JOIN 
@@ -28,7 +24,10 @@ ON
     a.USER_CODE = b.USER_CODE
     ORDER BY USER_AUTHORITY DESC;
 	</select>
-	
+	<select id="select_User_Authority" resultType="java.util.Map">
+	SELECT USER_AUTHORITY,TXT
+	FROM USER_AUTHORITY
+	</select>
 	<insert id="img_path">
     INSERT INTO IMG (IMG_PATH) VALUES (#{path})
 </insert>

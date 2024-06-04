@@ -31,6 +31,11 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 	
 	 @Override public int img_path(String path) { 
 	  return mmm.img_path(path); }
+
+	@Override
+	public List<Map<String, Object>> select_User_Authority() {
+		return mmm.select_User_Authority();
+	}
 	 
 
 

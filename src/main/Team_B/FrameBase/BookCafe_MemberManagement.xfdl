@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="1.85%" bottom="2.78%" border="1px solid #4F4537">
+        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="1.85%" bottom="2.78%" border="1px solid #4F4537" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -35,15 +35,15 @@
                 <Cell col="9" text="포인트 사용일" background="#FFF8EE" maskedittype="string" maskeditformat="@@@@-@@-@@"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:USER_AUTHORITY" textAlign="center"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
+                <Cell col="1" text="bind:USER_AUTHORITY" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY"/>
                 <Cell col="2" text="bind:USER_JOINDATE" displaytype="mask" maskeditformat="####-##-##"/>
                 <Cell col="3" text="bind:USER_ID"/>
                 <Cell col="4" text="bind:USER_NAME"/>
                 <Cell col="5" text="bind:USER_EMAIL"/>
                 <Cell col="6" text="bind:USER_TEL" textAlign="center"/>
                 <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english"/>
-                <Cell col="8" text="bind:USER_POINT"/>
+                <Cell col="8" text="bind:USER_POINT" edittype="normal" editinputtype="number" displaytype="normal"/>
                 <Cell col="9" text="bind:POINT_JOINDATE" textAlign="right" displaytype="mask"/>
               </Band>
             </Format>
@@ -56,7 +56,7 @@
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="Member_Management">
+      <Dataset id="Member_Management" oncolumnchanged="Member_Management_oncolumnchanged">
         <ColumnInfo>
           <ConstColumn id="USER_ID" type="STRING" size="30"/>
           <ConstColumn id="USER_NAME" type="STRING" size="30"/>
@@ -67,25 +67,43 @@
           <ConstColumn id="USER_JOINDATE" type="STRING" size="30"/>
           <ConstColumn id="USER_AUTHORITY" type="STRING" size="30"/>
           <ConstColumn id="POINT_JOINDATE" type="STRING" size="30"/>
+          <ConstColumn id="CHK" type="STRING" size="30"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Member_Authority">
+        <ColumnInfo>
+          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
+          <Column id="TXT" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[//폼이 시작되면
 this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
+	this.fnSelect_Member();
+	this.fnGetCombo();
 	
-	//가입되어있는 회원들 정보 불러오기
+};
+this.fnSelect_Member = function(){
 	var id = "membermanagement"
 	var url = "svc::membermanagement.do"
 	var indata = "";
 	var outdata = "Member_Management=Member_Management";
 	var callback ="membermanagement";
 	
-	this.transaction(id, url, indata, outdata, callback)
+	this.transaction(id, url, indata, outdata, callback);
+}
+this.fnGetCombo = function(){
+	var strSvcId = "getcombo";
+	var strSvcUrl = "svc::getcombo.do";
+	var inData = "";
+	var outData = "Member_Authority=Member_Authority";
+	var strArg="";
+	var callBackFnc ="fnCallback_select_orders_end";
+	var isAsync = true;
 	
-	
-};
-
+	this.transaction(strSvcId,strSvcUrl,inData,outData,strArg,callBackFnc,isAsync);
+}
 this.user_table_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	
@@ -119,9 +137,13 @@ this.membermanagement = function(id,ErorrC, ErorrM){
         alter("Error" + ErorrM);
         return;
     }
-
-
 }
+
+
+this.Member_Management_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	obj.setColumn(e.row,"CHK",'Y');
+};
 ]]></Script>
   </Form>
 </FDL>

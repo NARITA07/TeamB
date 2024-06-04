@@ -41,6 +41,17 @@ public class MemberManagermentCtroller {
 		return result;
 		
 	}
+	@RequestMapping("getcombo.do")
+	public NexacroResult Get_Combo() {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		
+		List<Map<String, Object>> member_Authority =  mms.select_User_Authority();
+			
+		result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
 	@RequestMapping("/upload.do")
     public void upload_img(HttpServletRequest request) {
 		

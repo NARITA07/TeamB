@@ -38,9 +38,7 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
 	@RequestMapping("memberWriteSave.do")
 	@ResponseBody
 	public String insertMember(MemberVO memberVO) throws Exception {
-	    if (memberVO.getUser_address() == null || memberVO.getUser_address().isEmpty()) {
-	        return "fail"; // 주소가 없으면 실패 메시지를 반환합니다.
-	    }
+		
 	    String message = memberService.insertMember(memberVO);
 	    return message;
 	}
@@ -68,27 +66,25 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
 	@RequestMapping("loginProc.do")
 	@ResponseBody
 	public String loginProc(MemberVO memberVO, HttpSession session) throws Exception {
-		String message = "";
-		int cnt = memberService.selectIdChk(memberVO.getUser_id());
-		if (cnt == 0) {
-			message = "";
-		}
-		if (cnt == 0) { // 아이디가 없습니다.
-			message = "x";
-		} else {
-			int cnt2 = memberService.loginProc(memberVO);
-			if (cnt2 == 0) {
-				message = "wrong password"; // 패스워드가 틀렸습니다.
-			} else {
-				MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
-				session.setAttribute("sessionId", memberVO.getUser_id());
-				session.setAttribute("loginInfo", loginInfo);
-				
-				message = "ok"; // 로그인성공
-			}
-		}
-		 System.out.println(message);
-		return message;
+	    String message = "";
+	    int cnt = memberService.selectIdChk(memberVO.getUser_id());
+	    if (cnt == 0) { // 아이디가 없습니다.
+	        message = "x";
+	    } else {
+	        int loginResult = memberService.loginProc(memberVO);
+	        if (loginResult == 1) {
+	            MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
+	            session.setAttribute("sessionId", memberVO.getUser_id());
+	            session.setAttribute("loginInfo", loginInfo);
+	            message = "ok"; // 로그인 성공
+	        } else if (loginResult == 0) {
+	            message = "wrong password"; // 패스워드가 틀렸습니다.
+	        } else if (loginResult == -1) {
+	            message = "withdrawn"; // 탈퇴한 회원
+	        }
+	    }
+	    System.out.println(message);
+	    return message;
 	}
 	
 	/* 로그아웃 */

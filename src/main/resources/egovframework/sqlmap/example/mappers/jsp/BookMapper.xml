@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookcafe.book.serviceImpl.BookMapper">
+<!--  도서 전체목록 조회  -->
+<select id="selectBookList" resultType="bookcafe.book.service.BookVO"> 
+	SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY, b.BOOK_QUANTITY, s.SEC_NAME as sec_name 
+	FROM BOOK b JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE 
+	ORDER BY b.BOOK_NAME 
+</select>
+
+<select id="selectBooksByCategory" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+	SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY, b.BOOK_QUANTITY, s.SEC_NAME as sec_name 
+	FROM BOOK b JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE WHERE s.SEC_NAME = #{category} 
+	ORDER BY b.BOOK_NAME 
+</select>
+
+<!--  책 대여 업데이트  -->
+<update id="updateBookQuantity" parameterType="string"> 
+	UPDATE BOOK 
+	SET BOOK_QUANTITY = 'N' 
+	WHERE BOOK_CODE = #{bookCode} 
+</update>
+
+<!-- 대여 기록 추가 -->
+<insert id="insertBorrowRecord" parameterType="map">
+    <selectKey keyProperty="borrowCode" resultType="string" order="BEFORE">
+        SELECT fnCode('borrow') FROM DUAL
+    </selectKey>
+    INSERT INTO BORROW (BORROW_CODE, BOOK_CODE, USER_CODE)
+    VALUES (#{borrowCode}, #{bookCode}, #{userCode})
+</insert>
+
+<!-- 새로운 주문 추가 -->
+<insert id="insertOrderRecord" parameterType="map">
+    INSERT INTO ORDERS (
+        ORDER_CODE, ADMIN_CODE, USER_CODE, CART_CODE, ORDER_STATE, TOTAL_PRICE,
+        PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_STATE
+    ) VALUES (
+        fnCode('order'), 'AD001', #{userCode}, #{cartCode}, '0', '0',
+        date_format(now(),'%Y%m%d%H%m%s'), '0', '0'
+    )
+</insert>
+
+<!--  책 코드로 책 정보 조회  -->
+<select id="getBookByCode" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+	SELECT * 
+	FROM BOOK 
+	WHERE BOOK_CODE = #{bookCode} 
+</select>
+
+<!--  대여한 도서 목록 조회  -->
+<select id="selectBorrowedBooksByUser" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+	SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY 
+	FROM BOOK b JOIN BORROW br ON b.BOOK_CODE = br.BOOK_CODE WHERE br.USER_CODE = #{userCode} 
+</select>
+
+<!--  책 이름으로 검색  -->
+<select id="searchBooksByName" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+	SELECT * 
+	FROM BOOK 
+	WHERE BOOK_NAME LIKE CONCAT('%', #{name}, '%') 
+</select>
+
+<!--  저자로 검색  -->
+<select id="searchBooksByAuthor" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+	SELECT * 
+	FROM BOOK 
+	WHERE BOOK_WRITER LIKE CONCAT('%', #{author}, '%') 
+</select>
+
+<!--  모든 카테고리 가져오기  -->
+<select id="selectAllCategories" resultType="bookcafe.book.service.BookVO"> 
+	SELECT SEC_CODE, SEC_NAME 
+	FROM SEC_CODE
+	WHERE FIR_CODE = 'fir_001'
+</select>
+
+</mapper>
+

@@ -281,13 +281,10 @@
             border-radius: 4px;
         }
         .form-group button {
-            background-color: #007bff;
+            background-color: #AB8212;
             color: white;
             border: none;
             cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
         }
             #userIdDiv, #resetPwModal {
         display: none;
@@ -395,5 +392,6 @@
     </form>
     <button class="close-modal">닫기</button>
 </div>
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>
 </html>

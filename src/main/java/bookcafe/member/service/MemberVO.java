@@ -12,6 +12,15 @@ public class MemberVO {
 	private String user_authority;
 	private int user_point;
 	private String user_sns_id;
+	private String user_leadbook;
+	
+	public String getUser_leadbook() {
+		return user_leadbook;
+	}
+	public void setUser_leadbook(String user_leadbook) {
+		this.user_leadbook = user_leadbook;
+	}
+	
 	public String getUser_code() {
 		return user_code;
 	}

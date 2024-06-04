@@ -5,46 +5,49 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 $(function() {
-    $("#btn_submit").click(function(){
+    $("#btn_submit").click(function() {
         var user_id = $("#user_id").val();
         var user_pass = $("#user_pass").val();
-        if(user_id == ""){
+        if (user_id == "") {
             alert("아이디를 입력해주세요");
             $("#user_id").focus();
             return false;
         }
-        if(user_pass == ""){
+        if (user_pass == "") {
             alert("패스워드를 입력해주세요");
             $("#user_pass").focus();
             return false;
         }
 
         $.ajax({
-            type:"POST",
-            data:"user_id="+user_id+"&user_pass="+user_pass,
-            url:"loginProc.do",
-            dataType:"text",
-            success:function(result){
-                if(result == "ok"){
+            type: "POST",
+            data: { user_id: user_id, user_pass: user_pass },
+            url: "loginProc.do",
+            dataType: "text",
+            success: function(result) {
+                if (result == "ok") {
                     alert(user_id + "님 로그인에 성공하였습니다.");
                     $("#frm")[0].reset();
-                    location.href="./";
-                }else if(result == "x"){
-                    alert(user_id + " 해당아이디는 없는 아이디입니다");
-                }else{
-                    alert(user_id + "님 패스워드가 틀렸습니다");
+                    location.href = "./";
+                } else if (result == "x") {
+                    alert(user_id + " 해당 아이디는 없는 아이디입니다.");
+                } else if (result == "wrong password") {
+                    alert(user_id + "님 패스워드가 틀렸습니다.");
+                } else if (result == "withdrawn") {
+                    alert(user_id + "님은 탈퇴한 회원입니다.");
                 }
             },
-            error:function(){
+            error: function() {
                 alert("에러가 발생하였습니다.");
             }
         });
-    }); 
-    
+    });
+
     // 네이버 로그인 버튼 클릭 이벤트
     $("#btn_naver_login").click(function(){
         window.location.href = "naverLogin.do";
@@ -70,73 +73,34 @@ $(function() {
             }
         });
     });
-
-    document.getElementById('sample2_execDaumPostcode').addEventListener('click', function() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
-                var extraAddr = '';
-
-                if (data.userSelectedType === 'R') {
-                    if (data.bname && /[동|로|가]$/g.test(data.bname)) extraAddr += data.bname;
-                    if (data.buildingName && data.apartment === 'Y') extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
-                    if (extraAddr) extraAddr = ' (' + extraAddr + ')';
-                }
-
-                var combinedAddress = data.zonecode + '# ' + addr + '# ' + extraAddr + (extraAddr ? ', ' : '') + document.getElementById("sample2_detailAddress").value;
-
-                document.getElementById('sample2_postcode').value = data.zonecode;
-                document.getElementById('sample2_address').value = addr;
-                document.getElementById('non_user_address').value = combinedAddress;
-                document.getElementById('sample2_detailAddress').focus();
-            }
-        }).open();
-    });
 });
 </script>
 <style>
-.ftco-section {
-	display: flex; 
-	justify-content: center;
-	align-items: center;
-	margin-top: 50px;
-	flex-direction: column;
-}
-
-.naver-login-img {
-    display: inline-block;
-    height: 56px;
-    padding: 0;
-    margin-left: 10px;
-    margin-top: 15px;
-}
-
-.form-group {
+body {
+    font-size: 9pt;
+    color: #333333;
+    font-family: '맑은 고딕', Arial, sans-serif;
+    background-color: #f8f9fa;
+    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
 }
 
-#userIdDiv, #resetPwModal {
-    display: none;
-    margin-top: 20px;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
     border: 1px solid #ccc;
-    background: AB8212;
+    background: white;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    width: 40%;
-}
-
-#resetPwModal {
-    position: fixed;
-    top: 178px;
-    left: 68%;
-    transform: translate(-50%, -50%);
-}
-
-.close-modal {
-    cursor: pointer;
-    background-color: #AB8212;
+    margin-top: 50px;
 }
 
 .form-group button,
@@ -145,10 +109,10 @@ $(function() {
     color: white;
     border: none;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 15px 0;
     border-radius: 4px;
     text-align: center;
-    width: auto;
+    width: 100%;
     margin-top: 15px;
 }
 
@@ -156,66 +120,72 @@ $(function() {
     margin-top: 20px;
 }
 
-.contact-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .loginBtns {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    font-size: 20px;
+    font-size: 14px;
+    margin-top: 20px;
 }
 
 .loginBtns a {
-    margin: 0 20px;
+    color: black;
+    text-decoration: none;
 }
 
-.contact-form {
+.loginBtns a:hover {
+    text-decoration: underline;
+}
+
+.button-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
 }
 
-.contact-form .form-group {
-    width: 100%;
+.button-container .btn,
+.button-container .naver-login-btn {
+    width: 48%;
+    padding: 15px;
 }
+
+.button-container .naver-login-btn img {
+    width: 100%;
+    height: 100%;
+}
+
 </style>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 
-<section class="ftco-section contact-section">
-    <div class="container">
-        <div class="row d-flex mb-5 contact-info">
-            <div class="col-md-6 block-9 mb-md-5" style="margin:auto;">
-                <form name="frm" id="frm" class="bg-light p-5 contact-form">
-                    <div class="form-group">
-                        <label for="user_id" style="width:100px;">아이디</label> 
-                        <input type="text" id="user_id" name="user_id" class="form-control" placeholder="아이디를 입력해주세요."> 
-                        <input type="hidden" id="user_id" class="idmessage" value="아이디 입력해주세요" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="user_pass" style="width:100px;">비밀번호</label> 
-                        <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
-                    </div>
-                    <div class="form-group">
-                        <input type="button" id="btn_submit" value="로그인" class="btn btn-primary py-3 px-5" style="background-color:#AB8212; font-weight: bold; font-size: 16px;">
-                        <a id="naver_login_link" href="naverLogin.do">
-                            <img id="btn_naver_login" alt="logo" src="/images/NaverBtn.png" class="naver-login-img">
-                        </a>
-                    </div>
-                    <div class="loginBtns" style="margin-top:20px;">
-                        <a href="memberWrite.do" style="color:black; font-size:16px;" >회원가입</a>
-                        <a href="findIdPwForm.do" style="color:black; font-size:16px;">아이디/비밀번호 찾기</a>
-                    </div>
-                </form>
+<div class="container">
+    <div class="form-container">
+        <form name="frm" id="frm" class="bg-light p-3 contact-form">
+            <div class="form-group">
+                <label for="user_id" class="form-label">아이디</label>
+                <input type="text" id="user_id" name="user_id" class="form-control" placeholder="아이디를 입력해주세요.">
             </div>
-        </div>
+            <div class="form-group">
+                <label for="user_pass" class="form-label">비밀번호</label>
+                <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
+            </div>
+            <div class="button-container">
+                <button type="button" id="btn_submit" class="btn btn-primary" style="width:140px; background-color: #AB8212;">로그인</button>
+                <div class="naver-login-btn">
+                    <a id="naver_login_link" href="naverLogin.do">
+                        <img id="btn_naver_login" alt="네이버 로그인" src="/images/NaverBtn.png" style="margin-top:13px; width:140px; height: 56px;">
+                    </a>
+                </div>
+            </div>
+            <div class="loginBtns">
+                <a href="memberWrite.do">회원가입</a>
+                <a href="findIdPwForm.do">아이디/비밀번호 찾기</a>
+            </div>
+        </form>
     </div>
-</section>
+</div>
 
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>

@@ -50,6 +50,7 @@
 	        O.PAYMENT_DATE DESC,
 	        SALES DESC
 	</select>
+	<!-- 도서 이력 조회 -->
 	<select id="selectBookSales" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			O.ORDER_CODE,
@@ -95,16 +96,7 @@
 		ORDER BY 
 		    O.PAYMENT_DATE DESC;
 	</select>
-	<select id="selectFirstCombo" resultType="java.util.Map">
-		SELECT FIR_CODE, FIR_NAME
-		FROM FIR_CODE
-		ORDER BY FIR_CODE
-	</select>
-	<select id="selectSecondCombo" resultType="java.util.Map">
-		SELECT FIR_CODE, SEC_CODE, SEC_NAME
-		FROM SEC_CODE
-		ORDER BY SEC_CODE
-	</select>
+	<!-- 중분류 콤보박스 -->
 	<select id="selectSalesCombo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT FIR_CODE, SEC_CODE, SEC_NAME
 		FROM SEC_CODE
@@ -154,7 +146,6 @@
 	            <if test="MENU != null and MENU != ''">
 	                AND F.PRODUCT_NAME = #{MENU}
 	            </if>
-	            <!-- 인풋날짜부터 이력 조회-->
 	            <if test="YEAR != null and YEAR != ''">
 	                AND SUBSTRING(O.PAYMENT_DATE,1,4) = #{YEAR}
 	            </if>

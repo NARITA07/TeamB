@@ -36,7 +36,7 @@ public class SalesController {
 	    return result;
     }
 	
-	// 도서 매출현황 조회
+	// 도서 이력 조회
 	@RequestMapping(value = "/selectBookSales.do")
     public NexacroResult selectBookSales(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) {    	    	
 		System.out.println("=====도서");
@@ -44,26 +44,6 @@ public class SalesController {
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("book_sales_dtl", dataList);
 	    return result;
-    }
-	
-	//대분류
-	@RequestMapping(value = "/selectFirstCombo.do")
-    public NexacroResult selectFirstCombo() {    
-       List<Map<String, Object>> dataList = sales_service.selectFirstCombo();
-       
-       NexacroResult result = new NexacroResult();
-       result.addDataSet("combo_con", dataList);
-       return result;
-    }
-	
-	//중분류 조회
-	@RequestMapping(value = "/selectSecondCombo.do")
-    public NexacroResult selectSecondCombo() {       
-       List<Map<String, Object>> dataList = sales_service.selectSecondCombo();
-       
-       NexacroResult result = new NexacroResult();
-       result.addDataSet("combo_dtl", dataList);
-       return result;
     }
 	
 	//중분류 조건 조회

@@ -1,23 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Sales_Board" width="1080" height="670" titletext="도서대여" onload="Sales_Board_onload">
+  <Form id="Book_List" width="1080" height="670" titletext="매출현황" onload="Book_List_onload">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Div id="Div00" taborder="12" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
+        <Div id="Div00" taborder="10" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
           <Layouts>
             <Layout>
-              <Edit id="Edit00" taborder="0" left="605" top="37" width="100" height="25"/>
+              <Edit id="Edit00" taborder="0" left="551" top="37" width="100" height="25"/>
             </Layout>
           </Layouts>
         </Div>
-        <Edit id="Edit00" taborder="0" left="300" top="98" height="25" onchanged="Edit00_onchanged" width="70"/>
-        <Edit id="Edit01" taborder="1" left="481" top="98" width="100" height="25" onchanged="Edit01_onchanged"/>
-        <Static id="Static00" taborder="2" text="이름" left="265" top="98" width="30" height="25"/>
-        <Static id="Static01" taborder="3" text="메뉴" left="453" top="98" width="38" height="25"/>
-        <Button id="Button00" taborder="4" text="조회" top="27" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="2%"/>
-        <Calendar id="Calendar00" taborder="5" left="801" top="98" width="100" height="25" onchanged="Calendar00_onchanged"/>
-        <Static id="Static06" taborder="6" text="기간" left="769" top="98" width="25" height="25" onclick="Static06_onclick"/>
-        <Grid id="Grid01" taborder="7" top="223" width="96.39%" height="297" binddataset="book_sales_dtl" autofittype="col" right="1.76%">
+        <Edit id="Edit00" taborder="0" left="405" top="98" height="25" onchanged="Edit00_onchanged" width="70"/>
+        <Static id="Static00" taborder="1" text="이름" left="370" top="98" width="30" height="25"/>
+        <Button id="Button00" taborder="2" text="조회" top="27" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="2%"/>
+        <Calendar id="Calendar00" taborder="3" left="792" top="98" width="100" height="25" onchanged="Calendar00_onchanged"/>
+        <Static id="Static06" taborder="4" text="기간" left="760" top="98" width="25" height="25" onclick="Static06_onclick"/>
+        <Grid id="Grid01" taborder="5" top="223" width="96.39%" height="297" binddataset="book_sales_dtl" autofittype="col" right="1.76%">
           <Formats>
             <Format id="default">
               <Columns>
@@ -45,13 +43,13 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static08" taborder="8" text="분류" left="60" top="98" width="40" height="25" onclick="Static08_onclick"/>
-        <Combo id="Combo02" taborder="9" text="Combo02" left="100" top="98" width="70" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
-        <Static id="Static09" taborder="10" text="-" left="901" top="98" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
-        <Calendar id="Calendar01" taborder="11" left="921" top="98" width="100" height="25"/>
-        <Static id="Static01_00" taborder="13" text="도서" left="593" top="98" width="38" height="25"/>
-        <Static id="Static00_00" taborder="14" text="도서대여목록" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
-        <Button id="Button01_00" taborder="15" text="엑셀" left="91.30%" top="190" width="70" height="27" borderRadius="5px"/>
+        <Static id="Static08" taborder="6" text="분류" left="60" top="98" width="40" height="25" onclick="Static08_onclick"/>
+        <Combo id="Combo02" taborder="7" text="Combo02" left="100" top="98" width="70" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
+        <Static id="Static09" taborder="8" text="-" left="892" top="98" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
+        <Calendar id="Calendar01" taborder="9" left="912" top="98" width="100" height="25"/>
+        <Static id="Static01_00" taborder="11" text="도서명" left="532" top="98" width="38" height="25"/>
+        <Static id="Static00_00" taborder="12" text="도서대여목록" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
+        <Button id="Button01_00" taborder="13" text="엑셀" left="91.30%" top="190" width="70" height="27" borderRadius="5px"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -75,12 +73,6 @@
           <Column id="TIME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="combo_con">
-        <ColumnInfo>
-          <Column id="FIR_CODE" type="STRING" size="256"/>
-          <Column id="FIR_NAME" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
       <Dataset id="combo_dtl">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
@@ -92,8 +84,7 @@
     <Bind>
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
     </Bind>
-
-    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {	
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();
@@ -225,139 +216,8 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 	{
 		
 	}
-
-    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
-{	
-	this.combo_dtl.clearData();
-	this.combo_dtl.addRow();
-	this.combo_dtl.setColumn(0,"FIR_CODE","fir_001");
-	
-	this.fnselectSalesCombo();
-	
-// 	var objDate = new Date();
-// 
-// 	var sYear = objDate.getFullYear().toString();
-// 	var sMonth = (objDate.getMonth() + 1).toString().padLeft(2, "0");
-// 	var sDay = objDate.getDate().toString().padLeft(2, "0");
 };
 
-//조회
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	
-	//조건 값 데이터셋에 담아서 넘겨주기
- 	this.sales_con.clearData();
-	
-	var sales_row = this.sales_con.addRow();
-	
-	var name = this.Edit00.value;
-	var book = this.Div00.form.Edit00.value;
-	var date1 = this.Calendar00.value;
-	var date2 = this.Calendar01.value;
-	var sec_code = this.Combo02.value;
-
- 	this.sales_con.setColumn(sales_row, "NAME", name);
-	this.sales_con.setColumn(sales_row, "BOOK", book);
-	this.sales_con.setColumn(sales_row, "DATE1", date1);
-	this.sales_con.setColumn(sales_row, "DATE2", date2);
-	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	
-	this.fnSelectBookSales();
-};
-
-//중분류 함수
-this.fnselectSecondCombo = function ()
-{
-  var strSvcId    = "selectSecondCombo";
-  var strSvcUrl   = "svc::selectSecondCombo.do";
-  var inData      = "";
-  var outData     = "combo_dtl=combo_dtl";
-  var strArg      = "";
-  var callBackFnc = "fnCallback";
-  var isAsync     = true;
-
-  this.transaction(strSvcId, 	
-				   strSvcUrl,   
-				   inData,     
-				   outData,     
-				   strArg,     	
-				   callBackFnc, 
-				   isAsync);    
-};
-
-//카페 현황 함수
-this.fnSelectSales = function ()
-{
-  var strSvcId    = "selectSales";
-  var strSvcUrl   = "svc::selectSales.do";
-  var inData      = "sales_con=sales_con";
-  var outData     = "sales_dtl=sales_dtl";
-  var strArg      = "";
-  var callBackFnc = "fnCallback";
-  var isAsync     = true;
-
-  this.transaction(strSvcId, 	
-				   strSvcUrl,   
-				   inData,     
-				   outData,     
-				   strArg,     	
-				   callBackFnc, 
-				   isAsync);    
-};
-
-//도서 현황 함수
-this.fnSelectBookSales = function ()
-{
-  var strSvcId    = "selectBookSales";
-  var strSvcUrl   = "svc::selectBookSales.do";
-  var inData      = "sales_con=sales_con";
-  var outData     = "book_sales_dtl=book_sales_dtl";
-  var strArg      = "";
-  var callBackFnc = "fnCallback";
-  var isAsync     = true;
-
-  this.transaction(strSvcId, 	
-				   strSvcUrl,   
-				   inData,     
-				   outData,     
-				   strArg,     	
-				   callBackFnc, 
-				   isAsync);    
-};
-
-//중분류
-this.fnselectSalesCombo = function ()
-{
-  var strSvcId    = "selectSalesCombo";
-  var strSvcUrl   = "svc::selectSalesCombo.do";
-  var inData      = "combo_dtl=combo_dtl";
-  var outData     = "combo_dtl=combo_dtl";
-  var strArg      = "";
-  var callBackFnc = "fnCallback";
-  var isAsync     = true;
-
-  this.transaction(strSvcId, 	
-				   strSvcUrl,   
-				   inData,     
-				   outData,     
-				   strArg,     	
-				   callBackFnc, 
-				   isAsync);    
-};
-
-this.fnCallback = function(svcID,errorCode,errorMsg)
-{
-	// 에러 시 화면 처리 내역
-	if(errorCode == -1)
-	{
-		this.alert(errorMsg);
-		return;
-	}
-
-	switch(svcID)
-	{
-		
-	}
-};]]></Script>
+]]></Script>
   </Form>
 </FDL>

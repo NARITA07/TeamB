@@ -95,24 +95,4 @@ public class OrderHistoryStatusCtroller {
 	    	return result;
 	    }
 	    
-	    // 조회하기 버튼
-	    @RequestMapping(value = "/ViewList.do")
-	    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){
-	    	
-	    	System.out.println("조회하기버튼 클릭! : " + search_combo);
-	    	
-	    	List<Map<String, Object>> dataList = ohservice.ViewList(search_combo);
-	    	
-		    NexacroResult result = new NexacroResult();
-		    result.addDataSet("result_grid", dataList);
-		    
-		    System.out.println("기간이 선택 됐나요? : "+ dataList);
-		
-		    return result;
-	    	
-	    }
-	    
-	    
-
-
 }

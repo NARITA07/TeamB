@@ -3,44 +3,41 @@
 <mapper
 	namespace="bookcafe.nexacro.productmanagement.serviceImpl.ProductManagementMapper">
 
-	<!-- 음식 이미지 등록 -->
-	<!-- <insert id="Food_Product"> -->
-	<!-- INSERT INTO FOOD(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, 
-		PRODUCT_CATEGORY, PRODUCT_PATH) -->
-	<!-- VALUES(fnCode('food'), 'TEST', 0, 0, 'TEST', #{path}) -->
-	<!-- </insert> -->
-	<insert id="Food_Product"> INSERT INTO FOOD(PRODUCT_NAME, PRODUCT_PRICE,
-		PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH) VALUES('TEST', 0, 0,
-		'TEST', #{path}) </insert>
-	<!-- <insert id="BooK_Product"> -->
-	<!-- INSERT INTO BOOK(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, 
-		BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH) -->
-	<!-- VALUES (fnCode('book'), 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', 
-		#{path}); -->
-	<!-- </insert> -->
-	<insert id="BooK_Product"> INSERT INTO BOOK(BOOK_NAME, BOOK_PRICE,
-		BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH) VALUES
-		('TEST', 0, 'TEST', 'TEST', 'TEST', #{path}); </insert>
-	<update id="book_insert"> UPDATE BOOK SET BOOK_NAME = #{PRODUCT_NAME},
-		BOOK_PRICE = #{PRODUCT_PRICE}, BOOK_CATEGORY = #{SEC_CODE},
-		BOOK_WRITER = #{PRODUCT_WRITER}, BOOK_PUBLICATION_DATE =
-		#{PRODUCT_PUBLICATION_DATE} WHERE BOOK_PATH = #{PRODUCT_PATH} </update>
-	<!-- 음식 등록 -->
-	<update id="food_insert"> UPDATE FOOD SET PRODUCT_NAME = #{PRODUCT_NAME},
-		PRODUCT_PRICE = #{PRODUCT_PRICE}, PRODUCT_CATEGORY = #{SEC_CODE} WHERE
-		PRODUCT_PATH = #{PRODUCT_PATH} </update>
 
-	<select id="getProduct_date" resultType="java.util.Map">
-
-		SELECT PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, SEC_NAME FROM FOOD F JOIN SEC_CODE SC
-		ON F.PRODUCT_CATEGORY = SC.SEC_CODE
-
-		UNION
-
-		SELECT BOOK_CODE, BOOK_NAME, BOOK_PRICE, SEC_NAME FROM BOOK B JOIN SEC_CODE
-		SC
-		ON B.BOOK_CATEGORY = SC.SEC_CODE;
-	</select>
-		
+	<!-- 도서 저장 -->
+	<insert id="book_save">
+	INSERT 
+	INTO 
+	BOOK 	(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_CATEGORY, BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_PATH, BOOK_PRICE)
+	VALUES	(fnCode('book'), #{PRODUCT_NAME}, "Y", #{SEC_CODE}, #{PRODUCT_WRITER}, #{PRODUCT_BOOK_DATE}, "없음", 0);
+	</insert>
+	
+	
+	<!-- 음식 저장 -->
+	<insert id="food_save">
+	INSERT 
+	INTO 
+	FOOD	(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY,PRODUCT_PATH) 
+	VALUES	(fnCode('food'), #{PRODUCT_NAME},#{PRODUCT_PRICE}, 0, #{SEC_CODE},"없음")
+	</insert>
+	
+	<delete id="delete_food">
+	  DELETE FROM FOOD WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+	</delete>
+	
+	<delete id="delete_book">
+	  DELETE FROM BOOK WHERE BOOK_CODE = #{PRODUCT_CODE}
+	</delete>
+	
+	<update id="update_food">
+	UPDATE FOOD SET PRODUCT_NAME = #{PRODUCT_NAME}, PRODUCT_PRICE = #{PRODUCT_PRICE} WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+	
+	</update>
+	
+	<update id="update_book">
+	UPDATE BOOK SET BOOK_NAME = #{PRODUCT_NAME}, BOOK_PRICE = #{PRODUCT_PRICE} WHERE BOOK_CODE = #{PRODUCT_CODE}
+	
+	
+	</update>
 
 </mapper>

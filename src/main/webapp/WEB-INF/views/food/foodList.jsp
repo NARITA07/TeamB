@@ -71,36 +71,8 @@
                 </c:forEach>
             </div>
         </div>
-<%--         <div class="container px-4 px-lg-5 mt-5">
-            <h1 style="text-align:center; margin-bottom:50px;">음식</h1>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <c:forEach items="${foodess}" var="food">
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="${food.product_img}" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">${food.product_name}</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted">${food.product_price}</span>
-                                </div>
-                                <div class="cart_btn_box">
-                                    <div>
-                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
-                                    </div>
-                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">담기</button>
-                                	<span class="total-price-span" id="total_price_${food.product_code}"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div> --%>
     </section>
+    
     <!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -126,14 +98,6 @@
                     <div class="form-group">
                         <label for="amountOfPayment">결제 금액</label>
                         <input type="text" class="form-control" id="amountOfPayment" name="total_price" value="12000" readonly>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="radio" name="payment_method" value="0"> 현금
-                        </label>
-                        <label>
-                            <input type="radio" name="payment_method"  value="1" checked> 카드
-                        </label>
                     </div>
                     <input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
     				<input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
@@ -190,6 +154,7 @@
         }
         
         function direct_buy(user_code, product_code, order_quantity){
+        	console.log("cart_code:"+ cart_code);
 			if(sUID == "null"){
                 alert('로그인 후 이용해 하세요.');
                 var url = 'login.do';

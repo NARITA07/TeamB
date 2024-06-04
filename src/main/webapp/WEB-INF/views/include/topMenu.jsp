@@ -68,8 +68,8 @@
 		</div>
 	</div>
 	<script>
-		var user_code = "${loginInfo.user_code}";
-		console.log("유저코드:"+user_code);
+		/* var user_code = "${loginInfo.user_code}";
+		console.log("유저코드:"+user_code); */
 		
 		function goCart(){
 			var url = '/cartList.do';

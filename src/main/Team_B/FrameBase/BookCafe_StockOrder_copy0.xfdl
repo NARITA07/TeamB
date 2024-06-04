@@ -188,15 +188,43 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 				this.stock_order.copyRow(row, this.stock_grid1, i);
 			}
 		}
-			// 저장
-			this.fnSaveStockOrder();
-		}else{alert("로그인해주세요!");}
+		
+		//확인용
+		alert(this.stock_order.saveXML());
+		
+		var objParam = { param :this.stock_order }
+		
+		alert(objParam);
+
+        var objChildFrame = new ChildFrame();
+		
+        objChildFrame.init("stock_order_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_StockOrder_popup.xfdl");
+        objChildFrame.set_dragmovetype("all");
+        objChildFrame.set_openalign("center middle");
+		objChildFrame.set_resizable(false);
+		
+        objChildFrame.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback");
+    } else {
+        this.alert("선택된 항목이 없습니다.");
+    }	
 	}
-	/*alert(this.stock_order.saveXML());*/
 };
 
 /* 엑셀버튼 */
 
+
+/* 콜백함수 */
+/* 팝업창의 콜백 함수 정의 (테스트용으로 비워둠) */
+this.fn_popupCallback = function(strPopupID, strReturn)
+{
+    if(strReturn == undefined){
+        return;
+    }
+
+    if(strPopupID == "stock_order_popup"){
+        this.alert("Return Value: " + strReturn);
+    }
+};
 
 
 /* 3. 함수 */

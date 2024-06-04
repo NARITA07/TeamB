@@ -177,6 +177,38 @@
 		WHERE USER_CODE = #{USER_CODE}
 	</update>
 	
+	<!--바로구매 cart insert -->
+    <insert id="directInsertCart" parameterType="bookcafe.cart.service.CartVO">
+    INSERT INTO CART (USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
+    VALUES (
+        #{user_code},
+        #{product_code},
+        #{order_quantity},
+        fnCode('cart')
+	    )
+	</insert>
+	
+	<!--바로구매 orders insert-->
+	<insert id="directInsertOrders" parameterType="bookcafe.cart.service.OrdersVO">
+		INSERT INTO ORDERS (
+			ORDER_CODE,
+			ADMIN_CODE,
+			USER_CODE,
+			CART_CODE,
+			ORDER_STATE,
+			TOTAL_PRICE,
+			PAYMENT_DATE,
+			PAYMENT_STATE)
+		VALUES (fnCode('order'),
+			'AD001',
+			#{user_code},
+			#{cart_code},
+			1,
+			#{total_price},
+			date_format(now(),'%Y%m%d%H%m%s'),
+			1)
+	</insert>
+	
 	<!-- 포인트 사용한 경우 -->
 	<!-- 	<update id="minusPoint" parameterType="bookcafe.cart.service.PointLogVO">
 	    UPDATE POINTLOG

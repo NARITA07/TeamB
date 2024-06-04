@@ -164,4 +164,37 @@ import bookcafe.point.service.PointVO;
 		
 		return "redirect:/cartList.do";
 	}
+	
+	// 바로구매 
+	@PostMapping("/submitOrderDirect")
+	public String submitOrderDirect(CartVO cart, HttpSession session,OrdersVO orders,int total_price) {
+		
+		System.out.println("ordersVO:" + orders);
+		
+		// 카트에 바로 넣기
+		int result = cartService.directInsertCart(cart);
+		if (result >= 1) {
+			System.out.println("바로 장바구니 담기 성공");
+			System.out.println("장바구니 이후 cartVO:" + cart);
+			// 주문 바로 넣기
+			int messege =cartService.directInsertOrders(orders);
+			if (messege >= 1) {
+				System.out.println("바로 주문 성공");
+				String cart_code=cartService.selectMaxCartCode(cart.getUser_code());
+				String user_code=cart.getUser_code();
+				orders.setCart_code(cart_code);
+				orders.setTotal_price(total_price);
+				orders.setUser_code(user_code);
+				System.out.println("결제 이후 OrdersVO:" + orders);
+				// 재고 업데이트
+				cartService.updateQuantity(cart_code);
+			} else {
+				System.out.println("바로 주문 실패");
+			}
+		} else {
+			System.out.println("바로 장바구니 담기 실패");
+		}
+		
+		return "redirect:/foodList.do";
+	}
 }

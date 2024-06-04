@@ -37,7 +37,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Static id="Static00" taborder="2" text="재고 관리" left="1.85%" top="4.26%" width="137" height="37" initvalueid="" cssclass="main_title"/>
+              <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.85%" top="4.26%" width="210" height="37" initvalueid="" cssclass="main_title"/>
               <Div id="Div00" taborder="1" left="1.85%" top="Static00:50" text="" cssclass="main_nav" right="1.85%" height="60">
                 <Layouts>
                   <Layout>
@@ -48,7 +48,7 @@
                     <Calendar id="Calendar00" taborder="2" left="Static00:5" top="15" width="100" height="30" cssclass="cal_default"/>
                     <Static id="Static01" taborder="5" text="~" left="Calendar00:3" top="23" width="9" height="14"/>
                     <Calendar id="Calendar01" taborder="3" left="Static01:3" top="15" width="100" height="30" cssclass="cal_default"/>
-                    <Static id="Static02" taborder="7" text="발주현황" left="571" top="23" width="48" height="14"/>
+                    <Static id="Static02" taborder="7" text="발주상태" left="571" top="23" width="48" height="14"/>
                     <Combo id="Combo01" taborder="8" text="Combo01" left="Static02:5" top="15" width="100" height="30" cssclass="combo_default" innerdataset="TEST" datacolumn="NAME" codecolumn="NAME"/>
                   </Layout>
                 </Layouts>
@@ -63,16 +63,16 @@
         <Div id="stock02_div" taborder="1" left="0.00%" top="470" bottom="0.00%" right="0">
           <Layouts>
             <Layout>
-              <Grid id="Grid00" taborder="0" left="1.76%" binddataset="stock_grid2" autofittype="col" right="1.76%" bottom="8%" height="194" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick">
+              <Grid id="Grid00" taborder="0" left="1.85%" binddataset="stock_grid2" autofittype="col" right="1.85%" bottom="8%" height="194" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
                       <Column size="69"/>
-                      <Column size="80"/>
+                      <Column size="99"/>
                       <Column size="54"/>
-                      <Column size="104"/>
+                      <Column size="108"/>
                       <Column size="70"/>
-                      <Column size="74"/>
+                      <Column size="50"/>
                     </Columns>
                     <Rows>
                       <Row size="24" band="head"/>
@@ -84,7 +84,7 @@
                       <Cell col="2" text="발주수량" background="#FFF8EE"/>
                       <Cell col="3" text="발주일자" background="#FFF8EE"/>
                       <Cell col="4" text="신청자" background="#FFF8EE"/>
-                      <Cell col="5" text="발주현황" background="#FFF8EE"/>
+                      <Cell col="5" text="발주상태" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
                       <Cell displaytype="checkboxcontrol" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
@@ -92,13 +92,14 @@
                       <Cell col="2" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
                       <Cell col="3" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd " displaytype="date"/>
                       <Cell col="4" text="bind:USER_CODE" textAlign="center"/>
-                      <Cell col="5" textAlign="center" displaytype="normal" calendardateformat="yyyy-MM-dd" text="expr:STOCK_ORDER_STATUS=='0'?'배송중':'입고완료'"/>
+                      <Cell col="5" textAlign="center" displaytype="combocontrol" edittype="expr:PRODUCT_CHECK=='0'?'none':'combo'" text="bind:STOCK_ORDER_STATUS" combocodecol="STOCK_ORDER_STATE" combodatacol="TEXT" combodataset="ds_stockorder_state"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="1.85%" width="70" cssclass="btn_dafault"/>
-              <Static id="Static00" taborder="2" text="발주신청서 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
+              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="8.80%" width="70" cssclass="btn_dafault"/>
+              <Static id="Static00" taborder="2" text="입고 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
+              <Button id="Button01" taborder="3" text="입고확인" width="70" height="30" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5" onclick="stock02_div_Button01_onclick"/>
             </Layout>
           </Layouts>
         </Div>
@@ -179,7 +180,11 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 		// 세션에서 ADMIN_CODE 가져오기
 		var sessionLogin = nexacro.getApplication().Session_login;
 		var adminCode = sessionLogin.getColumn(0, "ADMIN_CODE");
+		
+		//로그인 분기문
 		if(adminCode != null){
+		
+		//체크된 항목 카운트
 		for(var i=0; i<this.stock_grid1.rowcount; i++){
 			if(this.stock_grid1.getColumn(i, "PRODUCT_CHECK") == "1"){
 				var row = this.stock_order.addRow();
@@ -189,6 +194,9 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 			}
 		}
 		
+		this.fnSaveStockOrder();
+		
+		/* 팝업창
 			//확인용
 			alert(this.stock_order.saveXML());
 		
@@ -204,19 +212,19 @@ this.stock01_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 			objChildFrame.set_resizable(false);
 		
         objChildFrame.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback");
+		*/
 	} else {
-        this.alert("선택된 항목이 없습니다.");
+        this.alert("로그인을 해주세요.");
     }
 	}else{
-		 this.alert("로그인을 해주세요.");
+		 this.alert("선택된 항목이 없습니다.");
 	}
 };
 
 /* 엑셀버튼 */
 
 
-/* 콜백함수 */
-/* 팝업창의 콜백 함수 정의 (테스트용으로 비워둠) */
+/* 팝업창의 콜백 함수 정의 (테스트용으로 비워둠) 
 this.fn_popupCallback = function(strPopupID, strReturn)
 {
     if(strReturn == undefined){
@@ -227,6 +235,7 @@ this.fn_popupCallback = function(strPopupID, strReturn)
         this.alert("Return Value: " + strReturn);
     }
 };
+*/
 
 
 /* 3. 함수 */
@@ -417,6 +426,45 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 		alert("오름차순!");
 	}
 };
+
+
+
+
+// 입고관리 저장버튼
+this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	/* (1) 체크된 row갯수 count */
+	//조건식을 문자열로 작성하여 전달
+    var condition = "PRODUCT_CHECK" + " == '1'";
+	
+    // getCaseCount 메서드 호출
+    var chkCnt = this.stock_grid2.getCaseCount(condition);
+	alert("체크된 메뉴 갯수 : " +chkCnt);
+	
+	/* (2) 체크된 행 카운트 */
+    if (chkCnt > 0) {
+		this.stock_order.clearData();
+		
+		// 세션에서 ADMIN_CODE 가져오기
+		var sessionLogin = nexacro.getApplication().Session_login;
+		var adminCode = sessionLogin.getColumn(0, "ADMIN_CODE");
+		
+		//로그인 분기문
+		if(adminCode != null){
+		
+		//체크된 항목 카운트
+		for(var i=0; i<this.stock_grid2.rowcount; i++){
+			if(this.stock_grid2.getColumn(i, "PRODUCT_CHECK") == "1"){
+				var row = this.stock_order.addRow();
+				//dataset에 ADMIN_CODE 추가
+				this.stock_order.setColumn(row,"USER_CODE",adminCode);
+				this.stock_order.copyRow(row, this.stock_grid2, i);
+			}
+		}
+		}
+		}
+		alert(this.stock_order.saveXML());
+};
 ]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true">
@@ -436,7 +484,7 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
           <Column id="STOCK_ORDER_QUANTITY" type="STRING" size="256" description="발주수량"/>
           <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
-          <Column id="PRODUCT_CHECK" type="STRING" size="256"/>
+          <Column id="PRODUCT_CHECK" type="STRING" size="256" description="체크박스"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="stock_order" useclientlayout="true">
@@ -485,6 +533,26 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
           </Row>
           <Row>
             <Col id="NAME">입고완료</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_stockorder_state">
+        <ColumnInfo>
+          <Column id="STOCK_ORDER_STATE" type="STRING" size="256"/>
+          <Column id="TEXT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="STOCK_ORDER_STATE">0</Col>
+            <Col id="TEXT">입고대기</Col>
+          </Row>
+          <Row>
+            <Col id="STOCK_ORDER_STATE">1</Col>
+            <Col id="TEXT">입고취소</Col>
+          </Row>
+          <Row>
+            <Col id="STOCK_ORDER_STATE">2</Col>
+            <Col id="TEXT">입고완료</Col>
           </Row>
         </Rows>
       </Dataset>

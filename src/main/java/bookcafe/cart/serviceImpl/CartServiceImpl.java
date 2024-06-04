@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
+import bookcafe.cart.service.OrdersVO;
 import bookcafe.cart.service.PointLogVO;
 
 @Service
@@ -104,6 +105,16 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void updateUserPoint(String user_code) {
 		cartMapper.updateUserPoint(user_code);
+	}
+
+	@Override
+	public int directInsertCart(CartVO cart) {
+		return cartMapper.directInsertCart(cart);
+	}
+
+	@Override
+	public int directInsertOrders(OrdersVO orders) {
+		return cartMapper.directInsertOrders(orders);
 	}
 
 	/*

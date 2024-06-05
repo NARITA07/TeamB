@@ -21,9 +21,12 @@ public class CodeManagementController {
 	
 	//대분류 코드 생성
 	@RequestMapping("add_fir_code.do")
-	public void add_fir_code(@ParamDataSet(name="fir_code_add",required = false)Map<String,Object>fir_code_add) {
-		System.out.println(fir_code_add);
-		codemservice.add_fir_code(fir_code_add);
+	public NexacroResult add_fir_code(@ParamDataSet(name="fir_code_add",required = false)Map<String,Object>fir_code_add) {
+		NexacroResult result = new NexacroResult();
+		
+		System.out.println("코드관리 "+ fir_code_add);
+		result.addDataSet("message",codemservice.add_fir_code(fir_code_add));
+		return result;
 	}
 	
 	

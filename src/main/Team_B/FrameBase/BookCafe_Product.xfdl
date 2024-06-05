@@ -91,12 +91,20 @@
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="save_date">
+      <Dataset id="save_date" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_PRICE" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="message" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="num" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[//화면 시작 시
@@ -211,7 +219,9 @@ this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 //저장 클릭 시 
 this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var a = 0;
+	this.save_date.reset()
+	
+	var num = 0;
 	for(i = 0; i < this.view_code.rowcount; i++){
 	if(this.view_code.getColumn(i,"chx") == 1){
 	var code =	this.view_code.getColumn(i,"PRODUCT_CODE")
@@ -221,18 +231,23 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
 		this.save_date.addRow();
 		
-		this.save_date.setColumn(a,"PRODUCT_CODE",code)
-		this.save_date.setColumn(a,"PRODUCT_NAME",name)
-		this.save_date.setColumn(a,"PRODUCT_PRICE",price)
-		a++;
+		this.save_date.setColumn(num,"PRODUCT_CODE",code)
+		this.save_date.setColumn(num,"PRODUCT_NAME",name)
+		this.save_date.setColumn(num,"PRODUCT_PRICE",price)
+		num++;
 	};
-	}
-		alert(this.save_date.saveXML());
 	
+	if(this.save_date.getRowCount() == 0){
+		alert("수정하실 내역이없습니다.")
+		return false
+	}
+	}
+	
+	alert(this.save_date.saveXML());
 	var id = "modi"
 	var url  = "svc::modi.do"
 	var set = "save_date = save_date:u"
-	var get = ""
+	var get = "message = message"
 	var arg = ""
 	var	callback = "fn_category";
 			
@@ -274,12 +289,12 @@ var num = 0 ;
 			if(this.view_code.getColumn(i,"chx") == 1){ // 체크항목이 존재한다면
 				
 				this.del_date.addRow()// 데이터셋에 공간을 만들고
-				alert(num)
+			
 				//삭제값만 dataset에 저장
 				var code = this.view_code.getColumn(i,"PRODUCT_CODE")//체크된 값의 코드를 가져옴
 				this.del_date.setColumn(num,"PRODUCT_CODE",code)// 그리고 저장
 			num++;
-			alert(num +"후" );
+	
 		}
 	
 	
@@ -296,8 +311,8 @@ var num = 0 ;
 			var id = "del_date"
 			var url = "svc::del_date.do";
 			var set = "del_date = del_date";
-			var get = "";
-			var 	arg = "";
+			var get = "message = message";
+			var arg = "";
 			var	callback = "fn_category";
 			
 			this.transaction(id, url, set, get, arg, callback)
@@ -321,6 +336,8 @@ var num = 0 ;
 //카테고리 콜백 함수
 this.fn_category = function(id, code, message){
 
+	this.message.reset()
+	
 	if(code == 0){
 			switch(id) {
 			case "fir_category_select":
@@ -330,8 +347,18 @@ this.fn_category = function(id, code, message){
 		}
 				break;
 				
+				case "modi":
+				var count = this.message.getColumn(0,"num");
+				alert(count + "건 수정되었습니다.")
+				this.reload();
+				break;
+				
 				case "del_date":
-				this.reload()
+		
+				var count = this.message.getColumn(0,"num");
+				alert(count + "건 삭제되었습니다.")
+				this.reload();
+				break;
 			
 			}
 		

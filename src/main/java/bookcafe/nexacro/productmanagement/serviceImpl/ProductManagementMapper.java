@@ -16,9 +16,9 @@ public interface ProductManagementMapper {
 
 	int delete_book(Map<String, Object> map);
 
-	void update_food(Map<String, Object> map);
+	int update_food(Map<String, Object> map);
 
-	void update_book(Map<String, Object> map);
+	int update_book(Map<String, Object> map);
 
 
 

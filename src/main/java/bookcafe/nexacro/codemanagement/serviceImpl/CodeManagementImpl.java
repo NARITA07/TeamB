@@ -1,5 +1,6 @@
 package bookcafe.nexacro.codemanagement.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +45,13 @@ public class CodeManagementImpl implements CodeManagementService {
 
 	//상위코드 생성
 	@Override
-	public void add_fir_code(Map<String, Object>fir_code_add) {
-		codemmapper.add_fir_code(fir_code_add);
+	public Map<String, Object> add_fir_code(Map<String, Object>fir_code_add) {
+		
+		Map<String, Object> codes = new HashMap<>();
+		int num = codemmapper.add_fir_code(fir_code_add);
+		System.out.println(num);
+		codes.put("num", num);
+		return codes;
 		
 	}
 

@@ -143,6 +143,9 @@
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
         </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
       </Dataset>
       <Dataset id="sec_code_add">
         <ColumnInfo>
@@ -163,6 +166,14 @@
       <Dataset id="del_date_sec">
         <ColumnInfo>
           <Column id="SEC_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="message" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="num" type="STRING" size="256"/>
+          <Column id="fir_name" type="STRING" size="256"/>
+          <Column id="sec_num" type="STRING" size="256"/>
+          <Column id="sec_name" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -265,29 +276,6 @@ this.Main_btn_Sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 };
 }
 
-
-
-
-
-
-//콜백 함수
-this.fn_category = function(id, code, message){
-
-	if(code == 0){
-			
-			switch(id) {
-			case "add_fir_code":
-				this.Main.form.reload()
-				break;
-			
-		}
-	
-	}
-	
-
-
-}
-
 //수정 
 this.modi = function(){
 
@@ -314,7 +302,7 @@ if(this.Main.form.Fir_in.getLength() < 2){
 	var id  = "add_fir_code";
 	var url = "svc::add_fir_code.do";
 	var set = "fir_code_add = fir_code_add";
-	var get = "";
+	var get = "message= message";
 	var arg = "";
 	var callback = "fn_category";
 	
@@ -330,47 +318,57 @@ if(this.Main.form.Fir_in.getLength() < 2){
 
 this.Main_btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-var num = 0 ;
-		var con = this.confirm("정말 삭제 하시겠습니까?")
+	var con = this.confirm("정말 삭제 하시겠습니까?")
 	
 	if(con == true){
-
+	
+	var num = 0 ;
 	//그리드의 전체 숫자만큼 반복 
 	for(i = 0; i < this.init_fir_code.getRowCount(); i++){
 			// 걔 중 체크항목을 확인하고
 			if(this.init_fir_code.getColumn(i,"chx") == 1){ // 체크항목이 존재한다면
-				
+
 				this.del_date.addRow()// 데이터셋에 공간을 만들고
 				//삭제값만 dataset에 저장
 				var code = this.init_fir_code.getColumn(i,"FIR_CODE")//체크된 값의 코드를 가져옴
 				this.del_date.setColumn(num,"FIR_CODE",code)// 그리고 저장
 			num++;
-		}
+		} // if 끝
 	
 	
 	
-	}
-		if(this.del_date.getRowCount() == 0){
-		
-			alert("코드를 선택해주세요")
-			return false;
-			
-	
-		}else {
-			alert(this.del_date.saveXML())
-			var id = "del_date"
-			var url = "svc::C_del_date.do";
-			var set = "del_date = del_date";
-			var get = "";
-			var 	arg = "";
-			var	callback = "fn_category";
-			
-			this.transaction(id, url, set, get, arg, callback)
-		
-		
-		
-		}
-	}
+	}// for 끝
+	}else{
+		return false;
+		//컨펌 취소로 끝.
+	}	
+ 	this.alert(this.del_date.saveXML());
+// 		this.alert(this.del_date.getRowCount());
+// 		if(this.del_date.getRowCount() == null){
+// 		
+// 			alert("코드를 선택해주세요")
+// 			return false;
+// 			
+// 	
+// 		}else if(this.view_code.rowcount != 0)
+// 		{
+// 			//하위코드 존재
+// 			var con = this.confirm("하위코드가 존재합니다, 삭제하시겠습니까?")
+// 			if(con == true){
+// 			//this.del_date();
+// 			}else{
+// 			return false
+// 			}
+// 		}
+// 		
+// 		else{//하위코드 존재 x
+// 			//this.del_date();
+// 		
+// 		
+// 		
+// 		}
+// 	
+// 	
 			
 	
 				
@@ -462,6 +460,44 @@ this.Main_btn_del_sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 			
 			this.transaction(id, url, set, get, arg, callback)
 };
-]]></Script>
+
+
+
+//콜백 함수
+this.fn_category = function(id, code, message){
+
+	if(code == 0){
+			
+			switch(id) {
+			case "add_fir_code":
+				var count = this.message.getColumn(0,"num");
+				alert(count + "건 등록되었습니다.")
+				this.reload();
+				break;
+			case "del_date":
+				var count = this.message.getColumn(0,"num");
+				alert(count + "건 삭제되었습니다.")
+			
+		}
+
+		
+	
+	}
+	
+
+
+}
+this.del_date = function(){
+			var id = "del_date"
+			var url = "svc::C_del_date.do";
+			var set = "del_date = del_date";
+			var get = "message = message";
+			var arg = "";
+			var	callback = "fn_category";
+			
+			this.transaction(id, url, set, get, arg, callback)
+
+
+}]]></Script>
   </Form>
 </FDL>

@@ -15,7 +15,7 @@ public interface CodeManagementService {
 	void C_fir_code_chx(Map<String, Object> modi_date);
 	
 	//상위코드 생성
-	void add_fir_code(Map<String, Object> fir_code_add);
+	Map<String, Object> add_fir_code(Map<String, Object> fir_code_add);
 	
 	//중위코드 생성
 	void sec_code_add(Map<String, Object> sec_code_add);

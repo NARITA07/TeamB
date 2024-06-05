@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,26 +19,20 @@
 		width: 10%;
 	}
 	#tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
-		width: 30%;
+		width: 25%;
 	}
 	#tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
-		width: 20%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
 		width: 20%;
 	}
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
-		width: 20%;
+		width: 15%;
 	}
-	.modal-dialog {
-		width: 500px;
-	    max-width: 100%;
-	    margin: 1.75rem auto;
+	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(5) {
+		width: 10%;
 	}
-	
-	ul {
-    list-style-type: square;
-}
 </style>
 </head>
 <body>
@@ -61,24 +56,7 @@ function formattedDate(point_use_date) {
      return formattedDate;
 }
 
-//금액 자릿수 표시하기(콤마)
-function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 $(document).ready(function() {
-	
-	var myPoint = $("#myPoint").text();
-	if (myPoint.length > 0) {
-		$("#myPoint").text(formatNumberWithCommas(myPoint));
-	}
-	
-	$(".point_cost").each(function() {
-		var point_cost = $(this).text();
-		if (point_cost.length > 0) {
-			$(this).text(formatNumberWithCommas(point_cost));
-		}
-	});
 	
 	$(".point_use_date").each(function() {
 		var point_use_date = $(this).text();
@@ -145,7 +123,11 @@ $(function() {
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
 									<div style="display: flex; align-items: center;">
-										<h3 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3>
+										<h3 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : 
+										<a id="myPoint" style="margin-left:10px;">
+											<fmt:formatNumber value="${totalPoint}" type="number" groupingUsed="true"/>
+										</a>P
+										</h3>
 									</div>
 									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;">
 										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
@@ -159,6 +141,7 @@ $(function() {
 												<th>#</th>
 												<th>날짜(최근순)</th>
 												<th>사유</th>
+												<th>구매금액</th>
 												<th>포인트</th>
 												<th>구분</th>
 											</tr>
@@ -183,7 +166,8 @@ $(function() {
 								                            <c:otherwise>기타</c:otherwise>
 								                        </c:choose>
 								                    </td>
-													<td class="point_cost">${point.point_change} P</td>
+													<td><fmt:formatNumber value="${point.total_price}" type="number"/> 원</td>
+													<td><fmt:formatNumber value="${point.point_change}" type="number"/> P</td>
 													<td>${point.point_section}</td>
 												</tr>
 											</c:forEach>

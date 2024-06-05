@@ -22,7 +22,6 @@ public class MyOrderDTO {
 	private int order_state;			//주문상태(0:준비중, 1:준비중(재고감소), 2:준비완료, 3:픽업완료)
 	private int total_price;			//총 금액
 	private String payment_date;		//결제일자
-	private int payment_method;			//결제방식(1:카드, 2:포인트)
 	private int payment_state;			//결제상태(0:결제중, 1:결제완료, 2:환불, 3:취소)
 	
 	
@@ -111,17 +110,21 @@ public class MyOrderDTO {
 	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
-	public int getPayment_method() {
-		return payment_method;
-	}
-	public void setPayment_method(int payment_method) {
-		this.payment_method = payment_method;
-	}
 	public int getPayment_state() {
 		return payment_state;
 	}
 	public void setPayment_state(int payment_state) {
 		this.payment_state = payment_state;
+	}
+	
+	@Override
+	public String toString() {
+		return "MyOrderDTO [user_code=" + user_code + ", cart_code=" + cart_code + ", order_quantity=" + order_quantity
+				+ ", product_code=" + product_code + ", product_name=" + product_name + ", product_price="
+				+ product_price + ", product_quantity=" + product_quantity + ", product_category=" + product_category
+				+ ", product_path=" + product_path + ", order_code=" + order_code + ", admin_code=" + admin_code
+				+ ", order_state=" + order_state + ", total_price=" + total_price + ", payment_date=" + payment_date
+				+ ", payment_state=" + payment_state + "]";
 	}
 	
 }

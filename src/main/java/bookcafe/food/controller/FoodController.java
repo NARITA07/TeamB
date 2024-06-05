@@ -13,13 +13,11 @@ public class FoodController {
 	@Resource(name="foodService")
 	public FoodService foodService;
 	
-	
-	
 	/*커피,음식 리스트*/
 	@RequestMapping("foodList.do")
 	public String foodList(Model model) {
-		model.addAttribute("coffees", foodService.getCoffeesList());
 		model.addAttribute("foodess", foodService.getFoodesssList());
 		return "/food/foodList";
 	}
+	
 }

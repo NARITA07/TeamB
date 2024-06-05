@@ -87,4 +87,13 @@ public class MemberVO {
 	public void setUser_sns_id(String user_sns_id) {
 		this.user_sns_id = user_sns_id;
 	}
+	
+	@Override
+	public String toString() {
+		return "MemberVO [user_code=" + user_code + ", user_id=" + user_id + ", user_pass=" + user_pass + ", user_name="
+				+ user_name + ", user_tel=" + user_tel + ", user_email=" + user_email + ", user_address=" + user_address
+				+ ", user_joindate=" + user_joindate + ", user_authority=" + user_authority + ", user_point="
+				+ user_point + ", user_sns_id=" + user_sns_id + "]";
+	}
+	
 }

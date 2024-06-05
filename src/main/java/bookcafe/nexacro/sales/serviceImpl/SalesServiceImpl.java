@@ -43,6 +43,11 @@ public class SalesServiceImpl extends EgovAbstractServiceImpl implements SalesSe
 		return Sales_mapper.selectSecondCombo();
 	}
 
+	@Override
+	public List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con) {
+		return Sales_mapper.selectSalesChart(sales_con);
+	}
+
 
 	
 

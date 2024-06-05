@@ -8,9 +8,6 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("foodMapper")
 public interface FoodMapper {
-	/*커피 리스트*/
-	List<FoodVO> selectCoffeesList();
-	
 	/*음식 리스트*/
 	List<FoodVO> selectFoodessList();
 }

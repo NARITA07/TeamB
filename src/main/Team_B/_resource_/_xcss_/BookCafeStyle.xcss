@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XCSS version="1.0"><![CDATA[.Static.title
+<XCSS version="1.0"><![CDATA[.Static.title_sub
 {
 	-nexa-border : ;
 	-nexa-edge : ;
@@ -15,46 +15,22 @@
 	box-shadow : ;
 	color : ;
 	cursor : ;
-	font : normal 700 10pt /normal "Arial";
+	font : normal 700 16pt /normal "Arial";
 	letter-spacing : ;
 	opacity : ;
 	word-spacing : ;
 }
-.Static.title_sub
-{
-	-nexa-border : ;
-	-nexa-edge : ;
-	-nexa-padding : ;
-	-nexa-rtl-background-image : ;
-	-nexa-rtl-edge-image : ;
-	-nexa-text-align : ;
-	-nexa-text-decoration : ;
-	-nexa-vertical-align : ;
-	-nexa-word-wrap : ;
-	background : ;
-	border-radius : ;
-	box-shadow : ;
-	color : ;
-	cursor : ;
-	font : normal bold  10pt/normal "Arial";
-	letter-spacing : ;
-	opacity : ;
-	word-spacing : ;
-}
-.Combo.default
+.Combo.combo_default,
+.Combo.combo_default[status=mouseover],
+.Combo.combo_default[status=focused]
 {
 	-nexa-border : 1px solid #4F4537;
+	border-radius : 5px;
 }
-.Edit.default
-{
-	-nexa-border : 1px solid #4F4537 ;
-}
-.Combo.default .combolist .listboxitem[userstatus=selected]
+
+.Combo.combo_default .combolist .listboxitem[userstatus=selected]
 {
 	background : #4F4537;
-}
-.Combo.default[status=mouseover]
-{
 	-nexa-border : 1px solid #4F4537;
 }
 .Button.btn_dafault,
@@ -88,6 +64,7 @@
 .Calendar.cal_default
 {
 	-nexa-border : 1px solid #4F4537 ;
+	border-radius : 5px;
 }
 .Calendar.cal_default .datepicker .body .weekitem
 {
@@ -96,5 +73,39 @@
 .Calendar.cal_default .datepicker .body .dayitem[status=mouseover]
 {
 	background : #4F4537;
+}
+.Static.main_title
+{
+	font : normal bold  24pt/normal "Arial";
+}
+.Edit.edit_default,
+.Edit.edit_default[status=focused],
+.Edit.edit_default[status=mouseover]
+{
+	-nexa-border : 1px solid #4F4537 ;
+	border-radius : 5px;
+}
+.Combo.combo_default .combolist,
+.Combo.combo_default .combolist[status=mouseover],
+.Combo.combo_default .combolist[status=focused]
+{
+-nexa-border : 1px solid #4F4537;
+}
+.Div.div_default,
+.Div.div_default[status=disabled],
+.Div.div_default[status=mouseover],
+.Div.div_default[status=focused]
+{
+	-nexa-border : 1px solid #4F4537;
+	border-radius : 5px;
+}
+.Div.main_nav
+{
+	background : #FAEBD7;
+}
+.Grid.grid_default
+{
+	-nexa-border : 1px solid #4f4537;
+	
 }
 ]]></XCSS>

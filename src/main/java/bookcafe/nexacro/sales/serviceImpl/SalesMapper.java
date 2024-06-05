@@ -17,5 +17,8 @@ public interface SalesMapper {
 	//중분류
 	List<Map<String, Object>> selectSalesCombo(Map<String, String> combo_con);
 	List<Map<String, Object>> selectSecondCombo();
+	
+	//매출 차트
+	List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
 
 }

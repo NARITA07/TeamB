@@ -39,6 +39,9 @@
         padding: 20px;
         border-left: 1px solid #ccc;
         overflow-y: auto;
+        height: 70vh; /* Set the height to 70% of the viewport height */
+        position: sticky; /* Make it sticky */
+        top: 100px; /* Increase the top offset to adjust the space from the top */
         margin-top: 20px;
     }
     .sidebar h2 {
@@ -61,15 +64,49 @@
     .cart-item button:hover {
         background-color: #99730F;
     }
+    .table-fixed {
+        table-layout: fixed;
+        width: 100%;
+    }
+    .table-fixed th, .table-fixed td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis.
+    }
+    .table-fixed th:nth-child(2), .table-fixed td:nth-child(2) {
+        width: 20%.
+    }
+    .table-fixed th:nth-child(3), .table-fixed td:nth-child(3) {
+        width: 20%.
+    }
+    .table-fixed th:nth-child(4), .table-fixed td:nth-child(4) {
+        width: 15%.
+    }
+    .table-fixed th:nth-child(5), .table-fixed td:nth-child(5) {
+        width: 15%.
+    }
+    .table-fixed th:nth-child(6), .table-fixed td:nth-child(6) {
+        width: 10%.
+    }
+    .table-fixed th:nth-child(7), .table-fixed td:nth-child(7) {
+        width: 20%.
+    }
+    .search-form {
+        text-align: center;
+        margin-bottom: 20px.
+    }
+    .search-form form {
+        display: inline-block.
+    }
 </style>
 </head>
 <body>
     <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-    <div class="container-fluid" style="margin-top: 50px;"> 
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-9 col-md-12">
                 <h1>책 리스트</h1>
-                <div class="category-btn" style="margin-top:30px;">
+                <div class="category-btn">
                     <form method="get" action="bookList.do">
                         <button type="submit">전체</button>
                     </form>
@@ -90,8 +127,8 @@
                         <button type="submit" class="btn btn-primary" style="background-color: #AB8212;">검색</button>
                     </form>
                 </div>
-                <div class="table-responsive" style="margin-top: 20px;">
-                    <table class="table table-striped">
+                <div class="table-responsive" style="width:80%; margin:auto;">
+                    <table class="table table-striped table-fixed">
                         <thead>
                             <tr>
                                 <th style="display:none;">책 코드</th>

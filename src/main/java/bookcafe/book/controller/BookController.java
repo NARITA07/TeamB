@@ -69,6 +69,9 @@ public class BookController {
         session.setAttribute("cart", cart);
         model.addAttribute("cart", cart);
         
+        // 장바구니 숫자
+        model.addAttribute("cartSize", cart.size());
+        
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
         if (loginInfo != null) {
             List<BookVO> borrowedBooks = bookService.getBorrowedBooksByUser(loginInfo.getUser_code());
@@ -89,6 +92,9 @@ public class BookController {
         cart = bookService.getCart(cart);
         bookService.addToCart(cart, bookCode, bookName);
         session.setAttribute("cart", cart);
+        /* 장바구니 숫자*/
+        session.setAttribute("cartSize", cart.size());
+
         return "redirect:/bookList.do";
     }
 
@@ -98,6 +104,9 @@ public class BookController {
         cart = bookService.getCart(cart);
         bookService.removeFromCart(cart, bookCode);
         session.setAttribute("cart", cart);
+        /* 장바구니 숫자*/
+        session.setAttribute("cartSize", cart.size());
+
         return "redirect:/bookList.do";
     }
 
@@ -110,6 +119,9 @@ public class BookController {
         cart = bookService.getCart(cart);
         bookService.rentBook(bookCode, userCode, cart);
         session.setAttribute("cart", cart);
+        /* 장바구니 숫자*/
+        session.setAttribute("cartSize", cart.size());
+
         return "redirect:/bookList.do";
     }
     
@@ -124,6 +136,9 @@ public class BookController {
             bookService.rentBooks(cart, userCode);
         }
         session.setAttribute("cart", cart);
+        /* 장바구니 숫자*/
+        session.setAttribute("cartSize", cart.size());
+
         return "redirect:/bookList.do";
     }
 }

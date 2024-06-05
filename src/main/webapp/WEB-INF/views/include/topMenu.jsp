@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="bookcafe.member.service.MemberVO"%>
+<%@page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
 <%
     String sUID = (String)session.getAttribute("sessionId");
 	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+	Integer cartSize = (session.getAttribute("cart") != null) ? ((Map<String, String>)session.getAttribute("cart")).size() : 0;
 %>
 
 	<!-- Navigation-->
@@ -42,7 +44,7 @@
                 <button class="btn btn-outline-dark" type="button" onclick="goCart()">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">${cartSize}</span>
                 </button>
             </form>
 				<%

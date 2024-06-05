@@ -20,6 +20,7 @@ $(function() {
         var user_address = $("#user_address").val().trim();
         var termsChecked = $("#terms").is(":checked");
 
+        /* 원래 정규식
         var idPattern = /^[a-zA-Z0-9]{5,}$/;
         var passPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
         var namePattern = /^[가-힣]{2,}$/;
@@ -60,18 +61,69 @@ $(function() {
             alert("약관에 동의하셔야 합니다.");
             return false;
         }
+        
+ */
+        
+        /* 개발중에 쓸 정규식 */
+        var idPattern = /^[a-zA-Z0-9]{2,}$/;
+        var passPattern = /^[^\s]{2,16}$/;
+        var namePattern = /^[가-힣]{2,}$/;
+        var telPattern = /^\d{3}-\d{3,4}-\d{4}$/;
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+        if (!idPattern.test(user_id)) {
+            alert("아이디는 영문자와 숫자로 2자리 이상이어야 합니다.");
+            return false;
+        }
+        if (!passPattern.test(user_pass)) {
+            alert("비밀번호는 공백 문자를 제외한 모든 문자로 이루어진 2~16자입니다.");
+            return false;
+        }
+        if (!namePattern.test(user_name)) {
+            alert("이름은 한글로 2글자 이상이어야 합니다.");
+            return false;
+        }
+        if (!telPattern.test(user_tel)) {
+            alert("연락처 예):010-0000-0000 ");
+            return false;
+        }
+        if (!emailPattern.test(user_email)) {
+            alert("이메일 형식이 올바르지 않습니다.");
+            return false;
+        }
+        if (emailAuthCode == "") {
+            alert("이메일 인증코드를 받고 입력해주세요");
+            $("#emailAuthCode").focus();
+            return false;
+        }
+        if (user_address == "") {
+            alert("주소를 입력해주세요.");
+            $("#user_address").focus();
+            return false;
+        }
+        if (!termsChecked) {
+            alert("약관에 동의하셔야 합니다.");
+            return false;
+        }
+        // 개발중에 쓸 정규식 종료
+
         return true;
     }
 
-    function formatPhoneNumber(phoneNumber) {
-        phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
-        if (phoneNumber.length === 11) {
-            return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        } else if (phoneNumber.length === 10) {
-            return phoneNumber.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+  //전화번호 변환(user_tel)
+    $("#user_tel").blur(function() {
+        var tel = $("#user_tel").val().trim();
+        if(tel.substr(3,1) == "-" || tel.length < 10 || tel == ""){ 
+            // 변수 tel 문자열 중 4번째 자리에 "-"가 있거나 10자 이하로 작성되면 실행 x
+        } else {
+            // 실행될때  01012345678 을 010-1234-5678로 변환
+            var fir_tel = tel.substring(0,3); // 010
+            var sec_tel = tel.substring(3,7); // 1234
+            var thi_tel = tel.substring(7,11); // 5678
+            
+            $("#user_tel").val(fir_tel + "-" + sec_tel + "-" + thi_tel);
         }
-        return phoneNumber;
-    }
+    });
 
     function combineAddress() {
         var postcode = $("#sample2_postcode").val().trim();
@@ -80,7 +132,7 @@ $(function() {
         var combinedAddress = postcode + '# ' + address + (detailAddress ? '# ' + detailAddress : '');
         $("#user_address").val(combinedAddress);
     }
-
+	
     $("#btn_idChk").click(function(){
         var user_id = $("#user_id").val().trim();
         if(user_id == ""){
@@ -116,9 +168,6 @@ $(function() {
         }
 
         combineAddress();
-
-        var user_tel = $("#user_tel").val().trim();
-        $("#user_tel").val(formatPhoneNumber(user_tel));
 
         var emailAuthCode = $("#emailAuthCode").val().trim();
 

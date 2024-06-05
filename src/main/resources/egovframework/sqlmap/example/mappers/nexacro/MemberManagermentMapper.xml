@@ -14,20 +14,25 @@ SELECT
     a.USER_ADDRESS,
     a.USER_JOINDATE,
     a.USER_POINT,
-    b.POINT_JOINDATE,
     a.USER_AUTHORITY
 FROM 
-    USER a 
-LEFT JOIN 
-    POINTLOG b 
-ON 
-    a.USER_CODE = b.USER_CODE
-    ORDER BY USER_AUTHORITY DESC;
+    USER a
+ORDER BY USER_AUTHORITY ASC;
 	</select>
 	<select id="select_User_Authority" resultType="java.util.Map">
-	SELECT USER_AUTHORITY,TXT
-	FROM USER_AUTHORITY
+SELECT USER_AUTHORITY,TXT
+  FROM USER_AUTHORITY
 	</select>
+	<update id="update_Member">
+UPDATE USER
+   SET USER_POINT = #{USER_POINT},
+	   USER_AUTHORITY = #{USER_AUTHORITY}
+ WHERE USER_CODE = #{USER_CODE}
+	</update>
+	<delete id="delete_Member">
+DELETE FROM USER 
+      WHERE USER_CODE = #{USER_CODE}
+	</delete>
 	<insert id="img_path">
     INSERT INTO IMG (IMG_PATH) VALUES (#{path})
 </insert>

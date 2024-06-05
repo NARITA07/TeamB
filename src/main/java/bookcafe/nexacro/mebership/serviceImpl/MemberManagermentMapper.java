@@ -15,4 +15,8 @@ public interface MemberManagermentMapper {
 	public int img_path(String path);
 	
 	public List<Map<String, Object>> select_User_Authority();
+	
+	public int update_Member(Map<String,String> member);
+	
+	public int delete_Member(Map<String,String> member);
 }

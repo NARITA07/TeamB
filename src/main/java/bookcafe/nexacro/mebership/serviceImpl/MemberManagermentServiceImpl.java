@@ -36,6 +36,24 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 	public List<Map<String, Object>> select_User_Authority() {
 		return mmm.select_User_Authority();
 	}
+
+	@Override
+	public int update_Member(List<Map<String, String>> members) {
+		int result = 0;
+		for(Map<String,String> member : members) {
+			result = mmm.update_Member(member);
+		}
+		return result;
+	}
+
+	@Override
+	public int delete_Member(List<Map<String, String>> members) {
+		int result = 0;
+		for(Map<String,String> member : members) {
+			result = mmm.delete_Member(member);
+		}
+		return result;
+	}
 	 
 
 

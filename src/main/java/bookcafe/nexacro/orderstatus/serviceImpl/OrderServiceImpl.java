@@ -23,8 +23,7 @@ public class OrderServiceImpl extends EgovAbstractServiceImpl implements OrderSe
 		for (Map<String, String> order : orders) {
 			result = mapper.updateOrders(order);
 			if(Integer.valueOf(String.valueOf(order.get("PAYMENT_STATE"))) > 1) { // 0결제중 1 결제완료 2 환불 3 취소
-				System.out.println(String.valueOf(order.get("PAYMENT_STATE")));
-				mapper.updateFoodQuantity(order);
+				//포인트처리해야됨
 			}
 		}
 		return result;

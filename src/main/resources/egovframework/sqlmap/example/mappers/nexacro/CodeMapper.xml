@@ -2,32 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.code.serviceImpl.CodeMapper">
 
-	<!-- 대분류 코드 -->
-	<select id="fir_select" resultType="java.util.Map">
+	<!-- 대분류 코드  --> 
+	<select id="init_fir_code" resultType="java.util.Map">
 	SELECT * FROM FIR_CODE ORDER BY FIR_CODE ;
 	</select>
-
-	<!-- 대분류 등록 -->
-	<insert id="Fir_insert">
-	INSERT INTO FIR_CODE(FIR_CODE, FIR_NAME) VALUES(fnCode('fir'),#{FIR_NAME});
-	</insert>
 	
-	<select id="sec_select" resultType="java.util.Map">
-		<choose>
-		 <when test="FIR_CODE.equals('fir_000')">
-				SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
-			</when>
-			<otherwise>
-				SELECT fc.FIR_CODE, fc.FIR_NAME , sc.SEC_NAME, sc.SEC_CODE, sc.USE_STATUS  FROM SEC_CODE sc JOIN FIR_CODE fc
-				ON sc.FIR_CODE  = fc.FIR_CODE
-				WHERE sc.FIR_CODE = #{FIR_CODE} or FIR_NAME = #{FIR_CODE}
-				ORDER by SEC_CODE ;
-			</otherwise>
-		</choose>
+	<!--  대분류 코드 조회(view)-->
+	<select id="view_code" resultType="java.util.Map">
+	SELECT PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, SEC_NAME , fc.FIR_CODE, fc.USE_STATUS 
+	FROM FOOD F JOIN SEC_CODE SC 
+	ON F.PRODUCT_CATEGORY = SC.SEC_CODE
+	JOIN FIR_CODE fc on fc.FIR_CODE = SC.FIR_CODE
+	UNION
+	SELECT BOOK_CODE, BOOK_NAME, BOOK_PRICE, SEC_NAME, fc.FIR_CODE, fc.USE_STATUS 
+	FROM BOOK B JOIN SEC_CODE SC 
+	ON B.BOOK_CATEGORY = SC.SEC_CODE
+	JOIN FIR_CODE fc ON fc.FIR_CODE = SC.FIR_CODE;
 	</select>
 	
-	<insert id="sec_insert">
-	INSERT INTO SEC_CODE(SEC_CODE,FIR_CODE, SEC_NAME) VALUES(fnCode('sec'),#{FIR_CODE},#{SEC_NAME});
-	</insert>
-
+	<select id="fir_category_select" resultType="java.util.Map">
+	<choose>
+	<when test="FIR_CODE.equals('fir_001')">
+	SELECT SEC_CODE, SC.SEC_NAME, BOOK_NAME AS PRODUCT_NAME, BOOK_CODE AS RPODUCT_CODE, USE_STATUS, BOOK_PRICE AS PRODUCT_PRICE, BOOK_CODE AS PRODUCT_CODE 
+	FROM BOOK B JOIN SEC_CODE SC
+	ON BOOK_CATEGORY = SC.SEC_CODE ;
+	</when>
+	<when test="FIR_CODE.equals('fir_002')">
+	SELECT PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_CATEGORY, SEC_NAME,USE_STATUS, PRODUCT_CODE, PRODUCT_PRICE 
+	FROM FOOD F JOIN SEC_CODE SC
+	ON F.PRODUCT_CATEGORY = SC.SEC_CODE;
+	</when>
+	<otherwise>
+	SELECT PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, SEC_NAME , fc.FIR_CODE, fc.USE_STATUS , fc.PRODUCT_PRICE
+	FROM FOOD F JOIN SEC_CODE SC 
+	ON F.PRODUCT_CATEGORY = SC.SEC_CODE
+	JOIN FIR_CODE fc on fc.FIR_CODE = SC.FIR_CODE
+	UNION
+	SELECT BOOK_CODE, BOOK_NAME, BOOK_PRICE, SEC_NAME, fc.FIR_CODE, fc.USE_STATUS, fc.BOOK_PRICE
+	FROM BOOK B JOIN SEC_CODE SC 
+	ON B.BOOK_CATEGORY = SC.SEC_CODE
+	JOIN FIR_CODE fc ON fc.FIR_CODE = SC.FIR_CODE;
+	</otherwise>
+	
+	</choose>
+	</select>
+	
+	<select id="sec_category_select" resultType="java.util.Map">
+	<choose>
+	<when test="FIR_CODE.equals('fir_000')">
+		SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
+	</when>
+	<otherwise>
+		SELECT * FROM SEC_CODE 
+		WHERE FIR_CODE =#{FIR_CODE}
+	</otherwise>
+	</choose>
+	</select>
+	
+	
+	<select id="choice_sec_code" resultType="java.util.Map">
+SELECT SEC_CODE, F.PRODUCT_NAME,USE_STATUS,SEC_NAME, PRODUCT_PRICE, PRODUCT_CODE 
+FROM FOOD F JOIN SEC_CODE SC
+ON F.PRODUCT_CATEGORY = SC. SEC_CODE
+WHERE SEC_CODE = #{SEC_CODE}
+UNION
+SELECT SEC_CODE, B.BOOK_NAME,USE_STATUS,SEC_NAME, BOOK_PRICE, BOOK_CODE FROM BOOK B JOIN SEC_CODE SC
+ON B.BOOK_CATEGORY = SC. SEC_CODE
+WHERE SEC_CODE = #{SEC_CODE};
+	</select>
+	
+ 
+ 
 </mapper>

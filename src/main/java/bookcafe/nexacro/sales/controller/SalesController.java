@@ -68,11 +68,22 @@ public class SalesController {
 	
 	//중분류 조건 조회
 	@RequestMapping(value = "/selectSalesCombo.do")
-    public NexacroResult selectSalesCombo(@ParamDataSet(name = "combo_dtl", required = false) Map<String,String> combo_dtl) {    	    	
+    public NexacroResult selectSalesCombo(@ParamDataSet(name = "combo_dtl", required = false) Map<String,String> combo_dtl) {    
+		System.out.println("중분류"+combo_dtl);
 		List<Map<String, Object>> dataList = sales_service.selectSalesCombo(combo_dtl);
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("combo_dtl", dataList);
 	    return result;
     }
 	
+	// 카페 매출현황 차트 SELECT
+		@RequestMapping(value = "/selectSalesChart.do")
+	    public NexacroResult selectSalesChart(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) {    
+	    	System.out.println("=====카페 차트"+sales_con);
+			List<Map<String, Object>> dataList = sales_service.selectSalesChart(sales_con);
+		    NexacroResult result = new NexacroResult();
+		    result.addDataSet("sales_chart_dtl", dataList);
+		
+		    return result;
+	    }
 }

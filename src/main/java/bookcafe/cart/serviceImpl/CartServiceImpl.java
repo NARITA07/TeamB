@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
-import bookcafe.cart.service.PointLogVO;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -20,23 +19,6 @@ public class CartServiceImpl implements CartService{
 	@Transactional
 	@Override
 	public int insertCart(CartVO cart) {
-		String cart_code = cart.getCart_code();
-		int count_order = cartMapper.selectOrders(cart_code);
-		System.out.println("count_order: " + count_order);
-		
-		// 조건에 따라 cart_code 설정
-		// 주문이력이 있는 경우
-		if ((cart_code != "" || cart_code != null) && count_order == 0) {
-			System.out.println("카트코드있음");
-			cart.setCart_code(cart_code);
-		} 
-		// 첫주문인 경우
-		else {
-			System.out.println("카트코드없음");
-			cart.setCart_code("");  // 이 값이 ""일 때 fnCode('cart')를 사용
-		}
-		
-		// CART 테이블에 제품 추가
 	    return cartMapper.insertCart(cart);
 	}
 	
@@ -84,11 +66,11 @@ public class CartServiceImpl implements CartService{
 		cartMapper.updateQuantity(cart_code);
 	}
 	
-	@Transactional
-	@Override
-	public void addPoint(PointLogVO  pointLog) {
-		cartMapper.addPoint(pointLog);
-	}
+//	@Transactional
+//	@Override
+//	public void addPoint(PointLogVO  pointLog) {
+//		cartMapper.addPoint(pointLog);
+//	}
 	
 	@Override
 	public int getTotalPrice(String order_code) {
@@ -102,20 +84,33 @@ public class CartServiceImpl implements CartService{
 		return cartMapper.selectOrderCode(cart_code);
 	}
 	
-	@Override
-	public void updateUserPoint(String user_code) {
-		cartMapper.updateUserPoint(user_code);
-	}
+//	@Override
+//	public void updateUserPoint(String user_code) {
+//		cartMapper.updateUserPoint(user_code);
+//	}
 
+	@Transactional
 	@Override
 	public int directInsertCart(CartVO cart) {
 		return cartMapper.directInsertCart(cart);
 	}
 
+	@Transactional
 	@Override
 	public int directInsertOrders(OrdersVO orders) {
 		return cartMapper.directInsertOrders(orders);
 	}
+
+	@Transactional
+	@Override
+	public int updateCartcode(String cart_code) {
+		int result = cartMapper.updateCartcode(cart_code);
+		System.out.println("updateCartcode :" + result);
+		int seq = cartMapper.updateSeq();
+		System.out.println("updateSeq:" + seq);
+		return result;
+	}
+
 
 	/*
 	 * @Override public void minusPoint(int amountOfPayment, String user_code,

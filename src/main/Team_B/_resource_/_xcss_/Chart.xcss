@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XCSS version="1.0"><![CDATA[.BasicChart
+{
+	
+}
+
+.BubbleChart
+{
+	
+}
+
+.PieChart
+{
+	
+}
+
+.GaugeChart
+{
+	
+}
+
+.RadarChart
+{
+	
+}]]></XCSS>

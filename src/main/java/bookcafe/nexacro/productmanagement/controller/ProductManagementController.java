@@ -28,156 +28,40 @@ import bookcafe.nexacro.productmanagement.service.ProductManagementService;
 public class ProductManagementController {
 	
 	@Autowired
-	ProductManagementService pms;
+	ProductManagementService productservice;
 	
-	@RequestMapping("product.do")
-	public NexacroResult product(@ParamDataSet(name="Pr_date", required = false)Map<String,String>Pr_date) {
-		NexacroResult re = new NexacroResult();
-		System.out.println("제품 업글 "+ Pr_date);
+	@RequestMapping("save_date.do")
+	public NexacroResult savedate(@ParamDataSet(name ="save_date")Map<String, Object>save_date) {
+		System.out.println(save_date);
+		NexacroResult product_save = new NexacroResult();
 		
-		int result = 0;
-			System.out.println(Pr_date.get("FIR_CODE"));
-			if(Pr_date.get("FIR_CODE").equals("fir_002")) {
-				System.out.println("음식임");
-			 result =pms.food_insert(Pr_date);
-			
-			}else if(Pr_date.get("FIR_CODE").equals("fir_001")) {
-					System.out.println("책임");
-				result = pms.book_insert(Pr_date);
-			}
-			
-			re.addDataSet("re", result);
-			
-		return re;
-	}
+		product_save.addVariable("message", productservice.product_save(save_date));
+		return product_save;
+		
+	} 
 	
-	
-	//음식 등록
-	@RequestMapping("/food.do")
-    public NexacroResult food(HttpServletRequest request, Object success, Map<String,Object> data) {
-		NexacroResult result = new NexacroResult();
+	@RequestMapping("del_date.do")
+	public void deldate(@ParamDataSet(name = "del_date", required = false)List<Map<String,Object>>del_date) {
+		System.out.println(del_date);	
 		
-		String savePath = "C:/Users/wornt/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
+		NexacroResult del =new NexacroResult();
 		
-		LocalDateTime dateTime = LocalDateTime.now();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-ss");// 포맷을 지정합니다.
-       
-        String formattedDateTime = dateTime.format(formatter); // 출력한 "yyyy-MM-dd-ss"을 String으로 변환
-
-        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request; //이미지는 HttpServletRequest로 받음
-        
-        Iterator<String> fileNames = multiRequest.getFileNames();//이미지의 이름을 fileNames에 초기화
-
-        while (fileNames.hasNext()) {
-        	
-            MultipartFile file = multiRequest.getFile(fileNames.next());
-            
-                try {
-                	
-                	String fileName = file.getOriginalFilename(); // C:\Users\hcnc\Pictures\Screenshots 파일이름.png
-                    
-                    File file_name = new File(fileName); 
-                    
-                    String path_name = file_name.getName(); // 파일이름.png로 path 삭제
-                  
-                    int s =  path_name.lastIndexOf(".");//파일의 .위치를 찾아 int값을 저장
-                    
-                    String type = path_name.substring(s); // ex) .png 
-                    
-                    File dest = new File(savePath + "책빵" + formattedDateTime + type); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 책방.날짜.png
-                	System.out.println(dest);
-                    file.transferTo(dest); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 파일이름.png으로 저장
-                    
-                    String path = "images/" + "책빵" + formattedDateTime + type; //DB에 저장
-                    
-                    pms.Food_Product(path);
-                    
-                    
-                    success = path; // object success path값을 초기
-                
-                    
-                } catch (IOException e) {//예외 처리
-                    e.printStackTrace();
-                }
-            }
-        
-        data.put("PRODUCT_PATH", success);
-        
-        result.addDataSet("PM", data);
-        
-        return result;
-    }
-	@RequestMapping("/book.do")
-    public NexacroResult book(HttpServletRequest request, Object success, Map<String,Object> data) {
-		NexacroResult result = new NexacroResult();
+			del.addDataSet("asd", productservice.delete_product(del_date));
 		
-		String savePath = "C:/Users/wornt/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
 		
-		LocalDateTime dateTime = LocalDateTime.now();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-ss");// 포맷을 지정합니다.
-       
-        String formattedDateTime = dateTime.format(formatter); // 출력한 "yyyy-MM-dd-ss"을 String으로 변환
-
-        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request; //이미지는 HttpServletRequest로 받음
-        
-        Iterator<String> fileNames = multiRequest.getFileNames();//이미지의 이름을 fileNames에 초기화
-
-        while (fileNames.hasNext()) {
-        	
-            MultipartFile file = multiRequest.getFile(fileNames.next());
-            
-                try {
-                	
-                	String fileName = file.getOriginalFilename(); // C:\Users\hcnc\Pictures\Screenshots 파일이름.png
-                    
-                    File file_name = new File(fileName); 
-                    
-                    String path_name = file_name.getName(); // 파일이름.png로 path 삭제
-                  
-                    int s =  path_name.lastIndexOf(".");//파일의 .위치를 찾아 int값을 저장
-                    
-                    String type = path_name.substring(s); // ex) .png 
-                    
-                    File dest = new File(savePath + "책빵" + formattedDateTime + type); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 책방.날짜.png
-                	System.out.println(dest);
-                    file.transferTo(dest); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 파일이름.png으로 저장
-                    
-                    String path = "images/" + "책빵" + formattedDateTime + type; //DB에 저장
-                    
-                    pms.BooK_Product(path);
-                    
-                    
-                    success = path; // object success path값을 초기
-                
-                    
-                } catch (IOException e) {//예외 처리
-                    e.printStackTrace();
-                }
-            }
-        
-        data.put("PRODUCT_PATH", success);
-        
-        result.addDataSet("PM", data);
-        
-        return result;
-    }
-	
-	//등록된 제품
-	@RequestMapping("getproduct_date.do")
-	public NexacroResult getproduct_date() {
-		System.out.println("제품");
-		NexacroResult result = new NexacroResult();
 		
-		List<Map<String, Object>> date = pms.getProudct_date();
-		
-		result.addDataSet("product", date);
-		
-		return result;
 		
 	}
 	
+	@RequestMapping("modi.do")
+	public void modi(@ParamDataSet(name = "save_date", required = false)List<Map<String,Object>>save_date){
+		System.out.println(save_date);
+		productservice.update_product(save_date);
+		
+	}
+		
+		
+		
 	
 	
 }

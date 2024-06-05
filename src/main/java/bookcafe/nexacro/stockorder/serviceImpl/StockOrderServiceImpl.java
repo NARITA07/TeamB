@@ -31,7 +31,7 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 		return somapper.grid2OrderList();
 	}
 
-	// popup창에서 신청완료 시 발주신청서 저장
+	// 발주신청서 저장
 	@Override
 	public int saveStockOrder(List<Map<String, String>> stock_orders) {
 		int successCount = 0;
@@ -42,6 +42,36 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 			}else{
 				System.out.println("저장 실패한 발주신청서 : " + stock_order);
 				}
+		}
+		return successCount;
+	}
+	
+	// 발주신청서 업데이트
+	@Override
+	public int updateStockOrder(List<Map<String, String>> stock_order_update) {
+		int successCount = 0;
+		for(Map<String, String> state_update : stock_order_update) {
+			int result = somapper.updateStockOrder(state_update);
+			if(result == 1) {
+				successCount ++;
+			}else {
+				System.out.println("업데이트 실패한 발주신청서 : "+ state_update);
+			}
+		}
+		return successCount;
+	}
+	
+	// 재고 합연산
+	@Override
+	public int updateStockQuantity(List<Map<String, String>> stock_order_update) {
+		int successCount = 0;
+		for(Map<String, String> state_update : stock_order_update) {
+			int result = somapper.updateStockQuantity(state_update);
+			if(result == 1) {
+				successCount ++;
+			}else {
+				System.out.println("업데이트 실패한 발주신청서 : "+ state_update);
+			}
 		}
 		return successCount;
 	}
@@ -68,6 +98,13 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 	public List<Map<String, Object>> ViewList(Map<String, String> search_so_grid) {
 		return somapper.ViewList(search_so_grid);
 	}
+
+	// combo를 통해 grid2 메뉴리스트 필터링
+	@Override
+	public List<Map<String, Object>> ViewStockOrder(Map<String, String> search_so_grid) {
+		return somapper.ViewStockOrder(search_so_grid);
+	}
+
 
 
 }

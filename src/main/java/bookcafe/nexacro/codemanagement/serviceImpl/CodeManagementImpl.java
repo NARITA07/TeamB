@@ -1,5 +1,6 @@
 package bookcafe.nexacro.codemanagement.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +45,13 @@ public class CodeManagementImpl implements CodeManagementService {
 
 	//상위코드 생성
 	@Override
-	public void add_fir_code(Map<String, Object>fir_code_add) {
-		codemmapper.add_fir_code(fir_code_add);
+	public Map<String, Object> add_fir_code(Map<String, Object>fir_code_add) {
+		
+		Map<String, Object> codes = new HashMap<>();
+		int num = codemmapper.add_fir_code(fir_code_add);
+		System.out.println(num);
+		codes.put("num", num);
+		return codes;
 		
 	}
 
@@ -56,11 +62,41 @@ public class CodeManagementImpl implements CodeManagementService {
 		for(int i = 0; i < del_date.size(); i++ ) {
 			
 			codemmapper.C_del_date(del_date.get(i));
-			
+			codemmapper.C_del_sec_date(del_date.get(i));
 		}
 		
 		
 	}
+
+
+	@Override
+	public void sec_code_add(Map<String, Object> sec_code_add) {
+		codemmapper.sec_code_add(sec_code_add);
+		
+	}
+
+
+	@Override
+	public void sec_code_modi(List<Map<String, Object>> modi_date_sec) {
+		
+for(int i = 0; i < modi_date_sec.size(); i++ ) {
+	codemmapper.sec_code_modi(modi_date_sec.get(i));
+		}
+		
+	}
+
+
+	@Override
+	public void del_date_sec(List<Map<String, Object>> del_date_sec) {
+		
+	for(int i = 0; i < del_date_sec.size(); i++ ) {
+			
+			codemmapper.del_date_sec(del_date_sec.get(i));
+		}
+		
+		
+	}		
+	
 	
 
 }

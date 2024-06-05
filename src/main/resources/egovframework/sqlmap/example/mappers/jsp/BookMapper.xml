@@ -55,17 +55,29 @@
 </select>
 
 <!--  책 이름으로 검색  -->
-<select id="searchBooksByName" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+<!-- <select id="searchBooksByName" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
 	SELECT * 
 	FROM BOOK 
 	WHERE BOOK_NAME LIKE CONCAT('%', #{name}, '%') 
+</select> -->
+<select id="searchBooksByName" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+    SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY, b.BOOK_QUANTITY, s.SEC_NAME as sec_name 
+    FROM BOOK b 
+    JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE 
+    WHERE b.BOOK_NAME LIKE CONCAT('%', #{name}, '%') 
 </select>
 
 <!--  저자로 검색  -->
-<select id="searchBooksByAuthor" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+<!-- <select id="searchBooksByAuthor" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
 	SELECT * 
 	FROM BOOK 
 	WHERE BOOK_WRITER LIKE CONCAT('%', #{author}, '%') 
+</select> -->
+<select id="searchBooksByAuthor" parameterType="string" resultType="bookcafe.book.service.BookVO"> 
+    SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY, b.BOOK_QUANTITY, s.SEC_NAME as sec_name 
+    FROM BOOK b 
+    JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE 
+    WHERE b.BOOK_WRITER LIKE CONCAT('%', #{author}, '%') 
 </select>
 
 <!--  모든 카테고리 가져오기  -->

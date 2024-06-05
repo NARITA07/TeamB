@@ -15,7 +15,7 @@
 		// 비밀번호 유효성 검사
 		$("#newPassword").blur(function() {
 // 			var pattern = /^[A-Za-z0-9!@#$%^&*?=+_-]{2,16}$/i; //"비밀번호는 영문 대/소문자, 숫자, 특수문자를 1개 이상 포함한 8~16자입니다."
-			var pattern = /^[^\s]{2,16}$/;
+			var pattern = /^[^\s]{2,16}$/;	//비밀번호 정규화 간략버전
 		    var $invalidMessage1 = $(this).siblings('#invalid-message1');
 		    if (!isValid) {
 		        $invalidMessage1.text("비밀번호는 공백 문자를 제외한 모든 문자로 이루어진 2~16자입니다."); // 유효한 경우 텍스트 설정

@@ -18,15 +18,11 @@ import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
 import bookcafe.point.service.PointVO;
 import bookcafe.member.service.MemberVO;
-import bookcafe.myPage.service.MyPageService;
 import bookcafe.point.service.PointService;
 
 	@Controller
 	public class CartController {
 		
-	@Autowired
-	private MyPageService myPageService;
-	
 	@Autowired
 	private CartService cartService;
 	
@@ -40,6 +36,11 @@ import bookcafe.point.service.PointService;
 	                         @RequestParam("order_quantity") int order_quantity) {
 		  
 		String cart_code = cartService.selectMaxCartCode(user_code);
+		// 카트코드 부여
+		int isOrders = cartService.selectOrders(cart_code);
+		if (isOrders > 0) {
+			cart_code = null;
+		}
 	    System.out.println("cart_code: " + cart_code);
 	  
 		CartVO cart = new CartVO();
@@ -48,8 +49,9 @@ import bookcafe.point.service.PointService;
 		cart.setOrder_quantity(order_quantity);
 		cart.setCart_code(cart_code);
 		System.out.println("cartVO: " + cart.toString());
+		
 		int result = cartService.insertCart(cart);
-		if (result >= 1) {
+		if (result == 1) {
 			System.out.println("장바구니 담기 성공");
 		} else {
 			System.out.println("장바구니 담기 실패");
@@ -130,14 +132,14 @@ import bookcafe.point.service.PointService;
 		
 	    // 포인트 증가
 		String order_code = cartService.selectOrderCode(cart_code);
-		System.out.println("컨트롤러 오더코드1"+order_code);
+		System.out.println("컨트롤러 오더코드1: "+order_code);
 		int totalPrice = cartService.getTotalPrice(order_code);
-		System.out.println("컨트롤러 토탈가격1"+totalPrice);
+		System.out.println("컨트롤러 토탈가격1: "+totalPrice);
 		 
 		int pointChange = (int) (totalPrice * 0.05);
 		System.out.println("주문넣기 컨트롤러 오더코드: " + order_code);
 		System.out.println("총 가격: " + totalPrice);
-		System.out.println("포인트 변경: " + pointChange);
+		System.out.println("포인트 적립: " + pointChange);
 		 
 		// 포인트 감소
 		//cartService.minusPoint(amountOfPayment, user_code, order_code);
@@ -147,16 +149,18 @@ import bookcafe.point.service.PointService;
 		pointLog.setUser_code(user_code);
 		pointLog.setOrder_code(order_code);
 		pointLog.setPoint_change(pointChange);
+		System.out.println("포인트적립VO(pointLog):" + pointLog);
 		
 		// 포인트 로그 입력
 		int result = pointService.insertPointLog(pointLog);
 		if (result == 1) {
-			// 합산 포인트 계산
 			int newSumPoint = pointService.selectTotalPoint(user_code);
+			// 유저 포인트 업데이트
+			pointService.updateUserPoint(user_code);
+			// 세션 포인트 업데이트
 			loginInfo.setUser_point(newSumPoint);
 			session.setAttribute("loginInfo", loginInfo);
 			System.out.println("loginInfo_point:" + loginInfo.getUser_point());
-			myPageService.updateMember(loginInfo);
 		} else {
 			System.out.println("포인트적립실패");
 		}
@@ -167,8 +171,26 @@ import bookcafe.point.service.PointService;
 	// 바로구매 
 	@PostMapping("/submitOrderDirect")
 	public String submitOrderDirect(CartVO cart, HttpSession session,OrdersVO orders,int total_price) {
-		
 		System.out.println("ordersVO:" + orders);
+		
+		String user_code = orders.getUser_code();
+		String cart_code = cartService.selectMaxCartCode(user_code);
+		// 카트코드 부여
+		int isOrders = cartService.selectOrders(cart_code);
+		// 해당 카트코드의 결제내역이 있는 경우
+		if (isOrders > 0) {
+			cart.setCart_code(null);
+		} 
+		// 해당 카트코드로 결제 진행하면 되는 경우
+		else {
+			// 기존 장바구니 목록들 뒤로 미루기
+			cartService.updateCartcode(cart_code);
+			// 카트코드 뺏어서 사용
+			cart.setCart_code(cart_code);
+			System.out.println("카트코드 훔치기 성공");
+		}
+	    System.out.println("cart_code: " + cart_code);
+		
 		
 		// 카트에 바로 넣기
 		int result = cartService.directInsertCart(cart);
@@ -176,17 +198,39 @@ import bookcafe.point.service.PointService;
 			System.out.println("바로 장바구니 담기 성공");
 			System.out.println("장바구니 이후 cartVO:" + cart);
 			// 주문 바로 넣기
+			orders.setCart_code(cart_code);
+			orders.setTotal_price(total_price);
+			orders.setUser_code(user_code);
 			int messege =cartService.directInsertOrders(orders);
 			if (messege >= 1) {
 				System.out.println("바로 주문 성공");
-				String cart_code=cartService.selectMaxCartCode(cart.getUser_code());
-				String user_code=cart.getUser_code();
-				orders.setCart_code(cart_code);
-				orders.setTotal_price(total_price);
-				orders.setUser_code(user_code);
 				System.out.println("결제 이후 OrdersVO:" + orders);
 				// 재고 업데이트
 				cartService.updateQuantity(cart_code);
+				
+				// 포인트 적립
+				String order_code = cartService.selectOrderCode(cart_code);
+				int pointChange = (int) (total_price * 0.05);
+				
+				PointVO pointLog = new PointVO();
+				pointLog.setUser_code(user_code);
+				pointLog.setOrder_code(order_code);
+				pointLog.setPoint_change(pointChange);
+				System.out.println("바로구매 포인트적립VO :" + pointLog);
+				
+				// 포인트 로그 입력
+				int pointResult = pointService.insertPointLog(pointLog);
+				if (pointResult == 1) {
+					int newSumPoint = pointService.selectTotalPoint(user_code);
+					// 유저 포인트 업데이트
+					pointService.updateUserPoint(user_code);
+					// 세션 포인트 업데이트
+					MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+					loginInfo.setUser_point(newSumPoint);
+					session.setAttribute("loginInfo", loginInfo);
+					System.out.println("loginInfo_point:" + loginInfo.getUser_point());
+				}
+				System.out.println("바로 주문 포인트적립까지 완료!");
 			} else {
 				System.out.println("바로 주문 실패");
 			}

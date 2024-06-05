@@ -62,13 +62,19 @@ public class MyPageController {
 	// 포인트페이지
 	@GetMapping("/pointList")
 	public void pointList(HttpSession session, Model model) {
-		String user_id = (String) session.getAttribute("sessionId");
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+		String user_code = loginInfo.getUser_code();
 		
 		// 포인트 내역 조회
-		List<PointVO> pointList = pointService.getPointList(user_id);
+		List<PointVO> pointList = pointService.getPointList(user_code);
 		System.out.println("pointList:" + pointList.toString());
 		
+		// 포인트 총금액
+		int totalPoint = pointService.selectTotalPoint(user_code);
+		System.out.println("totalPoint:" + totalPoint);
+		
 		model.addAttribute("pointList", pointList);
+		model.addAttribute("totalPoint", totalPoint);
 	}
 	
 	// 카페 전체 주문내역 페이지

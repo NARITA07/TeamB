@@ -142,22 +142,22 @@
 	</select>
 	
 	<!-- 포인트 로그 남기기 -->
-	<insert id="addPoint" parameterType="bookcafe.cart.service.PointLogVO">
-		INSERT INTO POINTLOG (
-        POINT_CODE,
-        USER_CODE,
-        ORDER_CODE,
-        POINT_CHANGE,
-        POINT_JOINDATE
-    	)
-    	VALUES (
-        fnCode('pointlog'),
-        #{user_code},
-        #{order_code},
-        #{point_change},
-        date_format(now(),'%Y%m%d%H%m%s')
-    	);
-	</insert>
+<!-- 	<insert id="addPoint" parameterType="bookcafe.cart.service.PointLogVO"> -->
+<!-- 		INSERT INTO POINTLOG ( -->
+<!--         POINT_CODE, -->
+<!--         USER_CODE, -->
+<!--         ORDER_CODE, -->
+<!--         POINT_CHANGE, -->
+<!--         POINT_JOINDATE -->
+<!--     	) -->
+<!--     	VALUES ( -->
+<!--         fnCode('pointlog'), -->
+<!--         #{user_code}, -->
+<!--         #{order_code}, -->
+<!--         #{point_change}, -->
+<!--         date_format(now(),'%Y%m%d%H%m%s') -->
+<!--     	); -->
+<!-- 	</insert> -->
 	
 	<!-- 총금액 계산(오더리스트) -->
 	<select id="getTotalPrice" parameterType="string" resultType="Integer">
@@ -167,12 +167,12 @@
 	</select>
 	
 	<!-- 유저포인트 업데이트 -->
-	<update id="updateUserPoint" parameterType="String">
-		UPDATE USER u
-		JOIN POINTLOG p ON u.USER_CODE = p.USER_CODE
-		SET u.USER_POINT = u.USER_POINT + p.POINT_CHANGE
-		WHERE p.USER_CODE = #{user_code}
-	</update>
+<!-- 	<update id="updateUserPoint" parameterType="String"> -->
+<!-- 		UPDATE USER u -->
+<!-- 		JOIN POINTLOG p ON u.USER_CODE = p.USER_CODE -->
+<!-- 		SET u.USER_POINT = u.USER_POINT + p.POINT_CHANGE -->
+<!-- 		WHERE p.USER_CODE = #{user_code} -->
+<!-- 	</update> -->
 	
 	<!--바로구매 cart insert -->
     <insert id="directInsertCart" parameterType="bookcafe.cart.service.CartVO">
@@ -181,7 +181,14 @@
         #{user_code},
         #{product_code},
         #{order_quantity},
-        fnCode('cart')
+        <choose>
+            <when test="cart_code == null or cart_code == ''">
+                fnCode('cart')
+            </when>
+            <otherwise>
+                #{cart_code}
+            </otherwise>
+        </choose>
 	    )
 	</insert>
 	
@@ -205,6 +212,20 @@
 			date_format(now(),'%Y%m%d%H%m%s'),
 			1)
 	</insert>
+	
+	<!-- 바로구매시 장바구니 카트번호 업데이트1 -->
+	<update id="updateCartcode">
+		UPDATE CART
+		SET CART_CODE= (
+			SELECT CONCAT('cart_',CAST(LPAD(lastval(cart_seq)+1,'3','0') AS CHAR))
+			)
+		WHERE CART_CODE = #{cart_code}
+	</update>
+	
+	<!-- 바로구매시 장바구니 카트번호 업데이트2 -->
+	<select id="updateSeq" resultType="int">
+		SELECT NEXTVAL(CART_SEQ) FROM DUAL;
+	</select>
 	
 	<!-- 포인트 사용한 경우 -->
 	<!-- 	<update id="minusPoint" parameterType="bookcafe.cart.service.PointLogVO">

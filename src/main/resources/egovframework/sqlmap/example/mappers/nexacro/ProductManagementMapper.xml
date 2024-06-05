@@ -1,54 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="bookcafe.nexacro.productmanagement.serviceImpl.ProductManagementMapper">
+<mapper
+	namespace="bookcafe.nexacro.productmanagement.serviceImpl.ProductManagementMapper">
 
-	<!-- 음식 이미지 등록 -->
-	<insert id="Food_Product">
-	INSERT INTO FOOD(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY, PRODUCT_PATH)
-	VALUES(fnCode('food'), 'TEST', 0, 0, 'TEST', #{path})
+
+	<!-- 도서 저장 -->
+	<insert id="book_save">
+	INSERT 
+	INTO 
+	BOOK 	(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_CATEGORY, BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_PATH, BOOK_PRICE)
+	VALUES	(fnCode('book'), #{PRODUCT_NAME}, "Y", #{SEC_CODE}, #{PRODUCT_WRITER}, #{PRODUCT_BOOK_DATE}, "없음", 0);
 	</insert>
 	
-	<insert id="BooK_Product">
-	INSERT INTO BOOK(BOOK_CODE, BOOK_NAME, BOOK_QUANTITY, BOOK_PRICE, BOOK_CATEGORY, BOOK_WRITER, BOOK_PUBLICATION_DATE, BOOK_PATH)
-	VALUES (fnCode('book'), 'TEST', 'TEST', 0, 'TEST', 'TEST', 'TEST', #{path});
+	
+	<!-- 음식 저장 -->
+	<insert id="food_save">
+	INSERT 
+	INTO 
+	FOOD	(PRODUCT_CODE, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PRODUCT_CATEGORY,PRODUCT_PATH) 
+	VALUES	(fnCode('food'), #{PRODUCT_NAME},#{PRODUCT_PRICE}, 0, #{SEC_CODE},"없음")
 	</insert>
 	
-	<update id="book_insert">
-	UPDATE BOOK 
-	SET 
-    BOOK_NAME = #{PRODUCT_NAME}, 
-    BOOK_QUANTITY = #{PRODUCT_QUANTITY}, 
-    BOOK_PRICE = #{PRODUCT_PRICE}, 
-    BOOK_CATEGORY = #{PRODUCT_CATEGORY},
-    BOOK_WRITER = #{PRODUCT_WRITER},
-    BOOK_PUBLICATION_DATE = #{PRODUCT_BOOK_PUBLICATION_DATE}
-WHERE 
-    BOOK_PATH = #{PRODUCT_PATH}
+	<delete id="delete_food">
+	  DELETE FROM FOOD WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+	</delete>
 	
+	<delete id="delete_book">
+	  DELETE FROM BOOK WHERE BOOK_CODE = #{PRODUCT_CODE}
+	</delete>
+	
+	<update id="update_food">
+	UPDATE FOOD SET PRODUCT_NAME = #{PRODUCT_NAME}, PRODUCT_PRICE = #{PRODUCT_PRICE} WHERE PRODUCT_CODE = #{PRODUCT_CODE}
 	
 	</update>
 	
+	<update id="update_book">
+	UPDATE BOOK SET BOOK_NAME = #{PRODUCT_NAME}, BOOK_PRICE = #{PRODUCT_PRICE} WHERE BOOK_CODE = #{PRODUCT_CODE}
 	
-	<!-- 음식 등록 -->
-	<update id="food_insert">
-	UPDATE FOOD 
-	SET 
-    PRODUCT_NAME = #{PRODUCT_NAME}, 
-    PRODUCT_PRICE = #{PRODUCT_PRICE}, 
-    PRODUCT_QUANTITY = #{PRODUCT_QUANTITY}, 
-    PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
-WHERE 
-    PRODUCT_PATH = #{PRODUCT_PATH}
+	
 	</update>
-	
-	<!-- 음식 정보 -->
-	<select id="food_date" resultType="java.util.Map"> 
-	SELECT * FROM FOOD
-	</select>
-	
-	<!-- 도서 정보 -->
-	<select id="book_date" resultType="java.util.Map"> 
-	SELECT * FROM BOOK
-	</select>
-	
+
 </mapper>

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="stock_order_popup" width="600" height="300" titletext="발주신청서" oninit="stock_order_popup_oninit">
+    <Layouts>
+      <Layout height="300" mobileorientation="landscape" width="600">
+        <Div id="Div00" taborder="0" text="Div00" left="9" top="60" width="583" height="232">
+          <Layouts>
+            <Layout>
+              <Grid id="Grid00" taborder="0" left="6" top="5" width="573" height="220" binddataset="stock_order" autofittype="col" autoenter="select">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="54"/>
+                      <Column size="62"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="메뉴명"/>
+                      <Cell col="1" text="메뉴코드"/>
+                      <Cell col="2" text="현재수량"/>
+                      <Cell col="3" text="발주수량"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:PRODUCT_NAME" textAlign="center"/>
+                      <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center"/>
+                      <Cell col="2" text="bind:PRODUCT_QUANTITY" textAlign="center"/>
+                      <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" displaytype="normal" edittype="text" editinputtype="number" editmaxlength="100" editautoselect="true"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="1" text="Div01" left="9" top="9" width="583" height="43" background="#dbdee2">
+          <Layouts>
+            <Layout>
+              <Static id="Static01" taborder="0" text="신청자" left="314" top="15" width="36" height="14"/>
+              <Button id="Button00" taborder="1" text="신청하기" left="484" top="12" width="95" height="20" onclick="Div01_Button00_onclick"/>
+              <Edit id="Edit00" taborder="2" left="356" top="12" width="95" height="20" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="stock_order">
+        <ColumnInfo>
+          <Column id="ADMIN_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
+          <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256"/>
+          <Column id="STOCK_ORDER_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="insert_stock_order">
+        <ColumnInfo>
+          <Column id="ADMIN_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="STOCK_ORDER_QUANTITY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="result_stock_order">
+        <ColumnInfo>
+          <Column id="result" type="INT" size="256"/>
+          <Column id="error" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.stock_order_popup_oninit = function(obj, e)
+{
+	/* 데이터 받기
+// 	var PRODUCT_NAME = this.parent.PRODUCT_NAME;
+// 	var PRODUCT_CODE = this.parent.PRODUCT_CODE;
+// 	alert(PRODUCT_NAME);
+// 	alert(PRODUCT_CODE);
+	*/
+	var objParam  = this.parent.param;
+	this.stock_order.copyData(objParam);
+	this.Grid00.set_binddataset("stock_order");
+	this.Grid00.createFormat();	
+	
+};
+
+/* 신청하기 버튼 클릭 ㄴ*/
+this.Div01_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	alert("신청하기 버튼 클릭!");
+	
+};
+
+/* 발주신청서에 인서트 */
+this.fnSaveStockOrder = function(){
+
+  var strSvcId    = "saveStockOrder";
+  var strSvcUrl   = "svc::saveStockOrder.do";
+  var inData      = "stock_order = stock_order";
+  var outData     = "result_stock_order = result_stock_order";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+}
+
+/* 콜백함수 */
+this.fnCallback = function(svcID,errCode, errorMsg){
+	if(errorCode == -1){
+		this.alert(errorCode+"\n"+errorMsg);
+		return;
+	}
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Div01.form.Edit00" propid="value" datasetid="stock_order" columnid="ADMIN_CODE"/>
+    </Bind>
+  </Form>
+</FDL>

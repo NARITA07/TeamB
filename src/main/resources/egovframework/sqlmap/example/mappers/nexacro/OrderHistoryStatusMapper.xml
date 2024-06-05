@@ -1,58 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="bookcafe.nexacro.orderhistorystatus.serviceImpl.OrderHistoryStatusMapper">
-<!-- 음식 주문이력현황 조회  -->
+<mapper
+	namespace="bookcafe.nexacro.orderhistorystatus.serviceImpl.OrderHistoryStatusMapper">
+	<!-- 이력현황 조회 -->
 
-   <select id="MenuCombo" resultType="java.util.Map">
-      SELECT
-      PRODUCT_CODE,PRODUCT_NAME
-      FROM
-      FOOD
-   </select>
+	<!-- 대분류 combo -->
+	<select id="OHFirCombo" resultType="java.util.Map">
+		SELECT FIR_CODE, FIR_NAME
+		FROM FIR_CODE
+		ORDER BY FIR_CODE;
+	</select>
 
-   <select id="ViewList" parameterType="java.util.Map"
-      resultType="java.util.Map">
-      SELECT A.CART_CODE,B.USER_NAME, C.PRODUCT_CODE, C.PRODUCT_NAME,
-      A.ORDER_QUANTITY, D.PAYMENT_DATE
-      FROM CART A
-      JOIN USER B ON
-      A.USER_CODE = B.USER_CODE
-      JOIN FOOD C ON A.PRODUCT_CODE =
-      C.PRODUCT_CODE
-      JOIN ORDERS D ON A.USER_CODE = D.USER_CODE AND
-      A.CART_CODE = D.CART_CODE
-      WHERE 1 = 1
-      <if test="USER_NAME != null and USER_NAME !=''">
-         AND B.USER_NAME = #{USER_NAME}
-      </if>
-      <if test="PRODUCT_CODE != null and PRODUCT_CODE != ''">
-         AND C.PRODUCT_CODE = #{PRODUCT_CODE}
-      </if>
-      <if
-         test="PAYMENT_MONTH !='전체보기' and PAYMENT_MONTH != null and PAYMENT_MONTH != ''">
-         AND SUBSTR(D.PAYMENT_DATE,5,2) = #{PAYMENT_MONTH}
-      </if>
-      <if
-         test="PAYMENT_DAY !='전체보기' and PAYMENT_DAY != null and PAYMENT_DAY != ''">
-         AND SUBSTR(D.PAYMENT_DATE,7,2) = #{PAYMENT_DAY}
-      </if>
-      <if
-         test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and
-                   (PAYMENT_WEEK2 == null or PAYMENT_WEEK2 == '')">
-         AND TO_DATE(D.PAYMENT_DATE, 'YYYYMMDD') >= TO_DATE(#{PAYMENT_WEEK1},
-         'YYYYMMDD')
-      </if>
-      <if
-         test="PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != '' and
-                   (PAYMENT_WEEK1 == null or PAYMENT_WEEK1 == '')">
-         AND TO_DATE(#{PAYMENT_WEEK2}, 'YYYYMMDD') >= TO_DATE(D.PAYMENT_DATE,
-         'YYYYMMDD')
-      </if>
-      <if
-         test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != ''">
-         AND D.PAYMENT_DATE BETWEEN #{PAYMENT_WEEK1} AND #{PAYMENT_WEEK2}
-      </if>
-      ORDER BY D.PAYMENT_DATE, A.CART_CODE;
-   </select>
+	<!-- 중분류 combo -->
+	<select id="OHSecCombo" resultType="java.util.Map">
+		SELECT FIR_CODE, SEC_CODE,
+		SEC_NAME
+		FROM SEC_CODE
+		ORDER BY SEC_CODE;
+	</select>
+
+	<!-- 소분류 combo -->
+	<select id="OHThirCombo" resultType="java.util.Map">
+		SELECT FIR_CODE,
+		SEC_CODE,PRODUCT_CATEGORY,PRODUCT_CODE, PRODUCT_NAME
+		FROM FOOD F
+		JOIN
+		SEC_CODE SC ON F.PRODUCT_CATEGORY = SC.SEC_CODE
+		ORDER BY SEC_CODE,
+		PRODUCT_CODE;
+	</select>
+
+	<!-- 대분류 선택 시 중분류 변화 -->
+	<select id="SelSecCombo" resultType="java.util.Map">
+		SELECT FIR_CODE, SEC_CODE, SEC_NAME
+		FROM SEC_CODE
+		WHERE 1=1
+		<if
+			test="FIR_CODE != 'fir_000' and FIR_CODE != null and FIR_CODE !=''">
+			AND FIR_CODE = #{FIR_CODE}
+		</if>
+		ORDER BY SEC_CODE;
+	</select>
+
+	<!-- 중분류 선택 시 소분류 변화 -->
+	<select id="SelThirCombo" resultType="java.util.Map">
+		SELECT FIR_CODE, SEC_CODE, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CATEGORY
+		FROM SEC_CODE SC
+		JOIN FOOD F ON SC.SEC_CODE = F.PRODUCT_CATEGORY 
+		WHERE 1=1
+			AND PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
+		ORDER BY SEC_CODE;
+	</select>
+
+
+	<select id="TestList" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT *
+		FROM USER U
+		JOIN CART C ON U.USER_CODE = C.USER_CODE
+		JOIN
+		(
+		SELECT FIR_CODE, SEC_CODE,PRODUCT_CATEGORY, PRODUCT_CODE, PRODUCT_NAME
+		FROM FOOD FC
+		JOIN SEC_CODE SC ON FC.PRODUCT_CATEGORY = SC.SEC_CODE
+		) F
+		ON C.PRODUCT_CODE = F.PRODUCT_CODE
+		JOIN ORDERS O ON C.CART_CODE =
+		O.CART_CODE AND C.USER_CODE = O.USER_CODE
+		<!-- 주문상태가 '끝'인 주문만 조회 -->
+		WHERE
+		O.ORDER_STATE = '3'
+		<!--이름 -->
+		<if test="USER_NAME != null and USER_NAME !=''">
+			AND U.USER_NAME = #{USER_NAME}
+		</if>
+		<!--대분류 -->
+		<if
+			test="FIR_CODE != 'fir_000' and FIR_CODE != null and FIR_CODE != ''">
+			AND F.FIR_CODE = #{FIR_CODE}
+		</if>
+		<!--중분류 -->
+		<if
+			test="FIR_CODE != 'fir_000' and PRODUCT_CATEGORY != null and PRODUCT_CATEGORY != ''">
+			AND F.PRODUCT_CATEGORY = #{PRODUCT_CATEGORY}
+		</if>
+		<!--소분류 -->
+		<if
+			test="FIR_CODE != 'fir_000' and PRODUCT_CODE != null and PRODUCT_CODE != ''">
+			AND C.PRODUCT_CODE = #{PRODUCT_CODE}
+		</if>
+		<if
+			test="PAYMENT_MONTH !='전체보기' and PAYMENT_MONTH != null and PAYMENT_MONTH != ''">
+			AND SUBSTR(O.PAYMENT_DATE,5,2) = #{PAYMENT_MONTH}
+		</if>
+
+		<!-- 인풋날짜부터 이력 조회 -->
+		<if
+			test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and
+	                   (PAYMENT_WEEK2 == null or PAYMENT_WEEK2 == '')">
+			AND STR_TO_DATE(SUBSTR(O.PAYMENT_DATE,1,8), '%Y%m%d%H%i%s') >=
+			STR_TO_DATE(#{PAYMENT_WEEK1},
+			'%Y%m%d')
+		</if>
+		<!-- 인풋날짜까지 이력 조회 -->
+		<if
+			test="PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != '' and
+	                   (PAYMENT_WEEK1 == null or PAYMENT_WEEK1 == '')">
+			AND STR_TO_DATE(#{PAYMENT_WEEK2}, '%Y%m%d') >=
+			STR_TO_DATE(SUBSTR(O.PAYMENT_DATE,1,8), '%Y%m%d%H%i%s')
+		</if>
+		<if
+			test="PAYMENT_WEEK1 != null and PAYMENT_WEEK1 != '' and PAYMENT_WEEK2 != null and PAYMENT_WEEK2 != ''">
+			AND O.PAYMENT_DATE BETWEEN #{PAYMENT_WEEK1} AND #{PAYMENT_WEEK2}
+		</if>
+		ORDER BY C.CART_CODE, C.USER_CODE;
+	</select>
 
 </mapper>

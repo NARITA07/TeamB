@@ -11,50 +11,82 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service
 public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implements ProductManagementService{
-
+	
 	@Autowired
-	ProductManagementMapper pmm;
-	
-	//음식 이미지 등록
+	ProductManagementMapper productmapper;
+
 	@Override
-	public void Food_Product(String path) {
-		pmm.Food_Product(path);
-	}
+	public int product_save(Map<String, Object> save_date) {
+		System.out.println(save_date);
+		int result = 0;
+		
+	String bool = (String) save_date.get("FIR_CODE");
 	
-	//도서 이미지 등록
-	@Override
-	public void BooK_Product(String path) {
-		pmm.BooK_Product(path);
+	if(bool.equals("fir_001")) {
+		//도서에 저장
+		result = productmapper.book_save(save_date);
+		
+	}else if(bool.equals("fir_002")) {
+		//음식에 저장
+		result = productmapper.food_save(save_date);
 		
 	}
-	
-	//음식 등록
-	@Override
-	public int food_insert(Map<String, String> pM) {
-		return  pmm.food_insert(pM);
 		
+		return result;
 	}
-	
-	//도서 등록
+
 	@Override
-	public int book_insert(Map<String, String> pM) {
+	public int delete_product(List<Map<String, Object>> del_date) {
 		
-		return pmm.book_insert(pM);
+		int result = 0;
+		
+		for(int i = 0; i < del_date.size(); i++) {
+			
+			String date = (String) del_date.get(i).get("PRODUCT_CODE");
+			
+			if(date.substring(0,1).equals("f")) {
+				
+				result =+ productmapper. delete_food(del_date.get(i));
+				
+			}else if(date.substring(0,1).equals("b")) {
+				
+				result =+ productmapper. delete_book(del_date.get(i));
+			}
+			
+			
+		}
+		
+		return result;
 	}
 
-	//음식 정보
 	@Override
-	public List<Map<String, Object>> food_date() {
-		return pmm.food_date();
-	}
-	
-	//도서 정보
-	@Override
-	public List<Map<String, Object>> book_date() {
-		return pmm.book_date();
-	}
+	public void update_product(List<Map<String, Object>> save_date) {
+		
+		for(int i = 0; i < save_date.size(); i++){
+			
+			String date = (String)save_date.get(i).get("PRODUCT_CODE");
+			
+			
+			if(date.substring(0,1).equals("f")) {
+				
+				productmapper.update_food(save_date.get(i));
+				
+			}else if(date.substring(0,1).equals("b")) {
+				
+				productmapper. update_book(save_date.get(i));
+			}
+			
+			
+		}
+		
+	}	
 
-
-
-
+			
+			
+		
+		
 }
+
+
+
+

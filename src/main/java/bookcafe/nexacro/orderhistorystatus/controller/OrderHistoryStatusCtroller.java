@@ -24,36 +24,75 @@ public class OrderHistoryStatusCtroller {
 		PlatformTransactionManager transationManager;
 		
 	    @Resource(name = "orderhistoryService")
-	    private OrderHistoryStatusService hoservice;
+	    private OrderHistoryStatusService ohservice;
 	    
 	    
-	    // food_combo 조회
-	    @RequestMapping(value = "/MenuCombo.do")
-	    public NexacroResult MenuCombo() {
-	    	List<Map<String, Object>> dataList = hoservice.MenuCombo();
+	    // 대분류 조회
+	    @RequestMapping(value = "/OHFirCombo.do")
+	    public NexacroResult OHFirCombo() {
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.OHFirCombo();
+	    	
 	    	NexacroResult result = new NexacroResult();
-	    	result.addDataSet("food_combo", dataList);
+	    	
+	    	result.addDataSet("find_fir_combo", dataList);
 	    	return result;
 	    }
 	    
-	    // 조회하기 버튼
-	    @RequestMapping(value = "/ViewList.do")
-	    public NexacroResult ViewList(@ParamDataSet(name = "search_combo", required = false) Map<String,String> search_combo){
+	    // 중분류 조회
+	    @RequestMapping(value = "/OHSecCombo.do")
+	    public NexacroResult OHSecCombo() {
+	    
+	    	List<Map<String, Object>> dataList = ohservice.OHSecCombo();
 	    	
-	    	System.out.println("조회하기버튼 클릭! : " + search_combo);
+	    	NexacroResult result = new NexacroResult();
 	    	
-	    	List<Map<String, Object>> dataList = hoservice.ViewList(search_combo);
+	    	result.addDataSet("find_sec_combo", dataList);
+	    	return result;
+	    }
+	    
+	    // 소분류 조회
+	    @RequestMapping(value = "/OHThirCombo.do")
+	    public NexacroResult OHThirCombo() {
+	    
+	    	List<Map<String, Object>> dataList = ohservice.OHThirCombo();
 	    	
-		    NexacroResult result = new NexacroResult();
-		    result.addDataSet("result_grid", dataList);
-		    
-		    System.out.println("기간이 선택 됐나요? : "+ dataList);
-		
-		    return result;
+	    	NexacroResult result = new NexacroResult();
 	    	
+	    	result.addDataSet("find_thir_combo", dataList);
+	    	
+	    	System.out.println("보내준다 : " + dataList);
+	    	
+	    	return result;
 	    }
 	    
 	    
-
-
+	    // 대분류 선택 시 중분류 변화
+	    @RequestMapping(value = "/SelSecCombo.do")
+	    public NexacroResult SelSecCombo(@ParamDataSet(name = "find_sec_combo",required = false) Map<String,String> find_sec_combo){
+	    	
+	    	System.out.println("분류코드 들어왔니?" + find_sec_combo);
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.SelSecCombo(find_sec_combo);
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_sec_combo", dataList);
+	    	return result;
+	    }
+	    
+	    // 중분류 선택 시 소분류 변화
+	    @RequestMapping(value = "/SelThirCombo.do")
+	    public NexacroResult SelThirCombo(@ParamDataSet(name = "find_thir_combo",required = false) Map<String,String> find_thir_combo){
+	    	
+	    	System.out.println("분류코드 들어왔니?" + find_thir_combo);
+	    	
+	    	List<Map<String, Object>> dataList = ohservice.SelThirCombo(find_thir_combo);
+	    	
+	    	NexacroResult result = new NexacroResult();
+	    	
+	    	result.addDataSet("find_thir_combo", dataList);
+	    	return result;
+	    }
+	    
 }

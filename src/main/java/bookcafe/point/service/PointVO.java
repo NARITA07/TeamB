@@ -8,20 +8,13 @@ public class PointVO {
 	private int point_change;
 	private String point_joindate;
 	
-	
 	// 마이페이지 - 포인트 리스트 출력용
 	private int rowNum;
 	private int payment_state;
 	private int user_point;
 	private String point_section;
-
+	private int total_price;
 	
-	public int getRowNum() {
-		return rowNum;
-	}
-	public void setRowNum(int rowNum) {
-		this.rowNum = rowNum;
-	}
 	public String getPoint_code() {
 		return point_code;
 	}
@@ -52,6 +45,12 @@ public class PointVO {
 	public void setPoint_joindate(String point_joindate) {
 		this.point_joindate = point_joindate;
 	}
+	public int getRowNum() {
+		return rowNum;
+	}
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
 	public int getPayment_state() {
 		return payment_state;
 	}
@@ -70,6 +69,19 @@ public class PointVO {
 	public void setPoint_section(String point_section) {
 		this.point_section = point_section;
 	}
+	public int getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
 	
+	@Override
+	public String toString() {
+		return "PointVO [point_code=" + point_code + ", user_code=" + user_code + ", order_code=" + order_code
+				+ ", point_change=" + point_change + ", point_joindate=" + point_joindate + ", rowNum=" + rowNum
+				+ ", payment_state=" + payment_state + ", user_point=" + user_point + ", point_section=" + point_section
+				+ ", total_price=" + total_price + "]";
+	}
 
 }

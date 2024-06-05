@@ -1,6 +1,7 @@
-<%@page import="bookcafe.member.service.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="bookcafe.member.service.MemberVO"%>
+<%@page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
 <%
     String sUID = (String)session.getAttribute("sessionId");
 	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+	Integer cartSize = (session.getAttribute("cart") != null) ? ((Map<String, String>)session.getAttribute("cart")).size() : 0;
 %>
 
 	<!-- Navigation-->
@@ -25,7 +27,7 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/bookList.do">책</a></li>
+            <li class="nav-item"><a class="nav-link" href="/bookList.do">도서</a></li>
             <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
 				<%
 					if(sUID == null || loginInfo == null){
@@ -35,14 +37,13 @@
 					}else{
 				%>
 			<li class="nav-item"><a class="nav-link" href="/myPage/myPage">마이페이지</a></li>
-<!-- 			<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#logoutmodal">로그아웃</a></li> -->
-			<li class="nav-item"><a class="nav-link" href="/logout.do">로그아웃</a></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutmodal">로그아웃</a></li>
 	      </ul>
 			<form class="d-flex ms-lg-3">
                 <button class="btn btn-outline-dark" type="button" onclick="goCart()">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">${cartSize}</span>
                 </button>
             </form>
 				<%
@@ -51,28 +52,29 @@
 	    </div>
 	 </div>
 	</nav>
-	<!-- END nav -->
+	<!-- END Navigation -->
 	
 	<!-- 로그아웃 모달 -->
 	<div class="modal fade" id="logoutmodal" role="dialog"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="logoutModalLabel">로그아웃 하시겠습니까?</h5> 
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
+		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+			<div class="modal-content" style="text-align: center;">
+				<div class="modal-header" style="justify-content: center;">
+					<h5 class="modal-title" id="logoutModalLabel" style="width: 100%;">로그아웃 하시겠습니까?</h5> 
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button> 
+				<div class="modal-footer justify-content-center" style="justify-content: center;">
 					<a class="btn btn-primary"	href="/logout.do">로그아웃</a>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button> 
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
+		/* var user_code = "${loginInfo.user_code}";
+		console.log("유저코드:"+user_code); */
+		
 		function goCart(){
-			var url = 'cartList.do';
+			var url = '/cartList.do';
 			window.location.href = url;
 		}
 	</script>

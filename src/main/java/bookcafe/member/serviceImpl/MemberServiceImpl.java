@@ -17,28 +17,35 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 @Resource(name = "memberMapper") 
 MemberMapper memberMapper;
-
+ 
 private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /* 회원가입 */
     @Override
     public String insertMember(MemberVO memberVO) throws Exception {
-        memberVO.setUser_joindate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         memberVO.setUser_pass(passwordEncoder.encode(memberVO.getUser_pass())); // 비밀번호 암호화
         int result = memberMapper.insertMember(memberVO);
         return result > 0 ? "ok" : "fail";
     }
 
     /*로그인*/
-    @Override public int loginProc(MemberVO memberVO) {
+    @Override
+    public int loginProc(MemberVO memberVO) {
         MemberVO storedMemberVO = memberMapper.getUserInfo(memberVO.getUser_id());
-        if (storedMemberVO != null && passwordEncoder.matches(memberVO.getUser_pass(), storedMemberVO.getUser_pass())) {
-            return 1;
+        if (storedMemberVO != null) {
+            if (storedMemberVO.getUser_authority().equals("5")) {
+                return -1; // 탈퇴한 회원
+            }
+            if (passwordEncoder.matches(memberVO.getUser_pass(), storedMemberVO.getUser_pass())) {
+                return 1; // 로그인 성공
+            } else {
+                return 0; // 비밀번호 불일치
+            }
         } else {
-            return 0;
+            return 0; // 아이디 없음
         }
     }
-
+    
     /*아이디 중복체크*/
     @Override 
     public int selectIdChk(String user_id) { 
@@ -65,24 +72,6 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return result > 0;
     }
 
-    @Override
-    public boolean checkUserInfo(String userId, String userName, String userTel, String userEmail) {
-        MemberVO memberVO = memberMapper.getUserInfo(userId);
-        if (memberVO != null && 
-                memberVO.getUser_name().equals(userName) && 
-                memberVO.getUser_tel().equals(userTel) && 
-                memberVO.getUser_email().equals(userEmail)) {
-            return true;
-        }
-        return false;
-    }
-    
-    /* 사용자 정보 조회 */
-    @Override
-    public MemberVO getUserByPhoneAndEmail(String userTel, String userEmail) {
-        return memberMapper.getUserByPhoneAndEmail(userTel, userEmail);
-    }
-    
     /* 네이버 로그인 */
     @Override
     public String insertNaverMember(MemberVO memberVO) throws Exception {
@@ -109,4 +98,11 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
  		MemberVO memberVO = memberMapper.getUserInfo(user_id);
  		return memberVO;
  	}
+ 	
+    /* 회원 메일 받아오기 */
+	@Override
+	public String selectMemberEmail(String user_code) {
+		System.out.println(user_code);
+		return memberMapper.selectMemberEmail(user_code);
+	}
 }

@@ -1,167 +1,212 @@
 <%@ page language="java" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Book List</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
-    html, body {
-        height: 100%;
-        margin: 0;
-    }
-    body {
+    .main-content {
         display: flex;
-        flex-direction: column;
-        text-align: center;
-    }
-    .container {
-        margin-top: 20px; 
-        flex: 1;
-        padding-bottom: 50px;
+        flex-direction: row;
+        width: 100%;
+        margin-bottom: 20px;
     }
     h1 {
-        margin-top: 20px; 
+        margin-top: 20px;
         text-align: center;
     }
-    table {
-        border-collapse: collapse;
-        width: 80%;
-        margin: 0 auto;
+    .category-btn {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
     }
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: center;
+    .category-btn form {
+        margin: 0 10px;
     }
-    th {
-        background-color: #f2f2f2;
+    .category-btn button {
+        padding: 10px 20px;
+        background-color: #AB8212;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .category-btn button:hover {
+        background-color: #99730F;
     }
     .sidebar {
-        position: fixed;
-        top: 0;
-        right: -300px;
-        width: 300px;
-        height: 100%;
         background-color: #f2f2f2;
         padding: 20px;
-        transition: right 0.3s ease;
+        border-left: 1px solid #ccc;
+        overflow-y: auto;
+        height: 70vh; /* Set the height to 70% of the viewport height */
+        position: sticky; /* Make it sticky */
+        top: 100px; /* Increase the top offset to adjust the space from the top */
+        margin-top: 20px;
     }
-    .show-sidebar {
-        right: 0;
+    .sidebar h2 {
+        text-align: center;
     }
-    #cartTable {
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+    }
+    .cart-item button {
+        background-color: #AB8212;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+    .cart-item button:hover {
+        background-color: #99730F;
+    }
+    .table-fixed {
+        table-layout: fixed;
         width: 100%;
-        border-collapse: collapse;
     }
-    #cartTable th, #cartTable td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
+    .table-fixed th, .table-fixed td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis.
     }
-    #cartTable th {
-        background-color: #f2f2f2;
+    .table-fixed th:nth-child(2), .table-fixed td:nth-child(2) {
+        width: 20%.
+    }
+    .table-fixed th:nth-child(3), .table-fixed td:nth-child(3) {
+        width: 20%.
+    }
+    .table-fixed th:nth-child(4), .table-fixed td:nth-child(4) {
+        width: 15%.
+    }
+    .table-fixed th:nth-child(5), .table-fixed td:nth-child(5) {
+        width: 15%.
+    }
+    .table-fixed th:nth-child(6), .table-fixed td:nth-child(6) {
+        width: 10%.
+    }
+    .table-fixed th:nth-child(7), .table-fixed td:nth-child(7) {
+        width: 20%.
+    }
+    .search-form {
+        text-align: center;
+        margin-bottom: 20px.
+    }
+    .search-form form {
+        display: inline-block.
     }
 </style>
 </head>
 <body>
     <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-    <div class="container">
-        <h1>Book List</h1>
-        <table>
-            <tr>
-                <th>책 코드</th>
-                <th>책 이름</th>
-                <th>대여 가능여부</th>
-                <th>가격</th>
-                <th>대여하기</th>
-                <th>담기</th>
-            </tr>
-            <c:forEach items="${books}" var="book">
-                <tr>
-                    <td>${book.book_code}</td>
-                    <td>${book.book_name}</td>
-                    <td>${book.book_quantity}</td>
-                    <td>${book.book_price}</td>
-                    <td><button onclick="openRentForm('${book.book_code}', '${book.book_name}')">대여하기</button></td>
-                    <td><button onclick="addToCart('${book.book_code}', '${book.book_name}', '${book.book_quantity}', '${book.book_price}')">담기</button></td>
-                </tr>
-            </c:forEach>
-        </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <h1>책 리스트</h1>
+                <div class="category-btn">
+                    <form method="get" action="bookList.do">
+                        <button type="submit">전체</button>
+                    </form>
+                    <c:forEach var="category" items="${categories}">
+                        <form method="get" action="bookList.do">
+                            <input type="hidden" name="category" value="${category.sec_name}">
+                            <button type="submit" class="${selectedCategory == category.sec_name ? 'btn btn-warning' : 'btn btn-primary'}">${category.sec_name}</button>
+                        </form>
+                    </c:forEach>
+                </div>
+                <div class="search-form">
+                    <form method="get" action="bookList.do">
+                        <select name="searchType">
+                            <option value="name">책 이름</option>
+                            <option value="author">저자</option>
+                        </select>
+                        <input type="text" name="searchQuery" placeholder="검색어 입력">
+                        <button type="submit" class="btn btn-primary" style="background-color: #AB8212;">검색</button>
+                    </form>
+                </div>
+                <div class="table-responsive" style="width:80%; margin:auto;">
+                    <table class="table table-striped table-fixed">
+                        <thead>
+                            <tr>
+                                <th style="display:none;">책 코드</th>
+                                <th>책 이름</th>
+                                <th>저자</th>
+                                <th>출판 날짜</th>
+                                <th>카테고리</th>
+                                <th>대여하기</th>
+                                <th>담기</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${books}" var="book">
+                                <tr>
+                                    <td style="display:none;">${book.book_code}</td>
+                                    <td>${book.book_name}</td>
+                                    <td>${book.book_writer}</td>
+                                    <td>${book.book_publication_date}</td>
+                                    <td>${book.sec_name}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${loginInfo != null && loginInfo.user_leadbook == 'Y' && book.book_quantity == 'Y'}">
+                                                <form method="post" action="rentBook">
+                                                    <input type="hidden" name="bookCode" value="${book.book_code}">
+                                                    <button type="submit" class="btn-primary btn" style="background-color: #AB8212;">대여하기</button>
+                                                </form>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button disabled class="btn btn-secondary">대여하기</button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${loginInfo != null && loginInfo.user_leadbook == 'Y' && book.book_quantity == 'Y'}">
+                                                <c:choose>
+                                                    <c:when test="${cart[book.book_code] != null}">
+                                                        <button disabled class="btn btn-secondary">이미 담겼습니다</button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <form method="post" action="addToCart">
+                                                            <input type="hidden" name="bookCode" value="${book.book_code}">
+                                                            <input type="hidden" name="bookName" value="${book.book_name}">
+                                                            <button type="submit" class="btn btn-success" style="background-color: #AB8212;">담기</button>
+                                                        </form>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button disabled class="btn btn-secondary">담기</button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-10 sidebar">
+                <h2>담긴도서</h2>
+                <div id="cartTableBody">
+                    <c:forEach var="entry" items="${cart}">
+                        <div class="cart-item">
+                            <span>${entry.value}</span>
+                            <form method="post" action="removeFromCart" style="margin:0;">
+                                <input type="hidden" name="bookCode" value="${entry.key}">
+                                <button type="submit" class="btn btn-danger">삭제</button>
+                            </form>
+                        </div>
+                    </c:forEach>
+                </div>
+                <form method="post" action="rentBooks" style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="background-color: #AB8212;">대여하기</button>
+                </form>
+            </div>
+        </div>
     </div>
-	
-    <div class="sidebar" id="sidebar">
-    	<h3>담긴 책들:</h3>
-        <table id="cartTable">
-            <thead>
-                <tr>
-                    <th>책 코드</th>
-                    <th>책 이름</th>
-                    <th>가격</th>
-                </tr>
-            </thead>
-            <tbody id="cartList">
-                <!-- Cart items will be dynamically added here -->
-            </tbody>
-        </table>
-        <br><br><br>
-        <h2>비회원 대여하기</h2>
-        <form action="rentBook.do" method="post">
-            <input type="hidden" name="book_code" id="form_book_code">
-            <input type="hidden" name="user_authority" value="0">
-            <label>이름: </label><input type="text" name="user_name" required><br>
-            <label>전화번호: </label><input type="text" name="user_tel" required><br>
-            <label>Email: </label><input type="email" name="user_email" required><br>
-            <label>주소: </label><input type="text" name="user_address" required><br>
-            <input type="submit" value="비회원 대여하기">
-        </form>
-        
-    </div>
-
     <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
-    <script>
-        let cartItems = {};
-
-        function openRentForm(bookCode, bookName) {
-            var sidebar = document.getElementById("sidebar");
-            var formBookCode = document.getElementById("form_book_code");
-            formBookCode.value = bookCode;
-            sidebar.classList.add("show-sidebar");
-        }
-
-        function addToCart(bookCode, bookName, bookQuantity, bookPrice) {
-            if (bookQuantity.toLowerCase() !== 'y') {
-                alert('이 도서는 대여할 수 없습니다.');
-                return;
-            }
-            if (cartItems[bookCode]) {
-                alert('이 도서는 이미 담겼습니다.');
-                return;
-            }
-            cartItems[bookCode] = { name: bookName, price: bookPrice };
-            var cartList = document.getElementById("cartList");
-            var row = document.createElement("tr");
-            var cellCode = document.createElement("td");
-            var cellName = document.createElement("td");
-            var cellPrice = document.createElement("td");
-            cellCode.textContent = bookCode;
-            cellName.textContent = bookName;
-            cellPrice.textContent = bookPrice;
-            row.appendChild(cellCode);
-            row.appendChild(cellName);
-            row.appendChild(cellPrice);
-            cartList.appendChild(row);
-
-            // Show the sidebar when a book is added to the cart
-            var sidebar = document.getElementById("sidebar");
-            sidebar.classList.add("show-sidebar");
-        }
-
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("show-sidebar");
-        }
-    </script>
 </body>
 </html>

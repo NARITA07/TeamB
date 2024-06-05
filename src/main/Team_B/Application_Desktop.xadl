@@ -2,10 +2,11 @@
 <ADL version="2.0">
   <Application id="Application_Desktop" screenid="Desktop_screen">
     <Layout>
-      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="false" width="1280" height="750" titletext="BookCafe" onactivate="mainframe_onactivate" openalign="center" top="0">
-        <ChildFrame id="BookCafe" formurl="FrameBase::BookCafe_Login.xfdl" titlebarbuttongap="" enable="true" enableevent="true" dragmovetype="none" showstatusbar="false" showtitlebar="false" showtitleicon="false"/>
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="false" width="1280" height="750" titletext="BOOKBREAD" onactivate="mainframe_onactivate" openalign="center" top="0">
+        <ChildFrame id="ChildFrame00" formurl="FrameBase::BookCafe_Login.xfdl" showstatusbar="false" showtitlebar="false" showtitleicon="false"/>
       </MainFrame>
     </Layout>
+    <Style url="xcssrc::BookCafeStyle.xcss"/>
   </Application>
   <Script type="xscript5.1"><![CDATA[]]></Script>
 </ADL>

@@ -66,4 +66,12 @@ public class CartVO {
 		this.sequence_number = sequence_number;
 	}
 	
+	@Override
+	public String toString() {
+		return "CartVO [user_code=" + user_code + ", product_code=" + product_code + ", cart_code=" + cart_code
+				+ ", order_quantity=" + order_quantity + ", count_cart=" + count_cart + ", user_id=" + user_id
+				+ ", product_name=" + product_name + ", product_price=" + product_price + ", sequence_number="
+				+ sequence_number + "]";
+	}
+	
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.cart.serviceImpl.CartMapper">
+
+	<!-- 장바구니 담기 -->
     <insert id="insertCart" parameterType="bookcafe.cart.service.CartVO">
     INSERT INTO CART (USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
     VALUES (
@@ -17,67 +19,88 @@
         </choose>
     )
 	</insert>
+	
+	<!-- 주문하기 -->
 	<insert id="insertOrder" parameterType="bookcafe.cart.service.OrdersVO">
-		INSERT INTO ORDERS (ORDER_CODE,
+		INSERT INTO ORDERS (
+			ORDER_CODE,
 			ADMIN_CODE,
 			USER_CODE,
 			CART_CODE,
 			ORDER_STATE,
 			TOTAL_PRICE,
 			PAYMENT_DATE,
-			PAYMENT_METHOD,
 			PAYMENT_STATE)
-		VALUES (fnCode('order'),
+		VALUES (
+			fnCode('order'),
 			'AD001',
 			#{user_code},
 			#{cart_code},
 			1,
 			#{total_price},
-			 DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
-			#{payment_method},
+			date_format(now(),'%Y%m%d%H%m%s'),
 			1)
 	</insert>
 	
-	<!--order 테이블 정보 받기-->
-	<select id="selectOrders" resultType="bookcafe.orders.service.OrdersVO">
-		SELECT USER_CODE, CART_CODE
+	<!-- 오더코드 갯수 조회 -->
+	<select id="selectOrders" resultType="int">
+		SELECT COUNT(*)
 		FROM ORDERS
+		WHERE CART_CODE = #{cart_code}
 	</select>
 	
+	<!-- 오더코드 정보 조회 -->
+	<select id="selectOrderCode" resultType="String">
+		SELECT ORDER_CODE
+		FROM ORDERS
+		WHERE CART_CODE = #{cart_code}
+	</select>
+	
+	<!-- 장바구니 리스트 가져오기 -->
 	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
 		SELECT 
-        F.PRODUCT_NAME, 
-        F.PRODUCT_PRICE, 
-        C.ORDER_QUANTITY, 
-        C.USER_CODE, 
-        C.CART_CODE,
-        F.PRODUCT_CODE,
-        ROW_NUMBER() OVER (ORDER BY C.CART_CODE) AS SEQUENCE_NUMBER
+			C.CART_CODE, 
+			C.USER_CODE, 
+			F.PRODUCT_CODE, 
+		    F.PRODUCT_NAME, 
+		    F.PRODUCT_PRICE, 
+		    SUM(C.ORDER_QUANTITY) AS ORDER_QUANTITY 
 	    FROM 
-	        CART C
+	        CART C 
 	    JOIN 
 	        FOOD F 
 	    ON 
-	        C.PRODUCT_CODE = F.PRODUCT_CODE
+	        C.PRODUCT_CODE = F.PRODUCT_CODE 
 	    WHERE 
 	        C.USER_CODE = #{user_code}
-	    ORDER BY 
-	        C.CART_CODE;
+	    AND 
+	    	C.CART_CODE = #{cart_code}
+    	GROUP BY 
+	        C.CART_CODE, 
+	        C.USER_CODE, 
+	        F.PRODUCT_CODE, 
+	        F.PRODUCT_NAME, 
+	        F.PRODUCT_PRICE
+	    ORDER BY F.PRODUCT_CODE;
 	</select>
 	
-	<select id="selectCartCode" parameterType="String" resultType="String">
-    	SELECT MAX(CART_CODE) FROM CART WHERE USER_CODE = #{user_code};
+	<!-- 최근 카트코드 가져오기 -->
+	<select id="selectMaxCartCode" resultType="String">
+    	SELECT MAX(CART_CODE) as CART_CODE
+    	FROM CART 
+    	WHERE USER_CODE = #{user_code};
 	</select>
 	
+	<!-- 장바구니 항목삭제 -->
 	<delete id="deleteCart">
   		DELETE FROM CART 
 		WHERE USER_CODE = #{user_code}
 		AND PRODUCT_CODE = #{product_code}
 		AND CART_CODE = #{cart_code}
-		AND ORDER_QUANTITY = #{order_quantity}
 	</delete>
 	
-	<select id="selectTotalPrice" parameterType="string" resultType="int">
+	<!-- 총 금액 계산하기(카트리스트) -->
+	<select id="selectTotalPrice" parameterType="string" resultType="Integer">
 	    SELECT 
 		    SUM(f.product_price * c.order_quantity) AS total_price
 		FROM 
@@ -93,4 +116,122 @@
 		WHERE 
 		    c.cart_code = #{cart_code}
 	</select>
+	
+	<!-- 재고 업데이트 -->
+	<update id="updateQuantity" parameterType="String">
+		UPDATE FOOD
+		SET product_quantity = product_quantity - (
+		    SELECT SUM(order_quantity)
+		    FROM CART
+		    WHERE CART.cart_code = #{cart_code}
+		)
+		WHERE product_code IN (
+		    SELECT product_code
+		    FROM CART
+		    WHERE CART.cart_code = #{cart_code}
+		);
+	</update>
+	
+	<!-- 최근 오더코드 조회 -->
+	<select id="getLastInsertOrderCode" parameterType="string" resultType="string">
+	    SELECT ORDER_CODE 
+	    FROM ORDERS 
+	    WHERE USER_CODE = #{user_code}
+	    ORDER BY PAYMENT_DATE DESC
+	    LIMIT 1;
+	</select>
+	
+	<!-- 포인트 로그 남기기 -->
+<!-- 	<insert id="addPoint" parameterType="bookcafe.cart.service.PointLogVO"> -->
+<!-- 		INSERT INTO POINTLOG ( -->
+<!--         POINT_CODE, -->
+<!--         USER_CODE, -->
+<!--         ORDER_CODE, -->
+<!--         POINT_CHANGE, -->
+<!--         POINT_JOINDATE -->
+<!--     	) -->
+<!--     	VALUES ( -->
+<!--         fnCode('pointlog'), -->
+<!--         #{user_code}, -->
+<!--         #{order_code}, -->
+<!--         #{point_change}, -->
+<!--         date_format(now(),'%Y%m%d%H%m%s') -->
+<!--     	); -->
+<!-- 	</insert> -->
+	
+	<!-- 총금액 계산(오더리스트) -->
+	<select id="getTotalPrice" parameterType="string" resultType="Integer">
+	    SELECT total_price 
+	    FROM ORDERS 
+	    WHERE order_code = #{order_code}
+	</select>
+	
+	<!-- 유저포인트 업데이트 -->
+<!-- 	<update id="updateUserPoint" parameterType="String"> -->
+<!-- 		UPDATE USER u -->
+<!-- 		JOIN POINTLOG p ON u.USER_CODE = p.USER_CODE -->
+<!-- 		SET u.USER_POINT = u.USER_POINT + p.POINT_CHANGE -->
+<!-- 		WHERE p.USER_CODE = #{user_code} -->
+<!-- 	</update> -->
+	
+	<!--바로구매 cart insert -->
+    <insert id="directInsertCart" parameterType="bookcafe.cart.service.CartVO">
+    INSERT INTO CART (USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
+    VALUES (
+        #{user_code},
+        #{product_code},
+        #{order_quantity},
+        <choose>
+            <when test="cart_code == null or cart_code == ''">
+                fnCode('cart')
+            </when>
+            <otherwise>
+                #{cart_code}
+            </otherwise>
+        </choose>
+	    )
+	</insert>
+	
+	<!--바로구매 orders insert-->
+	<insert id="directInsertOrders" parameterType="bookcafe.cart.service.OrdersVO">
+		INSERT INTO ORDERS (
+			ORDER_CODE,
+			ADMIN_CODE,
+			USER_CODE,
+			CART_CODE,
+			ORDER_STATE,
+			TOTAL_PRICE,
+			PAYMENT_DATE,
+			PAYMENT_STATE)
+		VALUES (fnCode('order'),
+			'AD001',
+			#{user_code},
+			#{cart_code},
+			1,
+			#{total_price},
+			date_format(now(),'%Y%m%d%H%m%s'),
+			1)
+	</insert>
+	
+	<!-- 바로구매시 장바구니 카트번호 업데이트1 -->
+	<update id="updateCartcode">
+		UPDATE CART
+		SET CART_CODE= (
+			SELECT CONCAT('cart_',CAST(LPAD(lastval(cart_seq)+1,'3','0') AS CHAR))
+			)
+		WHERE CART_CODE = #{cart_code}
+	</update>
+	
+	<!-- 바로구매시 장바구니 카트번호 업데이트2 -->
+	<select id="updateSeq" resultType="int">
+		SELECT NEXTVAL(CART_SEQ) FROM DUAL;
+	</select>
+	
+	<!-- 포인트 사용한 경우 -->
+	<!-- 	<update id="minusPoint" parameterType="bookcafe.cart.service.PointLogVO">
+	    UPDATE POINTLOG
+	    SET POINT_CHANGE = POINT_CHANGE - #{amountOfPayment}
+	    WHERE USER_CODE = #{user_code} 
+	    AND ORDER_CODE = #{order_code}
+	</update> -->
 </mapper>

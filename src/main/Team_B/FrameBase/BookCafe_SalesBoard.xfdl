@@ -1,17 +1,26 @@
+<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Sales_Board" width="1080" height="670" titletext="매출현황">
+  <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Grid id="Grid00" taborder="0" left="15" top="160" width="460" height="370" binddataset="sales_dtl" scrollbartype="none default">
+        <Div id="Div00" taborder="13" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="0" left="595" top="37" width="100" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="Grid00" taborder="0" left="1.76%" top="223" width="96.30%" height="297" binddataset="sales_dtl" scrollbartype="none default" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="75"/>
-                <Column size="140"/>
-                <Column size="40"/>
-                <Column size="77"/>
-                <Column size="125"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="50"/>
+                <Column size="80"/>
+                <Column size="80"/>
               </Columns>
               <Rows>
                 <Row size="24" band="head"/>
@@ -19,134 +28,53 @@
                 <Row size="24" band="summ"/>
               </Rows>
               <Band id="head">
-                <Cell text="이름"/>
-                <Cell col="1" text="메뉴"/>
-                <Cell col="2" text="수량"/>
-                <Cell col="3" text="매출액"/>
-                <Cell col="4" text="주문일시"/>
+                <Cell text="주문번호"/>
+                <Cell col="1" text="이름"/>
+                <Cell col="2" text="메뉴"/>
+                <Cell col="3" text="수량"/>
+                <Cell col="4" text="매출액"/>
+                <Cell col="5" text="주문일"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:NAME" suppress="1" suppressalign="middle" textAlign="center"/>
-                <Cell col="1" text="bind:MENU" suppressalign="middle" textAlign="center"/>
-                <Cell col="2" text="bind:QUANTITY" textAlign="center"/>
-                <Cell col="3" text="bind:SALES" textAlign="center"/>
-                <Cell col="4" text="bind:TIME" textAlign="center"/>
+                <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>
+                <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center"/>
+                <Cell col="2" text="bind:MENU" textAlign="center"/>
+                <Cell col="3" text="bind:QUANTITY" textAlign="center"/>
+                <Cell col="4" text="bind:SALES"/>
+                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="normal"/>
               </Band>
               <Band id="summary">
                 <Cell/>
                 <Cell col="1"/>
                 <Cell col="2"/>
-                <Cell col="3" text="TOTAL"/>
-                <Cell col="4" text="expr:dataset.getSum('SALES')"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Edit id="Edit00" taborder="1" left="60" top="55" width="75" height="20" onchanged="Edit00_onchanged"/>
-        <Edit id="Edit01" taborder="2" left="60" top="80" width="75" height="20" onchanged="Edit01_onchanged"/>
-        <Static id="Static00" taborder="3" text="이름" left="15" top="57" width="38" height="20"/>
-        <Static id="Static01" taborder="4" text="메뉴" left="15" top="82" width="38" height="20"/>
-        <Combo id="Combo00" taborder="5" text="" left="60" top="105" width="60" height="20" innerdataset="month_combo" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged"/>
-        <Combo id="Combo01" taborder="6" text="" left="152" top="105" width="60" height="20" innerdataset="day_combo" codecolumn="COD" datacolumn="TXT"/>
-        <Static id="Static02" taborder="7" text="월" left="130" top="105" width="28" height="20"/>
-        <Static id="Static03" taborder="8" text="일" left="228" top="105" width="40" height="20"/>
-        <Button id="Button00" taborder="9" text="조회" left="390" top="130" width="85" height="20" onclick="Button00_onclick"/>
-        <Calendar id="Calendar00" taborder="10" left="60" top="130" width="82" height="20" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00" taborder="11" left="164" top="130" width="82" height="20"/>
-        <Static id="Static04" taborder="12" text="-" left="148" top="130" width="32" height="20"/>
-        <Static id="Static05" taborder="13" text="M/D" left="15" top="107" width="37" height="20" onclick="Static05_onclick"/>
-        <Static id="Static06" taborder="14" text="기간" left="15" top="132" width="38" height="20"/>
-        <Edit id="Edit00_00" taborder="15" left="546" top="53" width="75" height="20" onchanged="Edit00_onchanged"/>
-        <Edit id="Edit01_00" taborder="16" left="546" top="78" width="75" height="20" onchanged="Edit01_onchanged"/>
-        <Static id="Static00_00" taborder="17" text="이름" left="501" top="55" width="38" height="20"/>
-        <Static id="Static01_00" taborder="18" text="메뉴" left="501" top="80" width="38" height="20"/>
-        <Combo id="Combo00_00" taborder="19" text="" left="546" top="103" width="60" height="20" innerdataset="month_combo" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged"/>
-        <Combo id="Combo01_00" taborder="20" text="" left="638" top="103" width="60" height="20" innerdataset="day_combo" codecolumn="COD" datacolumn="TXT"/>
-        <Static id="Static02_00" taborder="21" text="월" left="616" top="103" width="28" height="20"/>
-        <Static id="Static03_00" taborder="22" text="일" left="714" top="103" width="40" height="20"/>
-        <Button id="Button00_00" taborder="23" text="조회" left="978" top="127" width="85" height="20" onclick="Button00_00onclick"/>
-        <Calendar id="Calendar00_01" taborder="24" left="546" top="128" width="82" height="20" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00_00" taborder="25" left="650" top="128" width="82" height="20"/>
-        <Static id="Static04_00" taborder="26" text="-" left="634" top="128" width="32" height="20"/>
-        <Static id="Static05_00" taborder="27" text="M/D" left="501" top="105" width="37" height="20" onclick="Static05_onclick"/>
-        <Static id="Static06_00" taborder="28" text="기간" left="501" top="130" width="38" height="20"/>
-        <Static id="Static07" taborder="29" text="카페 매출 현황" left="190" top="10" width="113" height="33" textAlign="center"/>
-        <Static id="Static07_00" taborder="30" text="도서 매출 현황" left="691" top="12" width="113" height="33" textAlign="center"/>
-        <Grid id="Grid01" taborder="31" left="501" top="160" width="562" height="370" binddataset="book_sales_dtl">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="75"/>
-                <Column size="124"/>
-                <Column size="80"/>
-                <Column size="80"/>
-                <Column size="100"/>
-                <Column size="100"/>
-              </Columns>
-              <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-                <Row size="24" band="summ"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="이름"/>
-                <Cell col="1" text="책 이름"/>
-                <Cell col="2" text="매출액"/>
-                <Cell col="3" text="연체료"/>
-                <Cell col="4" text="대여일시"/>
-                <Cell col="5" text="반납일시"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:NAME" suppress="1" suppressalign="middle" textAlign="center"/>
-                <Cell col="1" text="bind:BOOK" textAlign="center"/>
-                <Cell col="2" text="bind:SALES" textAlign="center"/>
-                <Cell col="3" text="bind:LATE_FEE" textAlign="center"/>
-                <Cell col="4" text="bind:BORROW_DATE" textAlign="center"/>
-                <Cell col="5" text="bind:RETURN_DATE" textAlign="center"/>
-              </Band>
-              <Band id="summary">
-                <Cell/>
-                <Cell col="1"/>
-                <Cell col="2" text="expr:dataset.getSum('SALES')"/>
-                <Cell col="3" text="expr:dataset.getSum('LATE_FEE')"/>
+                <Cell col="3"/>
                 <Cell col="4" text="TOTAL"/>
-                <Cell col="5"/>
+                <Cell col="5" text="expr:dataset.getSum(&quot;SALES&quot;)" displaytype="number" textAlign="right"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <CheckBox id="CheckBox00" taborder="32" text="조건 복사" left="748" top="50" width="85" height="20" onclick="CheckBox00_onclick"/>
-        <Button id="Button01" taborder="33" text="합산" left="660" top="574" width="70" height="28" onclick="Button01_onclick"/>
-        <Grid id="Grid02" taborder="34" left="740" top="574" width="323" height="52" binddataset="total">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="100"/>
-                <Column size="100"/>
-                <Column size="120"/>
-              </Columns>
-              <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="카페 매출액"/>
-                <Cell col="1" text="도서 매출액"/>
-                <Cell col="2" text="총 매출액"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:CAFE_SALES"/>
-                <Cell col="1" text="bind:BOOK_SALES"/>
-                <Cell col="2" text="bind:TOTAL"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
+        <Edit id="Edit00" taborder="1" left="300" top="98" height="25" onchanged="Edit00_onchanged" width="70"/>
+        <Edit id="Edit01" taborder="2" left="471" top="98" width="100" height="25" onchanged="Edit01_onchanged"/>
+        <Static id="Static00" taborder="3" text="이름" left="270" top="98" width="30" height="25"/>
+        <Static id="Static01" taborder="4" text="메뉴" left="443" top="98" width="38" height="25"/>
+        <Button id="Button00" taborder="5" text="조회" top="27" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="2%"/>
+        <Calendar id="Calendar00" taborder="6" left="830" top="98" width="100" height="25" onchanged="Calendar00_onchanged"/>
+        <Static id="Static06" taborder="7" text="기간" left="798" top="98" width="25" height="25" onclick="Static06_onclick"/>
+        <Static id="Static07" taborder="8" text="카페 매출 현황" left="1.76%" width="113" textAlign="left" height="30" top="190"/>
+        <Static id="Static08" taborder="9" text="분류" left="57" top="98" width="40" height="25" onclick="Static08_onclick"/>
+        <Combo id="Combo02" taborder="10" text="Combo02" left="95" top="98" width="70" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
+        <Static id="Static09" taborder="11" text="-" left="930" top="98" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
+        <Calendar id="Calendar01" taborder="12" left="950" top="98" width="100" height="25"/>
+        <Static id="Static01_00" taborder="14" text="도서" left="583" top="98" width="38" height="25"/>
+        <Static id="Static00_00" taborder="15" text="매출현황" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
+        <Button id="Button01_00" taborder="16" text="엑셀" left="91.30%" top="190" width="70" height="27" borderRadius="5px"/>
       </Layout>
     </Layouts>
     <Objects>
       <Dataset id="sales_dtl" onrowposchanged="Button00_onclick">
         <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="NAME" type="STRING" size="256" prop="NONE" sumtext=""/>
           <Column id="MENU" type="STRING" size="256"/>
           <Column id="QUANTITY" type="INT" size="256"/>
@@ -158,224 +86,292 @@
         <ColumnInfo>
           <Column id="NAME" type="STRING" size="256"/>
           <Column id="MENU" type="STRING" size="256"/>
+          <Column id="BOOK" type="STRING" size="256"/>
           <Column id="MONTH" type="STRING" size="256"/>
-          <Column id="DAY" type="STRING" size="256"/>
           <Column id="DATE1" type="STRING" size="256"/>
           <Column id="DATE2" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="month_combo">
+      <Dataset id="combo_con">
         <ColumnInfo>
-          <Column id="COD" type="STRING" size="256"/>
-          <Column id="TXT" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="TXT"/>
-          </Row>
-          <Row>
-            <Col id="COD">01</Col>
-            <Col id="TXT">1</Col>
-          </Row>
-          <Row>
-            <Col id="COD">02</Col>
-            <Col id="TXT">2</Col>
-          </Row>
-          <Row>
-            <Col id="COD">03</Col>
-            <Col id="TXT">3</Col>
-          </Row>
-          <Row>
-            <Col id="COD">04</Col>
-            <Col id="TXT">4</Col>
-          </Row>
-          <Row>
-            <Col id="COD">05</Col>
-            <Col id="TXT">5</Col>
-          </Row>
-          <Row>
-            <Col id="COD">06</Col>
-            <Col id="TXT">6</Col>
-          </Row>
-          <Row>
-            <Col id="COD">07</Col>
-            <Col id="TXT">7</Col>
-          </Row>
-          <Row>
-            <Col id="COD">08</Col>
-            <Col id="TXT">8</Col>
-          </Row>
-          <Row>
-            <Col id="COD">09</Col>
-            <Col id="TXT">9</Col>
-          </Row>
-          <Row>
-            <Col id="COD">10</Col>
-            <Col id="TXT">10</Col>
-          </Row>
-          <Row>
-            <Col id="COD">11</Col>
-            <Col id="TXT">11</Col>
-          </Row>
-          <Row>
-            <Col id="COD">12</Col>
-            <Col id="TXT">12</Col>
-          </Row>
-        </Rows>
       </Dataset>
-      <Dataset id="day_combo">
+      <Dataset id="combo_dtl">
         <ColumnInfo>
-          <Column id="COD" type="STRING" size="256"/>
-          <Column id="TXT" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="TXT"/>
-          </Row>
-          <Row>
-            <Col id="COD">01</Col>
-            <Col id="TXT">1</Col>
-          </Row>
-          <Row>
-            <Col id="COD">02</Col>
-            <Col id="TXT">2</Col>
-          </Row>
-          <Row>
-            <Col id="COD">03</Col>
-            <Col id="TXT">3</Col>
-          </Row>
-          <Row>
-            <Col id="COD">04</Col>
-            <Col id="TXT">4</Col>
-          </Row>
-          <Row>
-            <Col id="COD">05</Col>
-            <Col id="TXT">5</Col>
-          </Row>
-          <Row>
-            <Col id="COD">06</Col>
-            <Col id="TXT">6</Col>
-          </Row>
-          <Row>
-            <Col id="COD">07</Col>
-            <Col id="TXT">7</Col>
-          </Row>
-          <Row>
-            <Col id="COD">08</Col>
-            <Col id="TXT">8</Col>
-          </Row>
-          <Row>
-            <Col id="COD">09</Col>
-            <Col id="TXT">9</Col>
-          </Row>
-          <Row>
-            <Col id="COD">10</Col>
-            <Col id="TXT">10</Col>
-          </Row>
-          <Row>
-            <Col id="COD">11</Col>
-            <Col id="TXT">11</Col>
-          </Row>
-          <Row>
-            <Col id="COD">12</Col>
-            <Col id="TXT">12</Col>
-          </Row>
-          <Row>
-            <Col id="COD">13</Col>
-            <Col id="TXT">13</Col>
-          </Row>
-          <Row>
-            <Col id="COD">14</Col>
-            <Col id="TXT">14</Col>
-          </Row>
-          <Row>
-            <Col id="COD">15</Col>
-            <Col id="TXT">15</Col>
-          </Row>
-          <Row>
-            <Col id="COD">16</Col>
-            <Col id="TXT">16</Col>
-          </Row>
-          <Row>
-            <Col id="COD">17</Col>
-            <Col id="TXT">17</Col>
-          </Row>
-          <Row>
-            <Col id="COD">18</Col>
-            <Col id="TXT">18</Col>
-          </Row>
-          <Row>
-            <Col id="COD">19</Col>
-            <Col id="TXT">19</Col>
-          </Row>
-          <Row>
-            <Col id="COD">20</Col>
-            <Col id="TXT">20</Col>
-          </Row>
-          <Row>
-            <Col id="COD">21</Col>
-            <Col id="TXT">21</Col>
-          </Row>
-          <Row>
-            <Col id="COD">22</Col>
-            <Col id="TXT">22</Col>
-          </Row>
-          <Row>
-            <Col id="COD">23</Col>
-            <Col id="TXT">23</Col>
-          </Row>
-          <Row>
-            <Col id="COD">24</Col>
-            <Col id="TXT">24</Col>
-          </Row>
-          <Row>
-            <Col id="COD">25</Col>
-            <Col id="TXT">25</Col>
-          </Row>
-          <Row>
-            <Col id="COD">26</Col>
-            <Col id="TXT">26</Col>
-          </Row>
-          <Row>
-            <Col id="COD">27</Col>
-            <Col id="TXT">27</Col>
-          </Row>
-          <Row>
-            <Col id="COD">28</Col>
-            <Col id="TXT">28</Col>
-          </Row>
-          <Row>
-            <Col id="COD">29</Col>
-            <Col id="TXT">29</Col>
-          </Row>
-          <Row>
-            <Col id="COD">30</Col>
-            <Col id="TXT">30</Col>
-          </Row>
-          <Row>
-            <Col id="COD">31</Col>
-            <Col id="TXT">31</Col>
-          </Row>
-        </Rows>
       </Dataset>
-      <Dataset id="book_sales_dtl" onvaluechanged="Button00_00onclick">
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.combo_dtl.clearData();
+	this.combo_dtl.addRow();
+	this.combo_dtl.setColumn(0,"FIR_CODE","fir_002");
+	
+	this.fnselectSalesCombo();
+};
+
+//조회
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	//조건 값 데이터셋에 담아서 넘겨주기
+ 	this.sales_con.clearData();
+	
+	var sales_row = this.sales_con.addRow();
+	
+	var name = this.Edit00.value;
+	var menu = this.Edit01.value;
+	var date1 = this.Calendar00.value;
+	var date2 = this.Calendar01.value;
+	var sec_code = this.Combo02.value;
+
+ 	this.sales_con.setColumn(sales_row, "NAME", name);
+ 	this.sales_con.setColumn(sales_row, "MENU", menu);
+	this.sales_con.setColumn(sales_row, "DATE1", date1);
+	this.sales_con.setColumn(sales_row, "DATE2", date2);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
+	
+	this.fnSelectSales();
+
+};
+
+//카페 현황 함수
+this.fnSelectSales = function ()
+{
+  var strSvcId    = "selectSales";
+  var strSvcUrl   = "svc::selectSales.do";
+  var inData      = "sales_con=sales_con";
+  var outData     = "sales_dtl=sales_dtl";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
+};
+
+//중분류
+this.fnselectSalesCombo = function ()
+{
+  var strSvcId    = "selectSalesCombo";
+  var strSvcUrl   = "svc::selectSalesCombo.do";
+  var inData      = "combo_dtl=combo_dtl";
+  var outData     = "combo_dtl=combo_dtl";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
+};
+
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+	// 에러 시 화면 처리 내역
+	if(errorCode == -1)
+	{
+		this.alert(errorMsg);
+		return;
+	}
+
+	switch(svcID)
+	{
+
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
+    </Bind>
+  </Form>
+</FDL>
+=======
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload">
+    <Layouts>
+      <Layout height="670" mobileorientation="landscape" width="1080">
+        <Div id="Div00" taborder="18" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="0" left="634" top="37" width="100" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="Grid00" taborder="0" left="1.76%" top="223" width="46.76%" height="297" binddataset="sales_dtl" scrollbartype="none default" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="55"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="주문번호"/>
+                <Cell col="1" text="이름"/>
+                <Cell col="2" text="메뉴"/>
+                <Cell col="3" text="수량"/>
+                <Cell col="4" text="매출액"/>
+                <Cell col="5" text="주문일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>
+                <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center"/>
+                <Cell col="2" text="bind:MENU" textAlign="center"/>
+                <Cell col="3" text="bind:QUANTITY" textAlign="center"/>
+                <Cell col="4" text="bind:SALES"/>
+                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3"/>
+                <Cell col="4" text="TOTAL"/>
+                <Cell col="5" text="expr:dataset.getSum(&quot;SALES&quot;)" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="Edit00" taborder="1" left="395" top="98" height="25" onchanged="Edit00_onchanged" width="70"/>
+        <Edit id="Edit01" taborder="2" left="510" top="98" width="100" height="25" onchanged="Edit01_onchanged"/>
+        <Static id="Static00" taborder="3" text="이름" left="365" top="98" width="30" height="25"/>
+        <Static id="Static01" taborder="4" text="메뉴" left="482" top="98" width="38" height="25"/>
+        <Button id="Button00" taborder="5" text="조회" top="27" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="2%"/>
+        <Calendar id="Calendar00" taborder="6" left="830" top="98" width="100" height="25" onchanged="Calendar00_onchanged"/>
+        <Static id="Static06" taborder="7" text="기간" left="798" top="98" width="25" height="25" onclick="Static06_onclick"/>
+        <Static id="Static07" taborder="8" text="카페 매출 현황" left="1.76%" width="113" textAlign="left" height="30" top="190"/>
+        <Static id="Static07_00" taborder="9" text="도서 매출 현황" left="50.74%" top="190" width="113" height="30" textAlign="left"/>
+        <Grid id="Grid01" taborder="10" top="223" width="46.76%" height="297" binddataset="book_sales_dtl" autofittype="col" right="1.85%">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="주문번호"/>
+                <Cell col="1" text="이름"/>
+                <Cell col="2" text="도서명"/>
+                <Cell col="3" text="이용료"/>
+                <Cell col="4" text="대여일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>
+                <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center"/>
+                <Cell col="2" text="bind:BOOK" textAlign="center"/>
+                <Cell col="3" text="bind:SALES" suppress="3" suppressalign="middle"/>
+                <Cell col="4" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3" text="TOTAL"/>
+                <Cell col="4" text="expr:dataset.getSum(&quot;SALES&quot;)" displaytype="number" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid02" taborder="11" top="554" width="396" height="63" binddataset="total" right="1.76%" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="카페 매출액"/>
+                <Cell col="1" text="도서 매출액"/>
+                <Cell col="2" text="합 계"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CAFE_SALES"/>
+                <Cell col="1" text="bind:BOOK_SALES"/>
+                <Cell col="2" text="bind:TOTAL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Combo id="Combo01" taborder="12" text="" left="90" top="98" width="70" height="25" innerdataset="combo_con" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="Combo01_onitemchanged"/>
+        <Static id="Static04" taborder="13" text="대분류" left="53" top="98" width="40" height="25"/>
+        <Static id="Static08" taborder="14" text="중분류" left="177" top="98" width="40" height="25" onclick="Static08_onclick"/>
+        <Combo id="Combo02" taborder="15" text="Combo02" left="215" top="98" width="70" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
+        <Static id="Static09" taborder="16" text="-" left="930" top="98" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
+        <Calendar id="Calendar01" taborder="17" left="950" top="98" width="100" height="25"/>
+        <Static id="Static01_00" taborder="19" text="도서" left="622" top="98" width="38" height="25"/>
+        <Static id="Static00_00" taborder="20" text="매출현황" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
+        <Button id="Button01" taborder="21" text="엑셀" left="42.22%" top="187" width="70" height="27" borderRadius="5px"/>
+        <Button id="Button01_00" taborder="22" text="엑셀" left="91.30%" top="190" width="70" height="27" borderRadius="5px"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="sales_dtl" onrowposchanged="Button00_onclick">
         <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256" prop="NONE" sumtext=""/>
+          <Column id="MENU" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="SALES" type="INT" size="256" prop="NONE"/>
+          <Column id="TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="sales_con">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="MENU" type="STRING" size="256"/>
+          <Column id="BOOK" type="STRING" size="256"/>
+          <Column id="MONTH" type="STRING" size="256"/>
+          <Column id="DATE1" type="STRING" size="256"/>
+          <Column id="DATE2" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="book_sales_dtl">
+        <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="NAME" type="STRING" size="256"/>
           <Column id="BOOK" type="STRING" size="256"/>
           <Column id="SALES" type="INT" size="256"/>
-          <Column id="LATE_FEE" type="INT" size="256"/>
-          <Column id="BORROW_DATE" type="STRING" size="256"/>
-          <Column id="RETURN_DATE" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="book_sales_con">
-        <ColumnInfo>
-          <Column id="NAME" type="STRING" size="256"/>
-          <Column id="BOOK" type="STRING" size="256"/>
-          <Column id="MONTH" type="STRING" size="256"/>
-          <Column id="DAY" type="STRING" size="256"/>
-          <Column id="DATE1" type="STRING" size="256"/>
-          <Column id="DATE2" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="total">
@@ -385,58 +381,110 @@
           <Column id="TOTAL" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="combo_con">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="combo_dtl">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[//카페 조회
+    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnSelectFirstCombo();
+	
+	this.fnselectSecondCombo();
+	
+// 	var objDate = new Date();
+// 
+// 	var sYear = objDate.getFullYear().toString();
+// 	var sMonth = (objDate.getMonth() + 1).toString().padLeft(2, "0");
+// 	var sDay = objDate.getDate().toString().padLeft(2, "0");
+};
+
+//조회
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
 	//조건 값 데이터셋에 담아서 넘겨주기
  	this.sales_con.clearData();
-	var row = this.sales_con.addRow();
+	
+	var sales_row = this.sales_con.addRow();
+	
 	var name = this.Edit00.value;
 	var menu = this.Edit01.value;
-	var month = this.Combo00.value;
-	var day = this.Combo01.value;
+	var book = this.Div00.form.Edit00.value;
 	var date1 = this.Calendar00.value;
-	var date2 = this.Calendar00_00.value;
- 	this.sales_con.setColumn(row, "NAME", name);
- 	this.sales_con.setColumn(row, "MENU", menu);
-	this.sales_con.setColumn(row, "MONTH", month);
-	this.sales_con.setColumn(row, "DAY", day);
-	this.sales_con.setColumn(row, "DATE1", date1);
-	this.sales_con.setColumn(row, "DATE2", date2);
-  	
-	//SELECT 함수 실행
-  	this.fnSelectSales();
+	var date2 = this.Calendar01.value;
+	var sec_code = this.Combo02.value;
+
+ 	this.sales_con.setColumn(sales_row, "NAME", name);
+ 	this.sales_con.setColumn(sales_row, "MENU", menu);
+	this.sales_con.setColumn(sales_row, "BOOK", book);
+	this.sales_con.setColumn(sales_row, "DATE1", date1);
+	this.sales_con.setColumn(sales_row, "DATE2", date2);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
+	
+	
+	var fir_code = this.Combo01.value;
+	if(fir_code =="fir_002"){
+		//카페조회 함수 실행
+		this.book_sales_dtl.clearData();
+		this.fnSelectSales();
+	}else if(fir_code =="fir_001"){
+		//도서조회 함수 실행
+		this.sales_dtl.clearData();
+		this.fnSelectBookSales();
+	}else {
+		this.fnSelectSales();
+		this.fnSelectBookSales();
+	}
 };
 
-//도서 조회
-this.Button00_00onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+//대분류 함수
+this.fnSelectFirstCombo = function ()
 {
-	//조건 값 데이터셋에 담아서 넘겨주기
- 	this.book_sales_con.clearData();
-	var row = this.book_sales_con.addRow();
-	var name = this.Edit00_00.value;
-	var menu = this.Edit01_00.value;
-	var month = this.Combo00_00.value;
-	var day = this.Combo01_00.value;
-	var date1 = this.Calendar00_01.value;
-	var date2 = this.Calendar00_00_00.value;
- 	this.book_sales_con.setColumn(row, "NAME", name);
- 	this.book_sales_con.setColumn(row, "MENU", menu);
-	this.book_sales_con.setColumn(row, "MONTH", month);
-	this.book_sales_con.setColumn(row, "DAY", day);
-	this.book_sales_con.setColumn(row, "DATE1", date1);
-	this.book_sales_con.setColumn(row, "DATE2", date2);
-	
-	//매출액과 연체료 합 계산
-	var sales = this.Grid01.getCellText(-2,2);
-    var late_fee = this.Grid01.getCellText(-2,3);
-	var total_sales = parseInt(sales)+parseInt(late_fee);
-    this.Grid01.setCellProperty("summary", 5, "text", total_sales);
-  	
-	//SELECT 함수 실행
-  	this.fnSelectBookSales();
+  var strSvcId    = "selectFirstCombo";
+  var strSvcUrl   = "svc::selectFirstCombo.do";
+  var inData      = "";
+  var outData     = "combo_con=combo_con";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
+};
+
+//중분류 함수
+this.fnselectSecondCombo = function ()
+{
+  var strSvcId    = "selectSecondCombo";
+  var strSvcUrl   = "svc::selectSecondCombo.do";
+  var inData      = "";
+  var outData     = "combo_dtl=combo_dtl";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
 };
 
 //카페 현황 함수
@@ -464,7 +512,7 @@ this.fnSelectBookSales = function ()
 {
   var strSvcId    = "selectBookSales";
   var strSvcUrl   = "svc::selectBookSales.do";
-  var inData      = "book_sales_con=book_sales_con";
+  var inData      = "sales_con=sales_con";
   var outData     = "book_sales_dtl=book_sales_dtl";
   var strArg      = "";
   var callBackFnc = "fnCallback";
@@ -479,7 +527,54 @@ this.fnSelectBookSales = function ()
 				   isAsync);    
 };
 
+//대분류 콤보박스 선택
+this.Combo01_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.combo_dtl.clearData();
+	var com_row = this.combo_dtl.addRow();
+	this.combo_dtl.setColumn(com_row, "FIR_CODE", this.Combo01.value);
+	
+	this.fnselectSalesCombo();
+};
 
+//중분류
+this.fnselectSalesCombo = function ()
+{
+  var strSvcId    = "selectSalesCombo";
+  var strSvcUrl   = "svc::selectSalesCombo.do";
+  var inData      = "combo_dtl=combo_dtl";
+  var outData     = "combo_dtl=combo_dtl";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
+};
+//중분류 조건에 따른 조회
+this.fnSelectSecondCombo = function ()
+{
+  var strSvcId    = "selectSecondCombo";
+  var strSvcUrl   = "svc::selectSecondCombo.do";
+  var inData      = "combo_dtl=combo_dtl";
+  var outData     = "combo_dtl=combo_dtl";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, 	
+				   strSvcUrl,   
+				   inData,     
+				   outData,     
+				   strArg,     	
+				   callBackFnc, 
+				   isAsync);    
+};
 
 this.fnCallback = function(svcID,errorCode,errorMsg)
 {
@@ -492,48 +587,37 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 
 	switch(svcID)
 	{
+		case "selectSales":
+			//총 매출액 합산
+			this.total.clearData();
+			var total_row = this.total.addRow();
+			var cafe_sales = parseInt(this.Grid00.getCellText(-2, 5).replace(/,/g, '')); 
+			var book_sales = parseInt(this.Grid01.getCellText(-2, 4).replace(/,/g, '')); 
+			var total_sales = cafe_sales + book_sales;
 
+			this.total.setColumn(total_row, 0, cafe_sales);
+			this.total.setColumn(total_row, 1, book_sales);
+			this.total.setColumn(total_row, 2, total_sales);
+			break;
+		case "selectBookSales":
+			//총 매출액 합산
+			this.total.clearData();
+			var total_row = this.total.addRow();
+			var cafe_sales = parseInt(this.Grid00.getCellText(-2, 5).replace(/,/g, '')); 
+			var book_sales = parseInt(this.Grid01.getCellText(-2, 4).replace(/,/g, '')); 
+			var total_sales = cafe_sales + book_sales;
+
+			this.total.setColumn(total_row, 0, cafe_sales);
+			this.total.setColumn(total_row, 1, book_sales);
+			this.total.setColumn(total_row, 2, total_sales);
+			break;
+		
 	}
-};
-
-//조건 복사
-this.CheckBox00_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
-{
-	if (this.CheckBox00.value == true)
-	{
-		this.Edit00_00.set_value(this.Edit00.value);
-		this.Edit01_00.set_value(this.Edit01.value);
-		this.Combo00_00.set_value(this.Combo00.value);
-		this.Combo01_00.set_value(this.Combo01.value);
-		this.Calendar00_01.set_value(this.Calendar00.value);
-		this.Calendar00_00_00.set_value(this.Calendar00_00.value);
-	}
-	else
-	{
-		this.Edit00_00.set_value("");
-		this.Edit01_00.set_value("");
-		this.Combo00_00.set_value("");
-		this.Combo01_00.set_value("");
-		this.Calendar00_01.set_value("");
-		this.Calendar00_00_00.set_value("");
-	}
-	
-};
-
-//총 매출 구하기
-this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	this.total.clearData();
-	var row = this.total.addRow();
-	var cafe_sales = this.Grid00.getCellText(-2, 4);
-	var book_sales = this.Grid01.getCellText(-2, 5);
-	var total = parseInt(cafe_sales)+parseInt(book_sales);
-	
-	this.total.setColumn(row, 0, cafe_sales);
-	this.total.setColumn(row, 1, book_sales);
-	this.total.setColumn(row, 2, total);
-};
-
-]]></Script>
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Combo01" propid="value" datasetid="Dataset00" columnid="Column0"/>
+      <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
+    </Bind>
   </Form>
 </FDL>
+>>>>>>> refs/remotes/origin/ha_3

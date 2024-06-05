@@ -12,6 +12,7 @@
 		        P.*, 
 		        U.USER_POINT,
 		        O.PAYMENT_STATE,
+		        O.TOTAL_PRICE,
 		        CASE 
 		            WHEN P.POINT_CHANGE >= 0 THEN '적립'
 		            ELSE '사용'
@@ -25,31 +26,37 @@
 		        ORDERS AS O ON P.ORDER_CODE = O.ORDER_CODE,
 		        (SELECT @ROWNUM:=0) AS R
 		    WHERE 
-		        U.USER_ID = #{user_id}
+		        U.USER_CODE = #{user_code}
 		    ORDER BY 
 		        P.POINT_JOINDATE ASC
 		) AS T
-		ORDER BY 
-		    ROWNUM DESC;
+		ORDER BY ROWNUM DESC;
   	</select>
   	
-	<!-- 포인트 내역 기록 -->
-	<insert id="insertPointLog">
+	<!-- 포인트 내역 기록하기 -->
+	<insert id="insertPointLog" parameterType="bookcafe.point.service.PointVO">
 		INSERT INTO POINTLOG (
 			POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
 	    VALUES (
-	    	fnCode('pointlog'), #{USER_CODE}, #{ORDER_CODE}, #{POINT_CHANGE}, #{POINT_JOINDATE} )
+	    	fnCode('pointlog'), #{user_code}, #{order_code}, #{point_change}, date_format(now(),'%Y%m%d%H%m%s') )
 	</insert>
 	
 	<!-- 회원 포인트 업데이트 -->
 	<update id="updateUserPoint">
 		UPDATE USER 
-		SET USER_POINT = (
+		SET USER_POINT  = (
 		    SELECT SUM(POINT_CHANGE) 
 		    FROM POINTLOG 
-		    WHERE USER_CODE = #{USER_CODE}
+		    WHERE USER_CODE = #{user_code}
 		) 
-		WHERE USER_CODE = #{USER_CODE};
+		WHERE USER_CODE = #{user_code}
 	</update>
+	
+	<!-- 포인트내역 합신금액 조회 -->
+	<select id="selectTotalPoint" resultType="Integer">
+	    SELECT SUM(POINT_CHANGE) 
+	    FROM POINTLOG 
+	    WHERE USER_CODE = #{user_code}
+	</select>
 	
 </mapper>

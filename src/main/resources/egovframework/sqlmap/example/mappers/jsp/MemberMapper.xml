@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.member.serviceImpl.MemberMapper">
+
 <!--  회원 등록  -->
 <insert id="insertMember" parameterType="bookcafe.member.service.MemberVO"> 
 	INSERT INTO USER (USER_CODE, USER_ID, USER_PASS, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY) 
-	VALUES (fnCode('user'), #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address}, #{user_joindate}, #{user_authority} ) 
+	VALUES (fnCode('user'), #{user_id}, #{user_pass}, #{user_name}, #{user_tel}, #{user_email}, #{user_address}, date_format(now(),'%Y%m%d%H%m%s') , #{user_authority} ) 
 </insert>
-
-<!--  아이디 중복 체크  -->
-<select id="selectIdChk" resultType="int" parameterType="String"> 
-	SELECT COUNT(*) 
-	FROM USER 
-	WHERE USER_ID = #{value} 
+ 
+<!-- 아이디 중복 체크 -->
+<select id="selectIdChk" resultType="int" parameterType="String">
+    SELECT COUNT(*)
+    FROM USER
+    WHERE USER_ID = #{value}
 </select>
 
-<!--  로그인 처리  -->
-<select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO"> 
-	SELECT COUNT(*) 
-	FROM USER 
-	WHERE USER_ID = #{user_id} 
-	AND USER_PASS = #{user_pass} 
+<!-- 로그인 처리 -->
+<select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO">
+    SELECT COUNT(*)
+    FROM USER
+    WHERE USER_ID = #{user_id}
+        AND USER_PASS = #{user_pass}
+        AND USER_AUTHORITY != '5'
 </select>
-
+    
 <!--  네이버 회원 등록 메소드  -->
 <insert id="insertNaverMember" parameterType="bookcafe.member.service.MemberVO"> 
 	INSERT INTO USER (USER_CODE, USER_NAME, USER_TEL, USER_EMAIL, USER_ADDRESS, USER_JOINDATE, USER_AUTHORITY, USER_SNS_ID) 
-	VALUES (fnCode('user'), #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address}, #{user_joindate, jdbcType=VARCHAR}, #{user_authority, jdbcType=VARCHAR}, #{user_sns_id, jdbcType=VARCHAR}) 
+	VALUES (fnCode('user'), #{user_name, jdbcType=VARCHAR}, #{user_tel, jdbcType=VARCHAR}, #{user_email, jdbcType=VARCHAR}, #{user_address}, date_format(now(),'%Y%m%d%H%m%s'), #{user_authority, jdbcType=VARCHAR}, #{user_sns_id, jdbcType=VARCHAR}) 
 </insert>
 
 <!--  user_sns_id 중복 체크  -->
@@ -41,6 +43,7 @@
 	FROM USER 
 	WHERE USER_NAME = #{user_name} 
 	AND USER_EMAIL = #{user_email} 
+	AND USER_AUTHORITY != '5'
 </select>
 
 <!--  비밀번호 찾기  -->
@@ -50,6 +53,7 @@
 	WHERE USER_ID = #{user_id} 
 	AND USER_NAME = #{user_name} 
 	AND USER_TEL = #{user_tel} 
+	AND USER_AUTHORITY != '5'
 </select>
 
 <!--  비밀번호 재설정  -->
@@ -66,11 +70,11 @@
 	WHERE USER_ID = #{user_id} 
 </select>
 
-<!--  사용자 정보 조회  -->
-<select id="getUserByPhoneAndEmail" parameterType="map" resultType="bookcafe.member.service.MemberVO"> 
-	SELECT * 
-	FROM USER 
-	WHERE USER_TEL = #{user_tel} 
-	AND USER_EMAIL = #{user_email} 
+<!-- 회원 email 주소 받아오기 -->
+<select id="selectMemberEmail" parameterType="String" resultType="String">
+  SELECT USER_EMAIL
+    FROM USER
+   WHERE USER_CODE = #{USER_CODE}
 </select>
+  
 </mapper>

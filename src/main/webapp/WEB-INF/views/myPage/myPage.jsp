@@ -44,9 +44,11 @@ $(document).ready(function() {
 									<h2>
 										${loginInfo.user_name}님 안녕하세요! 
 									</h2>
-									<a href="myPageInfo">내정보 보러가기
-									<i class="fa fa-arrow-circle-right"></i>
-									</a>
+									<c:if test="${not empty loginInfo.user_id}">
+										<a href="myPageInfo">내정보 보러가기
+										<i class="fa fa-arrow-circle-right"></i>
+										</a>
+									</c:if>
 								</div>
 								<h5>(회원등급:
 									<c:if test="${loginInfo.user_authority =='1'}">

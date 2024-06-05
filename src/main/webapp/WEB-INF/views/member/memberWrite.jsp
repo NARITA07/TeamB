@@ -40,7 +40,7 @@ $(function() {
             return false;
         }
         if (!telPattern.test(user_tel)) {
-            alert("연락처는 010-1234-5678 형식이어야 합니다.");
+            alert("연락처는 01012345678 형식이어야 합니다.");
             return false;
         }
         if (!emailPattern.test(user_email)) {
@@ -84,7 +84,7 @@ $(function() {
             return false;
         }
         if (!telPattern.test(user_tel)) {
-            alert("연락처 예):010-0000-0000 ");
+            alert("연락처 예):01000000000 ");
             return false;
         }
         if (!emailPattern.test(user_email)) {

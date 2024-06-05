@@ -10,10 +10,10 @@
         <Edit id="Edit_name" taborder="2" left="names:10" top="80" width="150" border="3" height="40" enable="true" maxlength="20" cssclass="edit_default"/>
         <Edit id="prices" taborder="9" left="Edit_name:-242" top="130" width="82" value="가격" text="가격" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" readonly="true" tabstop="false" height="40"/>
         <Button id="btn_cansle" taborder="7" text="취소" top="20" cssclass="btn_dafault" verticalAlign="middle" left="Button00:10" onclick="btn_cansle_onclick" height="40" right="20"/>
-        <MaskEdit id="Mask_price" taborder="4" left="prices:10" top="130" width="150" format=",000" height="40" enable="true" displaynulltext="가격을 입력해주세요" postfixtext="원"/>
+        <MaskEdit id="Mask_price" taborder="4" left="prices:10" top="130" width="150" format=",000" height="40" enable="true" displaynulltext="가격을 입력해주세요" postfixtext="원" cssclass="combo_default" border="1px solid #4F4537" borderRadius="5px"/>
         <Edit id="wrtier" top="80" value="저자" text="저자" left="279" width="82" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" password="false" taborder="10" tabstop="false" height="40"/>
-        <MaskEdit id="Edit_book_date" taborder="5" left="371" top="130" width="150" format="@@@@-@@-@@" height="40" enable="true" displaynulltext="ex)2024-11-11" textAlign="center" onchanged="Edit_book_date_onchanged" type="string" maskchar="?" limitbymask="integer"/>
-        <Edit id="Edit_writer" taborder="3" left="371" top="80" border="3" right="20" enable="true" bottom="Edit_book_date:10" maxlength="20" cssclass="edit_default"/>
+        <Edit id="Edit_book_date" taborder="5" left="371" top="130" border="3" right="20" enable="true" bottom="10" maxlength="8" cssclass="edit_default" displaynulltext="ex)12341212" tooltiptext="등록이 없을 시 &quot;미상&quot;으로 표기됩니다." tooltiptype="hover" inputtype="number" onkeyup="Edit_book_date_onkeyup"/>
+        <Edit id="Edit_writer" taborder="3" left="371" top="80" border="3" right="20" enable="true" bottom="Edit_book_date:10" maxlength="20" cssclass="edit_default" displaynulltext="미상" tooltiptext="등록이 없을 시 &quot;미상&quot;으로 표기됩니다." tooltiptype="hover"/>
         <Edit id="book_date" taborder="11" left="279" top="130" width="82" value="출판일" text="출판일" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" readonly="true" tabstop="false" height="40"/>
       </Layout>
     </Layouts>
@@ -39,7 +39,7 @@
           <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="save_date">
+      <Dataset id="save_date" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_PRICE" type="INT" size="256"/>
@@ -67,27 +67,65 @@ this.btn_cansle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 //저장
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var sec_cate = this.sec_category.value;
-	var fir_cate = this.fir_category.value;
-	if (sec_cate == null)
-	{
-		alert("카테고리를 모두 선택해주세요")
-	}else {
+
+	var writer = this.Edit_writer.getLength()		//저자
+	var price =	this.Mask_price.getLength()			//금액
+	var book_date =	this.Edit_book_date.getLength()	// 출판일
+	var name = this.Edit_name.getLength()		//제품명
 	
-	this.save_date.setColumn(0,"SEC_CODE",this.sec_category.value)
-	this.save_date.setColumn(0,"FIR_CODE",this.fir_category.value)
+	var sec_cate = this.sec_category.value;			//하위분류 카테고리 값
+	var fir_cate = this.fir_category.value; 		//상위분류 카테고리 값
 	
-	var save_id = "save_date";
-	var save_url ="svc::save_date.do";
-	var save_set ="save_date = save_date";
-	var save_get ="";
-	var save_arg ="";
-	var save_callback ="fn_category";
-	
-	this.transaction(save_id, save_url, save_set, save_get, save_arg, save_callback)
-	
-	
+	if (sec_cate == null){
+		alert("카테고리를 선택해주세요")
 	}
+	
+	else if(this.fir_category.value == 'fir_001'){
+	// 도서를 선택했다면.
+		
+			if(writer == 0){
+
+				this.Edit_writer.set_value("미상")
+				
+			}
+			if(book_date == 0)
+			{
+				this.Edit_book_date.set_value("미상")
+			}else if(this.Edit_book_date.value == "미상"){
+				return true;
+				}
+				else if(book_date < 7)
+				{
+				alert("출판일을 정확히 입력해주세요")
+				return false
+				}
+			
+			if(name == 0)
+			{
+				alert("제품명을 입력해주세요, 1자 이상")
+				return false
+			}
+	
+	this.addproduct()
+		
+	}else if(this.fir_category.value == 'fir_002'){
+	//음식을 선택했다면.
+		
+		if(name < 1){
+		alert("제품명을 입력해주세요")
+		return false
+		}else if(price == 0){
+		alert("금액을 입력해주세요")
+			return false
+		}
+		
+		
+		this.addproduct()
+		
+		
+	}
+	
+	
 };
 
 
@@ -140,7 +178,7 @@ this.fir_category_canitemchange = function(obj:nexacro.Combo,e:nexacro.ItemChang
 	//입력칸 
 	this.Edit_writer.set_enable(true);
 	this.Edit_book_date.set_enable(true);
-	
+	this.Mask_price.set_value(null)
 	this.Mask_price.set_enable(false)
 	this.Mask_price.set_displaynulltext("음식만 입력 가능합니다.")
 	this.Edit_writer.set_displaynulltext("")
@@ -179,6 +217,38 @@ this.fir_category_canitemchange = function(obj:nexacro.Combo,e:nexacro.ItemChang
 };
 
 
+//출판일 변경
+this.Edit_book_date_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	var cal_ch = this.Edit_book_date.getLength();
+	if(cal_ch == 8){
+		var fir = this.Edit_book_date.value.substr(0,4);
+		var sec = this.Edit_book_date.value.substr(4,2);
+		var thi = this.Edit_book_date.value.substr(6,8);
+		var date = fir + - + sec + - + thi;
+		this.save_date.setColumn(0,"PRODUCT_BOOK_DATE",date)
+	
+		}
+};
+
+this.addproduct = function(){
+
+	alert("aa")
+	alert(this.save_date.saveXML())
+
+	this.save_date.setColumn(0,"SEC_CODE",this.sec_category.value)
+ 	this.save_date.setColumn(0,"FIR_CODE",this.fir_category.value)
+ 	
+ 	var save_id = "save_date";
+ 	var save_url ="svc::save_date.do";
+ 	var save_set ="save_date = save_date";
+ 	var save_get ="";
+ 	var save_arg ="";
+ 	var save_callback ="fn_category";
+ 	
+ 	this.transaction(save_id, save_url, save_set, save_get, save_arg, save_callback)
+
+}
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="Edit_name" propid="value" datasetid="save_date" columnid="PRODUCT_NAME"/>

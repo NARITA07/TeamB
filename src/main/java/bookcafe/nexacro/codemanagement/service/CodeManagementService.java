@@ -17,9 +17,16 @@ public interface CodeManagementService {
 	//상위코드 생성
 	void add_fir_code(Map<String, Object> fir_code_add);
 	
+	//중위코드 생성
+	void sec_code_add(Map<String, Object> sec_code_add);
+	
 	//상위코드 삭제
 	void del_date(List<Map<String, Object>> del_date);
 
+	void sec_code_modi(List<Map<String, Object>> modi_date_sec);
+
+	void del_date_sec(List<Map<String, Object>> del_date_sec);
+	
 
 
 }

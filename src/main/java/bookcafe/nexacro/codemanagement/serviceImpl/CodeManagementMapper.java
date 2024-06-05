@@ -24,6 +24,15 @@ public interface CodeManagementMapper {
 
 	//상위코드 삭제
 	void C_del_date(Map<String, Object> map);
+
+	void sec_code_add(Map<String, Object> sec_code_add);
+	
+	//중위코드 삭제
+	void C_del_sec_date(Map<String, Object> map);
+
+	void sec_code_modi(Map<String, Object> modi_date_sec);
+
+	void del_date_sec(Map<String, Object> map);
 	
 
 	

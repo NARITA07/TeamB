@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_ProductManagemnet_Modify" width="1020" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
@@ -35,8 +34,8 @@
                 <Cell col="1" text="bind:num"/>
                 <Cell col="2" text="bind:PRODUCT_CODE"/>
                 <Cell col="3" text="bind:SEC_NAME"/>
-                <Cell col="4" text="bind:PRODUCT_NAME" edittype="text"/>
-                <Cell col="5" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat=",000" maskeditpostfixtext="원"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" edittype="text" tooltiptext="더블클릭 시 수정이 가능합니다."/>
+                <Cell col="5" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat="###,###,###0" maskeditpostfixtext="원" textAlign="right" maskeditmaskchar="," maskeditautoselect="false" maskeditlimitbymask="none" maskedittype="number" tooltiptext="더블클릭 시 수정이 가능합니다."/>
               </Band>
             </Format>
           </Formats>
@@ -100,8 +99,7 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
-//화면 시작 시
+    <Script type="xscript5.1"><![CDATA[//화면 시작 시
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	this.sec_category.set_enable(false)// 중분류 카테고리 잠그기
@@ -174,28 +172,7 @@ this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 
 
 
-//카테고리 콜백 함수
-this.fn_category = function(id, code, message){
 
-	if(code == 0){
-			switch(id) {
-			case "fir_category_select":
-				
-				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
-				this.sec_code.deleteRow(0)
-		}
-				break;
-				
-				case "del_date":
-				this.reload()
-			
-			}
-		
-		}
-	
-	
-
-}
 
 //신규 등록버튼 클릭 시
 this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -341,125 +318,38 @@ var num = 0 ;
 
 };
 
+//카테고리 콜백 함수
+this.fn_category = function(id, code, message){
+
+	if(code == 0){
+			switch(id) {
+			case "fir_category_select":
+				
+				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
+				this.sec_code.deleteRow(0)
+		}
+				break;
+				
+				case "del_date":
+				this.reload()
+			
+			}
+		
+		}
+	
+	
+
+}
+
 //수정 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	this.view_code.setColumn(e.row,"chx",1);//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-};
-]]></Script>
+};]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="sec_category" propid="text" datasetid="sec_set" columnid="SEC_NAME"/>
     </Bind>
   </Form>
 </FDL>
-=======
-﻿<?xml version="1.0" encoding="utf-8"?>
-<FDL version="2.1">
-  <Form id="BookCafe_ProductManagemnet_Modify" width="1020" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
-    <Layouts>
-      <Layout height="720" mobileorientation="landscape" width="1020">
-        <ListView id="ListView00" taborder="0" left="20" binddataset="product" top="130" bottom="20" right="20" oncellclick="ListView00_oncellclick" border="1px solid #4F4537" onselectchanged="ListView00_onselectchanged">
-          <Formats>
-            <Format id="default">
-              <Band id="body" width="100%" height="100">
-                <Cell id="Cell01" left="30" text="bind:PRODUCT_CODE" bottom="5" height="25" width="150" opacity="0.7"/>
-                <Cell id="Cell08" left="30" top="5" width="150" bottom="5" text="이미지 준비중" textAlign="center"/>
-                <Cell id="Cell07" left="190" width="180" text="bind:SEC_NAME" top="36" bottom="37" border="1px none #dbdee2" color="gainsboro"/>
-                <Cell id="Cell03" left="Cell08:10" top="5" width="240" text="bind:PRODUCT_NAME" bottom="Cell07:5" edittype="text" border="1px none #dbdee2" font="18px/normal &quot;Gulim&quot;"/>
-                <Cell id="Cell05" left="220" top="68" width="60" height="25" text="bind:PRODUCT_PRICE" displaytype="mask" maskeditformat="0,000" edittype="text" border="1px none black" font="18px/normal &quot;Gulim&quot;"/>
-                <Cell id="btn_modi" top="7" width="101" height="30" text="수정" textAlign="center" right="17" borderRadius="5px" border="1px none #dbdee2" displaytype="buttoncontrol" edittype="button"/>
-                <Cell id="chk_box" left="5" top="5" width="25" height="25" displaytype="checkboxcontrol" edittype="checkbox" border="1px none #dbdee2" checkboxsize="25"/>
-                <Cell id="Cell00" left="193" top="68" width="25" height="25" border="1px none black" text="₩" font="18px/normal &quot;Gulim&quot;"/>
-              </Band>
-            </Format>
-          </Formats>
-        </ListView>
-        <Static id="Static00" taborder="1" text="제품관리" left="1.96%" width="128" height="37" top="2.78%" cssclass="main_title"/>
-        <Combo id="Combo00_00" taborder="3" text="카테고리" width="150" height="30" value="" index="-1" cssclass="combo_default" bottom="ListView00:5" left="180"/>
-        <Combo id="Combo00" taborder="2" text="카테고리" height="30" value="" index="-1" cssclass="combo_default" bottom="ListView00:5" left="1.86%" right="Combo00_00:10"/>
-        <Button id="Button01" taborder="5" text="삭제" width="70" bottom="ListView00:5" cssclass="btn_dafault" height="35" right="1.96%"/>
-        <Button id="btn_allselect" taborder="4" text="전체 선택" onclick="btn_allselect_onclick" bottom="ListView00:5" right="Button01:10" cssclass="btn_dafault" width="70" height="35"/>
-        <Static id="product_db" taborder="6" left="584" top="104" width="102" height="17"/>
-      </Layout>
-    </Layouts>
-    <Objects>
-      <Dataset id="product">
-        <ColumnInfo>
-          <Column id="PRODUCT_CODE" type="STRING" size="256" description="제품코드"/>
-          <Column id="PRODUCT_NAME" type="STRING" size="256" description="제품명"/>
-          <Column id="PRODUCT_PRICE" type="INT" size="256" description="제품가격"/>
-          <Column id="SEC_NAME" type="STRING" size="256" description="종류"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="Dataset00">
-        <ColumnInfo>
-          <Column id="ch" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-    </Objects>
-    <Script type="xscript5.1"><![CDATA[
-//화면 시작 시
-this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
-{
-	//제품 데이터 가져오기
-	
-	var product_id ="product_date"
-	var product_url ="svc::getproduct_date.do"
-	var product_set = "";
-	var product_get = "product = product";
-	var product_arg =""
-	var product_callback = "fn_product";
-	
-	this.transaction(product_id, product_url, product_set, product_get, product_arg, product_callback)
-	
-};
-
-//콜백 함수
-this.fn_product = function(id, code, message){
-	
-	if(code == 0){
-		
-		if(id = "product_date"){
-		this.product_db.set_text("등록된 물품 갯수: " + this.product.getRowCount());
-		
-		}
-	}
-}
-
-
-
-this.ListView00_oncellclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
-{
-	if(e.cellid == 'btn_modi'){ // 수정버튼
-	this.modify(e.row)
-	
-	}else if(e.cellid = 'btn_del'){//삭제버튼
-	this.del(e.row)
-	}
-};
-
-this.modify = function(v){
-	
-	
-
-
-}
-
-this.del = function(v){
-
-
-}
-
-
-
-this.btn_allselect_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var select = this.product.getRowCount();
-	alert(select)
-};
-]]></Script>
-  </Form>
-</FDL>
->>>>>>> refs/remotes/origin/ha_3

@@ -77,7 +77,7 @@ $(function() {
 	    tbody.html(originalData);
 	    $("#tbl_point thead tr").removeClass().addClass("table-warning");
 	    if (tbody.children().length == 0) {
-	        tbody.html("<tr><td colspan='5'>포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='6'>포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
    
@@ -90,7 +90,7 @@ $(function() {
 	    earnedRows.show();
 	    $("#tbl_point thead tr").removeClass().addClass("table-primary");
 	    if (earnedRows.length == 0) {
-	        tbody.html("<tr><td colspan='5'>적립포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='6'>적립포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
    
@@ -103,7 +103,7 @@ $(function() {
 	    usedRows.show();
 	    $("#tbl_point thead tr").removeClass().addClass("table-danger");
 	    if (usedRows.length == 0) {
-	        tbody.html("<tr><td colspan='5'>사용포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='6'>사용포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
 });
@@ -122,17 +122,19 @@ $(function() {
 						<div class="row">
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
-									<div style="display: flex; align-items: center;">
-										<h3 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : 
+									<div style="display: flex; align-items: center; justify-content: center;">
+										<h2 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : 
 										<a id="myPoint" style="margin-left:10px;">
 											<fmt:formatNumber value="${totalPoint}" type="number" groupingUsed="true"/>
 										</a>P
-										</h3>
+										</h2>
 									</div>
-									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;">
-										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
-										<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
-										<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
+									<div style="display: flex; justify-content: center; margin: 20px; padding-bottom: 5px;">
+										<div class="btn-group" role="group">
+											<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
+											<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
+											<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
+										</div>
 									</div>
 									<%-- 포인트내역이 없는 경우 --%>
 									<table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
@@ -149,7 +151,7 @@ $(function() {
 										<tbody>
 							         	<c:if test="${empty pointList}">
 						          			<tr>
-												<td colspan='5'>포인트 내역이 없습니다.</td>
+												<td colspan='6'>포인트 내역이 없습니다.</td>
 											</tr>
 							          	</c:if>
 										<c:if test="${not empty pointList}">

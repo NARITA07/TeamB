@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.nexacro.mebership.service.MemberManagermentService;
@@ -41,6 +42,44 @@ public class MemberManagermentCtroller {
 		return result;
 		
 	}
-	
+	@RequestMapping("getcombo.do")
+	public NexacroResult Get_Combo() {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		
+		List<Map<String, Object>> member_Authority =  mms.select_User_Authority();
+			
+		result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
+	@RequestMapping("updateMember.do")
+	public NexacroResult Update_Member(@ParamDataSet(name = "Member_Selected", required = false) List<Map<String,String>> members) {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		System.out.println(members);
+		int updateResult = mms.update_Member(members);
+		if(updateResult == 0) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("member update fail");
+		}
+		//result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
+	@RequestMapping("deleteMember.do")
+	public NexacroResult Delete_Member(@ParamDataSet(name = "Member_Selected", required = false) List<Map<String,String>> members) {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		
+		int deleteResult = mms.delete_Member(members);
+		if(deleteResult == 0) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("member delete fail");
+		}
+		//result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
 	
 }

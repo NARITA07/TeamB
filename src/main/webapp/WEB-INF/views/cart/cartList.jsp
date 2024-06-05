@@ -131,25 +131,25 @@
 	      </div>
 	      <div class="modal-body">
 	      	 <form id="orderForm" action="/submitOrder" method="post">
-	                  <div class="form-group">
-	                      <label for="totalPrice">총 금액</label>
-	                      <input type="text" class="form-control" id="totalPrice"  value="${total_price}" readonly>
-	                  </div>
-	                  <div class="form-group">
-	                      <label for="userPoints">유저 포인트 : </label>
-	                      ${loginInfo.user_point}
-	                  </div>
-	                  <div class="form-group">
-	                      <label for="usePoints">사용 포인트 입력</label>
-	                      <input type="text" class="form-control" id="usePoints" name="usePoints" value="0">
-	                  </div>
-	                  <div class="form-group">
-	                      <label for="amountOfPayment">결제 금액</label>
-	                      <input type="text" class="form-control" id="amountOfPayment" name="total_price" value="${total_price}" readonly>
-	                  </div>
-	                  <input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
-	              <input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
-	              </form>
+	             <div class="form-group">
+	                 <label for="totalPrice">총 금액</label>
+	                 <input type="text" class="form-control" id="totalPrice"  value="${total_price}" readonly>
+	             </div>
+	             <div class="form-group">
+	                 <label for="userPoints">유저 포인트 : </label>
+	                 ${loginInfo.user_point}
+	             </div>
+	             <div class="form-group">
+	                 <label for="usePoints">사용 포인트 입력</label>
+	                 <input type="text" class="form-control" id="usePoints" name="usePoints" value="0">
+	             </div>
+	             <div class="form-group">
+	                 <label for="amountOfPayment">결제 금액</label>
+	                 <input type="text" class="form-control" id="amountOfPayment" name="total_price" value="${total_price}" readonly>
+	             </div>
+           			<input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
+					<input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
+	           </form>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -160,56 +160,64 @@
 	</div>
 	<!-- End Modal -->
         
-<script>
-	// 금액 자릿수 변환(콤마표시)
-	function formatPrice(price) {
-		return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
-	}
+	<script>
+	    // 포맷팅된 값을 설정하는 함수
+	    function setFormattedPrice() {
+	        const totalPriceField = document.getElementById('totalPrice');
+	        const amountOfPaymentField = document.getElementById('amountOfPayment');
+	        const usePointsField = document.getElementById('usePoints');
 	
-	// 포맷팅된 값을 설정하는 함수
-	function setFormattedPrice() {
-		const totalPriceField = document.getElementById('totalPrice');
-		const amountOfPaymentField = document.getElementById('amountOfPayment');
-		
-		totalPriceField.value = formatPrice(totalPriceField.value);
-		amountOfPaymentField.value = formatPrice(amountOfPaymentField.value);
-	}
+	        totalPriceField.value = formatPrice(parseInt(totalPriceField.value));
+	        amountOfPaymentField.value = formatPrice(parseInt(amountOfPaymentField.value));
+	        usePointsField.value = formatPrice(parseInt(usePointsField.value));
+	    }
 	
-	var myModal = document.getElementById('myModal');
-	var myInput = document.getElementById('myInput');
-	
-	/*삭제 함수  */
-	function deleteCart(cart_code,product_code,user_code,order_quantity){
-		alert("삭제되었습니다.");
-		var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
-		           '&product_code=' + encodeURIComponent(product_code) +
-		           '&user_code=' + encodeURIComponent(user_code)+
-		           '&order_quantity='+encodeURIComponent(order_quantity);
-		window.location.href = url;
-	}
-	
-	// 결제 금액 계산 함수
-	function calculateAmountOfPayment() {
-		// 총 금액, 사용 포인트 입력값 가져오기
-		var totalPrice = parseInt(document.getElementById("totalPrice").value.replace(/,/g, ''));
-		var usePoints = parseInt(document.getElementById("usePoints").value);
-		
-		// 유효한 숫자인지 확인
-		if (!isNaN(totalPrice) && !isNaN(usePoints)) {
-		    // 결제 금액 계산
-		    var amountOfPayment = totalPrice - usePoints;
-		    // 결제 금액 필드에 값을 설정
-		    document.getElementById("amountOfPayment").value = formatPrice(amountOfPayment);
-		} else {
-		    // 입력값이 유효하지 않은 경우 에러 메시지 표시
-		    alert("올바른 숫자를 입력해주세요.");
-		}
-	}
-	
-	// 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
-	document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
+	    // 가격을 포맷팅하는 함수
+	    function formatPrice(price) {
+	        return price.toLocaleString();
+	    }
 	    
-</script>
+	    var myModal = document.getElementById('myModal');
+	    var myInput = document.getElementById('myInput');
+	    
+	    /* 삭제 함수 */
+	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
+	        alert("삭제되었습니다.");
+	        var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
+	            '&product_code=' + encodeURIComponent(product_code) +
+	            '&user_code=' + encodeURIComponent(user_code) +
+	            '&order_quantity=' + encodeURIComponent(order_quantity);
+	        window.location.href = url;
+	    }
+	
+	    // 결제 금액 계산 함수
+	    function calculateAmountOfPayment() {
+	        // 총 금액, 사용 포인트 입력값 가져오기
+	        var totalPrice = parseInt(document.getElementById("totalPrice").value);
+	        var usePoints = parseInt(document.getElementById("usePoints").value);
+	        var userPoints = parseInt(${loginInfo.user_point});
+	        
+	        // 유효한 숫자인지 확인
+	        if (!isNaN(totalPrice) && !isNaN(usePoints)) {
+	            // 사용 포인트가 유저 포인트보다 큰 경우 경고 메시지 표시
+	            if (usePoints > userPoints) {
+	                alert("사용 포인트는 보유 포인트보다 클 수 없습니다.");
+	                document.getElementById("usePoints").value = userPoints; // 사용 포인트를 최대 보유 포인트로 설정
+	                usePoints = userPoints;
+	            }
+	            // 결제 금액 계산
+	            var amountOfPayment = totalPrice - usePoints;
+	            // 결제 금액 필드에 값을 설정
+	            document.getElementById("amountOfPayment").value = amountOfPayment;
+	        }
+	    }
+	
+	    // 페이지 로드 시 포맷팅된 값을 설정
+	    window.onload = setFormattedPrice;
+	
+	    // 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
+		document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
+	</script>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>
 </html>

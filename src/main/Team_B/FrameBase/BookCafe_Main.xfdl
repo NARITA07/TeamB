@@ -45,7 +45,7 @@
           </Row>
           <Row>
             <Col id="title">도서대여</Col>
-            <Col id="url"/>
+            <Col id="url">FrameBase::BookCafe_BookList.xfdl</Col>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
@@ -62,11 +62,6 @@
             <Col id="title">제품수정</Col>
             <Col id="url">FrameBase::BookCafe_Product.xfdl</Col>
             <Col id="LEVEL">0</Col>
-          </Row>
-          <Row>
-            <Col id="title">등록</Col>
-            <Col id="LEVEL">1</Col>
-            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">대여현황</Col>

@@ -26,7 +26,7 @@ public interface CartMapper {
 	
 	public void updateQuantity(String cart_code);
 	
-	public void addPoint(PointLogVO  pointLog);
+//	public void addPoint(PointLogVO  pointLog);
 	
 	public String getLastInsertOrderCode(String user_code);
 	
@@ -34,11 +34,15 @@ public interface CartMapper {
 	
 	public String selectOrderCode(String cart_code);
 	   
-	public void updateUserPoint(String user_code);
+//	public void updateUserPoint(String user_code);
 
 	public int directInsertCart(CartVO cart);
 
 	public int directInsertOrders(OrdersVO orders);
+	
+	public int updateCartcode(String cart_code);
+	
+	public int updateSeq();
 	
 	//public void minusPoint(int amountOfPayment, String user_code, String order_code);
 	

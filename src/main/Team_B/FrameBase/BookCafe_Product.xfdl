@@ -333,7 +333,6 @@ var num = 0 ;
 
 };
 
-
 //카테고리 콜백 함수
 this.fn_category = function(id, code, message){
 
@@ -370,19 +369,20 @@ this.fn_category = function(id, code, message){
 }
 
 
+
 //수정 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	this.view_code.setColumn(e.row,"chx",1);//더블클릭한 cell의 체크박스 체크표시로 전환
-	
+
 
 };
-
-};]]></Script>
+]]></Script>
 
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="sec_category" propid="text" datasetid="sec_set" columnid="SEC_NAME"/>
     </Bind>
   </Form>
+</FDL>
 </FDL>

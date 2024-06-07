@@ -107,5 +107,12 @@
 {
 	-nexa-border : 1px solid #4f4537;
 	
+}.Grid .body .row .cell.reduser
+{
+	color : red;	
+}
+.Grid .head[status=mouseover]
+{
+	cursor : n-resize;
 }
 ]]></XCSS>

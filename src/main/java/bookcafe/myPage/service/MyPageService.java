@@ -12,6 +12,9 @@ public interface MyPageService {
 	// 회원정보 수정하기
 	public int updateMember(MemberVO updateVO);
 	
+	// 전화번호 중복 확인하기
+	public int checkDupTel(String user_tel);
+	
 	// 회원정보 삭제하기
 	public int deleteMember(String user_id);
 //	

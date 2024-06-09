@@ -11,19 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<!-- 비밀번호 암호화 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
-function sha256(password) {
-	if (password.trim() == "") {
-		alert("비밀번호를 입력하세요");
-	} else {
-		return CryptoJS.SHA256(password).toString();
-	}
-}
-
 $(function() {
-	
 	// 주소 split
 	var str = "${loginInfo.user_address}";
 	var addr = str.split("# ");
@@ -34,7 +23,6 @@ $(function() {
 	$("#address").val(addr2);
 	$("#detailAddress").val(addr3);
 	
-	
 	// 회원탈퇴 모달
 	$("#btn-deleteInfo").click(function() {
 		$("#del_enter_pwd").val("");
@@ -42,51 +30,40 @@ $(function() {
 	});
 	
 	// 회원탈퇴 처리
-	$("#btn-delete-save").click(function() {
-		console.log("탈퇴하기 버튼");
-		
+	$("#btn-delete-save").click(function(e) {
+		e.preventDefault();
 		var user_id = $("#user_id").val(); 
-		var password = $("#user_pass").val();
-		console.log("password:", password);
 		var del_enter_pwd = $("#del_enter_pwd").val();
-		console.log("del_enter_pwd:", del_enter_pwd);
-// 		var shaDelPassword = sha256(del_enter_pwd);
-// 		console.log("shaDelPassword:", shaDelPassword);
 		
-		if (password != del_enter_pwd) {
-			alert("비밀번호가 맞지 않습니다.");
-		} else if (password == null) {
+		if (del_enter_pwd=="") {
 			alert("비밀번호를 입력하세요.");
-		} else if (password == del_enter_pwd) {
-			alert("비밀번호 일치확인");
-			// 폼 데이터 생성
-			var formData = {
-				user_id: user_id
-            };
-			
-			$.ajax({
-	            method: "DELETE",
-	            url: "/myPage/delete/" + user_id,
-	            success: function(rData) {
-	                console.log("rData:", rData);
-	                if (rData == "success") {
-		                alert("회원탈퇴성공! 로그인 페이지로 이동합니다.");
-		                $("#modal-delForm").modal("hide");
-		                location.href = "/";
-	                } else if (rData == "fail") {
-	                	alert("회원탈퇴실패!");
-	                }
-	                
-	            },
-	            error: function(xhr, status, error) {
-                	alert("회원탈퇴실패!");
-	                console.error("회원 삭제 실패:", error);
-	            }
-	        });
-		}
-		else {
 			return;
-		}
+		} 
+		
+		$.ajax({
+            method: "POST",
+            url: "/myPage/delete",
+            data: {
+            	del_enter_pwd: del_enter_pwd
+	        },
+            success: function(rData) {
+                console.log("rData:", rData);
+                console.log("회원탈퇴 응답받음");
+                if (rData == "success") {
+	                alert("회원탈퇴성공! 로그인 페이지로 이동합니다.");
+	                $("#modal-delForm").modal("hide");
+	                location.href = "/login.do";
+                } else if (rData == "mismatch") {
+	            	alert("입력한 비밀번호가 틀렸습니다.");
+	            } else {
+	                alert("회원탈퇴에 실패했습니다.");
+	        	}
+            },
+            error: function(xhr, status, error) {
+               	alert("회원탈퇴 중 오류가 발생했습니다.");
+                console.error("회원탈퇴 오류:", error);
+            }
+        });
 	});
 	
 	var modifyResult = '${modifyResult}';
@@ -101,13 +78,10 @@ $(function() {
     <section class="ftco-section">
 		<div class="container">
 			<div class="row" style="margin-top: 50px;">
-				<div class="col-md-3">
-				</div>
-   				<div class="col-md-6">
+				<div class="col-md-4"></div>
+   				<div class="col-md-4">
 					<div style="display: flex; justify-content: space-between; align-items: center;">
-    				<h3>
-						내 정보
-					</h3>
+    				<h3>내 정보</h3>
 					<a href="myPageInfo_modify" class="btn btn-primary">회원정보 수정</a>
 					</div>
 					<br>
@@ -141,13 +115,11 @@ $(function() {
 					        <input type="text" class="form-control" id="detailAddress" readonly>			              	
 		             	</div>
 						<hr>
+						<button type="button" id="btn-deleteInfo" class="btn btn-danger">회원탈퇴</button>
 					  </form>
 					</div>
-					<button type="button" id="btn-deleteInfo" class="btn btn-danger">회원탈퇴</button>
-			  	
 				</div>
-				<div class="col-md-3">
-				</div>
+				<div class="col-md-4"></div>
    			</div>
    		</div>
 	</section>

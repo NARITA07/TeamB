@@ -19,6 +19,13 @@
 			user_address = #{user_address}
 		where user_id = #{user_id}
 	</update>
+	
+	<!-- 전화번호 중복 확인하기 -->
+	<select id="checkDupTel" resultType="int">
+		select count(user_tel) 
+		from USER 
+		where user_tel = #{user_tel}
+	</select>
 
 	<!-- 회원정보 삭제하기 -->
 	<update id="deleteMember">

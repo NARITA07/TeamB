@@ -35,9 +35,9 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-md-2">
+					<div class="col-md-3">
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-6">
 						<div class="row">
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
@@ -172,7 +172,7 @@ $(document).ready(function() {
 						</div>
 						<hr>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 					</div>
 				</div>
 			</div>

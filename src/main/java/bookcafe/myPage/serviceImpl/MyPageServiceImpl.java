@@ -33,6 +33,15 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		int result = myPageMapper.updateMember(updateVO);
 		return result;
 	}
+	
+	// 전화번호 중복 확인하기
+	@Override
+	public int checkDupTel(String user_tel) {
+		System.out.println("user_tel:" + user_tel);
+		int result = myPageMapper.checkDupTel(user_tel);
+		System.out.println("result:" + result);
+		return result;
+	}
 
 	// 회원정보 삭제하기
 	@Transactional

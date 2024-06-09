@@ -41,15 +41,12 @@
               <Div id="Div00" taborder="1" left="1.85%" top="Static00:50" text="" cssclass="main_nav" right="1.85%" height="60">
                 <Layouts>
                   <Layout>
-                    <Combo id="Combo03" taborder="0" left="143" top="15" width="100" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
-                    <Static id="Static03" taborder="6" text="분류" left="11" top="23" width="24" height="14"/>
-                    <Combo id="Combo00" taborder="1" left="Static03:5" top="15" width="100" height="30" cssclass="combo_default" displaynulltext="중분류" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged"/>
-                    <Static id="Static00" taborder="4" text="기간" left="Combo03:30" top="23" width="24" height="14"/>
-                    <Calendar id="Calendar00" taborder="2" left="Static00:5" top="15" width="100" height="30" cssclass="cal_default"/>
-                    <Static id="Static01" taborder="5" text="~" left="Calendar00:3" top="23" width="9" height="14"/>
-                    <Calendar id="Calendar01" taborder="3" left="Static01:3" top="15" width="100" height="30" cssclass="cal_default"/>
-                    <Static id="Static02" taborder="7" text="발주현황" left="571" top="23" width="48" height="14"/>
-                    <Combo id="Combo01" taborder="8" text="Combo01" left="Static02:5" top="15" width="100" height="30" cssclass="combo_default" innerdataset="TEST" datacolumn="NAME" codecolumn="NAME"/>
+                    <Static id="Static00" taborder="2" text="기간" left="273" top="23" width="24" height="14"/>
+                    <Calendar id="Calendar00" taborder="0" left="Static00:5" top="15" width="100" height="30" cssclass="cal_default"/>
+                    <Static id="Static01" taborder="3" text="~" left="Calendar00:3" top="23" width="9" height="14"/>
+                    <Calendar id="Calendar01" taborder="1" left="Static01:3" top="15" width="100" height="30" cssclass="cal_default"/>
+                    <Static id="Static02" taborder="4" text="발주현황" left="571" top="23" width="48" height="14"/>
+                    <Combo id="Combo01" taborder="5" text="Combo01" left="Static02:5" top="15" width="100" height="30" cssclass="combo_default" innerdataset="TEST" datacolumn="NAME" codecolumn="NAME"/>
                   </Layout>
                 </Layouts>
               </Div>
@@ -100,6 +97,9 @@
               <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="11.11%" width="70" cssclass="btn_dafault"/>
               <Static id="Static00" taborder="2" text="입고 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
               <Button id="Button01" taborder="3" text="저장" width="70" height="30" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5"/>
+              <Combo id="Combo03" taborder="4" left="622" top="2" width="100" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
+              <Static id="Static03" taborder="5" text="분류" left="490" top="10" width="24" height="14"/>
+              <Combo id="Combo00" taborder="6" left="519" top="2" width="100" height="30" cssclass="combo_default" displaynulltext="중분류" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged"/>
             </Layout>
           </Layouts>
         </Div>

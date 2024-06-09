@@ -51,8 +51,6 @@ public class StockOrderCtroller {
     	
     	NexacroResult result = new NexacroResult();
     	result.addDataSet("stock_grid2", dataList);
-    	
-    	System.out.println("grid2 전송되는 데이터 : " + dataList);
     	return result;
     }     
     
@@ -142,14 +140,10 @@ public class StockOrderCtroller {
     @RequestMapping(value = "/ViewStockOrder.do")
     public NexacroResult ViewStockOrder(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
     	
-    	System.out.println("조회하기버튼 클릭! : " + search_so_grid);
-    	
     	List<Map<String, Object>> dataList = soservice.ViewStockOrder(search_so_grid);
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
-	    
-	    System.out.println("보내는 데이터 : "+ dataList);
 	
 	    return result;
     	

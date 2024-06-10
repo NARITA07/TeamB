@@ -1,18 +1,14 @@
 package bookcafe.code.controller;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.ejb.SessionBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
-import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.code.service.CodeService;
@@ -22,62 +18,61 @@ public class CodeController {
 
 	@Autowired
 	CodeService codeservice;
-	
-	//대분류 코드
-	@RequestMapping("fir_code.do")
-	public NexacroResult f_code() {
-		NexacroResult result = new NexacroResult();
-			System.out.println("연결");
-		List<Map<String, Object>> fir_codes = codeservice.fir_select();
-			System.out.println(fir_codes);
-		result.addDataSet("Fir_Code", fir_codes);
+	//대분류 코드 조회(카테고리)
+	@RequestMapping("init_fir_code.do")
+	public NexacroResult init_fir_code() {
 		
+		//넥사크로 변수 선언
+		NexacroResult nex_fir_code = new NexacroResult();
 		
-		return result;
-
-
+		nex_fir_code.addDataSet("init_fir_code", codeservice.init_fir_code());
+		return nex_fir_code;
+		
 	}
 	
-	//대분류 코드 생성
-	@RequestMapping("fir_insert.do")
-	public NexacroResult f_insert(@ParamDataSet(name = "Fir_insert")Map<String, String>Fir_insert) {
-		NexacroResult result = new NexacroResult();
+	//대분류 코드 조회(view)
+	@RequestMapping("view_code.do")
+	public NexacroResult view_code() {
+		NexacroResult nex_view_code = new NexacroResult();
 		
-		int insert_result = codeservice.fir_insert(Fir_insert);
-		result.addDataSet("Fir_Code", insert_result);
-		
-		
-		return result;
-}
-	
-	
+		nex_view_code.addDataSet("view_code", codeservice.view_code());
 
-	//중분류 코드
-	@RequestMapping("sec_code.do")
-	public NexacroResult s_code(@ParamDataSet(name="Fir_Code")Map<String,String> Fir_Code) {
-		System.out.println("중분류" + Fir_Code);
-		NexacroResult result = new NexacroResult();
+	
+		return nex_view_code;
+		
+	}
+	
+	//대분류 코드 선택조회
+		@RequestMapping("fir_category_select.do")
+		public NexacroResult fir_category_select(@ParamDataSet(name="fir_category_select")Map<String, Object> fir_category_select) {
+			NexacroResult nex_fir_category_select = new NexacroResult();
 			
-		List<Map<String, Object>> ss = codeservice.sec_select(Fir_Code);
+			nex_fir_category_select.addDataSet("fir_category_select", codeservice.fir_category_select(fir_category_select));
+			return nex_fir_category_select;
+		}
 		
-		System.out.println(ss);
-		result.addDataSet("Sec_Code",ss);
+	//대분류 코드 선택 시 중분류 하위카테고리 조회
+	@RequestMapping("select_sec_code.do")
+	public NexacroResult select_sec_code(@ParamDataSet(name="fir_category_select")Map<String, Object> sec_category_select){
+		System.out.println(sec_category_select);
+		NexacroResult nex_sec_category_select = new NexacroResult();
 		
-		return result;
-
+		nex_sec_category_select.addDataSet("sec_code",codeservice.sec_category_select(sec_category_select));
+		return nex_sec_category_select;
 	}
 	
-	//중분류 코드 생성
-	@RequestMapping("sec_insert.do")
-	public NexacroResult s_insert(@ParamDataSet(name = "Sec_insert")Map<String, String>Sec_insert) {
-		NexacroResult result = new NexacroResult();
-		
-		int insert_result = codeservice.sec_insert(Sec_insert);
-		result.addDataSet("Sec_insert", insert_result);
-		
-		
-		return result;
 	
+	//중분류 코드 선택 시 선택에 맞춰 조회
+	@RequestMapping("choice_sec_code.do")
+	public NexacroResult choice_sec_code(@ParamDataSet(name="choice_sec_code")Map<String, Object> choice_sec_code){
+		System.out.println(choice_sec_code);
+		System.out.println("중분류 선택");
+		NexacroResult nex_sec_category_select = new NexacroResult();
+		
+		nex_sec_category_select.addDataSet("view_code",codeservice.choice_sec_code(choice_sec_code));
+			
+		return nex_sec_category_select;
+	
+			
 	}
-	
 }

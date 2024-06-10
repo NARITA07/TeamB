@@ -7,13 +7,18 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 public interface CodeService {
 
-	//대분류 코드
-	List<Map<String, Object>> fir_select();
+	//대분류 코드 조회
+	List<Map<String, Object>> init_fir_code();
 
-	int fir_insert(Map<String, String>Fir_insert);
+	//대분류 코드 조회(view)
+	List<Map<String, Object>> view_code();
+	
+	//대분류 코드 선택조회
+	List<Map<String, Object>> fir_category_select(Map<String, Object> fir_category_select);
 
-	List<Map<String, Object>> sec_select(Map<String, String> fir_Code);
+	List<Map<String, Object>> sec_category_select(Map<String, Object> sec_category_select);
 
-	int sec_insert(Map<String, String> sec_insert);
+	List<Map<String, Object>> choice_sec_code(Map<String, Object> choice_sec_code);
+
 
 }

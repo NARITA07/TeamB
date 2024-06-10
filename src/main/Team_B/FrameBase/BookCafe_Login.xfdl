@@ -143,7 +143,9 @@ this.Main_btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 	}
 	
 	
-};]]></Script>
+};
+
+]]></Script>
     <Bind>
       <BindItem id="item0" compid="Main.form.Ed_ID" propid="value" datasetid="Admin_Login" columnid="ADMIN_ID"/>
       <BindItem id="item1" compid="Main.form.Ed_PASS" propid="value" datasetid="Admin_Login" columnid="ADMIN_PASS"/>

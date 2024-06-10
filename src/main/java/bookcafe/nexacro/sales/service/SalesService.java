@@ -6,11 +6,20 @@ import java.util.Map;
 public interface SalesService {
 	//카페 매출현황 SELECT
 	public List<Map<String, Object>> selectSales(Map<String, String> sales_con);
-	//도서 매출현황 SELECT
+	//도서 이력 SELECT
 	public List<Map<String, Object>> selectBookSales(Map<String, String> sales_con);
 	//중분류 콤보조회
 	public List<Map<String, Object>> selectSalesCombo(Map<String, String> combo_con);
-	//대분류
-	public List<Map<String, Object>> selectFirstCombo();
-	public List<Map<String, Object>> selectSecondCombo();
+	
+	//매출 차트
+	public List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
+	
+	//선택 반납
+	public void updateSelected(Map<String, String> book_sales_dtl);
+	
+	//대여중인 도서 조회
+	public List<Map<String, Object>> selectBookList(Map<String, String> sales_con);
+	
+	//insert 반납
+	public void insertSelected(Map<String, String> param);
 }

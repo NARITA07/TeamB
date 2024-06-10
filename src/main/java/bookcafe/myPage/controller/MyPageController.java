@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyBookDTO;
 import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
@@ -57,8 +58,12 @@ public class MyPageController {
 		// 카페주문내역 조회(오늘날짜)
 		List<MyOrderDTO> myOrder = myPageService.getMyOrder(user_code);
 		
+		// 도서대여내역 조회(오늘날짜)
+		List<MyBookDTO> myBook = myPageService.getMyBook(user_code);
+		
 		model.addAttribute("purchaseAmount", purchaseAmount);
 		model.addAttribute("myOrder", myOrder);
+		model.addAttribute("myBook", myBook);
 	}
 	
 	// 내 정보관리 페이지
@@ -104,7 +109,15 @@ public class MyPageController {
 	
 	// 책 대여 내역조회 페이지
 	@GetMapping("/borrowList")
-	public void myBorrowList() {
+	public void myBorrowList(HttpSession session, Model model) {
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+		String user_code = loginInfo.getUser_code();
+		
+		// 도서대여내역 조회하기(전체내역)
+		List<MyBookDTO> borrowList = myPageService.getMyBookList(user_code);
+		System.out.println("borrowList:" + borrowList);
+		
+		model.addAttribute("borrowList", borrowList);
 	}
 	
 	// 정보수정완료

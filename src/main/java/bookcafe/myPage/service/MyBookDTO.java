@@ -25,6 +25,9 @@ public class MyBookDTO {
 	private int order_state;			//주문상태(1:준비(재고감소), 2:준비중, 3:준비완료)
 	private String payment_date;		//결제일자
 	
+	// SEC_CODE
+	private String sec_name;			//카테고리 이름
+	
 	
 	
 	public int getRowNum() {
@@ -117,6 +120,12 @@ public class MyBookDTO {
 	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
+	public String getSec_name() {
+		return sec_name;
+	}
+	public void setSec_name(String sec_name) {
+		this.sec_name = sec_name;
+	}
 	
 	@Override
 	public String toString() {
@@ -125,7 +134,7 @@ public class MyBookDTO {
 				+ ", book_publication_date=" + book_publication_date + ", book_path=" + book_path + ", book_category="
 				+ book_category + ", book_cnt=" + book_cnt + ", borrow_code=" + borrow_code + ", order_code="
 				+ order_code + ", cart_code=" + cart_code + ", order_state=" + order_state + ", payment_date="
-				+ payment_date + "]";
+				+ payment_date + ", sec_name=" + sec_name + "]";
 	}
 	
 }

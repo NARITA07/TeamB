@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyBookDTO;
 import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
@@ -69,6 +70,20 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	@Override
 	public List<MyOrderDTO> getMyOrder(String user_code) {
 		List<MyOrderDTO> list = myPageMapper.getMyOrder(user_code);
+		return list;
+	}
+	
+	// 도서대여내역 조회하기(전체내역)
+	@Override
+	public List<MyBookDTO> getMyBookList(String user_code) {
+		List<MyBookDTO> list = myPageMapper.getMyBookList(user_code);
+		return list;
+	}
+	
+	// 도서대여내역 조회하기(오늘날짜)
+	@Override
+	public List<MyBookDTO> getMyBook(String user_code) {
+		List<MyBookDTO> list = myPageMapper.getMyBook(user_code);
 		return list;
 	}
 

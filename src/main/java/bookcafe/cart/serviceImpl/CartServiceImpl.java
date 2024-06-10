@@ -112,12 +112,5 @@ public class CartServiceImpl implements CartService{
 	}
 
 
-	/*
-	 * @Override public void minusPoint(int amountOfPayment, String user_code,
-	 * String order_code) { cartMapper.minusPoint(amountOfPayment, user_code,
-	 * order_code);
-	 * 
-	 * }
-	 */
 	
 }

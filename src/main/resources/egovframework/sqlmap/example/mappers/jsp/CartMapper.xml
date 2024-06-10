@@ -224,14 +224,7 @@
 	
 	<!-- 바로구매시 장바구니 카트번호 업데이트2 -->
 	<select id="updateSeq" resultType="int">
-		SELECT NEXTVAL(CART_SEQ) FROM DUAL;
+		SELECT NEXTVAL(cart_seq) FROM DUAL;
 	</select>
 	
-	<!-- 포인트 사용한 경우 -->
-	<!-- 	<update id="minusPoint" parameterType="bookcafe.cart.service.PointLogVO">
-	    UPDATE POINTLOG
-	    SET POINT_CHANGE = POINT_CHANGE - #{amountOfPayment}
-	    WHERE USER_CODE = #{user_code} 
-	    AND ORDER_CODE = #{order_code}
-	</update> -->
 </mapper>

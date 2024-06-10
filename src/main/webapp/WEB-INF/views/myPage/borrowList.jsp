@@ -25,15 +25,15 @@
 		width: 20%;
 	}
 	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
-		width: 25%;
+		width: 20%;
 	}
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
 		width: 15%;
 	}
-	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
-		width: 10%;
+	#tbl_point th:nth-child(6), #tbl_point td:nth-child(6) {
+		width: 15%;
 	}
-	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(7) {
+	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
 		width: 10%;
 	}
 </style>
@@ -104,46 +104,31 @@ $(function() {
 												<th>#</th>
 												<th>주문번호</th>
 												<th>대여일시</th>
-												<th>카테고리</th>
 												<th>책 제목</th>
 												<th>저자</th>
+												<th>카테고리</th>
 												<th>대여상태</th>
 											</tr>
 										</thead>
 										<tbody>
-							         	<c:if test="${empty orderList}">
+							         	<c:if test="${empty borrowList}">
 						          			<tr>
-												<td colspan='7'>카페 주문내역이 없습니다.</td>
+												<td colspan='6'>도서 대여내역이 없습니다.</td>
 											</tr>
 							          	</c:if>
-										<c:if test="${not empty orderList}">
-											<c:forEach var="order" items="${orderList}">
+										<c:if test="${not empty borrowList}">
+											<c:forEach var="borrow" items="${borrowList}">
 												<tr>
-													<td>${order.rowNum}</td>
-													<td>${order.order_code}</td>
-													<td class="payment_date">${order.payment_date}</td>
-													<td>${order.product_name}
-														<c:if test="${order.whole_quantity > 1}">
-															외 ${order.whole_quantity-1} 건
-														</c:if>
+													<td>${borrow.rowNum}</td>
+													<td>${borrow.order_code}</td>
+													<td class="payment_date">${borrow.payment_date}</td>
+													<td>${borrow.book_name}</td>
+													<td>${borrow.book_writer}</td>
+													<td>${borrow.sec_name}</td>
+													<td>
+														<c:if test="${borrow.book_quantity == 'N'}">대여중</c:if>
+														<c:if test="${borrow.book_quantity == 'Y'}">반납완료</c:if>
 													</td>
-													<td><fmt:formatNumber value="${order.total_price}" type="number"/> 원</td>
-								                    <td>
-								                        <c:choose>
-								                            <c:when test="${order.payment_state eq 0}">결제중</c:when>
-								                            <c:when test="${order.payment_state eq 1}">결제완료</c:when>
-								                            <c:when test="${order.payment_state eq 2}">환불</c:when>
-								                            <c:when test="${order.payment_state eq 3}">결제취소</c:when>
-								                            <c:otherwise>기타</c:otherwise>
-								                        </c:choose>
-								                    </td>
-								                    <td>
-								                        <c:choose>
-								                            <c:when test="${order.order_state eq 1}">주문확인중</c:when>
-								                            <c:when test="${order.order_state eq 2}">준비중</c:when>
-								                            <c:when test="${order.order_state eq 3}">준비완료</c:when>
-								                        </c:choose>
-								                    </td>
 												</tr>
 											</c:forEach>
 										</c:if>

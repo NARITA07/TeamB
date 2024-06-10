@@ -51,6 +51,20 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public int selectIdChk(String user_id) { 
         return memberMapper.selectIdChk(user_id); 
     }
+    
+    /* 마지막으로 id 한번더 체크 */
+    @Override
+    public boolean checkIdExists(String user_id) {
+        int count = memberMapper.checkIdExists(user_id);
+        return count > 0;
+    }
+    
+    /* 마지막으로 tel 한번더 체크 */
+    @Override
+    public boolean checkTelExists(String user_tel) {
+        int count = memberMapper.checkTelExists(user_tel);
+        return count > 0;
+    }
 
     /* 아이디 찾기 */
     @Override

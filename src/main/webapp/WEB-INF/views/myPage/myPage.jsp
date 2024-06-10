@@ -40,9 +40,9 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-md-3">
+					<div class="col-md-2">
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-8">
 						<div class="row">
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
@@ -84,13 +84,14 @@ $(document).ready(function() {
 										</a>
 									</div>
 								</div>
+								<hr>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px;">
 								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
 									<h3>
-										오늘의 카페 주문목록
+										금일 카페 주문목록
 									</h3>
 									<a href="orderList">전체 주문내역
 									<i class="fa fa-arrow-circle-right"></i>
@@ -109,7 +110,7 @@ $(document).ready(function() {
 						          		<c:forEach var="myOrder" items="${myOrder}">
 											<div class="orderDiv col-md-4" onclick="getResInfo(${myOrder.order_code})" >
 												<div class="card" style="height: 80%;">
-													<h5 class="card-header" style="background-color: #AB8212; color:#fff;
+													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 														<c:choose>
@@ -117,7 +118,7 @@ $(document).ready(function() {
 								                            <c:when test="${myOrder.order_state eq 2}">준비중</c:when>
 								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
 								                        </c:choose>
-													</h5>
+													</h6>
 													<div class="card-body" style="height: 250px; 
 																				  background-image: url(/${myOrder.product_path}); 
 																				  background-size: cover; 
@@ -139,43 +140,45 @@ $(document).ready(function() {
 								</c:if>
 							</div>
 						</div>
+						<hr>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px;">
 								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
 									<h3>
-										나의 도서 대여목록
+										금일 도서 대여목록
 									</h3>
 									<a href="borrowList">책 대여 내역조회
 									<i class="fa fa-arrow-circle-right"></i>
 									</a>
 								</div>
 								<%-- 대여중인 도서가 없는 경우 --%>
-					         	<c:if test="${empty reserveList}">
+					         	<c:if test="${empty myBook}">
 									<div class="jumbotron card card-block">
 							            <p>현재 대여중인 도서가 없습니다.</p>
-							            <p><a class="btn btn-primary btn-large" href="/bookList.do">재밌는 책 보러 가기</a></p>
+							            <p><a class="btn btn-primary btn-large" href="/bookList.do">도서 목록 보러 가기</a></p>
 							        </div>
 					          	</c:if>
 					          	<%-- 대여중인 도서가 있는 경우 --%>
-					          	<c:if test="${not empty reserveList}">
+					          	<c:if test="${not empty myBook}">
 						          	<div class="row">
-						          		<c:forEach var="myReserve" items="${reserveList}">
-											<div class="reserveDiv col-md-4" onclick="getResInfo(${myReserve.res_rid})" style="padding-bottom: 30px;">
-												<div class="card" style="height: 100%;">
-													<h6 class="card-header" style="background-color: #f07039; color:#fff;
+						          		<c:forEach var="myBook" items="${myBook}">
+											<div class="orderDiv col-md-4" onclick="getResInfo(${myBook.order_code})" >
+												<div class="card" style="height: 80%;">
+													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
-														${myReserve.res_rental_date}
+														<c:if test="${myBook.book_quantity == 'N'}">대여중</c:if>
+														<c:if test="${myBook.book_quantity == 'Y'}">반납완료</c:if>
 													</h6>
 													<div class="card-body" style="height: 250px; 
-																				  background-image: url(/resources/upload/${myReserve.unique_file_nm}); 
+																				  background-image: url(/${myBook.book_path}); 
 																				  background-size: cover; 
 																				  background-position: center;">
 												    </div>
-													<div class="card-footer" style="background-color: #f07039;
+													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
-														<h4 style="color:#fff;">${myReserve.car_name}</h4>
+														<h6 style="color:#fff;">${myBook.book_name}</h6>
 													</div>
 												</div>
 											</div>
@@ -186,7 +189,7 @@ $(document).ready(function() {
 						</div>
 						<hr>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 					</div>
 				</div>
 			</div>

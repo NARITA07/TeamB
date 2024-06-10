@@ -11,7 +11,9 @@ public interface ProductManagementService {
 
 	Map<String, Object> update_product(List<Map<String, Object>> save_date);
 
-	void img_path(String path);
+	void img_path_food(String path);
+
+	void img_path_book(String path);
 	
 
 

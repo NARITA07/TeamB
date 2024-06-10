@@ -18,7 +18,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 
 	@Override
 	public int product_save(Map<String, Object> save_date) {
-		System.out.println(save_date);
 		int result = 0;
 		
 	String bool = (String) save_date.get("FIR_CODE");
@@ -86,10 +85,13 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		return nums;
 	}
 
-	@Override
-	public void img_path(String path) {
-		System.out.println(path);
-		// TODO Auto-generated method stub
+	public void img_path_book(String path) {
+		productmapper.img_path_book(path);
+		
+	}	
+	
+	public void img_path_food(String path) {
+		productmapper.img_path_food(path);
 		
 	}	
 

@@ -20,6 +20,10 @@ public interface ProductManagementMapper {
 
 	int update_book(Map<String, Object> map);
 
+	void img_path_book(String path);
+
+	void img_path_food(String path);
+
 
 
 	

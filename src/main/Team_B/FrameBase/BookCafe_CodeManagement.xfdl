@@ -70,7 +70,7 @@
               <Button id="btn_Sec_add" taborder="9" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="btn_Modi_sec:30" onclick="Main_btn_Sec_add_onclick"/>
               <Edit id="Sec_in" taborder="3" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="btn_Sec_add:10" height="30" bottom="Sec_code:5" displaynulltext="하위코드 등록창" cssclass="edit_default"/>
               <Combo id="Sec_combo" taborder="5" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:5" cssclass="combo_default"/>
-              <Static id="Static00" taborder="6" text="코드관리" left="20" font="24px/normal &quot;Gulim&quot;" height="45" top="5" border="0px none, 0px none, 1px solid dimgray" right="20"/>
+              <Static id="Static00" taborder="6" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
               <Static id="Static01" text="상위 코드" left="20" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Fir_code:10" height="26"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Sec_code:10" height="28"/>
               <Button id="btn_del_sec" taborder="14" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:5" right="20" width="71" onclick="Main_btn_del_sec_onclick"/>

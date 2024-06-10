@@ -33,6 +33,15 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		int result = myPageMapper.updateMember(updateVO);
 		return result;
 	}
+	
+	// 전화번호 중복 확인하기
+	@Override
+	public int checkDupTel(String user_tel) {
+		System.out.println("user_tel:" + user_tel);
+		int result = myPageMapper.checkDupTel(user_tel);
+		System.out.println("result:" + result);
+		return result;
+	}
 
 	// 회원정보 삭제하기
 	@Transactional
@@ -41,6 +50,13 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		int result = myPageMapper.deleteMember(user_id);
 		return result;
 	}
+	
+	// 3개월 구매금액 조회하기
+	@Override
+	public int getMyPurchaseAmount(String user_code) {
+		Integer purchase_amount = myPageMapper.getMyPurchaseAmount(user_code);
+        return purchase_amount != null ? purchase_amount : 0;
+	}
 
 	// 카페주문내역 조회하기(전체내역)
 	@Override
@@ -48,67 +64,13 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		List<MyOrderDTO> list = myPageMapper.getMyOrderList(user_code);
 		return list;
 	}
-//
-//	// 예약번호로 차종 조회하기
-//	@Override
-//	public String getCarName(GetCarNameDTO getCarNameDTO) {
-//		String carName = myPageMapper.getCarName(getCarNameDTO);
-//		return carName;
-//	}
-//
-//	// 예약정보 현재시각기준 업데이트
-//	@Override
-//	public void updateTBLReserve(String mem_id) {
-//		myPageMapper.updateTBLReserve(mem_id);
-//	}
-//
-//	// 예약취소
-//	@Override
-//	public int cancelReservation(int res_rid) {
-//		int result = myPageMapper.cancelReservation(res_rid);
-//		return result;
-//	}
-//
-//	// 예약정보 조회하기(비회원)
-//	@Override
-//	public List<NonMemberVO> getMemberList_non(NonMemberLoginDTO nonMemberLoginDTO) {
-//		List<NonMemberVO> list = myPageMapper.getMemberList_non(nonMemberLoginDTO);
-//		return list;
-//	}
-//
-//	// 예약번호로 차종 조회하기(비회원)
-//	@Override
-//	public String getCarName_non(GetCarNameDTO getCarNameDTO) {
-//		String carName = myPageMapper.getCarName_non(getCarNameDTO);
-//		return carName;
-//	}
-//
-//	// 예약취소(비회원)
-//	@Override
-//	public int cancelReservation_non(int non_rid) {
-//		int result = myPageMapper.cancelReservation_non(non_rid);
-//		return result;
-//	}
-//
-//	// 예약정보 현재시각기준 업데이트(비회원)
-//	@Override
-//	public void updateNonMember(NonMemberLoginDTO nonMemberLoginDTO) {
-//		myPageMapper.updateNonMember(nonMemberLoginDTO);
-//	}
-//
-//	// 예약정보 조회하기(마이페이지)
-//	@Override
-//	public List<GetStatusDTO> getMyReserveList(String mem_id) {
-//		List<GetStatusDTO> list = myPageMapper.getMyReserveList(mem_id);
-//		return list;
-//	}
-//
-//	// 예약정보 조회하기(예약번호 1개 정보)
-//	@Override
-//	public List<GetStatusDTO> getMyResInfo(int res_rid) {
-//		List<GetStatusDTO> list = myPageMapper.getMyResInfo(res_rid);
-//		return list;
-//	}
+	
+	// 카페주문내역 조회하기(오늘날짜)
+	@Override
+	public List<MyOrderDTO> getMyOrder(String user_code) {
+		List<MyOrderDTO> list = myPageMapper.getMyOrder(user_code);
+		return list;
+	}
 
 }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
 import bookcafe.point.service.PointService;
@@ -43,10 +45,20 @@ public class MyPageController {
 
 	// 마이페이지
 	@GetMapping("/myPage")
-	public void myPageMain(HttpSession session) {
+	public void myPageMain(HttpSession session, Model model) {
 		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+		System.out.println("loginInfo: " + loginInfo.toString());
+		String user_code = loginInfo.getUser_code();
 		
-    	System.out.println("loginInfo: " + loginInfo.toString());
+		// 3개월 구매금액 조회
+		int purchaseAmount = myPageService.getMyPurchaseAmount(user_code);
+		System.out.println("purchaseAmount:" + purchaseAmount);
+		
+		// 카페주문내역 조회(오늘날짜)
+		List<MyOrderDTO> myOrder = myPageService.getMyOrder(user_code);
+		
+		model.addAttribute("purchaseAmount", purchaseAmount);
+		model.addAttribute("myOrder", myOrder);
 	}
 	
 	// 내 정보관리 페이지
@@ -79,7 +91,15 @@ public class MyPageController {
 	
 	// 카페 전체 주문내역 페이지
 	@GetMapping("/orderList")
-	public void myOrderList() {
+	public void myOrderList(HttpSession session, Model model) {
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+		String user_code = loginInfo.getUser_code();
+		
+		// 카페주문내역 조회하기(전체내역)
+		List<MyOrderDTO> orderList = myPageService.getMyOrderList(user_code);
+		System.out.println("orderList:" + orderList);
+		
+		model.addAttribute("orderList", orderList);
 	}
 	
 	// 책 대여 내역조회 페이지
@@ -106,40 +126,16 @@ public class MyPageController {
 	}
 	
 	// 비밀번호 변경
-//	@Transactional
-//	@PostMapping("/pwdChange")
-//	public ResponseEntity<String> pwdChange(HttpSession session,
-//	                                        @RequestParam("user_id") String userId,
-//	                                        @RequestParam("newPassword") String newPassword) {
-//	    PWchangeDTO pwChangeDTO = new PWchangeDTO();
-//	    pwChangeDTO.setUser_id(userId);
-//	    pwChangeDTO.setNewPassword(newPassword);
-//		
-//	    int result = myPageService.changePassword(pwChangeDTO);
-//	    System.out.println("pwdChange result:" + result);
-//	    
-//	    if (result == 1) {
-//	    	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-//	    	loginInfo.setUser_pass(pwChangeDTO.getNewPassword());
-//	        return ResponseEntity.ok("success");
-//	    } else {
-//	        return ResponseEntity.ok("fail");
-//	    }
-//	}
-	
-	// 비밀번호 변경
 	@PostMapping("/pwdChange")
-	@ResponseBody
-	public String changePassword(HttpSession session,
-                                @RequestParam("password1") String password1,
-                                @RequestParam("newPassword") String newPassword) {
+	public ResponseEntity<String> changePassword(HttpSession session,
+				                                 @RequestParam("password1") String password1,
+				                                 @RequestParam("newPassword") String newPassword) {
 		
 		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
-		String encPassword1 = passwordEncoder.encode(password1);		// 입력한 현재비밀번호
-		String encNewPassword = passwordEncoder.encode(newPassword);	// 입력한 새 비밀번호
-		System.out.println("encNewPassword:"+ encNewPassword);
 		
-		if (loginInfo.getUser_pass().equals(encPassword1)) {
+		if (passwordEncoder.matches(password1, loginInfo.getUser_pass())) {
+			String encNewPassword = passwordEncoder.encode(newPassword);
+			
 			PWchangeDTO pwChangeDTO = new PWchangeDTO();
 			pwChangeDTO.setUser_id(loginInfo.getUser_id());
 			pwChangeDTO.setNewPassword(encNewPassword);
@@ -149,29 +145,45 @@ public class MyPageController {
 				System.out.println("updatePassword");
 				loginInfo.setUser_pass(encNewPassword);
 				session.setAttribute("loginInfo", loginInfo);
-				return "success";
+				return ResponseEntity.ok("success");
 			} else {
-				return "fail";
+				return ResponseEntity.ok("fail");
 			}
 		}
-		return "fail";
+		return ResponseEntity.ok("mismatch");
 	}
 	
+	// 전화번호 중복체크(unique key)
+	@PostMapping("/checkDupUserTel")
+	@ResponseBody
+	public String checkDuplicateUserTel(@RequestParam("user_tel") String user_tel){
+		int checkDupTel = myPageService.checkDupTel(user_tel);
+		
+		if (checkDupTel > 0) {
+			return "duplicate";
+		} else {
+			return "useOK";
+		}
+	}
 	
 	// 회원탈퇴
-	@DeleteMapping("/delete/{user_id}")
-	@ResponseBody
-	public String deleteMember(HttpSession session, @PathVariable("user_id") String user_id) {
+	@PostMapping("/delete")
+	public ResponseEntity<String> deleteMember(HttpSession session, 
+											   @RequestParam("del_enter_pwd") String del_enter_pwd) {
 		System.out.println("deleteMember...");
-		MemberVO deleteVO = memberService.getUserInfo(user_id);
-		System.out.println("deleteVO:" + deleteVO);
-		int count = myPageService.deleteMember(user_id);
-		if (count == 1) {
-			session.invalidate();
-			return "success";
-		} else {
-			return "fail";
+		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+		
+		if (passwordEncoder.matches(del_enter_pwd, loginInfo.getUser_pass())) {
+			int count = myPageService.deleteMember(loginInfo.getUser_id());
+			if (count == 1) {
+				System.out.println("회원탈퇴성공! deleteVO:" + loginInfo);
+				session.invalidate();
+				return ResponseEntity.ok("success");
+			} else {
+				return ResponseEntity.ok("fail");
+			}
 		}
+		return ResponseEntity.ok("mismatch");
 	}
 		
 }

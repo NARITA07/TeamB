@@ -31,7 +31,8 @@
 		"id": "legend",
 		"padding": "3px 10px 3px 10px",
 		"itemtextfont": "9pt '맑은 고딕'",
-		"itemtextcolor": "#4c4c4c"
+		"itemtextcolor": "#4c4c4c",
+		"align": "bottomright"
 	},
 	"hrangebar": {
 		"id": "hrangebar",
@@ -76,22 +77,9 @@
 		"ticklinestyle": "1px solid #525252",
 		"boardlinestyle": "1px solid #d0d0d0"
 	},
-	"seriesset": [
-		{
-			"id": "series0",
-			"titletext": "매출액(단위:원)",
-			"barvisible": true,
-			"barsize": "65",
-			"itemtextvisible": true,
-			"itemtextcolor": "#003860",
-			"itemtextfont": "bold 12pt '맑은 고딕'",
-			"valuecolumn": "bind:SALES"
-		}
-	],
 	"valueaxes": [
 		{
 			"id": "valueaxis0",
-			"titletext": "매출",
 			"boardlinevisible": true,
 			"boardlinestyle": "1px solid #d0d0d0",
 			"labeltextcolor": "#6f6f6f",
@@ -99,7 +87,25 @@
 			"titletextcolor": "#4c4c4c",
 			"titletextfont": "bold 12pt '맑은 고딕'",
 			"ticklinestyle": "1px solid #525252",
-			"axislinestyle": "1px solid #525252"
+			"axislinestyle": "1px solid #525252",
+			"labeltype": "number"
+		}
+	],
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "매출액(단위:원)",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": true,
+			"itemtextcolor": "#000000",
+			"itemtextfont": "10pt/normal \"맑은 고딕\"",
+			"valuecolumn": "bind:SALES",
+			"stacktype": "none",
+			"linevisible": false,
+			"itemtexttype": "number",
+			"barlinestyle": "1px solid #1abd9c",
+			"barfillstyle": "#1abd9c"
 		}
 	]
 }]]></Contents>
@@ -107,16 +113,6 @@
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="sales_dtl" onrowposchanged="Button00_onclick">
-        <ColumnInfo>
-          <Column id="ORDER_CODE" type="STRING" size="256"/>
-          <Column id="NAME" type="STRING" size="256" prop="NONE" sumtext=""/>
-          <Column id="MENU" type="STRING" size="256"/>
-          <Column id="QUANTITY" type="INT" size="256"/>
-          <Column id="SALES" type="INT" size="256" prop="NONE"/>
-          <Column id="TIME" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
       <Dataset id="sales_con">
         <ColumnInfo>
           <Column id="NAME" type="STRING" size="256"/>
@@ -124,12 +120,6 @@
           <Column id="YEAR" type="STRING" size="256"/>
           <Column id="FIR_CODE" type="STRING" size="256"/>
           <Column id="SEC_CODE" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="combo_con">
-        <ColumnInfo>
-          <Column id="FIR_CODE" type="STRING" size="256"/>
-          <Column id="FIR_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="combo_dtl">

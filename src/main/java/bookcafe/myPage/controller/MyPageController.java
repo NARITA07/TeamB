@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
 import bookcafe.point.service.PointService;
@@ -44,10 +45,20 @@ public class MyPageController {
 
 	// 마이페이지
 	@GetMapping("/myPage")
-	public void myPageMain(HttpSession session) {
+	public void myPageMain(HttpSession session, Model model) {
 		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+		System.out.println("loginInfo: " + loginInfo.toString());
+		String user_code = loginInfo.getUser_code();
 		
-    	System.out.println("loginInfo: " + loginInfo.toString());
+		// 3개월 구매금액 조회
+		int purchaseAmount = myPageService.getMyPurchaseAmount(user_code);
+		System.out.println("purchaseAmount:" + purchaseAmount);
+		
+		// 카페주문내역 조회(오늘날짜)
+		List<MyOrderDTO> myOrder = myPageService.getMyOrder(user_code);
+		
+		model.addAttribute("purchaseAmount", purchaseAmount);
+		model.addAttribute("myOrder", myOrder);
 	}
 	
 	// 내 정보관리 페이지
@@ -80,7 +91,15 @@ public class MyPageController {
 	
 	// 카페 전체 주문내역 페이지
 	@GetMapping("/orderList")
-	public void myOrderList() {
+	public void myOrderList(HttpSession session, Model model) {
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+		String user_code = loginInfo.getUser_code();
+		
+		// 카페주문내역 조회하기(전체내역)
+		List<MyOrderDTO> orderList = myPageService.getMyOrderList(user_code);
+		System.out.println("orderList:" + orderList);
+		
+		model.addAttribute("orderList", orderList);
 	}
 	
 	// 책 대여 내역조회 페이지

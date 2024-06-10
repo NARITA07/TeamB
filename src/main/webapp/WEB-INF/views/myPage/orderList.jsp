@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>포인트 내역조회</title>
+	<title>카페주문 전체내역</title>
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -15,29 +16,26 @@
 		padding: 10px;
 	}
 	#tbl_point th:nth-child(1), #tbl_point td:nth-child(1) {
-		width: 10%;
+		width: 5%;
 	}
 	#tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
-		width: 30%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
 		width: 20%;
 	}
 	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
-		width: 20%;
+		width: 25%;
 	}
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
-		width: 20%;
+		width: 15%;
 	}
-	.modal-dialog {
-		width: 500px;
-	    max-width: 100%;
-	    margin: 1.75rem auto;
+	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
+		width: 10%;
 	}
-	
-	ul {
-    list-style-type: square;
-}
+	#tbl_point th:nth-child(7)), #tbl_point td:nth-child(7) {
+		width: 10%;
+	}
 </style>
 </head>
 <body>
@@ -55,35 +53,20 @@ function formattedDate(point_use_date) {
      var year = dateStr.substring(0, 4);
      var month = dateStr.substring(4, 6);
      var day = dateStr.substring(6, 8);
+     var hour = dateStr.substring(8, 10);
+     var minute = dateStr.substring(10, 12);
 
-     var formattedDate = year + "-" + month + "-" + day;
+     var formattedDate = year + "-" + month + "-" + day + " " + hour + ":" + minute;
      
      return formattedDate;
 }
 
-//금액 자릿수 표시하기(콤마)
-function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 $(document).ready(function() {
 	
-	var myPoint = $("#myPoint").text();
-	if (myPoint.length > 0) {
-		$("#myPoint").text(formatNumberWithCommas(myPoint));
-	}
-	
-	$(".point_cost").each(function() {
-		var point_cost = $(this).text();
-		if (point_cost.length > 0) {
-			$(this).text(formatNumberWithCommas(point_cost));
-		}
-	});
-	
-	$(".point_use_date").each(function() {
-		var point_use_date = $(this).text();
-		if (point_use_date.length > 0) {
-			$(this).text(formattedDate(point_use_date));
+	$(".payment_date").each(function() {
+		var payment_date = $(this).text();
+		if (payment_date.length > 0) {
+			$(this).text(formattedDate(payment_date));
 		}
 	});
 	
@@ -91,46 +74,8 @@ $(document).ready(function() {
 
 $(function() {
 	
-	var originalData = $("#tbl_point tbody").html();
-	
-	 // 전체 버튼 클릭
-   $("#pointAll").click(function() {
-	    var tbody = $("#tbl_point tbody");
-	    tbody.html(originalData);
-	    $("#tbl_point thead tr").removeClass().addClass("table-warning");
-	    if (tbody.children().length == 0) {
-	        tbody.html("<tr><td colspan='5'>포인트 내역이 없습니다.</td></tr>");
-	    }
-	});
-   
-   // 적립 버튼 클릭
-   $("#plusPoint").click(function() {
-	    var tbody = $("#tbl_point tbody");
-	    tbody.html(originalData);
-	    tbody.find("tr").hide();
-	    var earnedRows = tbody.find("tr:contains('적립')");
-	    earnedRows.show();
-	    $("#tbl_point thead tr").removeClass().addClass("table-primary");
-	    if (earnedRows.length == 0) {
-	        tbody.html("<tr><td colspan='5'>적립포인트 내역이 없습니다.</td></tr>");
-	    }
-	});
-   
-   // 사용 버튼 클릭
-	$("#minusPoint").click(function() {
-	    var tbody = $("#tbl_point tbody");
-	    tbody.html(originalData);
-	    tbody.find("tr").hide();
-	    var usedRows = tbody.find("tr:contains('사용')");
-	    usedRows.show();
-	    $("#tbl_point thead tr").removeClass().addClass("table-danger");
-	    if (usedRows.length == 0) {
-	        tbody.html("<tr><td colspan='5'>사용포인트 내역이 없습니다.</td></tr>");
-	    }
-	});
 });
 </script>
-
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 	
 	<section class="ftco-section">
@@ -138,53 +83,67 @@ $(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-md-2">
+					<div class="col-md-1">
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 						<div class="row">
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
-									<div style="display: flex; align-items: center;">
-										<h3 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3>
+									<div style="display: flex; justify-content: center; padding : 30px;">
+										<h2 style="margin-right:20px;">${loginInfo.user_name}님의 카페 주문내역입니다.</h2>
 									</div>
-									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;">
-										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
-										<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
-										<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
-									</div>
-									<%-- 포인트내역이 없는 경우 --%>
+<!-- 									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;"> -->
+<!-- 										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button> -->
+<!-- 										<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button> -->
+<!-- 										<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button> -->
+<!-- 									</div> -->
+									<%-- 주문내역이 없는 경우 --%>
 									<table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
 										<thead>
 											<tr class="table-warning">
 												<th>#</th>
-												<th>날짜(최근순)</th>
-												<th>사유</th>
-												<th>포인트</th>
-												<th>구분</th>
+												<th>주문번호</th>
+												<th>결제일시</th>
+												<th>주문메뉴</th>
+												<th>결제금액</th>
+												<th>결제상태</th>
+												<th>주문상태</th>
 											</tr>
 										</thead>
 										<tbody>
-							         	<c:if test="${empty pointList}">
+							         	<c:if test="${empty orderList}">
 						          			<tr>
-												<td colspan='5'>포인트 내역이 없습니다.</td>
+												<td colspan='7'>카페 주문내역이 없습니다.</td>
 											</tr>
 							          	</c:if>
-										<c:if test="${not empty pointList}">
-											<c:forEach var="point" items="${pointList}">
+										<c:if test="${not empty orderList}">
+											<c:forEach var="order" items="${orderList}">
 												<tr>
-													<td>${point.rowNum}</td>
-													<td class="point_use_date">${point.point_joindate}</td>
+													<td>${order.rowNum}</td>
+													<td>${order.order_code}</td>
+													<td class="payment_date">${order.payment_date}</td>
+													<td>${order.product_name}
+														<c:if test="${order.whole_quantity > 1}">
+															외 ${order.whole_quantity-1} 건
+														</c:if>
+													</td>
+													<td><fmt:formatNumber value="${order.total_price}" type="number"/> 원</td>
 								                    <td>
 								                        <c:choose>
-								                            <c:when test="${point.payment_state eq 0}">결제중</c:when>
-								                            <c:when test="${point.payment_state eq 1}">결제완료</c:when>
-								                            <c:when test="${point.payment_state eq 2}">환불</c:when>
-								                            <c:when test="${point.payment_state eq 3}">결제취소</c:when>
+								                            <c:when test="${order.payment_state eq 0}">결제중</c:when>
+								                            <c:when test="${order.payment_state eq 1}">결제완료</c:when>
+								                            <c:when test="${order.payment_state eq 2}">환불</c:when>
+								                            <c:when test="${order.payment_state eq 3}">결제취소</c:when>
 								                            <c:otherwise>기타</c:otherwise>
 								                        </c:choose>
 								                    </td>
-													<td class="point_cost">${point.point_change} P</td>
-													<td>${point.point_section}</td>
+								                    <td>
+								                        <c:choose>
+								                            <c:when test="${order.order_state eq 1}">주문확인중</c:when>
+								                            <c:when test="${order.order_state eq 2}">준비중</c:when>
+								                            <c:when test="${order.order_state eq 3}">준비완료</c:when>
+								                        </c:choose>
+								                    </td>
 												</tr>
 											</c:forEach>
 										</c:if>
@@ -194,7 +153,7 @@ $(function() {
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 					</div>
 				</div>
 			</div>

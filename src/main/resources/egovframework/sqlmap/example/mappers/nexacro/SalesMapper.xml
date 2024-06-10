@@ -22,10 +22,10 @@
 	    WHERE 
 	        O.ORDER_STATE = 3
 	        <if test="NAME != null and NAME != ''">
-	            AND U.USER_NAME = #{NAME}
+	            AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
 	        </if>
 	        <if test="MENU != null and MENU != ''">
-	            AND F.PRODUCT_NAME = #{MENU}
+	            AND F.PRODUCT_NAME LIKE CONCAT('%', #{MENU}, '%')
 	        </if>
 	        <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
 			    AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
@@ -50,28 +50,32 @@
 	        O.PAYMENT_DATE DESC,
 	        SALES DESC
 	</select>
+	<!-- 도서 이력 조회 -->
 	<select id="selectBookSales" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			O.ORDER_CODE,
+			'N' AS CHK,
 		    U.USER_NAME AS NAME,
 		    B.BOOK_NAME AS BOOK,
 		    DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME
 		FROM 
 		    ORDERS O
 		JOIN 
-		    CART C ON O.CART_CODE = C.CART_CODE
+		    BORROW R ON O.CART_CODE = R.BORROW_CODE
 		JOIN
-			BOOK B ON C.PRODUCT_CODE = B.BOOK_CODE
+			BOOK B ON R.BOOK_CODE = B.BOOK_CODE
 		JOIN 
-		    USER U ON C.USER_CODE = U.USER_CODE
+		    USER U ON R.USER_CODE = U.USER_CODE
 		WHERE 
 		    1=1
 		    <if test="NAME != null and NAME != ''">
-		        AND U.USER_NAME = #{NAME}
-		    </if>
-		    <if test="BOOK != null and BOOK != ''">
-		        AND B.BOOK_NAME = #{BOOK}
-		    </if>
+			    AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
+			</if>
+			<if test="BOOK != null and BOOK != ''">
+			    AND B.BOOK_NAME LIKE CONCAT('%', #{BOOK}, '%')
+			</if>
+			<if test="RETURN_YN != null and RETURN_YN != ''">
+			    AND B.BOOK_QUANTITY LIKE CONCAT('%', #{RETURN_YN}, '%')
+			</if>
 		    <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
 			    AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
 			</if>
@@ -95,16 +99,61 @@
 		ORDER BY 
 		    O.PAYMENT_DATE DESC;
 	</select>
-	<select id="selectFirstCombo" resultType="java.util.Map">
-		SELECT FIR_CODE, FIR_NAME
-		FROM FIR_CODE
-		ORDER BY FIR_CODE
-	</select>
-	<select id="selectSecondCombo" resultType="java.util.Map">
-		SELECT FIR_CODE, SEC_CODE, SEC_NAME
-		FROM SEC_CODE
-		ORDER BY SEC_CODE
-	</select>
+	<select id="selectBookList" parameterType="java.util.Map" resultType="java.util.Map">
+    WITH LatestBooks AS (
+        SELECT 
+            'N' AS CHK,
+            U.USER_NAME AS NAME,
+            B.BOOK_NAME AS BOOK,
+            DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME,
+            ROW_NUMBER() OVER (PARTITION BY B.BOOK_NAME ORDER BY STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d') DESC) AS rn
+        FROM 
+            ORDERS O
+        JOIN 
+            BORROW R ON O.CART_CODE = R.BORROW_CODE
+        JOIN
+            BOOK B ON R.BOOK_CODE = B.BOOK_CODE
+        JOIN 
+            USER U ON R.USER_CODE = U.USER_CODE
+        WHERE 
+            1=1
+            <if test="NAME != null and NAME != ''">
+                AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
+            </if>
+            <if test="BOOK != null and BOOK != ''">
+                AND B.BOOK_NAME LIKE CONCAT('%', #{BOOK}, '%')
+            </if>
+            <if test="RETURN_YN != null and RETURN_YN != ''">
+			    AND B.BOOK_QUANTITY LIKE CONCAT('%', #{RETURN_YN}, '%')
+			</if>
+            <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
+                AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
+            </if>
+            <!-- 인풋날짜부터 이력 조회-->
+            <if test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
+                AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d') >= STR_TO_DATE(#{DATE1},'%Y%m%d')
+            </if>
+            <!-- 인풋날짜까지 이력 조회-->
+            <if test="DATE2 != null and DATE2 != '' and (DATE1 == null or DATE1 == '')">
+                AND STR_TO_DATE(#{DATE2}, '%Y%m%d') >= STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d')
+            </if>
+            <if test="SEC_CODE != null and SEC_CODE != ''">
+                AND B.BOOK_CATEGORY = #{SEC_CODE}
+            </if>
+    )
+    SELECT 
+        CHK,
+        NAME,
+        BOOK,
+        TIME
+    FROM 
+        LatestBooks
+    WHERE 
+        rn = 1
+    ORDER BY 
+        TIME DESC;
+</select>
+	<!-- 중분류 콤보박스 -->
 	<select id="selectSalesCombo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT FIR_CODE, SEC_CODE, SEC_NAME
 		FROM SEC_CODE
@@ -154,7 +203,6 @@
 	            <if test="MENU != null and MENU != ''">
 	                AND F.PRODUCT_NAME = #{MENU}
 	            </if>
-	            <!-- 인풋날짜부터 이력 조회-->
 	            <if test="YEAR != null and YEAR != ''">
 	                AND SUBSTRING(O.PAYMENT_DATE,1,4) = #{YEAR}
 	            </if>
@@ -167,4 +215,21 @@
 	    ORDER BY 
 	        M.MONTH
 	</select>
+	
+	<update id="updateSelected" parameterType="java.util.Map">
+		UPDATE BOOK
+		SET
+			BOOK_QUANTITY = CASE 
+                          WHEN BOOK_QUANTITY = 'Y' THEN 'N'
+                          WHEN BOOK_QUANTITY = 'N' THEN 'Y'
+                          ELSE BOOK_QUANTITY
+                      	  END
+		WHERE BOOK_NAME = #{BOOK}
+	</update>
+	
+	<insert id="insertSelected" parameterType="java.util.Map">
+		INSERT INTO
+			RETURN
+		VALUES()
+	</insert>
 </mapper>

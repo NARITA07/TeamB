@@ -26,6 +26,11 @@ $(document).ready(function() {
 		$("#myPoint").text(formatNumberWithCommas(myPoint));
 	}
 	
+    // 아이콘 클릭 시 모달 표시
+    $(".fa-info-circle").click(function() {
+        $("#myGradeModal").modal("show");
+    });
+	
 });
 </script>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
@@ -35,9 +40,9 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-md-2">
+					<div class="col-md-3">
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-6">
 						<div class="row">
 							<div class="col-md-12">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
@@ -50,7 +55,7 @@ $(document).ready(function() {
 										</a>
 									</c:if>
 								</div>
-								<h5>(회원등급:
+								<h5>( 회원등급:
 									<c:if test="${loginInfo.user_authority =='1'}">
 										일반
 									</c:if>
@@ -63,12 +68,14 @@ $(document).ready(function() {
 									<c:if test="${loginInfo.user_authority =='4'}">
 										MASTER
 									</c:if>
-									)
+									) <i class="fa fa-info-circle"></i>
 								</h5>
+								<c:if test="${loginInfo.user_leadbook == 'Y'}">
+									<h5>*도서열람권 이용중입니다.*</h5>
+								</c:if>
 								<hr>
 								<div style="padding-top: 50px; padding-bottom: 50px;">
 									<div style="display: flex; justify-content: space-between; align-items: center;">
-<%-- 										<h3 style="margin-right:20px;">나의 포인트 : <a id="myPoint" style="margin-left:10px;">${loginInfo.user_point}</a>P </h3> --%>
 										<h3 style="margin-right:20px;">나의 포인트 : 
 											<a id="myPoint" style="margin-left:10px;"><fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/></a>P 
 										</h3>
@@ -80,56 +87,63 @@ $(document).ready(function() {
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px;">
-								<div style="display: flex; justify-content: space-between;" style="padding-bottom: 50px;">
+							<div class="col-md-12" style="padding-top: 30px;">
+								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
 									<h3>
-										최근 카페 주문목록
+										오늘의 카페 주문목록
 									</h3>
 									<a href="orderList">전체 주문내역
 									<i class="fa fa-arrow-circle-right"></i>
 									</a>
 								</div>
 								<%-- 주문내역이 없는 경우 --%>
-					         	<c:if test="${empty myOrderList}">
+					         	<c:if test="${empty myOrder}">
 									<div class="jumbotron card card-block">
-							            <p>최근 카페 주문 건이 없습니다.</p>
+							            <p>아직 카페 주문 전입니다.</p>
 							            <p><a class="btn btn-primary btn-large" href="/foodList.do">맛있는 커피 주문하러 가기</a></p>
 							        </div>
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
-					          	<c:if test="${not empty myOrderList}">
+					          	<c:if test="${not empty myOrder}">
 						          	<div class="row">
-										<table id="tbl_order" class="table table-hover table-sm" style="text-align: center;">
-											<thead>
-												<tr class="table-warning">
-													<th>#</th>
-													<th>날짜(최근순)</th>
-													<th>사유</th>
-													<th>포인트</th>
-													<th>구분</th>
-												</tr>
-											</thead>
-											<tbody>						          		
-							          		<c:forEach var="myOrder" items="${myOrderList}">
-												<tr>
-													<td>${point.rowNum}</td>
-													<td class="point_use_date">${point.point_use_date}</td>
-													<td>${point.code_name}</td>
-													<td class="point_cost">${point.point_cost} P</td>
-													<td>${point.point_section}</td>
-												</tr>
-											</c:forEach>
-											</tbody>
-										</table>
+						          		<c:forEach var="myOrder" items="${myOrder}">
+											<div class="orderDiv col-md-4" onclick="getResInfo(${myOrder.order_code})" >
+												<div class="card" style="height: 80%;">
+													<h5 class="card-header" style="background-color: #AB8212; color:#fff;
+																				   display: flex; justify-content: center;
+																				   align-items: center;">
+														<c:choose>
+								                            <c:when test="${myOrder.order_state eq 1}">주문확인중</c:when>
+								                            <c:when test="${myOrder.order_state eq 2}">준비중</c:when>
+								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
+								                        </c:choose>
+													</h5>
+													<div class="card-body" style="height: 250px; 
+																				  background-image: url(/${myOrder.product_path}); 
+																				  background-size: cover; 
+																				  background-position: center;">
+												    </div>
+													<div class="card-footer" style="background-color: #AB8212;
+																					display: flex; justify-content: center; 
+																					align-items: center;">
+														<h6 style="color:#fff;">${myOrder.product_name}
+															<c:if test="${myOrder.whole_quantity > 1}">
+																<br>외 ${myOrder.whole_quantity-1} 건
+															</c:if>
+														</h6>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
 									</div>
 								</c:if>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px;">
-								<div style="display: flex; justify-content: space-between;" style="padding-bottom: 50px;">
+								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
 									<h3>
-										나의 대여 도서목록
+										나의 도서 대여목록
 									</h3>
 									<a href="borrowList">책 대여 내역조회
 									<i class="fa fa-arrow-circle-right"></i>
@@ -172,13 +186,42 @@ $(document).ready(function() {
 						</div>
 						<hr>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	</section>
+	
+	<!-- VIP 선정기준 모달창 -->
+	<div class="modal fade" id="myGradeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="myGradeModalLabel">VIP 승급 안내</h5>
+	                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	            <div class="modal-body">
+	                <p>3개월 이내 10만 원 이상 구매시 
+	                	<c:if test="${loginInfo.user_authority =='1'}">
+	                		VIP로 승급합니다.<br>
+	                	</c:if>
+	                	<c:if test="${loginInfo.user_authority =='2'}">
+	                		VIP등급이 유지됩니다.<br>
+	                	</c:if>
+	                	현재 ${loginInfo.user_name}님의 3개월 구매금액은
+	                	<a id="purchaseAmount"><fmt:formatNumber value="${purchaseAmount}" type="number" groupingUsed="true"/></a>
+	                	원 입니다.</p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	
 	<!-- 예약내역 모달창 -->
 	<div class="modal fade" id="reserveInModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -200,6 +243,9 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<!-- // 예약내역 모달창 -->
+	
+
+	
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>
 </html>

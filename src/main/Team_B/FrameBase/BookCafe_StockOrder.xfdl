@@ -3,7 +3,7 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Div id="Div01" taborder="7" text="Div01" left="1.76%" top="420" height="40" right="1.76%" cssclass="main_nav">
+        <Div id="Div01" taborder="7" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
           <Layouts>
             <Layout>
               <Static id="Static02" taborder="0" text="발주상태" left="8" top="13" width="48" height="14"/>
@@ -38,7 +38,7 @@
                       <Cell col="1" text="발주상태" background="#FFF8EE"/>
                       <Cell col="2" text="메뉴명" background="#FFF8EE"/>
                       <Cell col="3" text="발주수량" background="#FFF8EE"/>
-                      <Cell col="4" text="발주일자" background="#FFF8EE"/>
+                      <Cell col="4" text="발주일시" background="#FFF8EE"/>
                       <Cell col="5" text="신청자" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
@@ -46,7 +46,7 @@
                       <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
                       <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
                       <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
-                      <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd " displaytype="date"/>
+                      <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
                       <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
                     </Band>
                   </Format>
@@ -59,20 +59,20 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="0.00%" height="40">
+        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="1.85%" height="40">
           <Layouts>
             <Layout>
               <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
               <Static id="Static03" taborder="2" text="분류" left="11" top="13" width="24" height="14"/>
-              <Combo id="Combo00" taborder="1" left="Static03:5" top="5" width="100" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵"/>
+              <Combo id="Combo00" taborder="1" left="40" top="5" width="100" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100.00%">
+        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100%">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="24"/>
+                <Column size="20"/>
                 <Column size="100"/>
                 <Column size="49"/>
                 <Column size="37"/>
@@ -126,7 +126,9 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	
 	// grid1의 현재재고 오름차순 내림차순 정렬을 위해 현재 상태 변수지정
 	// Grid00_onheadclick 에서 사용
-	this.sortState = { column3 : "asc" };
+	this.sortState1 = { column1 : "asc" };
+	this.sortState2 = { column2 : "asc" };
+	this.sortState3 = { column3 : "asc" };
 
 };
 
@@ -291,6 +293,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 /* 2-5. gird1 체크박스/정렬 */
 this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
+
 	if(e.cell == 0){
 		/* 체크박스가 존재하는 0번째 column의 text값 가져오기
 		== var chkOrder = obj.getCellValue(-1,3); */
@@ -323,16 +326,62 @@ this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 				
 			}ds_grid1.set_enableevent(true);	// 이벤트 다시 켜기
 		} 
-	} //if end
+	} //(체크박스)if end
+	else if(e.cell == 1){
+	
+	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해 
+	this.resetAllHeaderTexts();
+	
+	// 현재 컬럼의 헤드값 가져오기
+	var sortHeader1 = obj.getCellProperty("head",1,"text");
+	
+	if(this.sortState1.column1 === "asc"){
+			
+			this.sortState1.column1 = "desc";
+			/*alert("내림차순으로");*/
+			this.stock_grid1.set_keystring("S:-PRODUCT_NAME");
+			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▼");
+			
+		} else {
+			this.sortState1.column1 = "asc";
+			/*alert("오름차순으로");*/
+			this.stock_grid1.set_keystring("S:+PRODUCT_NAME");
+			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▲");
+		}
+	}
+	else if(e.cell == 2){
+	
+	this.resetAllHeaderTexts();
+	var sortHeader2 = obj.getCellProperty("head",2,"text");
+	
+	if(this.sortState2.column2 === "asc"){
+			this.sortState2.column2 = "desc";
+			/*alert("내림차순으로");*/
+			this.stock_grid1.set_keystring("S:-PRODUCT_CODE");
+			obj.setCellProperty("head",2,"text",sortHeader2.replace(/ ▲| ▼/g,"")+" ▼");
+		} else {
+			this.sortState2.column2 = "asc";
+			/*alert("오름차순으로");*/
+			this.stock_grid1.set_keystring("S:+PRODUCT_CODE");
+			obj.setCellProperty("head",2,"text",sortHeader2.replace(/ ▲| ▼/g,"")+" ▲");
+		}
+	}
 	else if(e.cell == 3){
-		if(this.sortState.column3 === "asc"){
-			this.sortState.column3 = "desc";
+	
+	this.resetAllHeaderTexts();
+	
+	var sortHeader3 = obj.getCellProperty("head",3,"text");
+	
+		if(this.sortState3.column3 === "asc"){
+			this.sortState3.column3 = "desc";
 			/*alert("내림차순으로");*/
 			this.stock_grid1.set_keystring("S:-PRODUCT_QUANTITY");
+			obj.setCellProperty("head",3,"text",sortHeader3.replace(/ ▲| ▼/g,"")+" ▼");
 		} else {
-			this.sortState.column3 = "asc";
+			this.sortState3.column3 = "asc";
 			/*alert("오름차순으로");*/
 			this.stock_grid1.set_keystring("S:+PRODUCT_QUANTITY");
+			obj.setCellProperty("head",3,"text",sortHeader3.replace(/ ▲| ▼/g,"")+" ▲");
 		}
 	}
 };
@@ -371,9 +420,6 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","1");
 			}ds_grid2.set_enableevent(true);
 		}	
-	}
-	else if(e.cell == 2){
-		alert("오름차순!");
 	}
 };
 
@@ -568,7 +614,17 @@ this.fnUpdateStockOrder = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-10. grid2 저장 버튼 -  재고 업데이트 */
+/* 3-10. gird 헤더 초기화*/
+this.resetAllHeaderTexts = function()
+{
+    var headerCount = this.Grid00.getCellCount("head");
+    for (var i = 0; i < headerCount; i++) {
+        var originalText = this.Grid00.getCellProperty("head", i, "text").replace(/ ▲| ▼/g, "");
+        this.Grid00.setCellProperty("head", i, "text", originalText);
+    }
+}
+
+/* 3-11. grid2 저장 버튼 -  재고 업데이트 */
 this.fnUpdateStockQuantity = function()
 {
   var strSvcId    = "updateStockQuantity";
@@ -582,7 +638,7 @@ this.fnUpdateStockQuantity = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-11. 콜백함수 */
+/* 3-12. 콜백함수 */
 this.fnCallback = function(svcID,errorCode,errorMsg)
 {
    // 에러 시 화면 처리 내역

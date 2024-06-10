@@ -141,8 +141,6 @@ import bookcafe.point.service.PointService;
 		System.out.println("총 가격: " + totalPrice);
 		System.out.println("포인트 적립: " + pointChange);
 		 
-		// 포인트 감소
-		//cartService.minusPoint(amountOfPayment, user_code, order_code);
 		 
 		// 포인트 업데이트
 		PointVO pointLog = new PointVO();
@@ -168,13 +166,26 @@ import bookcafe.point.service.PointService;
 		return "redirect:/cartList.do";
 	}
 	
+	// 장바구니 상품 갯수 수정
+	@PostMapping("/updateQuantity")
+	public void updateQuantity(@RequestParam("order_quantity") int order_quantity[],
+					            @RequestParam("cart_code") String cart_code, 
+					            @RequestParam("product_name") String product_name[]) {
+		System.out.println("테스트1"+order_quantity[1]);
+		System.out.println("테스트2"+cart_code);
+		System.out.println("테스트3"+product_name[0]);
+		
+	}
+	
 	// 바로구매 
 	@PostMapping("/submitOrderDirect")
-	public String submitOrderDirect(CartVO cart, HttpSession session,OrdersVO orders,int total_price) {
+	public String submitOrderDirect(CartVO cart, HttpSession session,OrdersVO orders,int total_price, int point_change) {
 		System.out.println("ordersVO:" + orders);
+		System.out.println("point_change:" + point_change);
 		
 		String user_code = orders.getUser_code();
 		String cart_code = cartService.selectMaxCartCode(user_code);
+		System.out.println("처음 cart_code 확인 : "+cart_code);
 		// 카트코드 부여
 		int isOrders = cartService.selectOrders(cart_code);
 		// 해당 카트코드의 결제내역이 있는 경우
@@ -207,12 +218,24 @@ import bookcafe.point.service.PointService;
 				System.out.println("결제 이후 OrdersVO:" + orders);
 				// 재고 업데이트
 				cartService.updateQuantity(cart_code);
+				System.out.println("test1");
+				cart_code = orders.getCart_code();
+				String order_code = cartService.selectOrderCode(cart_code);
+				System.out.println("test2");
+				PointVO pointLog = new PointVO();
+				if(point_change != 0) {
+					int minus_point = point_change * -1;
+					System.out.println("포인트차감 : " + minus_point);
+					pointLog.setUser_code(user_code);
+					pointLog.setOrder_code(order_code);
+					pointLog.setPoint_change(minus_point);
+					pointService.insertPointLog(pointLog);
+					System.out.println("test3");
+				}
 				
 				// 포인트 적립
-				String order_code = cartService.selectOrderCode(cart_code);
-				int pointChange = (int) (total_price * 0.05);
 				
-				PointVO pointLog = new PointVO();
+				int pointChange = (int) (total_price * 0.05);
 				pointLog.setUser_code(user_code);
 				pointLog.setOrder_code(order_code);
 				pointLog.setPoint_change(pointChange);
@@ -240,4 +263,6 @@ import bookcafe.point.service.PointService;
 		
 		return "redirect:/foodList.do";
 	}
+	
+	
 }

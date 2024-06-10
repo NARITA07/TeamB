@@ -21,15 +21,40 @@ public class CodeManagementController {
 	
 	//대분류 코드 생성
 	@RequestMapping("add_fir_code.do")
-	public void add_fir_code(@ParamDataSet(name="fir_code_add",required = false)Map<String,Object>fir_code_add) {
-		System.out.println(fir_code_add);
-		codemservice.add_fir_code(fir_code_add);
+	public NexacroResult add_fir_code(@ParamDataSet(name="fir_code_add",required = false)Map<String,Object>fir_code_add) {
+		NexacroResult result = new NexacroResult();
 		
-		
+		System.out.println("코드관리 "+ fir_code_add);
+		result.addDataSet("message",codemservice.add_fir_code(fir_code_add));
+		return result;
 	}
 	
 	
+		//중분류 코드 생성
+		@RequestMapping("C_add_sec_code.do")
+		public void add_sec_cdoe(@ParamDataSet(name="sec_code_add",required = false)Map<String,Object>sec_code_add) {
+			System.out.println(sec_code_add);
+			codemservice.sec_code_add(sec_code_add);
+			
+			
+			
+		}
+		
+		@RequestMapping("C_modi_sec_code.do")
+		public void C_modi_sec_code(@ParamDataSet(name="modi_date_sec",required = false)List<Map<String,Object>>modi_date_sec) {
+			System.out.println(modi_date_sec);
+			codemservice.sec_code_modi(modi_date_sec);
+			
+		
+		}
+		
+		//중위 카테고리 삭제
+		@RequestMapping("C_del_sec_code.do")
+		public void C_del_sec_code(@ParamDataSet(name="del_date_sec",required = false)List<Map<String,Object>>del_date_sec) {
+			System.out.println(del_date_sec);
+			codemservice.del_date_sec(del_date_sec);
 	
+		}
 	
 	
 

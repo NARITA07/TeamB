@@ -17,6 +17,11 @@ public interface StockOrderMapper {
 	// 발주신청서 저장
 	int saveStockOrder(Map<String, String> stock_order);
 
+	// 발주신청서 업데이트
+	int updateStockOrder(Map<String, String> state_update);
+	
+	// 재고 업데이트
+	int updateStockQuantity(Map<String, String> state_update);
 
 	// 중분류 콤보
 	List<Map<String, Object>> SOSecCombo();
@@ -28,6 +33,13 @@ public interface StockOrderMapper {
 
 	// combo를 통해 grid1 메뉴리스트 필터링
 	List<Map<String, Object>> ViewList(Map<String, String> search_so_grid);
+
+	// combo를 통해 grid2 메뉴리스트 필터링
+	List<Map<String, Object>> ViewStockOrder(Map<String, String> search_so_grid);
+
+
+
+	
 
 
 

@@ -16,6 +16,12 @@ public interface MemberMapper {
 	/* 아이디 중복확인 */
 	int selectIdChk(String user_id);
 	
+	/* 마지막으로 id 한번더 체크 */
+	int checkIdExists(@Param("user_id") String user_id);
+	
+	/* 마지막으로 tel 한번더 체크 */
+    int checkTelExists(@Param("user_tel") String user_tel);
+	
 	/* 아이디 찾기*/
 	String findId(@Param("user_name") String userName, @Param("user_email") String user_email);
 	

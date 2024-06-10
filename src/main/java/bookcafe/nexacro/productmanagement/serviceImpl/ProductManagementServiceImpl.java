@@ -1,5 +1,6 @@
 package bookcafe.nexacro.productmanagement.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 
 	@Override
 	public int product_save(Map<String, Object> save_date) {
-		System.out.println(save_date);
 		int result = 0;
 		
 	String bool = (String) save_date.get("FIR_CODE");
@@ -36,9 +36,9 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	}
 
 	@Override
-	public int delete_product(List<Map<String, Object>> del_date) {
-		
-		int result = 0;
+	public Map<String, Object> delete_product(List<Map<String, Object>> del_date) {
+		Map<String, Object>nums = new HashMap<>();
+		int num = 0;
 		
 		for(int i = 0; i < del_date.size(); i++) {
 			
@@ -46,21 +46,24 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 			
 			if(date.substring(0,1).equals("f")) {
 				
-				result =+ productmapper. delete_food(del_date.get(i));
+				num += productmapper. delete_food(del_date.get(i));
 				
 			}else if(date.substring(0,1).equals("b")) {
 				
-				result =+ productmapper. delete_book(del_date.get(i));
+				num += productmapper. delete_book(del_date.get(i));
 			}
 			
 			
 		}
 		
-		return result;
+		nums.put("num", num);
+		return nums;
 	}
 
 	@Override
-	public void update_product(List<Map<String, Object>> save_date) {
+	public Map<String, Object> update_product(List<Map<String, Object>> save_date) {
+		Map<String, Object>nums = new HashMap<>();
+		int num = 0;
 		
 		for(int i = 0; i < save_date.size(); i++){
 			
@@ -69,15 +72,26 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 			
 			if(date.substring(0,1).equals("f")) {
 				
-				productmapper.update_food(save_date.get(i));
+				num += productmapper.update_food(save_date.get(i));
 				
 			}else if(date.substring(0,1).equals("b")) {
 				
-				productmapper. update_book(save_date.get(i));
+				num += productmapper. update_book(save_date.get(i));
 			}
 			
 			
 		}
+		nums.put("num", num);
+		return nums;
+	}
+
+	public void img_path_book(String path) {
+		productmapper.img_path_book(path);
+		
+	}	
+	
+	public void img_path_food(String path) {
+		productmapper.img_path_food(path);
 		
 	}	
 

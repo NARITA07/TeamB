@@ -133,7 +133,7 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 		var callback = "fn_category";
 		
 		this.transaction(id, url, set, get, arg, callback)
-	//ㄱ
+	//ㄴㄴㅊㅊㅊㅊ
 }
 
 

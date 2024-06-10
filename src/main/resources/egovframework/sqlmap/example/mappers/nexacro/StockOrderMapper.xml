@@ -14,9 +14,10 @@
 	
 	<!-- grid2 발주신청서 리스트 불러오기 -->
 	<select id="grid2OrderList" resultType="java.util.Map">
-		SELECT F.PRODUCT_CODE, F.PRODUCT_NAME, SO.STOCK_ORDER_DATE, SO.STOCK_ORDER_QUANTITY, SO.USER_CODE, SO.STOCK_ORDER_STATUS, '0' as PRODUCT_CHECK 
+		SELECT SO.STOCK_ORDER_CODE, F.PRODUCT_CODE, F.PRODUCT_NAME,F.PRODUCT_QUANTITY ,SO.STOCK_ORDER_DATE, SO.STOCK_ORDER_QUANTITY, SO.USER_CODE, SO.STOCK_ORDER_STATUS, '0' as PRODUCT_CHECK, SO.STOCK_ORDER_STATUS_IN 
 		FROM STOCKORDER SO
-		JOIN FOOD F ON SO.PRODUCT_CODE = F.PRODUCT_CODE;
+		JOIN FOOD F ON SO.PRODUCT_CODE = F.PRODUCT_CODE
+		ORDER BY SO.STOCK_ORDER_STATUS, SO.STOCK_ORDER_DATE DESC;
 	</select>	
 	
 	
@@ -48,6 +49,7 @@
 	</select>
 	
 	<!-- 조회하기 버튼 -->
+	<!-- grid1 -->
 	<select id="ViewList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT F.PRODUCT_NAME , F.PRODUCT_CODE, F.PRODUCT_QUANTITY
 		FROM SEC_CODE SC
@@ -62,10 +64,80 @@
 		ORDER BY F.PRODUCT_QUANTITY ;			
 	</select>
 	
+	<!-- grid2 -->
+	<select id="ViewStockOrder" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT SO.STOCK_ORDER_CODE, F.PRODUCT_NAME,F.PRODUCT_QUANTITY, F.PRODUCT_CODE , SO.STOCK_ORDER_QUANTITY ,SO.STOCK_ORDER_DATE ,SO.USER_CODE, SO.STOCK_ORDER_STATUS, SO.STOCK_ORDER_STATUS_IN
+		FROM SEC_CODE SC
+		JOIN FOOD F ON SC.SEC_CODE = F.PRODUCT_CATEGORY
+		JOIN STOCKORDER SO ON F.PRODUCT_CODE = SO.PRODUCT_CODE  
+		WHERE 1=1
+		<if test="SEC_CODE != null and SEC_CODE != ''">
+			AND SC.SEC_CODE = #{SEC_CODE}
+		</if>
+		<if test="PRODUCT_CODE != null and PRODUCT_CODE != '' ">
+			AND F.PRODUCT_CODE = #{PRODUCT_CODE}
+		</if>
+		<if test="STOCK_ORDER_DATE_1 != null and STOCK_ORDER_DATE_1 != '' and STOCK_ORDER_DATE_2 == null ">
+			AND STR_TO_DATE(SUBSTR(SO.STOCK_ORDER_DATE,1,8), '%Y%m%d%H%i%s') >=
+			STR_TO_DATE(#{STOCK_ORDER_DATE_1},
+			'%Y%m%d')
+		</if>
+		<if test="STOCK_ORDER_DATE_2 != null and STOCK_ORDER_DATE_2 != '' and STOCK_ORDER_DATE_1 == null ">
+			AND STR_TO_DATE(#{STOCK_ORDER_DATE_2}, '%Y%m%d') >=
+			STR_TO_DATE(SUBSTR(SO.STOCK_ORDER_DATE,1,8), '%Y%m%d%H%i%s')
+		</if>
+		<if test="STOCK_ORDER_DATE_1 != null and STOCK_ORDER_DATE_1 != '' and STOCK_ORDER_DATE_2 != null and STOCK_ORDER_DATE_2 != '' ">
+			AND SO.STOCK_ORDER_DATE BETWEEN #{STOCK_ORDER_DATE_1} AND #{STOCK_ORDER_DATE_2}
+		</if> 
+		<if test="STOCK_ORDER_STATUS != null and STOCK_ORDER_STATUS != '' ">
+			AND SO.STOCK_ORDER_STATUS = #{STOCK_ORDER_STATUS}
+		</if>
+		ORDER BY SO.STOCK_ORDER_DATE DESC ;			
+	</select>
+	
+	
 	<!-- 발주신청서 저장 -->
 	<!-- 시퀀스 -->
 	<insert id="saveStockOrder" >
 	  INSERT INTO STOCKORDER (USER_CODE, STOCK_ORDER_CODE, PRODUCT_CODE, STOCK_ORDER_QUANTITY, STOCK_ORDER_DATE, STOCK_ORDER_STATUS) 
 	  VALUES (#{USER_CODE},NEXTVAL(stockorder_seq),#{PRODUCT_CODE},#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0)
 	</insert>
+	
+	<!-- 발주수량 + 현재수량 -->
+	<update id="updateStockQuantity">
+    	UPDATE FOOD
+    	SET PRODUCT_NAME = PRODUCT_NAME
+    	<if test=" STOCK_ORDER_STATUS == 1 and STOCK_ORDER_STATUS_IN == null" >
+    		, PRODUCT_QUANTITY = #{PRODUCT_QUANTITY} + #{STOCK_ORDER_QUANTITY}
+    	</if>
+    	WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+	</update>
+	
+	<!-- 발주신청서 업데이트 -->
+	<update id="updateStockOrder">
+    	UPDATE STOCKORDER
+    	SET 
+        STOCK_ORDER_STATUS = #{STOCK_ORDER_STATUS},
+        STOCK_ORDER_STATUS_IN = 
+        
+        <choose>
+        
+            <when test=" STOCK_ORDER_STATUS == 1 and STOCK_ORDER_STATUS_IN == null ">
+                'Y'
+            </when>
+            
+            <when test=" STOCK_ORDER_STATUS == 2 and STOCK_ORDER_STATUS_IN == null ">
+                'N'
+            </when>
+            
+            <otherwise>
+                STOCK_ORDER_STATUS_IN
+            </otherwise>
+            
+        </choose>
+    	WHERE STOCK_ORDER_CODE = #{STOCK_ORDER_CODE} AND PRODUCT_CODE = #{PRODUCT_CODE}
+	</update>
+	
+	
+	
 </mapper>

@@ -7,6 +7,12 @@ public String insertMember(MemberVO memberVO) throws Exception;
 
 /* 중복 확인 */
 public int selectIdChk(String user_id);
+
+/* 마지막으로 id 한번더 체크 */
+public boolean checkIdExists(String user_id);
+
+/* 마지막으로 tel 한번더 체크 */
+public boolean checkTelExists(String user_tel);
 	
 /* 로그인 */
 public int loginProc(MemberVO memberVO);

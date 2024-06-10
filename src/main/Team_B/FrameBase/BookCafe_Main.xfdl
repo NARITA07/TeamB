@@ -42,7 +42,7 @@
           </Row>
           <Row>
             <Col id="title">매출현황</Col>
-            <Col id="url">FrameBase::BookCafe_SalesBoard.xfdl</Col>
+            <Col id="url">FrameBase::BookCafe_Sales.xfdl</Col>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
@@ -72,11 +72,6 @@
           <Row>
             <Col id="title">재고 관리</Col>
             <Col id="url">FrameBase::BookCafe_StockOrder.xfdl</Col>
-            <Col id="LEVEL">0</Col>
-          </Row>
-          <Row>
-            <Col id="title">발주 목록</Col>
-            <Col id="url">FrameBase::BookCafe_StockOrderIN</Col>
             <Col id="LEVEL">0</Col>
           </Row>
         </Rows>

@@ -3,10 +3,11 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer" visible="true">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Grid id="Grid00" taborder="1" left="1.76%" top="109" binddataset="ds_orders" autoupdatetype="none" oncloseup="Grid00_oncloseup" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="280">
+        <Grid id="Grid00" taborder="1" left="20" top="120" height="250" binddataset="ds_orders" autoupdatetype="none" autofittype="col" right="20" border="1px solid #4F4537" onheadclick="Grid00_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
+                <Column size="35"/>
                 <Column size="96"/>
                 <Column size="136"/>
                 <Column size="168"/>
@@ -21,33 +22,36 @@
                 <Row size="32"/>
               </Rows>
               <Band id="head">
-                <Cell text="주문번호" background="#FFF8EE"/>
-                <Cell col="1" text="아이디" background="#FFF8EE"/>
-                <Cell col="2" text="상품명" background="#FFF8EE"/>
-                <Cell col="3" text="수량" background="#FFF8EE"/>
-                <Cell col="4" text="가격" background="#FFF8EE"/>
-                <Cell col="5" text="결재상태" background="#FFF8EE"/>
-                <Cell col="6" text="결재일" background="#FFF8EE"/>
-                <Cell col="7" text="주문상태" background="#FFF8EE"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
+                <Cell col="1" text="주문번호" background="#FFF8EE"/>
+                <Cell col="2" text="아이디" background="#FFF8EE"/>
+                <Cell col="3" text="상품명" background="#FFF8EE"/>
+                <Cell col="4" text="수량" background="#FFF8EE"/>
+                <Cell col="5" text="가격" background="#FFF8EE"/>
+                <Cell col="6" text="결제상태" background="#FFF8EE"/>
+                <Cell col="7" text="결제일시" background="#FFF8EE"/>
+                <Cell col="8" text="주문상태" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:ORDER_CODE" suppress="1"/>
-                <Cell col="1" text="bind:USER_ID" suppress="2"/>
-                <Cell col="2" text="bind:PRODUCT_NAME"/>
-                <Cell col="3" text="bind:ORDER_QUANTITY"/>
-                <Cell col="4" text="bind:TOTAL_PRICE" suppress="2"/>
-                <Cell col="5" text="bind:PAYMENT_STATE" displaytype="combocontrol" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
-                <Cell col="6" text="bind:PAYMENT_DATE" displaytype="date" rtl="true" calendardateformat="yyyy-MM-dd HH:mm:ss ddd" calendareditformat="yyyy-MM-dd HH:mm:ss ddd" edittype="none"/>
-                <Cell col="7" text="bind:ORDER_STATE" displaytype="combocontrol" combodataset="ds_orderstate" combodatacol="txt" combocodecol="order_state" comboautoselect="false" edittype="combo" suppress="2"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
+                <Cell col="1" text="bind:ORDER_CODE" suppress="1"/>
+                <Cell col="2" text="bind:USER_ID" suppress="2"/>
+                <Cell col="3" text="bind:PRODUCT_NAME"/>
+                <Cell col="4" text="bind:ORDER_QUANTITY"/>
+                <Cell col="5" text="bind:TOTAL_PRICE" suppress="2"/>
+                <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
+                <Cell col="7" text="bind:PAYMENT_DATE" displaytype="date" rtl="false" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" edittype="none" suppress="2"/>
+                <Cell col="8" text="bind:ORDER_STATE" displaytype="combotext" combodataset="ds_orderstate" combodatacol="txt" combocodecol="order_state" comboautoselect="false" edittype="combo" suppress="2"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="0" text="회원주문관리" left="1.85%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
-        <Grid id="Grid00_00" taborder="2" left="1.76%" height="210" binddataset="ds_orders_end" autoupdatetype="none" oncloseup="Grid00_00_oncloseup" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%">
+        <Static id="Static00" taborder="0" text="회원주문관리" left="1.76%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
+        <Grid id="Grid00_00" taborder="2" left="1.76%" height="210" binddataset="ds_orders_end" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%" onheadclick="Grid00_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
+                <Column size="35"/>
                 <Column size="96"/>
                 <Column size="103"/>
                 <Column size="168"/>
@@ -62,34 +66,38 @@
                 <Row size="32"/>
               </Rows>
               <Band id="head">
-                <Cell text="주문번호" background="#FFF8EE"/>
-                <Cell col="1" text="아이디" background="#FFF8EE"/>
-                <Cell col="2" text="상품명" background="#FFF8EE"/>
-                <Cell col="3" text="수량" background="#FFF8EE"/>
-                <Cell col="4" text="가격" background="#FFF8EE"/>
-                <Cell col="5" text="결재상태" background="#FFF8EE"/>
-                <Cell col="6" text="결재일" background="#FFF8EE"/>
-                <Cell col="7" text="주문상태" background="#FFF8EE"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
+                <Cell col="1" text="주문번호" background="#FFF8EE"/>
+                <Cell col="2" text="아이디" background="#FFF8EE"/>
+                <Cell col="3" text="상품명" background="#FFF8EE"/>
+                <Cell col="4" text="수량" background="#FFF8EE"/>
+                <Cell col="5" text="가격" background="#FFF8EE"/>
+                <Cell col="6" text="결제상태" background="#FFF8EE"/>
+                <Cell col="7" text="결제일시" background="#FFF8EE"/>
+                <Cell col="8" text="주문상태" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:ORDER_CODE" suppress="1"/>
-                <Cell col="1" text="bind:USER_ID" suppress="2"/>
-                <Cell col="2" text="bind:PRODUCT_NAME"/>
-                <Cell col="3" text="bind:ORDER_QUANTITY"/>
-                <Cell col="4" text="bind:TOTAL_PRICE" suppress="2"/>
-                <Cell col="5" text="bind:PAYMENT_STATE" displaytype="combocontrol" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
-                <Cell col="6" text="bind:PAYMENT_DATE" displaytype="date" rtl="true" calendardateformat="yyyy-MM-dd HH:mm:ss ddd" calendareditformat="yyyy-MM-dd HH:mm:ss ddd"/>
-                <Cell col="7" text="bind:ORDER_STATE" displaytype="combocontrol" combodataset="ds_orderstate" combodatacol="txt" combocodecol="order_state" comboautoselect="false" edittype="combo" suppress="2"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
+                <Cell col="1" text="bind:ORDER_CODE" suppress="1"/>
+                <Cell col="2" text="bind:USER_ID" suppress="2"/>
+                <Cell col="3" text="bind:PRODUCT_NAME"/>
+                <Cell col="4" text="bind:ORDER_QUANTITY"/>
+                <Cell col="5" text="bind:TOTAL_PRICE" suppress="2"/>
+                <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
+                <Cell col="7" text="bind:PAYMENT_DATE" displaytype="date" rtl="false" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss"/>
+                <Cell col="8" text="bind:ORDER_STATE" displaytype="combotext" combodataset="ds_orderstate" combodatacol="txt" combocodecol="order_state" comboautoselect="false" edittype="combo" suppress="2"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
         <Static id="Static01" taborder="3" text="주문처리완료" left="1.85%" onclick="Static01_onclick" cssclass="title_sub" bottom="Grid00_00:5" right="935" height="24" width="126"/>
         <Static id="Static02" taborder="4" text="주문현황" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
+        <Button id="Button00" taborder="5" text="저장" left="990" top="80" width="70" cssclass="btn_dafault" height="30" onclick="Button00_onclick"/>
+        <Button id="Button00_02" taborder="6" text="저장" left="990" top="400" width="70" cssclass="btn_dafault" height="30" onclick="Button00_02_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="ds_orders" cancolumnchange="ds_orders_cancolumnchange" oncolumnchanged="ds_orders_oncolumnchanged">
+      <Dataset id="ds_orders" oncolumnchanged="dataset_oncolumnchanged" useclientlayout="false">
         <ColumnInfo>
           <Column id="USER_CODE" type="STRING" size="256"/>
           <Column id="USER_ID" type="STRING" size="256"/>
@@ -101,6 +109,7 @@
           <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="TOTAL_PRICE" type="INT" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_orderstate">
@@ -111,15 +120,15 @@
         <Rows>
           <Row>
             <Col id="order_state">1</Col>
-            <Col id="txt">준비중</Col>
+            <Col id="txt">준비</Col>
           </Row>
           <Row>
             <Col id="order_state">2</Col>
-            <Col id="txt">준비완료</Col>
+            <Col id="txt">준비중</Col>
           </Row>
           <Row>
             <Col id="order_state">3</Col>
-            <Col id="txt">처리완료</Col>
+            <Col id="txt">준비완료</Col>
           </Row>
         </Rows>
       </Dataset>
@@ -129,10 +138,6 @@
           <Column id="txt" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
-          <Row>
-            <Col id="payment_state">0</Col>
-            <Col id="txt">결재중</Col>
-          </Row>
           <Row>
             <Col id="payment_state">1</Col>
             <Col id="txt">결재완료</Col>
@@ -161,7 +166,7 @@
           <Column id="TOTAL_PRICE" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="ds_orders_end" cancolumnchange="ds_orders_cancolumnchange" oncolumnchanged="ds_orders_oncolumnchanged">
+      <Dataset id="ds_orders_end" oncolumnchanged="dataset_oncolumnchanged">
         <ColumnInfo>
           <Column id="USER_CODE" type="STRING" size="256"/>
           <Column id="USER_ID" type="STRING" size="256"/>
@@ -173,6 +178,7 @@
           <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="TOTAL_PRICE" type="INT" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -188,25 +194,6 @@ this.Form_Work_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
 {
 	this.fnSelect_orders();
 	this.fnSelect_orders_end();
-};
-
-this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
-{ //그리드의 콤보 박스가 닫힐때 생기는 이벤트
-	var nRow = e.row;
-	var col =  e.col == 7?'ORDER_STATE':'PAYMENT_STATE';
-	var val = Number(e.value);
-	var code = this.ds_orders.getColumn(nRow,"ORDER_CODE");
-	
-	this.ds_orders_updaterdy.clearData();
-	
-	for(var i = 0; i<this.ds_orders.rowcount ; i++){
-		if(this.ds_orders.getColumn(i,"ORDER_CODE")==code){
-			this.ds_orders.setColumn(i,col,val);
-			var idx = this.ds_orders_updaterdy.addRow();
-			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders,i);
-		}
-	}
-	this.fnUpdate_orders();
 };
 this.fnSelect_orders = function()
 {
@@ -264,24 +251,70 @@ this.fnCallBack_Update_orders = function()
 	this.fnSelect_orders();
 	this.fnSelect_orders_end();
 }
-this.Grid00_00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
-{
-	var nRow = e.row;
-	var col =  e.col == 7?'ORDER_STATE':'PAYMENT_STATE';
-	var val = Number(e.value);
-	var code = this.ds_orders_end.getColumn(nRow,"ORDER_CODE");
-	
+
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//준비중
 	this.ds_orders_updaterdy.clearData();
-	
-	for(var i = 0; i<this.ds_orders_end.rowcount ; i++){
-		if(this.ds_orders_end.getColumn(i,"ORDER_CODE")==code){
-			this.ds_orders_end.setColumn(i,col,val);
+	for(var i =0; i<this.ds_orders.rowcount; i++){
+		if(this.ds_orders.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
-			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders_end,i);
-			
+			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders,i);
 		}
 	}
 	this.fnUpdate_orders();
+};
+this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+
+	
+	var nRow = e.row;
+	var newVal = e.newvalue;
+	var orderstate = obj.getColumn(nRow,"ORDER_CODE");
+	
+	if(e.col != obj.getColIndex("CHK")){
+		obj.setColumn(e.row,"CHK",'Y');
+		newVal = 'Y';
+	}
+	
+	for(var i =0; i<obj.rowcount;i++){
+		if(obj.getColumn(i,"ORDER_CODE") == obj.getColumn(nRow,"ORDER_CODE")){
+			obj.setColumn(i,"CHK",newVal);
+			obj.setColumn(i,"ORDER_STATE",obj.getColumn(nRow,"ORDER_STATE"));
+			obj.setColumn(i,"PAYMENT_STATE",obj.getColumn(nRow,"PAYMENT_STATE"));
+		}
+	}
+};
+
+
+this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//준비완료
+	this.ds_orders_updaterdy.clearData();
+	for(var i =0; i<this.ds_orders_end.rowcount; i++){
+		if(this.ds_orders_end.getColumn(i,"CHK") == 'Y'){
+			var idx = this.ds_orders_updaterdy.addRow();
+			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders_end,i);
+		}
+	}
+	this.fnUpdate_orders();
+};
+
+this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0){
+		var val = 'N';
+		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){
+			obj.setCellProperty("head",e.cell,"text",val);
+		}
+		else{
+			val = 'Y';
+			obj.setCellProperty("head",e.cell,"text",val);
+		}
+		
+		var dataset = obj.getBindDataset();
+		for(var i=0; i<dataset.rowcount; i++){
+			dataset.setColumn(i,"CHK",val);
+		}
+	}
 };
 ]]></Script>
   </Form>

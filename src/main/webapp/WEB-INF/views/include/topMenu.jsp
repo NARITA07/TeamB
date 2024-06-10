@@ -6,6 +6,7 @@
 <head>
     <title>BookCafe</title>
     <link href="/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -13,6 +14,10 @@
 <%
     String sUID = (String)session.getAttribute("sessionId");
 	MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
+	Integer cartSize = (Integer)session.getAttribute("cartSize");
+    if (cartSize == null) {
+        cartSize = 0;
+    }
 %>
 
 	<!-- Navigation-->
@@ -21,7 +26,7 @@
 	    <a class="navbar-brand" href="/">
 	    <img alt="logo" src="/images/bookCafe_logo.png">
 	    <img alt="logo" src="/images/책빵1.png"></a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+	    <button class="navbar-toggler" type="button" onclick="toggleNavbar()" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
@@ -41,7 +46,7 @@
                 <button class="btn btn-outline-dark" type="button" onclick="goCart()">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">${cartSize}</span>
                 </button>
             </form>
 				<%
@@ -67,14 +72,24 @@
 			</div>
 		</div>
 	</div>
+	
 	<script>
-		var user_code = "${loginInfo.user_code}";
-		console.log("유저코드:"+user_code);
+		/* var user_code = "${loginInfo.user_code}";
+		console.log("유저코드:"+user_code); */
 		
 		function goCart(){
 			var url = '/cartList.do';
 			window.location.href = url;
 		}
+		
+		function toggleNavbar() {
+            var navbarContent = document.getElementById('navbarSupportedContent');
+            if (navbarContent.classList.contains('show')) {
+                navbarContent.classList.remove('show');
+            } else {
+                navbarContent.classList.add('show');
+            }
+        }
 	</script>
 	<!-- End 로그아웃 모달 -->
 </body>

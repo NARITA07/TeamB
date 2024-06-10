@@ -29,12 +29,20 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     }
 
     /*로그인*/
-    @Override public int loginProc(MemberVO memberVO) {
+    @Override
+    public int loginProc(MemberVO memberVO) {
         MemberVO storedMemberVO = memberMapper.getUserInfo(memberVO.getUser_id());
-        if (storedMemberVO != null && passwordEncoder.matches(memberVO.getUser_pass(), storedMemberVO.getUser_pass())) {
-            return 1;
+        if (storedMemberVO != null) {
+            if (storedMemberVO.getUser_authority().equals("5")) {
+                return -1; // 탈퇴한 회원
+            }
+            if (passwordEncoder.matches(memberVO.getUser_pass(), storedMemberVO.getUser_pass())) {
+                return 1; // 로그인 성공
+            } else {
+                return 0; // 비밀번호 불일치
+            }
         } else {
-            return 0;
+            return 0; // 아이디 없음
         }
     }
     
@@ -42,6 +50,20 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Override 
     public int selectIdChk(String user_id) { 
         return memberMapper.selectIdChk(user_id); 
+    }
+    
+    /* 마지막으로 id 한번더 체크 */
+    @Override
+    public boolean checkIdExists(String user_id) {
+        int count = memberMapper.checkIdExists(user_id);
+        return count > 0;
+    }
+    
+    /* 마지막으로 tel 한번더 체크 */
+    @Override
+    public boolean checkTelExists(String user_tel) {
+        int count = memberMapper.checkTelExists(user_tel);
+        return count > 0;
     }
 
     /* 아이디 찾기 */

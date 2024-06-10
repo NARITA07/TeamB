@@ -34,20 +34,33 @@
                     return false;
                 }
 
-                var formData = {
-                    user_name: userName,
-                    user_email: userEmail,
-                    emailAuthCode: emailAuthCode
-                };
+                // Verify the email authentication code before proceeding
+                $.ajax({
+                    type: "POST",
+                    url: "checkEmailAuthCode.do",
+                    data: { emailAuthCode: emailAuthCode },
+                    success: function(result) {
+                        if (result === "ok") {
+                            var formData = {
+                                user_name: userName,
+                                user_email: userEmail,
+                                emailAuthCode: emailAuthCode
+                            };
 
-                $.post("findId.do", formData, function(data) {
-                    if (data === "invalid auth code") {
-                        alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
-                    } else if (data === "not found") {
-                        alert("일치하는 정보의 ID는 없습니다.");
-                    } else {
-                        $("#userId").text("찾으신 아이디: " + data);
-                        $("#userIdDiv").show();
+                            $.post("findId.do", formData, function(data) {
+                                if (data === "not found") {
+                                    alert("일치하는 정보의 ID는 없습니다.");
+                                } else {
+                                    $("#userId").text("찾으신 아이디: " + data);
+                                    $("#userIdDiv").show();
+                                }
+                            });
+                        } else {
+                            alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Error: " + error);
                     }
                 });
             });
@@ -102,7 +115,7 @@
                     return false;
                 }
                 if (!telPattern.test(userTel)) {
-                    alert("연락처는 3자리-3~4자리-4자리 형식이어야 합니다.");
+                    alert("연락처는 010-0000-0000 형식이어야 합니다.");
                     $("#user_tel_pw").focus();
                     return false;
                 }
@@ -150,7 +163,7 @@
                                 }
                             });
                         } else {
-                            alert("정보가 맞지 않습니다. 다시 확인 해주세요.");
+                            alert("일치하는 정보가 없습니다. 다시 확인 해주세요.");
                         }
                     },
                     error: function(xhr, status, error) {
@@ -181,6 +194,21 @@
                         alert("이메일 전송 중 오류가 발생했습니다.");
                     }
                 });
+            });
+            
+        	 // 전화번호 변환(user_tel)
+            $("#user_tel_pw").blur(function() {
+                var tel = $("#user_tel_pw").val().trim();
+                if(tel.substr(3,1) == "-" || tel.length < 10 || tel == ""){ 
+                    // 변수 tel 문자열 중 4번째 자리에 "-"가 있거나 10자 이하로 작성되면 실행 x
+                } else {
+                    // 실행될때  01012345678 을 010-1234-5678로 변환
+                    var fir_tel = tel.substring(0,3); // 010
+                    var sec_tel = tel.substring(3,7); // 1234
+                    var thi_tel = tel.substring(7,11); // 5678
+                    
+                    $("#user_tel_pw").val(fir_tel + "-" + sec_tel + "-" + thi_tel);
+                }
             });
 
             // 비밀번호 재설정 폼 제출
@@ -249,6 +277,10 @@
             font-family: '맑은 고딕', Arial, sans-serif;
             background-color: #f8f9fa;
         }
+        button {
+	    	font-weight: bold !important;
+	    	font-size: 18px !important;
+		}
         .container {
             display: flex;
             justify-content: center;
@@ -281,13 +313,10 @@
             border-radius: 4px;
         }
         .form-group button {
-            background-color: #007bff;
+            background-color: #AB8212;
             color: white;
             border: none;
             cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
         }
             #userIdDiv, #resetPwModal {
         display: none;
@@ -395,5 +424,6 @@
     </form>
     <button class="close-modal">닫기</button>
 </div>
+<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>
 </html>

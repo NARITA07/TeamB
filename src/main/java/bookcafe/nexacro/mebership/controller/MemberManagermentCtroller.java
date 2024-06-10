@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.nexacro.mebership.service.MemberManagermentService;
@@ -41,52 +42,44 @@ public class MemberManagermentCtroller {
 		return result;
 		
 	}
-	@RequestMapping("/upload.do")
-    public void upload_img(HttpServletRequest request) {
+	@RequestMapping("getcombo.do")
+	public NexacroResult Get_Combo() {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
 		
-		System.out.println("aa");
+		List<Map<String, Object>> member_Authority =  mms.select_User_Authority();
+			
+		result.addDataSet("Member_Authority", member_Authority);
 		
-		String savePath = "C:/Users/hcnc/git/TeamB/src/main/webapp/images/";//이미지 저장 경로
+		return result;
 		
-		LocalDateTime dateTime = LocalDateTime.now();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-ss");// 포맷을 지정합니다.
-       
-        String formattedDateTime = dateTime.format(formatter); // 출력한 "yyyy-MM-dd-ss"을 String으로 변환
-
-        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request; //이미지는 HttpServletRequest로 받음
-        
-        Iterator<String> fileNames = multiRequest.getFileNames();//이미지의 이름을 fileNames에 초기화
-
-        while (fileNames.hasNext()) {
-        	
-            MultipartFile file = multiRequest.getFile(fileNames.next());
-            
-                try {
-                	
-                	String fileName = file.getOriginalFilename(); // C:\Users\hcnc\Pictures\Screenshots 파일이름.png
-                    
-                    File file_name = new File(fileName); 
-                    
-                    String path_name = file_name.getName(); // 파일이름.png로 path 삭제
-                  
-                    int s =  path_name.lastIndexOf(".");//파일의 .위치를 찾아 int값을 저장
-                    
-                    String type = path_name.substring(s); // ex) .png 
-                    
-                    File dest = new File(savePath + "책빵" + formattedDateTime + type); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 책방.날짜.png
-                	System.out.println(dest);
-                    file.transferTo(dest); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 파일이름.png으로 저장
-                    
-                    String path = "images/" + "책빵" + formattedDateTime + type; //DB에 저장
-                    
-                  mms.img_path(path);
-                    
-                } catch (IOException e) {//예외 처리
-                    e.printStackTrace();
-                }
-            }
-        
-    }
+	}
+	@RequestMapping("updateMember.do")
+	public NexacroResult Update_Member(@ParamDataSet(name = "Member_Selected", required = false) List<Map<String,String>> members) {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		System.out.println(members);
+		int updateResult = mms.update_Member(members);
+		if(updateResult == 0) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("member update fail");
+		}
+		//result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
+	@RequestMapping("deleteMember.do")
+	public NexacroResult Delete_Member(@ParamDataSet(name = "Member_Selected", required = false) List<Map<String,String>> members) {   
+		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
+		
+		int deleteResult = mms.delete_Member(members);
+		if(deleteResult == 0) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("member delete fail");
+		}
+		//result.addDataSet("Member_Authority", member_Authority);
+		
+		return result;
+		
+	}
 	
 }

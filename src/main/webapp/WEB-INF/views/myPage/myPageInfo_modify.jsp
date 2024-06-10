@@ -17,7 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 <!-- 비밀번호변경 유효성 검사 스크립트 include -->
-<%@ include file="/WEB-INF/views/include/check_pw2.jsp" %>
+<%@ include file="/WEB-INF/views/include/check_pw.jsp" %>
 
 <script>
 // 카카오 주소 api

@@ -35,5 +35,21 @@
  	<delete id="C_del_date">
 	  DELETE FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
 	</delete>
+ 	
+ 	<delete id="C_del_sec_date">
+ 		DELETE FROM SEC_CODE WHERE FIR_CODE = #{FIR_CODE}
+ 	</delete>
+ 	
+ 	
+ 	<insert id="sec_code_add">
+ 	insert into SEC_CODE(FIR_CODE,SEC_CODE, SEC_NAME) values(#{FIR_CODE},fnCode('sec'),#{SEC_NAME});
+ 	</insert>
+ 	
+ 	<update id="sec_code_modi">
+ 	UPDATE SEC_CODE SET USE_STATUS = #{USE_STATUS}, SEC_NAME = #{SEC_NAME} WHERE SEC_CODE = #{SEC_CODE}
+ 	</update>
  
+ 	<delete id="del_date_sec">
+ 	DELETE FROM SEC_CODE WHERE SEC_CODE = #{SEC_CODE}
+ 	</delete>
 </mapper>

@@ -37,7 +37,7 @@
 	<!-- 3개월 구매금액 조회하기 -->
 	<select id="getMyPurchaseAmount" resultType="Integer">
 		select sum(total_price) as total_purchase_amount
-		from orders
+		from ORDERS
 		where user_code = #{user_code} 
   		and payment_date >= date_sub(CURDATE(), INTERVAL 3 MONTH);
 	</select>
@@ -107,59 +107,40 @@
 		SELECT *
 		FROM (
 		    SELECT
-		        O.*,
-		        C.product_code,
-		        F.product_name,
-		        C.whole_quantity,
+		        BK.*,
+		        BR.BORROW_CODE,
+		        BR.USER_CODE,
+		        O.ORDER_CODE,
+		        O.PAYMENT_DATE,
+		        SC.SEC_NAME,
 		        ROW_NUMBER() OVER (ORDER BY O.PAYMENT_DATE ASC) AS ROWNUM
 		    FROM
-		        ORDERS O
-		    JOIN (
-		        SELECT
-		            cart_code,
-		            product_code,
-		            SUM(order_quantity) AS whole_quantity
-		        FROM
-		            CART
-		        GROUP BY
-		            cart_code
-		    ) C ON O.cart_code = C.cart_code
-		    JOIN FOOD F ON C.product_code = F.product_code
+		        BOOK BK
+		    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE
+		    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
+		    JOIN SEC_CODE SC ON BK.BOOK_CATEGORY = SC.SEC_CODE
 		    WHERE
-		        O.user_code = #{user_code}
-		    GROUP BY
-		        O.order_code
+		        O.USER_CODE = #{user_code}
 		) AS T
-		ORDER BY ROWNUM DESC;
+		ORDER BY ROWNUM DESC
   	</select>
   	
   	<!-- 도서 대여내역 조회하기(오늘날짜) -->
  	<select id="getMyBook" resultType="bookcafe.myPage.service.MyBookDTO">
-		SELECT
-        B.*,
-        C.product_code,
-        F.product_name,
-        F.product_path,
-        C.whole_quantity
+	    SELECT
+	        BK.*,
+	        BR.BORROW_CODE,
+	        BR.USER_CODE,
+	        O.ORDER_CODE,
+	        O.ORDER_STATE,
+	        O.PAYMENT_DATE
 	    FROM
-	        BOOK B
-	    JOIN (
-	        SELECT
-	            cart_code,
-	            product_code,
-	            SUM(order_quantity) AS whole_quantity
-	        FROM
-	            CART
-	        GROUP BY
-	            cart_code
-	    ) C ON O.cart_code = C.cart_code
-	    JOIN FOOD F ON C.product_code = F.product_code
+	        BOOK BK
+	    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE
+	    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
 	    WHERE
-	        O.user_code = #{user_code}
-	        AND DATE(O.payment_date) = CURDATE() 
-	    GROUP BY
-	        O.order_code
-	    ORDER BY O.payment_date;
+	        O.USER_CODE = #{user_code}
+	        AND DATE(O.payment_date) = CURDATE()
   	</select>
 	
 </mapper>

@@ -33,7 +33,7 @@
 	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
 		width: 10%;
 	}
-	#tbl_point th:nth-child(7)), #tbl_point td:nth-child(7) {
+	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
 		width: 10%;
 	}
 </style>

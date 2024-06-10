@@ -19,22 +19,22 @@
 		width: 5%;
 	}
 	#tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
-		width: 16%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
-		width: 16%;
+		width: 20%;
 	}
 	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
-		width: 16%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
-		width: 16%;
+		width: 20%;
 	}
-	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
-		width: 16%;
-	}
-	#tbl_point th:nth-child(7)), #tbl_point td:nth-child(7) {
+	#tbl_point th:nth-child(6), #tbl_point td:nth-child(6) {
 		width: 15%;
+	}
+	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
+		width: 10%;
 	}
 </style>
 </head>

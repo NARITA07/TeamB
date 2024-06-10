@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="stock_order_popup" width="645" height="180" titletext="제품추가" oninit="stock_order_popup_oninit">
     <Layouts>
@@ -283,19 +283,322 @@ this.sec_category_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
 this.up_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
 {
 	var data = this.up.filelist //업로드한 파일을 data에 담음 (배열)
+=======
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="stock_order_popup" width="645" height="180" titletext="제품추가" oninit="stock_order_popup_oninit">
+    <Layouts>
+      <Layout height="180" mobileorientation="landscape" width="645">
+        <Combo id="fir_category" taborder="0" left="20" top="20" width="150" border="1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemchanged="fir_category_canitemchange" height="40" cssclass="combo_default"/>
+        <Edit id="Edit_name" taborder="2" left="112" top="80" width="150" border="3" height="40" enable="true" maxlength="20" cssclass="edit_default"/>
+        <Combo id="sec_category" taborder="1" top="20" width="150" left="fir_category:10" onitemchanged="Combo00_00_onitemchanged" border="2" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default" ondropdown="sec_category_ondropdown" bottom="Edit_name:20"/>
+        <Button id="btn_cansle" taborder="7" text="취소" cssclass="btn_dafault" verticalAlign="middle" left="540" onclick="btn_cansle_onclick" height="70" bottom="10" right="20"/>
+        <Button id="Button00" taborder="6" text="저장" top="10" cssclass="btn_dafault" verticalAlign="middle" left="540" defaultbutton="true" onclick="Button00_onclick" bottom="btn_cansle:20" right="20"/>
+        <Edit id="names" top="80" value="제품명" text="제품명" left="20" width="82" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" password="false" taborder="8" tabstop="false" height="40"/>
+        <Edit id="prices" taborder="9" left="Edit_name:-242" top="130" width="82" value="가격" text="가격" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" readonly="true" tabstop="false" height="40"/>
+        <MaskEdit id="Mask_price" taborder="4" left="prices:10" top="130" width="150" format=",000" height="40" enable="true" displaynulltext="가격을 입력해주세요" postfixtext="원" cssclass="combo_default" border="1px solid #4F4537" borderRadius="5px" maskchar="?" limitbymask="decimal" onkeyup="Mask_price_onkeyup"/>
+        <Edit id="wrtier" top="80" value="저자" text="저자" left="279" width="82" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" password="false" taborder="10" tabstop="false" height="40"/>
+        <Edit id="Edit_book_date" taborder="5" left="371" top="130" border="3" enable="true" bottom="10" maxlength="10" cssclass="edit_default" displaynulltext="ex)12341212" tooltiptext="등록이 없을 시 &quot;미상&quot;으로 표기됩니다." tooltiptype="hover" inputtype="number" onkeyup="Edit_book_date_onkeyup" width="150"/>
+        <Edit id="Edit_writer" taborder="3" left="371" top="80" border="3" enable="true" bottom="Edit_book_date:10" maxlength="20" cssclass="edit_default" displaynulltext="미상" tooltiptext="등록이 없을 시 &quot;미상&quot;으로 표기됩니다." tooltiptype="hover" width="150"/>
+        <Edit id="book_date" taborder="11" left="279" top="130" width="82" value="출판일" text="출판일" font="16px/normal &quot;Gulim&quot;" textAlign="center" enable="false" border="1px none" readonly="true" tabstop="false" height="40"/>
+        <FileUpload id="up" taborder="12" left="sec_category:10" top="20" width="180" buttonsize="50" itemheight="38" border="1px solid #4F4537" borderRadius="5px" bottom="Edit_writer:20" onitemchanged="up_onitemchanged" onsuccess="up_onsuccess" buttontext="등록"/>
+        <Static id="img" taborder="13" text="이미지 등록" left="349" top="24" width="115" height="32"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="init_fir_code">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+          <Column id="USE_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="fir_category_select">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="sec_code">
+        <ColumnInfo>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="save_date" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="PRODUCT_PRICE" type="INT" size="256"/>
+          <Column id="PRODUCT_WRITER" type="STRING" size="256"/>
+          <Column id="PRODUCT_BOOK_DATE" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="IMG_PATH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="File">
+        <ColumnInfo>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[//취소 버튼
+this.btn_cansle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var arg = this.confirm("취소하시겠습니까?")
+	
+	if(arg == true){
+	
+	this.close()
+	}
+};
+
+//저장
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	var writer = this.Edit_writer.getLength()		//저자
+	var price =	this.Mask_price.getLength()			//금액
+	var book_date =	this.Edit_book_date.getLength()	// 출판일
+	var name = this.Edit_name.getLength()		//제품명
+	
+	var sec_cate = this.sec_category.value;			//하위분류 카테고리 값
+	var fir_cate = this.fir_category.value; 		//상위분류 카테고리 값
+	
+	if (sec_cate == null){
+		alert("카테고리를 선택해주세요")
+	}
+	
+	else if(this.fir_category.value == 'fir_001'){
+	// 도서를 선택했다면.
+		
+			if(writer == 0){
+
+				this.Edit_writer.set_value("미상")
+				
+			}
+			if(book_date == 0)
+			{
+				this.Edit_book_date.set_value("미상")
+			}else if(this.Edit_book_date.value == "미상"){
+				}
+				else if(book_date < 7)
+				{
+				return alert("출판일을 정확히 입력해주세요")
+				}
+			
+			if(name == 0)
+			{
+				return alert("제품명을 입력해주세요, 1자 이상")
+			}
+	
+	this.upload(this.fir_category.value) // 이미지 업로드 
+
+	}else if(this.fir_category.value == 'fir_002'){
+	//음식을 선택했다면.
+		
+		if(name < 1){
+		alert("제품명을 입력해주세요")
+		return false
+		}else if(price == 0){
+		alert("금액을 입력해주세요")
+			return false
+		}
+		
+		this.upload(this.fir_category.value) // 이미지 업로드
+		
+		
+		
+	}
+	
+	
+};
+
+
+this.stock_order_popup_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+{
+	this.sec_category.set_enable(false)// 중분류 카테고리 잠그기
+
+	//대분류 카테고리 가져오기
+	
+	id = "init_fir_code"
+	url = "svc::init_fir_code.do";
+	set = ""; 
+	get = "init_fir_code = init_fir_code";
+	arg = "";
+	callback = "fn_category";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+};
+
+
+//카테고리 콜백 함수
+this.fn_category = function(id, code, message){
+
+	if(code == 0){		
+			
+		switch(id) {
+		case "init_fir_code":
+			this.init_fir_code.deleteRow(0)// "전체" 삭제
+			break;
+		case "save_date":
+			this.alert("입력되었습니다")
+			this.close();
+			}
+		
+}
+
+}
+
+//대분류 카테고리 선택 시
+this.fir_category_canitemchange = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
+	this.sec_category.set_enable(true) // 중분류 카테고리 열기
+	this.sec_category.set_value(null);
+	var select_category = this.fir_category.value;//카테고리 선택값 
+	
+	if(select_category == 'fir_001'){ // 도서
+	
+	//입력칸 
+	this.Edit_writer.set_enable(true);
+	this.Edit_book_date.set_enable(true);
+	this.Mask_price.set_value(null)
+	this.Mask_price.set_enable(false)
+	this.Mask_price.set_displaynulltext("음식만 입력 가능합니다.")
+	this.Edit_writer.set_displaynulltext("")
+	this.Edit_book_date.set_displaynulltext("")
+	
+	}else if(select_category == 'fir_002'){ // 음식
+	
+	this.Edit_writer.set_enable(false);
+	this.Edit_book_date.set_enable(false);
+	this.Edit_name.set_enable(true);
+	this.Mask_price.set_enable(true);
+	this.Edit_writer.set_displaynulltext("도서만 입력가능합니다.")
+	this.Edit_writer.set_value(null)
+	this.Edit_book_date.set_displaynulltext("도서만 입력가능합니다.")
+	this.Edit_book_date.set_value(null)
+
+	this.Mask_price.set_displaynulltext("금액을 입력해주세요.")
+	
+	}
+	
+	
+	this.fir_category_select.setColumn(0,"FIR_CODE",select_category)
+	
+	var id = "select_sec_code"
+	var url = "svc::select_sec_code.do";
+	var set = "fir_category_select = fir_category_select";
+	var get = "sec_code = sec_code";
+	var arg = "";
+	var callback = "fn_category";
+			
+	this.transaction(id, url, set, get, arg, callback)
+
+	
+	
+};
+
+
+//출판일 변경
+this.Edit_book_date_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	var cal_ch = this.Edit_book_date.getLength();
+	if(cal_ch == 8){
+		var fir = this.Edit_book_date.value.substr(0,4);
+		var sec = this.Edit_book_date.value.substr(4,2);
+		var thi = this.Edit_book_date.value.substr(6,8);
+		var date = fir + - + sec + - + thi;
+		this.save_date.setColumn(0,"PRODUCT_BOOK_DATE",date)
+	
+		}
+};
+
+this.addproduct = function(){
+
+	this.save_date.setColumn(0,"SEC_CODE",this.sec_category.value)
+ 	this.save_date.setColumn(0,"FIR_CODE",this.fir_category.value)
+ 	
+ 	var save_id = "save_date";
+ 	var save_url ="svc::save_date.do";
+ 	var save_set ="save_date = save_date";
+ 	var save_get ="";
+ 	var save_arg ="";
+ 	var save_callback ="fn_category";
+ 	
+ 	this.transaction(save_id, save_url, save_set, save_get, save_arg, save_callback)
+
+}
+
+
+//음수를 양수로
+this.Mask_price_onkeyup = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	if(this.Mask_price.value.substr(0,1) == "-"){
+		var val = 	this.Mask_price.value.substr(1);
+	this.Mask_price.set_value(val)
+	}
+};
+
+//카테고리에서 도서열람권 삭제
+this.sec_category_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+		for(i = 0; i < this.sec_code.rowcount; i++){
+			if(this.sec_code.getColumn(i,"SEC_NAME") == "도서열람권"){
+				this.sec_code.deleteRow(i)
+			}
+		
+		}
+};
+
+
+//파일 선택 시.
+this.up_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	var data = this.up.filelist //업로드한 파일을 data에 담음 (배열)
  	this.File.setColumn(0,"FILE_NAME",data[0].filename)//GRID의 FILE_NAME에 저장
+	this.img.set_visible(false)
 };
 
 //파일 업로드 
-this.upload = function(){
-	this.up.upload("svc::upload.do")
+this.upload = function(re){
+var data = this.up.filelist
+	if(data[0] == null)
+		{
+				alert("이미지를 등록해주세요")
+		}
+		else if(this.Mask_price.value == null)
+		{
+			alert("도서")
+			this.up.upload("svc::upload_book.do")
+		}
+		else if(this.Edit_book_date.value == null)
+		{
+			alert("음식")
+			this.up.upload("svc::upload_food.do")
+		}
+
+	
 
 }
-this.up_onsuccess = function(obj:nexacro.FileUpload,e:nexacro.FileUploadEventInfo)
-{
-	this.File.copyData(e.datasets.getColumn(i,"IMG_PATH"))
-};
-]]></Script>
+
+	this.save_date.setColumn(0, "IMG_PATH", e.datasets[0].getColumn(0,"FILE_NAME"))
+	alert(this.save_date.saveXML());
+	
+		this.addproduct();
+	
+	}
+	]]></Script>
     <Bind>
       <BindItem id="item0" compid="Edit_name" propid="value" datasetid="save_date" columnid="PRODUCT_NAME"/>
       <BindItem id="item1" compid="Mask_price" propid="value" datasetid="save_date" columnid="PRODUCT_PRICE"/>

@@ -77,6 +77,7 @@
 .Static.main_title
 {
 	font : normal bold  24pt/normal "Arial";
+	-nexa-border : 0px none,0px none,1px solid #4F4537;
 }
 .Edit.edit_default,
 .Edit.edit_default[status=focused],
@@ -114,5 +115,10 @@
 .Grid .head[status=mouseover]
 {
 	cursor : n-resize;
+}
+.Static.warning_txt
+{
+	font : normal 9pt /normal "Arial";
+	color : red;
 }
 ]]></XCSS>

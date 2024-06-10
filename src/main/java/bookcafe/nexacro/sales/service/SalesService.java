@@ -13,4 +13,13 @@ public interface SalesService {
 	
 	//매출 차트
 	public List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
+	
+	//선택 반납
+	public void updateSelected(Map<String, String> book_sales_dtl);
+	
+	//대여중인 도서 조회
+	public List<Map<String, Object>> selectBookList(Map<String, String> sales_con);
+	
+	//insert 반납
+	public void insertSelected(Map<String, String> param);
 }

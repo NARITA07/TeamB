@@ -18,5 +18,14 @@ public interface SalesMapper {
 	
 	//매출 차트
 	List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
+	
+	//선택 반납
+	void updateSelected(Map<String, String> book_sales_dtl);
+
+	//대여중인 도서조회
+	List<Map<String, Object>> selectBookList(Map<String, String> sales_con);
+
+	//insert 반납
+	Object insertSelected(Map<String, String> param);
 
 }

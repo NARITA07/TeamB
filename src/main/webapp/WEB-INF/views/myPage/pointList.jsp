@@ -16,21 +16,24 @@
 		padding: 10px;
 	}
 	#tbl_point th:nth-child(1), #tbl_point td:nth-child(1) {
-		width: 10%;
+		width: 5%;
 	}
 	#tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
-		width: 25%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
-		width: 15%;
-	}
-	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
 		width: 20%;
 	}
-	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
+	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
 		width: 15%;
 	}
-	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(5) {
+	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
+		width: 20%;
+	}
+	#tbl_point th:nth-child(6), #tbl_point td:nth-child(6) {
+		width: 15%;
+	}
+	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
 		width: 10%;
 	}
 </style>
@@ -77,7 +80,7 @@ $(function() {
 	    tbody.html(originalData);
 	    $("#tbl_point thead tr").removeClass().addClass("table-warning");
 	    if (tbody.children().length == 0) {
-	        tbody.html("<tr><td colspan='6'>포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='7'>포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
    
@@ -90,7 +93,7 @@ $(function() {
 	    earnedRows.show();
 	    $("#tbl_point thead tr").removeClass().addClass("table-primary");
 	    if (earnedRows.length == 0) {
-	        tbody.html("<tr><td colspan='6'>적립포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='7'>적립포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
    
@@ -103,7 +106,7 @@ $(function() {
 	    usedRows.show();
 	    $("#tbl_point thead tr").removeClass().addClass("table-danger");
 	    if (usedRows.length == 0) {
-	        tbody.html("<tr><td colspan='6'>사용포인트 내역이 없습니다.</td></tr>");
+	        tbody.html("<tr><td colspan='7'>사용포인트 내역이 없습니다.</td></tr>");
 	    }
 	});
 });
@@ -116,9 +119,9 @@ $(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-md-2">
+					<div class="col-md-1">
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 						<div class="row">
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
@@ -141,7 +144,8 @@ $(function() {
 										<thead>
 											<tr class="table-warning">
 												<th>#</th>
-												<th>날짜(최근순)</th>
+												<th>주문번호</th>
+												<th>적립/사용일</th>
 												<th>사유</th>
 												<th>구매금액</th>
 												<th>포인트</th>
@@ -151,17 +155,17 @@ $(function() {
 										<tbody>
 							         	<c:if test="${empty pointList}">
 						          			<tr>
-												<td colspan='6'>포인트 내역이 없습니다.</td>
+												<td colspan='7'>포인트 내역이 없습니다.</td>
 											</tr>
 							          	</c:if>
 										<c:if test="${not empty pointList}">
 											<c:forEach var="point" items="${pointList}">
 												<tr>
 													<td>${point.rowNum}</td>
+													<td>${point.order_code}</td>
 													<td class="point_use_date">${point.point_joindate}</td>
 								                    <td>
 								                        <c:choose>
-								                            <c:when test="${point.payment_state eq 0}">결제중</c:when>
 								                            <c:when test="${point.payment_state eq 1}">결제완료</c:when>
 								                            <c:when test="${point.payment_state eq 2}">환불</c:when>
 								                            <c:when test="${point.payment_state eq 3}">결제취소</c:when>
@@ -180,7 +184,7 @@ $(function() {
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 					</div>
 				</div>
 			</div>

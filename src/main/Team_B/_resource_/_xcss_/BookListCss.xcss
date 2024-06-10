@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XCSS version="1.0"><![CDATA[.Grid
+{
+}
+.Grid .body .row .cell.ExprBlue
+{
+	color : blue;
+}.Grid .body .row .cell.ExprGreen
+{
+	color : #00ff00;
+}]]></XCSS>

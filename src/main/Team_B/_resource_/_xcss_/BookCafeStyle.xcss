@@ -121,4 +121,11 @@
 	font : normal 9pt /normal "Arial";
 	color : red;
 }
+.Static.popup_static
+{
+	background : #FAEBD7;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle;
+	border-radius : 5px;
+}
 ]]></XCSS>

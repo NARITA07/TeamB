@@ -35,6 +35,5 @@ public interface CartService {
 	
 	public int updateCartcode(String cart_code);
 
-	//public void minusPoint(int amountOfPayment, String user_code, String order_code);
 
 }

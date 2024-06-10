@@ -8,8 +8,15 @@ public class FoodVO {
 	private String product_path;
 	private String user_code;
 	private String user_id;
+	private String product_category;
 	
 	
+	public String getProduct_category() {
+		return product_category;
+	}
+	public void setProduct_category(String product_category) {
+		this.product_category = product_category;
+	}
 	public String getProduct_code() {
 		return product_code;
 	}

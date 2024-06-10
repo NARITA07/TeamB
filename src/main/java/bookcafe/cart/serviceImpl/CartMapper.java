@@ -44,6 +44,5 @@ public interface CartMapper {
 	
 	public int updateSeq();
 	
-	//public void minusPoint(int amountOfPayment, String user_code, String order_code);
 	
 }

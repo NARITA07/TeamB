@@ -3,21 +3,20 @@
   <Form id="BookCafe_ProductManagemnet_Modify" width="1020" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1020">
-        <Div id="Div00" taborder="7" left="1.76%" top="97" height="40" cssclass="main_nav" right="1.76%"/>
-        <Static id="Static00" taborder="0" text="제품수정" left="1.86%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-        <Static id="Static01" taborder="8" text="분류" left="30" top="110" width="24" height="14"/>
-        <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default"/>
-        <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:5" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default"/>
+        <Static id="Static00" taborder="0" text="제품관리" left="20" font="24px/normal &quot;Gulim&quot;" height="45" top="5" right="20" border="0px none, 0px none, 1px solid dimgray"/>
+        <Combo id="fir_category" taborder="1" text="" left="20" top="120" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default"/>
+        <Combo id="sec_category" taborder="2" top="120" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:10" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default"/>
         <Grid id="Grid00" taborder="6" left="20" top="155" bottom="20" right="20" binddataset="view_code" autofittype="col" border="1px solid #4F4537" onheadclick="Grid00_onheadclick" oncelldblclick="Grid00_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="20"/>
                 <Column size="48"/>
-                <Column size="52"/>
-                <Column size="84"/>
-                <Column size="113"/>
-                <Column size="45"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="80"/>
               </Columns>
               <Rows>
                 <Row size="24" band="head"/>
@@ -25,26 +24,28 @@
               </Rows>
               <Band id="head">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:chx" cursor="auto"/>
-                <Cell col="1" text="NO" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="2" text="제품코드" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="3" text="분류" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="4" text="제품명" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="5" text="가격" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
+                <Cell col="1" text="NO" background="#FFF8EE" textAlign="left" cursor="auto"/>
+                <Cell col="2" text="제품코드" background="#FFF8EE" textAlign="left" cursor="auto"/>
+                <Cell col="3" text="카테고리" background="#FFF8EE" textAlign="left" cursor="auto"/>
+                <Cell col="4" text="제품명" background="#FFF8EE" textAlign="left" cursor="auto"/>
+                <Cell col="5" text="이미지" background="#FFF8EE"/>
+                <Cell col="6" text="가격" background="#FFF8EE" textAlign="right" cursor="auto"/>
               </Band>
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" textAlign="center" checkboxtruevalue="1" checkboxfalsevalue="0" text="bind:chx"/>
-                <Cell col="1" text="bind:num" textAlign="center" verticalAlign="middle"/>
-                <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center" verticalAlign="middle"/>
-                <Cell col="3" text="bind:SEC_NAME" textAlign="center" verticalAlign="middle"/>
-                <Cell col="4" text="bind:PRODUCT_NAME" edittype="text" tooltiptext="더블클릭 시 수정이 가능합니다." textAlign="center" verticalAlign="middle"/>
-                <Cell col="5" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat="###,###,###0" textAlign="right" maskeditmaskchar="," maskeditautoselect="false" maskeditlimitbymask="none" maskedittype="number" tooltiptext="더블클릭 시 수정이 가능합니다." verticalAlign="middle"/>
+                <Cell col="1" text="bind:num"/>
+                <Cell col="2" text="bind:PRODUCT_CODE"/>
+                <Cell col="3" text="bind:SEC_NAME"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" edittype="text" tooltiptext="더블클릭 시 수정이 가능합니다."/>
+                <Cell col="5" text="bind:PRODUCT_PATH" edittype="text"/>
+                <Cell col="6" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat="###,###,###0" maskeditpostfixtext="원" textAlign="right" maskeditmaskchar="," maskeditautoselect="false" maskeditlimitbymask="none" maskedittype="number" tooltiptext="더블클릭 시 수정이 가능합니다."/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_del" taborder="5" text="삭제" width="70" height="30" right="20" bottom="Grid00:65" cssclass="btn_dafault" onclick="btn_del_onclick"/>
-        <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:10" bottom="Grid00:65" cssclass="btn_dafault" onclick="btn_save_onclick"/>
-        <Button id="btn_add" taborder="3" text="신규" width="70" onclick="btn_add_onclick" right="btn_save:10" bottom="Grid00:65" height="30" cssclass="btn_dafault"/>
+        <Button id="btn_del" taborder="5" text="삭제" width="70" height="30" right="20" bottom="Grid00:5" cssclass="btn_dafault" onclick="btn_del_onclick"/>
+        <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:10" bottom="Grid00:5" cssclass="btn_dafault" onclick="btn_save_onclick"/>
+        <Button id="btn_add" taborder="3" text="신규" width="70" onclick="btn_add_onclick" right="btn_save:10" bottom="Grid00:5" height="30" cssclass="btn_dafault"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -64,6 +65,7 @@
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="chx" type="STRING" size="256"/>
           <Column id="num" type="STRING" size="256"/>
+          <Column id="PRODUCT_PATH" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="fir_category_select" useclientlayout="true">
@@ -108,8 +110,10 @@
           <Row/>
         </Rows>
       </Dataset>
+      <FileDialog id="FileDialog00" defaultextension="false" onclose="FileDialog00_onclose"/>
     </Objects>
     <Script type="xscript5.1"><![CDATA[//화면 시작 시
+var g_row = null;
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	this.sec_category.set_enable(false)// 중분류 카테고리 잠그기
@@ -263,7 +267,7 @@ this.view_code_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DS
 {
 //변경 된 값의 ROW의 갯 수 만큼 그리드 안의 NUM에 갯수 표시
 	for(i = 0; i < this.view_code.getRowCount(); i++){
-	this.view_code.setColumn(i, "num", i+1)
+	this.view_code.setColumn(i, "num", i+1+"번")
 	}
 };
 
@@ -345,17 +349,51 @@ var num = 0 ;
 		
 		}
 	}
-			
+
+
+};
+
+
+
+
+
+//그리드 더블클릭
+this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.view_code.setColumn(e.row,"chx",1);//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-				
+	if(e.cell == 5){
+		g_row = e.row
+			 this.FileDialog00.open('nexacro17', FileDialog.LOAD);
 			
-			
-			
+	}
+
+
+
+};
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	//이미 서버 내에 저장되어있는 이미지
+	img_name = e.virtualfiles[0].filename // 파일이름
+	img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
+	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
+   
+   //새로 수정해서 넣을 이미지
+  //images/책빵2024-05-29
+
+	if(img_name.filter(img_length) == "책빵"){
 		
+			alert("aa")
+	}else {
+		alert("vv");
+	
+	}
 		
 	
 
+
 };
+
 
 //카테고리 콜백 함수
 this.fn_category = function(id, code, message){
@@ -368,6 +406,7 @@ this.fn_category = function(id, code, message){
 				
 				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
 				this.sec_code.deleteRow(0)
+				
 		}
 				break;
 				
@@ -383,6 +422,14 @@ this.fn_category = function(id, code, message){
 				alert(count + "건 삭제되었습니다.")
 				this.reload();
 				break;
+				
+				case "view_code":
+				for(i = 0; i < this.view_code.getRowCount(); i++){
+				var img_name = this.view_code.getColumn(i,"PRODUCT_PATH")
+				var f_img_name = img_name.substr(7)
+				this.view_code.setColumn(i,"PRODUCT_PATH",f_img_name)
+				}
+				
 			
 			}
 		
@@ -391,15 +438,7 @@ this.fn_category = function(id, code, message){
 	
 
 }
-
-
-
-//그리드 더블클릭
-this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-	this.view_code.setColumn(e.row,"chx",1);//더블클릭한 cell의 체크박스 체크표시로 전환
-
-};]]></Script>
+]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="sec_category" propid="text" datasetid="sec_set" columnid="SEC_NAME"/>

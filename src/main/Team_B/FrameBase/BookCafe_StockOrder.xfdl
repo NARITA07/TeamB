@@ -638,7 +638,7 @@ this.fnUpdateStockQuantity = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-11. 콜백함수 */
+/* 3-12. 콜백함수 */
 this.fnCallback = function(svcID,errorCode,errorMsg)
 {
    // 에러 시 화면 처리 내역

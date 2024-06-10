@@ -34,7 +34,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="init_fir_code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="20" autofittype="col" border="1px solid #4F4537" bottom="Sec_code:100" top="13.89%" maxheight="400" minheight="" oncelldblclick="Main_Fir_code_oncelldblclick">
+              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="init_fir_code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="20" autofittype="col" border="1px solid #4F4537" bottom="Sec_code:80" top="16.67%" maxheight="400" minheight="" oncelldblclick="Main_Fir_code_oncelldblclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -62,19 +62,19 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_del" taborder="8" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Fir_code:5" right="20" width="70" onclick="Main_btn_del_onclick"/>
-              <Button id="btn_modi" taborder="7" text="수정" top="65" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="910" right="btn_del:10" bottom="Fir_code:5"/>
-              <Button id="btn_Fir" taborder="4" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_modi:30" cssclass="btn_dafault" top="65" bottom="Fir_code:5" onclick="Main_btn_Fir_onclick"/>
+              <Button id="btn_del" taborder="8" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Fir_code:5" right="1.85%" width="70" onclick="Main_btn_del_onclick"/>
+              <Button id="btn_modi" taborder="7" text="수정" top="85" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="910" right="btn_del:10" bottom="Fir_code:5"/>
+              <Button id="btn_Fir" taborder="4" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_modi:30" cssclass="btn_dafault" top="85" bottom="Fir_code:5" onclick="Main_btn_Fir_onclick"/>
               <Edit id="Fir_in" taborder="2" minheight="30" maxheight="30" borderRadius="5px" width="150" minwidth="150" maxwidth="150" right="btn_Fir:10" height="30" bottom="Fir_code:5" displaynulltext="상위코드 등록창" cssclass="edit_default"/>
               <Button id="btn_Modi_sec" taborder="10" text="수정" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:5" width="70" right="101" onclick="Main_btn_Modi_sec_onclick"/>
               <Button id="btn_Sec_add" taborder="9" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="btn_Modi_sec:30" onclick="Main_btn_Sec_add_onclick"/>
               <Edit id="Sec_in" taborder="3" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="btn_Sec_add:10" height="30" bottom="Sec_code:5" displaynulltext="하위코드 등록창" cssclass="edit_default"/>
               <Combo id="Sec_combo" taborder="5" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:5" cssclass="combo_default"/>
-              <Static id="Static00" taborder="6" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-              <Static id="Static01" text="상위 코드" left="20" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Fir_code:10" height="26"/>
-              <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="100" font="16px/normal &quot;Gulim&quot;" bottom="Sec_code:10" height="28"/>
-              <Button id="btn_del_sec" taborder="14" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:5" right="20" width="71" onclick="Main_btn_del_sec_onclick"/>
-              <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:0" height="28" onclick="Main_Static02_onclick" width="477" maxwidth="477" minwidth="" color="red" left="20"/>
+              <Static id="Static00" taborder="6" text="코드관리" left="1.76%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
+              <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:5" height="24" cssclass="title_sub"/>
+              <Button id="btn_del_sec" taborder="14" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:5" right="1.85%" width="71" onclick="Main_btn_del_sec_onclick"/>
+              <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:1" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>
             </Layout>
           </Layouts>
         </Div>

@@ -50,6 +50,9 @@
 		background-color: #AB8212;
 		color: white;
 	}
+	input.order_quantity {
+    	width: 40px;
+	}
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
@@ -68,7 +71,7 @@
 	<section class="py-5">
 		<div class="container px-4 px-lg-5 mt-5">
 			<h1 style="text-align:center; margin-top: 20px; margin-bottom:50px;">장바구니 목록</h1>
-			<table>
+			<table id="cartList">
 				<thead>
 					<tr style="text-align: center;">
 						<th>음식명</th>
@@ -85,14 +88,19 @@
 						</tr>
 					</c:if>
 					<c:if test="${not empty cartList}">
-						<c:forEach items="${cartList}" var="cart">
+						<c:forEach items="${cartList}" var="cart" varStatus="count">
 							<tr class="cartData">
-								<td>${cart.product_name}</td>
-								<td><fmt:formatNumber value="${cart.product_price}" type="number" groupingUsed="true"/>원</td>
-								<td>${cart.order_quantity}</td>
-								<td><fmt:formatNumber value="${cart.product_price*cart.order_quantity}" type="number" groupingUsed="true"/>원</td>
+								<td id="product_name${count.count}">${cart.product_name}</td>
+								<td class="product_price"><fmt:formatNumber value="${cart.product_price}" type="number" groupingUsed="true"/>원</td>
+								<td id="order_quantity${count.count}">
+                        			<input class="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()">
+                    			</td>
+								<td class="total_price">
+								<fmt:formatNumber value="${cart.product_price*cart.order_quantity}" type="number" groupingUsed="true"/>원
+								</td>
 								<td><button class="btn btn-light delete_btn" onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
 							</tr>
+							<input type="text" id="arrayCount" value="${count.index+1}">
 						</c:forEach>
 					</c:if>
 				</tbody>
@@ -111,7 +119,8 @@
 	<div class="cart-item">
 		<c:choose>
 			<c:when test="${not empty total_price}">
-				<button type="button" class="btn btn-light buy_btn" data-cart-code="${cart_code}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn btn-light buy_btn" data-cart-code="${cart_code}"
+				data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="direct_buy()">
 					구매
 				</button>
 			</c:when>
@@ -132,23 +141,28 @@
 	      <div class="modal-body">
 	      	 <form id="orderForm" action="/submitOrder" method="post">
 	             <div class="form-group">
-	                 <label for="totalPrice">총 금액</label>
-	                 <input type="text" class="form-control" id="totalPrice"  value="${total_price}" readonly>
-	             </div>
-	             <div class="form-group">
-	                 <label for="userPoints">유저 포인트 : </label>
-	                 ${loginInfo.user_point}
-	             </div>
-	             <div class="form-group">
-	                 <label for="usePoints">사용 포인트 입력</label>
-	                 <input type="text" class="form-control" id="usePoints" name="usePoints" value="0">
-	             </div>
-	             <div class="form-group">
-	                 <label for="amountOfPayment">결제 금액</label>
-	                 <input type="text" class="form-control" id="amountOfPayment" name="total_price" value="${total_price}" readonly>
-	             </div>
-           			<input type="hidden" name="user_code" id="userCodeInput"  value="${loginInfo.user_code}">
-					<input type="hidden" name="cart_code" id="cartCodeInput"  value="${cart_code}">
+	                <label for="totalPrice">총 금액 : </label>
+	                <span id="modalTotalPrice"></span>
+                </div>
+                <div class="form-group">
+	               	<label for="userPoints">유저 포인트 : </label>
+             		<fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/>원
+                </div>
+                 <div class="form-group">
+                     <label for="usePoints">사용 포인트 입력</label>
+                     <input type="number" class="form-control" id="usePoints" name="usePoints"
+                      oninput="validatePoints(${loginInfo.user_point})" value="${loginInfo.user_point}">
+                 </div>
+                 <div class="form-group">
+                     <label for="amountOfPayment">결제 금액 : </label>
+                     <span id="paymentAmount"></span>
+                     <input type="hidden" name="total_price" id="totalPriceInput">
+                 </div>
+                	<input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
+                    <input type="hidden" name="product_code" id="productCodeInput" value="">
+                    <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
+                    <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
+                    <input type="hidden" name="point_change" id="pointChangeInput">
 	           </form>
 	      </div>
 	      <div class="modal-footer">
@@ -161,27 +175,106 @@
 	<!-- End Modal -->
         
 	<script>
-	    // 포맷팅된 값을 설정하는 함수
-	    function setFormattedPrice() {
-	        const totalPriceField = document.getElementById('totalPrice');
-	        const amountOfPaymentField = document.getElementById('amountOfPayment');
-	        const usePointsField = document.getElementById('usePoints');
+	// 주문 수량과 가격을 곱한 값을 계산하고 총 금액을 업데이트하는 함수
+    function calculateTotalPrice() {
+        var totalPrice = 0;
+        // 각 주문 수량과 가격을 곱하여 총 금액을 계산
+        var orderQuantityElements = document.querySelectorAll('.order_quantity');
+        var priceElements = document.querySelectorAll('.product_price');
+        var total_price_elements = document.querySelectorAll('.total_price');
+
+        for (var i = 0; i < orderQuantityElements.length; i++) {
+            var orderQuantity = parseInt(orderQuantityElements[i].value);
+            console.log("테스트 "+orderQuantity)
+            // 수량 form 태그에 보내기
+        	document.getElementById('orderQuantityInput').value=orderQuantity;
+            var price = parseInt(priceElements[i].textContent.replace(/[^0-9]/g, ''));
+            var total_price = orderQuantity * price;
+            total_price_elements[i].innerHTML = new Intl.NumberFormat('ko-KR').format(total_price) + '원';
+            totalPrice += total_price;
+        }
+        
+        // 총 금액을 화면에 표시
+        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + '원';
+        
+    }
 	
-	        totalPriceField.value = formatPrice(parseInt(totalPriceField.value));
-	        amountOfPaymentField.value = formatPrice(parseInt(amountOfPaymentField.value));
-	        usePointsField.value = formatPrice(parseInt(usePointsField.value));
-	    }
+	// 구매버튼 클릭시 장바구니 수량 변경
+	function direct_buy(){
+		var table = document.getElementById('cartList');
+		var count = [];
+		
+		for (var i = 1, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            	count.push(col.innerText);
+            }
+        }
+        
+        console.log(count);
+        return count;
+
+	}
+
+    // 페이지 로드 시 총 금액을 계산하여 표시
+    window.onload = calculateTotalPrice;
 	
-	    // 가격을 포맷팅하는 함수
-	    function formatPrice(price) {
-	        return price.toLocaleString();
-	    }
+	function validatePoints(userPoints) {
+        var usePointsInput = document.getElementById('usePoints');
+        var usePointsValue = usePointsInput.value;
+
+        // 정규식으로 양의 정수인지 확인
+        var isPositiveInteger = /^\d+$/.test(usePointsValue);
+
+        if (!isPositiveInteger) {
+            alert('사용 포인트를 정확히 입력해주세요.');
+            return;
+        }
+
+        var usePoints = parseInt(usePointsInput.value);
+        var modalTotalPriceElement = document.getElementById('modalTotalPrice');
+        var totalPrice = parseInt(modalTotalPriceElement.textContent.replace(/[^0-9]/g, ''));
+
+        if (usePoints > userPoints) {
+            alert('잔여포인트보다 큽니다.');
+            usePointsInput.value = userPoints;
+            usePoints = userPoints;
+        }
+
+        if (usePoints > totalPrice) {
+            alert('총 금액보다 큽니다.');
+            usePointsInput.value = totalPrice;
+            usePoints = totalPrice;
+        }
+        
+        // 결제 금액 계산
+        var paymentAmount = totalPrice - usePoints;
+        
+        // 콘솔에 값 출력
+        console.log('사용 포인트: ' + usePoints + ', 결제 금액: ' + paymentAmount);
+
+        // 숨겨진 입력란에 결제 금액 업데이트
+        document.getElementById('pointChangeInput').value = usePoints;
+        document.getElementById('totalPriceInput').value = paymentAmount;
+
+        calculatePaymentAmount(); // 결제 금액 갱신
+    }
+
+    function calculatePaymentAmount() {
+        var totalPriceText = document.getElementById('modalTotalPrice').textContent;
+        var totalPrice = parseInt(totalPriceText.replace(/[^0-9]/g, ''));
+        var usePointsInput = document.getElementById('usePoints');
+        var usePoints = parseInt(usePointsInput.value);
+        if (isNaN(usePoints) || usePoints < 0) {
+            usePointsInput = 0;
+            usePoints = 0;
+        }
+        var paymentAmount = totalPrice - usePoints;
+        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
+    }
 	    
-	    var myModal = document.getElementById('myModal');
-	    var myInput = document.getElementById('myInput');
-	    
-	    /* 삭제 함수 */
+		/* 삭제 함수 */
 	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
+			console.log("카트코드 확인 "+ cart_code)
 	        alert("삭제되었습니다.");
 	        var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
 	            '&product_code=' + encodeURIComponent(product_code) +
@@ -189,34 +282,6 @@
 	            '&order_quantity=' + encodeURIComponent(order_quantity);
 	        window.location.href = url;
 	    }
-	
-	    // 결제 금액 계산 함수
-	    function calculateAmountOfPayment() {
-	        // 총 금액, 사용 포인트 입력값 가져오기
-	        var totalPrice = parseInt(document.getElementById("totalPrice").value);
-	        var usePoints = parseInt(document.getElementById("usePoints").value);
-	        var userPoints = parseInt(${loginInfo.user_point});
-	        
-	        // 유효한 숫자인지 확인
-	        if (!isNaN(totalPrice) && !isNaN(usePoints)) {
-	            // 사용 포인트가 유저 포인트보다 큰 경우 경고 메시지 표시
-	            if (usePoints > userPoints) {
-	                alert("사용 포인트는 보유 포인트보다 클 수 없습니다.");
-	                document.getElementById("usePoints").value = userPoints; // 사용 포인트를 최대 보유 포인트로 설정
-	                usePoints = userPoints;
-	            }
-	            // 결제 금액 계산
-	            var amountOfPayment = totalPrice - usePoints;
-	            // 결제 금액 필드에 값을 설정
-	            document.getElementById("amountOfPayment").value = amountOfPayment;
-	        }
-	    }
-	
-	    // 페이지 로드 시 포맷팅된 값을 설정
-	    window.onload = setFormattedPrice;
-	
-	    // 사용 포인트 입력 필드에서 값이 변경될 때마다 결제 금액 계산 함수 호출
-		document.getElementById("usePoints").addEventListener("input", calculateAmountOfPayment);
 	</script>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>

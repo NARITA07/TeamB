@@ -3,6 +3,7 @@ package bookcafe.myPage.serviceImpl;
 import java.util.List;
 
 import bookcafe.member.service.MemberVO;
+import bookcafe.myPage.service.MyBookDTO;
 import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.PWchangeDTO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -30,5 +31,11 @@ public interface MyPageMapper {
 	
 	// 카페주문내역 조회하기(오늘날짜)
 	public List<MyOrderDTO> getMyOrder(String user_code);
+	
+	// 도서대여내역 조회하기(전체내역)
+	public List<MyBookDTO> getMyBookList(String user_code);
+	
+	// 도서대여내역 조회하기(오늘날짜)
+	public List<MyBookDTO> getMyBook(String user_code);
 	
 }

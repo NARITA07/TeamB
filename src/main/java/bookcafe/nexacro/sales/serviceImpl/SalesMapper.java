@@ -26,6 +26,9 @@ public interface SalesMapper {
 	List<Map<String, Object>> selectBookList(Map<String, String> sales_con);
 
 	//insert 반납
-	Object insertSelected(Map<String, String> param);
+	void insertSelected(Map<String, String> param);
+
+	//delete 반납
+	void deleteSelected(Map<String, String> param);
 
 }

@@ -26,6 +26,9 @@ public interface CodeManagementService {
 	void sec_code_modi(List<Map<String, Object>> modi_date_sec);
 
 	void del_date_sec(List<Map<String, Object>> del_date_sec);
+
+	//최신 코드 조회
+	String max_code();
 	
 
 

@@ -52,4 +52,9 @@
  	<delete id="del_date_sec">
  	DELETE FROM SEC_CODE WHERE SEC_CODE = #{SEC_CODE}
  	</delete>
+ 	
+ 	<select id="max_code" resultType="String">
+ 	SELECT MAX(FIR_CODE) FROM FIR_CODE;
+ 	</select>
+ 	
 </mapper>

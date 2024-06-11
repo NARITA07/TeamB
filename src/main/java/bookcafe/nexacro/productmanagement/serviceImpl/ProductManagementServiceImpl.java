@@ -18,7 +18,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 
 	@Override
 	public int product_save(Map<String, Object> save_date) {
-		System.out.println(save_date);
 		int result = 0;
 		
 	String bool = (String) save_date.get("FIR_CODE");
@@ -61,6 +60,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		return nums;
 	}
 
+	//제품 수정
 	@Override
 	public Map<String, Object> update_product(List<Map<String, Object>> save_date) {
 		Map<String, Object>nums = new HashMap<>();

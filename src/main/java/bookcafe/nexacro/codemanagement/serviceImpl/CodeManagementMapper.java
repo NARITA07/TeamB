@@ -33,6 +33,8 @@ public interface CodeManagementMapper {
 	void sec_code_modi(Map<String, Object> modi_date_sec);
 
 	void del_date_sec(Map<String, Object> map);
+
+	String max_code();
 	
 
 	

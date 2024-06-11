@@ -6,9 +6,9 @@
         <Div id="Main" taborder="0" left="0.00%" top="0.00%" text="" cssclass="btn_dafault" right="0" bottom="0">
           <Layouts>
             <Layout>
-              <Div id="Div01" taborder="16" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%"/>
-              <Static id="Static00" taborder="6" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-              <Div id="Div00" taborder="15" left="1.85%" top="Static00:40" height="40" cssclass="main_nav" right="1.85%"/>
+              <Div id="Div01" taborder="11" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%"/>
+              <Static id="Static00" taborder="5" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Div id="Div00" taborder="10" left="1.85%" top="Static00:40" height="40" cssclass="main_nav" right="1.85%"/>
               <Grid id="Sec_code" taborder="1" binddataset="view_code" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" oncelldblclick="Main_Sec_code_oncelldblclick" height="200" right="20" bottom="2.78%">
                 <Formats>
                   <Format id="default">
@@ -37,7 +37,7 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="init_fir_code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="none" right="20" autofittype="col" border="1px solid #4F4537" maxheight="400" minheight="" oncelldblclick="Main_Fir_code_oncelldblclick" bottom="350" height="198">
+              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="init_fir_code" oncellclick="Main_Fir_code_oncellclick" scrollbartype="default default" right="20" autofittype="col" border="1px solid #4F4537" maxheight="400" minheight="" oncelldblclick="Main_Fir_code_oncelldblclick" bottom="350" height="198">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -65,14 +65,13 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_del" taborder="8" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:84" right="1.94%" width="70" onclick="Main_btn_del_onclick"/>
-              <Button id="btn_modi" taborder="7" text="수정" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="905" bottom="Fir_code:84" height="30" width="70"/>
-              <Button id="btn_Fir" taborder="4" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="185" cssclass="btn_save" bottom="Fir_code:84" onclick="Main_btn_Fir_onclick" height="30"/>
-              <Edit id="Fir_in" taborder="2" minheight="30" maxheight="30" borderRadius="5px" width="150" minwidth="150" maxwidth="150" right="895" height="30" bottom="Fir_code:39" displaynulltext="상위코드 등록창" cssclass="edit_default"/>
-              <Button id="btn_Modi_sec" taborder="10" text="수정" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:83" width="70" right="105" onclick="Main_btn_Modi_sec_onclick"/>
-              <Button id="btn_Sec_add" taborder="9" text="등록" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:83" right="185" onclick="Main_btn_Sec_add_onclick"/>
-              <Edit id="Sec_in" taborder="3" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="735" height="30" bottom="Sec_code:43" displaynulltext="하위코드 등록창" cssclass="edit_default"/>
-              <Combo id="Sec_combo" taborder="5" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:43" cssclass="combo_default"/>
+              <Button id="btn_del" taborder="7" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:84" right="1.94%" width="70" onclick="Main_btn_del_onclick"/>
+              <Button id="btn_modi" taborder="6" text="저장" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="905" bottom="Fir_code:84" height="30" width="70"/>
+              <Button id="btn_Fir" taborder="3" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="185" cssclass="btn_save" bottom="Fir_code:84" onclick="Main_btn_Fir_onclick" height="30"/>
+              <Button id="btn_Modi_sec" taborder="9" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:83" width="70" right="105" onclick="Main_btn_Modi_sec_onclick"/>
+              <Button id="btn_Sec_add" taborder="8" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:83" right="185" onclick="Main_btn_Sec_add_onclick"/>
+              <Edit id="Sec_in" taborder="2" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="735" height="30" bottom="Sec_code:43" displaynulltext="하위코드 등록창" cssclass="edit_default"/>
+              <Combo id="Sec_combo" taborder="4" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:43" cssclass="combo_default"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
               <Button id="btn_del_sec" taborder="14" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Sec_code:83" right="2.13%" width="71" onclick="Main_btn_del_sec_onclick"/>
@@ -179,7 +178,8 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[this.maxi_fir_code = "";
+
 
 //대분류 조회
 this.Sales_Board_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
@@ -292,32 +292,40 @@ this.modi = function(){
 
 
 }
-this.Main_btn_Fir_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
 
-if(this.Main.form.Fir_in.getLength() < 2){
-	alert("1자 이상 입력해주세요")
-	return false;
-	} else{
-	var date = this.Main.form.Fir_in.value
-	this.fir_code_add.setColumn(0,"FIR_NAME",date)
-	var id  = "add_fir_code";
-	var url = "svc::add_fir_code.do";
-	var set = "fir_code_add = fir_code_add";
-	var get = "message= message";
-	var arg = "";
-	var callback = "fn_category";
+//추가버튼
+this.Main_btn_Fir_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	this.max_fir_code(); //최신 fir_code 조회
+
+	alert(this.maxi_fir_code)
 	
-	this.transaction(id, url, set, get, arg, callback)
-	
-	
-	
-	
-	
-	
-	}
+	var row = this.init_fir_code.rowcount;
+	this.init_fir_code.addRow() // 로우 추가
+	//this.init_fir_code.setColumn(row,"FIR_CODE",)
+	this.init_fir_code.setColumn(row,"USE_STATUS","Y")
 };
 
+
+//최신 max_fir_code 조회
+this.max_fir_code = function(){
+		
+		alert("asd")
+		
+			var id = "max_fir_code"
+			var url = "svc::max_fir_code.do";
+			var set = "";
+			var get = "max_fir_code = max_fir_code";
+			var arg = "";
+			var	callback = "fn_category";
+			
+			this.transaction(id, url, set, get, arg, callback)
+
+}
+
+
+
+//삭제버튼
 this.Main_btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	var con = this.confirm("정말 삭제 하시겠습니까?")
@@ -479,6 +487,7 @@ this.fn_category = function(id, code, message){
 			case "del_date":
 				var count = this.message.getColumn(0,"num");
 				alert(count + "건 삭제되었습니다.")
+				break;
 			
 		}
 
@@ -501,10 +510,6 @@ this.del_date = function(){
 
 
 }
-this.Main_Static01_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
-{
-	
-};
 ]]></Script>
   </Form>
 </FDL>

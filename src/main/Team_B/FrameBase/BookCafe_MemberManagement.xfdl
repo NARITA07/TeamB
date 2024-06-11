@@ -320,7 +320,7 @@ this.makebtn = function(div,pagecount){
 	endbtn.init("endbtn",0,0,20, 30); // left top width height
   	endbtn.set_left((leftpos  + "px"));
  	endbtn.set_text(">>");
-	endbtn.set_cssclass("btn_dafault");
+	endbtn.set_cssclass("btn_num");
 	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
  	div.addChild("endbtn",endbtn); // div에  버튼 추가
  	endbtn.show();

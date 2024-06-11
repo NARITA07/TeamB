@@ -26,8 +26,8 @@
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" displaytype="checkboxcontrol" edittype="checkbox"/>
-                <Cell col="1" text="bind:ORDER_CODE"/>
-                <Cell col="2" text="bind:NAME"/>
+                <Cell col="1" text="bind:ORDER_CODE" suppress="1" suppressalign="middle"/>
+                <Cell col="2" text="bind:NAME" suppress="2" suppressalign="middle"/>
                 <Cell col="3" text="bind:BOOK"/>
                 <Cell col="4" text="bind:TIME"/>
               </Band>
@@ -122,11 +122,6 @@
 	
 	this.fnselectSalesCombo();
 	
-// 	var objDate = new Date();
-// 
-// 	var sYear = objDate.getFullYear().toString();
-// 	var sMonth = (objDate.getMonth() + 1).toString().padLeft(2, "0");
-// 	var sDay = objDate.getDate().toString().padLeft(2, "0");
 };
 
 //조회

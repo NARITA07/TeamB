@@ -147,7 +147,7 @@
 	    WHERE 
 	        rn = 1
 	    ORDER BY 
-	        ORDER_CODE DESC;
+	        STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d%H%i%s') DESC;
 	</select>
 	<!-- 중분류 콤보박스 -->
 	<select id="selectSalesCombo" parameterType="java.util.Map" resultType="java.util.Map">

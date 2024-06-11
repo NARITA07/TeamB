@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ENV version="2.1">
-  <Environment themeid="theme::default" datatyperule="2.0">
+  <Environment themeid="theme::default" datatyperule="2.0" filesecurelevel="all" networksecurelevel="all">
     <ScreenDefinition>
       <Screen id="Desktop_screen" type="desktop"/>
     </ScreenDefinition>
     <Variables/>
     <Cookies/>
+    <httpheader/>
   </Environment>
 </ENV>

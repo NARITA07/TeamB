@@ -95,6 +95,17 @@ for(int i = 0; i < modi_date_sec.size(); i++ ) {
 		}
 		
 		
+	}
+
+	
+	@Override
+	public String max_code() {
+		
+		String date = codemmapper.max_code();
+		
+		System.out.println(date.substring(4));
+		String fir_code = date.substring(4);
+		return codemmapper.max_code();
 	}		
 	
 	

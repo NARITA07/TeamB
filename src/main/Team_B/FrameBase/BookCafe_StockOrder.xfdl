@@ -59,7 +59,8 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00" taborder="3" left="1.76%" top="98" text="" cssclass="main_nav" right="1.85%" height="40">
+        <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
+        <Div id="Div00" taborder="3" left="1.76%" top="Static00:40" text="" cssclass="main_nav" right="1.85%" height="40">
           <Layouts>
             <Layout>
               <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
@@ -99,7 +100,6 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
         <Button id="Button00" taborder="4" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Button id="Button01" taborder="5" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="6" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>

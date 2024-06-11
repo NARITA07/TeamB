@@ -45,7 +45,7 @@
             PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_STATE
         ) VALUES (
             fnCode('order'), 'AD001', #{userCode}, #{cartCode}, '1', '0',
-            date_format(now(),'%Y%m%d%H%m%s'), '0', '1'
+            date_format(now(),'%Y%m%d%H%i%s'), '0', '1'
         )
     </insert>
     

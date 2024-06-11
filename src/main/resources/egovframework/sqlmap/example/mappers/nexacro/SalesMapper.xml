@@ -85,26 +85,27 @@
 		        AND B.BOOK_CATEGORY = #{SEC_CODE}
 		    </if>
 		GROUP BY
-			T.USER_CODE,
-			B.BOOK_NAME,
-			T.RETURN_DATE
+	        T.ORDER_CODE,
+	        T.USER_CODE,
+	        B.BOOK_NAME,
+	        T.RETURN_DATE
 		ORDER BY 
-		    STR_TO_DATE(T.RETURN_DATE, '%Y%m%d%H%m%s') DESC;
+		    STR_TO_DATE(T.RETURN_DATE, '%Y%m%d%H%i%s') DESC
 	</select>
 	<!-- 대여중인 책 목록 조회 -->
 	<select id="selectBookList" parameterType="java.util.Map" resultType="java.util.Map">
-	    WITH LatestBooks AS (
+		WITH LatestBooks AS (
 	        SELECT 
 	            'N' AS CHK,
 	            O.ORDER_CODE AS ORDER_CODE,
 	            U.USER_NAME AS NAME,
 	            B.BOOK_NAME AS BOOK,
 	            DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME,
-	            ROW_NUMBER() OVER (PARTITION BY B.BOOK_NAME ORDER BY STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d') DESC) AS rn
+	            ROW_NUMBER() OVER (PARTITION BY B.BOOK_NAME ORDER BY ORDER_CODE DESC) AS rn
 	        FROM 
 	            ORDERS O
 	        JOIN 
-	            BORROW R ON O.CART_CODE = R.BORROW_CODE
+	            BORROW R ON O.CART_CODE = R.BORROW_CODE and O.USER_CODE = R.USER_CODE
 	        JOIN
 	            BOOK B ON R.BOOK_CODE = B.BOOK_CODE
 	        JOIN 
@@ -146,7 +147,7 @@
 	    WHERE 
 	        rn = 1
 	    ORDER BY 
-	        STR_TO_DATE(TIME, '%Y%m%d%H%m%s');
+	        ORDER_CODE DESC;
 	</select>
 	<!-- 중분류 콤보박스 -->
 	<select id="selectSalesCombo" parameterType="java.util.Map" resultType="java.util.Map">
@@ -227,7 +228,7 @@
             SELECT fnCode('return') FROM DUAL
         </selectKey>
 		INSERT INTO RETURN_BOOK(RETURN_CODE, BOOK_CODE, USER_CODE, RETURN_DATE, ORDER_CODE)
-		VALUES(#{returnCode},#{BOOK},#{NAME},date_format(now(),'%Y%m%d%H%m%s'),#{ORDER_CODE})
+		VALUES(#{returnCode},#{BOOK},#{NAME},date_format(now(),'%Y%m%d%H%i%s'),#{ORDER_CODE})
 	</insert>
 	<!-- 반납 테이블에서 제거 -->
 	<delete id="deleteSelected" parameterType="java.util.Map">

@@ -240,38 +240,56 @@
 	-nexa-border : 0px none transparent,0px none,0px none;
 
 }
-.Button.btn_num,
-.Button.btn_num[status=focused]
+/* 디폴트 */
+.Button.btn_num
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
+	/* 브라운 */
 	background : #4F4537;
 	border-radius : 5px;	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
+
+/* 사용자가 클릭 후 */
+.Button.btn_num[status=focused]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 모카 */
+	background : #BEA888;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}/* 사용자가 마우스를 가져다 댈 때 */
 .Button.btn_num[status=mouseover]
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
+	/* 아이보리 */
 	background : #FAEBD7;
 	border-radius : 5px;	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
-.Button.btn_num[userstatus=pushed],
-.Button.btn_num[userstatus=selected]
+/* 사용자가 꾹 클릭하고 있을 때 */
+.Button.btn_num[userstatus=pushed]
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
-	background : #BEA888;
+	/* 아이보리 */
+	background : #FAEBD7 ;
 	border-radius : 5px;	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
+
+
 .Grid .body .row .cell.grid_nav .celltreeitem .treeitemtext
 {
 	font : normal 12pt /normal "Arial";

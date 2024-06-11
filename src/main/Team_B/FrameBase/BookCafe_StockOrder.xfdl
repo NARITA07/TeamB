@@ -103,6 +103,7 @@
         <Button id="Button00" taborder="4" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Button id="Button01" taborder="5" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="6" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+        <Button id="Button02" taborder="8" text="테스트" left="416" top="17" width="120" height="50" onclick="Button02_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
@@ -125,11 +126,11 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	this.fnFind_Thir_Combo();
 	
 	// grid1의 현재재고 오름차순 내림차순 정렬을 위해 현재 상태 변수지정
+	// gird의 컬럼 개수 count 해서 차례대로 변수 지정해보기
 	// Grid00_onheadclick 에서 사용
 	this.sortState1 = { column1 : "asc" };
 	this.sortState2 = { column2 : "asc" };
 	this.sortState3 = { column3 : "asc" };
-
 };
 
 ///////////* 2. 이벤트 *///////////
@@ -665,6 +666,11 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 	}
 };
 
+
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Grid00.getFormatColCount());
+};
 ]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true" oncolumnchanged="stock_grid1_oncolumnchanged">

@@ -3,7 +3,7 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Div id="Div01" taborder="7" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
+        <Div id="Div01" taborder="7" text="Div01" left="1.76%" top="420" height="40" right="1.76%" cssclass="main_nav">
           <Layouts>
             <Layout>
               <Static id="Static02" taborder="0" text="발주상태" left="8" top="13" width="48" height="14"/>
@@ -38,7 +38,7 @@
                       <Cell col="1" text="발주상태" background="#FFF8EE"/>
                       <Cell col="2" text="메뉴명" background="#FFF8EE"/>
                       <Cell col="3" text="발주수량" background="#FFF8EE"/>
-                      <Cell col="4" text="발주일시" background="#FFF8EE"/>
+                      <Cell col="4" text="발주일자" background="#FFF8EE"/>
                       <Cell col="5" text="신청자" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
@@ -46,7 +46,7 @@
                       <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
                       <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
                       <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
-                      <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
+                      <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd " displaytype="date"/>
                       <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
                     </Band>
                   </Format>
@@ -59,20 +59,20 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="1.85%" height="40">
+        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="0.00%" height="40">
           <Layouts>
             <Layout>
               <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
               <Static id="Static03" taborder="2" text="분류" left="11" top="13" width="24" height="14"/>
-              <Combo id="Combo00" taborder="1" left="40" top="5" width="100" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵"/>
+              <Combo id="Combo00" taborder="1" left="Static03:5" top="5" width="100" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100%">
+        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100.00%">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="20"/>
+                <Column size="24"/>
                 <Column size="100"/>
                 <Column size="49"/>
                 <Column size="37"/>
@@ -638,7 +638,7 @@ this.fnUpdateStockQuantity = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-12. 콜백함수 */
+/* 3-11. 콜백함수 */
 this.fnCallback = function(svcID,errorCode,errorMsg)
 {
    // 에러 시 화면 처리 내역

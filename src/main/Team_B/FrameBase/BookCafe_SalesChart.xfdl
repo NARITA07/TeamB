@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Sales_Chart" width="1080" height="670" titletext="매출현황" onload="Sales_Chart_onload">
+  <Form id="Sales_Chart" width="1080" height="670" titletext="매출현황차트" onload="Sales_Chart_onload">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
         <Div id="Div00" taborder="8" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
@@ -231,9 +231,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 
 	switch(svcID)
 	{
-		case "fnselectSalesCombo":
-			var row = this.ds_code.insertRow(0);
-			this.ds_code.setColumn(row, "NAME", "전체");
+		case "selectSalesCombo":
+			var row = this.combo_dtl.insertRow(0);
+			this.combo_dtl.setColumn(row, "SEC_NAME", "전체");
 			break;
 		case "selectReport":
 			if(this.ds_report.rowcount < 1)

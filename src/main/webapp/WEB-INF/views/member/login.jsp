@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,6 +74,10 @@ $(function() {
             }
         });
     });
+    // 페이지 로드 시 errorMessage 확인
+    <c:if test="${not empty errorMessage}">
+        alert("${errorMessage}");
+    </c:if>
 });
 </script>
 <style>
@@ -87,8 +92,8 @@ body {
 }
 
 button {
-    	font-weight: bold !important;
-    	font-size: 18px !important;
+       font-weight: bold !important;
+       font-size: 18px !important;
 }
 
 .container {

@@ -44,7 +44,7 @@
 <select id="selectSnsIdChk" resultType="int" parameterType="String"> 
 	SELECT COUNT(*) 
 	FROM USER 
-	WHERE USER_SNS_ID = #{value} 
+	WHERE USER_SNS_ID = #{value}
 </select>
 
 <!--  아이디 찾기 수정  -->

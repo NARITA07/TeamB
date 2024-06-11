@@ -30,8 +30,8 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
             <li class="nav-item"><a class="nav-link" href="/bookList.do">도서</a></li>
+            <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
 				<%
 					if(sUID == null || loginInfo == null){
 				%>
@@ -46,7 +46,7 @@
                 <button class="btn btn-outline-dark" type="button" onclick="goCart()">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">${cartSize}</span>
                 </button>
             </form>
 				<%

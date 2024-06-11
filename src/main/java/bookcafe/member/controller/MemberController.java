@@ -34,36 +34,36 @@ private final String clientSecret = "3eFou5WWJ5";
 private final String redirectURI = "http://localhost:8082/callback.do";
 private final String state = "randomState"; // CSRF 방지를 위한 상태 코드
 
-   /* 회원 등록 페이지 호출 */
-   @RequestMapping("memberWrite.do") 
-   public String MemberWrite() { 
-       return "/member/memberWrite"; 
-   }
-   
-   /* 회원 가입 처리 */
-   @RequestMapping("memberWriteSave.do")
-   @ResponseBody
-   public String insertMember(MemberVO memberVO) throws Exception {
-      
-       String message = memberService.insertMember(memberVO);
-       return message;
-   }
-   
-   /* 아이디 중복 체크 */
-   @RequestMapping("idChk.do")
-   @ResponseBody
-   public String selectIdChk(String user_id) throws Exception {
-       String message = "";
-       System.out.println("user_id :" + user_id);
-       int cnt = memberService.selectIdChk(user_id);
-       if (cnt == 0) {
-           message = "ok";
-       }
-       return message;
-   }
-   
-   /* 회원가입 시 마지막으로 id,tel 한번더체크 */
-   @PostMapping("/checkDuplicates.do")
+	/* 회원 등록 페이지 호출 */
+	@RequestMapping("memberWrite.do") 
+	public String MemberWrite() { 
+	    return "/member/memberWrite"; 
+	}
+	
+	/* 회원 가입 처리 */
+	@RequestMapping("memberWriteSave.do")
+	@ResponseBody
+	public String insertMember(MemberVO memberVO) throws Exception {
+		
+	    String message = memberService.insertMember(memberVO);
+	    return message;
+	}
+	
+	/* 아이디 중복 체크 */
+	@RequestMapping("idChk.do")
+	@ResponseBody
+	public String selectIdChk(String user_id) throws Exception {
+	    String message = "";
+	    System.out.println("user_id :" + user_id);
+	    int cnt = memberService.selectIdChk(user_id);
+	    if (cnt == 0) {
+	        message = "ok";
+	    }
+	    return message;
+	}
+	
+	/* 회원가입 시 마지막으로 id,tel 한번더체크 */
+	@PostMapping("/checkDuplicates.do")
     @ResponseBody
     public String checkDuplicates(@RequestParam String user_id, @RequestParam String user_tel) {
         Map<String, Boolean> response = new HashMap<>();
@@ -75,128 +75,128 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         JSONObject json = new JSONObject(response);
         return json.toString();
     }
-   
-   /* 로그인 페이지 */
-   @RequestMapping("login.do") 
-   public String login() { 
-       return "/member/login"; 
-   }
-   
-   /* 로그인 */
-   @RequestMapping("loginProc.do")
-   @ResponseBody
-   public String loginProc(MemberVO memberVO, HttpSession session) throws Exception {
-       String message = "";
-       int cnt = memberService.selectIdChk(memberVO.getUser_id());
-       if (cnt == 0) { // 아이디가 없습니다.
-           message = "x";
-       } else {
-           int loginResult = memberService.loginProc(memberVO);
-           if (loginResult == 1) {
-               MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
-               session.setAttribute("sessionId", memberVO.getUser_id());
-               session.setAttribute("loginInfo", loginInfo);
-               message = "ok"; // 로그인 성공
-           } else if (loginResult == 0) {
-               message = "wrong password"; // 패스워드가 틀렸습니다.
-           } else if (loginResult == -1) {
-               message = "withdrawn"; // 탈퇴한 회원
-           }
-       }
-       System.out.println(message);
-       return message;
-   }
-   
-   /* 로그아웃 */
-   @RequestMapping("logout.do")
-   public String logout(HttpSession session) {
-       String accessToken = (String) session.getAttribute("accessToken");
-       if (accessToken != null) {
-           // 네이버 로그아웃 API 호출
-           String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + clientId
-                   + "&client_secret=" + clientSecret + "&access_token=" + accessToken + "&service_provider=NAVER";
-           try {
-               HttpURLConnection conn = (HttpURLConnection) new URL(apiURL).openConnection();
-               conn.setRequestMethod("GET");
-               int responseCode = conn.getResponseCode();
-               if (responseCode == 200) { // 로그아웃 성공
-                   System.out.println("네이버 로그아웃 성공");
-               } else {
-                   System.out.println("네이버 로그아웃 실패");
-               }
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
-       // 세션 무효화
-       session.invalidate();
-       return "redirect:/";
-   }
-   
-   /* 아이디 및 비밀번호 찾기 페이지 이동 */
-   @RequestMapping("findIdPwForm.do")
-   public String findIdPwForm() {
-       return "/member/findIdPwForm";
-   }
-   
-   /* 아이디 찾기 처리 */
-   @RequestMapping("findId.do")
-   @ResponseBody
-   public String findId(@RequestParam("user_name") String userName, @RequestParam("user_email") String userEmail) throws Exception {
-       String userId = memberService.findId(userName, userEmail);
-       return userId != null ? userId : "not found";
-   }
-   
-   /* 비밀번호 찾기 처리 */
-   @RequestMapping("findPw.do")
-   @ResponseBody
-   public String findPw(@RequestParam("user_id") String userId, @RequestParam("user_name") String userName, @RequestParam("user_tel") String userTel) throws Exception {
-       boolean userExists = memberService.findPw(userId, userName, userTel);
-       return userExists ? "found" : "not found";
-   }
-   
-   /* 비밀번호 재설정 */
-   @RequestMapping("resetPassword.do")
-   @ResponseBody
-   public String resetPassword(@RequestParam("user_id") String userId, @RequestParam("new_password") String newPassword) throws Exception {
-       boolean success = memberService.resetPassword(userId, newPassword);
-       return success ? "success" : "fail";
-   }
-   
-   @RequestMapping("verifyCode.do")
-   @ResponseBody
-   public String verifyCode(@RequestParam("verificationCode") String verificationCode, HttpSession session) {
-       String sessionCode = (String) session.getAttribute("verificationCode");
-   
-       if (verificationCode.equals(sessionCode)) {
-           return "ok";
-       } else {
-           return "fail";
-       }
-   }
-   
-   @RequestMapping("checkEmailAuthCode.do")
-   @ResponseBody
-   public String checkEmailAuthCode(@RequestParam("emailAuthCode") String emailAuthCode, HttpSession session) {
-       String sessionCode = (String) session.getAttribute("emailAuthCode");
-   
-       if (emailAuthCode.equals(sessionCode)) {
-           return "ok";
-       } else {
-           return "fail";
-       }
-   }
-   
-   /* 네이버 로그인 */
-   @RequestMapping("naverLogin.do")
-   public String naverLogin(HttpSession session) {
-       session.setAttribute("state", state);
-       String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + clientId
-               + "&redirect_uri=" + redirectURI + "&state=" + state;
-       return "redirect:" + apiURL;
-   }
-   
-   @GetMapping("/callback.do")
+	
+	/* 로그인 페이지 */
+	@RequestMapping("login.do") 
+	public String login() { 
+	    return "/member/login"; 
+	}
+	
+	/* 로그인 */
+	@RequestMapping("loginProc.do")
+	@ResponseBody
+	public String loginProc(MemberVO memberVO, HttpSession session) throws Exception {
+	    String message = "";
+	    int cnt = memberService.selectIdChk(memberVO.getUser_id());
+	    if (cnt == 0) { // 아이디가 없습니다.
+	        message = "x";
+	    } else {
+	        int loginResult = memberService.loginProc(memberVO);
+	        if (loginResult == 1) {
+	            MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
+	            session.setAttribute("sessionId", memberVO.getUser_id());
+	            session.setAttribute("loginInfo", loginInfo);
+	            message = "ok"; // 로그인 성공
+	        } else if (loginResult == 0) {
+	            message = "wrong password"; // 패스워드가 틀렸습니다.
+	        } else if (loginResult == -1) {
+	            message = "withdrawn"; // 탈퇴한 회원
+	        }
+	    }
+	    System.out.println(message);
+	    return message;
+	}
+	
+	/* 로그아웃 */
+	@RequestMapping("logout.do")
+	public String logout(HttpSession session) {
+	    String accessToken = (String) session.getAttribute("accessToken");
+	    if (accessToken != null) {
+	        // 네이버 로그아웃 API 호출
+	        String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + clientId
+	                + "&client_secret=" + clientSecret + "&access_token=" + accessToken + "&service_provider=NAVER";
+	        try {
+	            HttpURLConnection conn = (HttpURLConnection) new URL(apiURL).openConnection();
+	            conn.setRequestMethod("GET");
+	            int responseCode = conn.getResponseCode();
+	            if (responseCode == 200) { // 로그아웃 성공
+	                System.out.println("네이버 로그아웃 성공");
+	            } else {
+	                System.out.println("네이버 로그아웃 실패");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    // 세션 무효화
+	    session.invalidate();
+	    return "redirect:/";
+	}
+	
+	/* 아이디 및 비밀번호 찾기 페이지 이동 */
+	@RequestMapping("findIdPwForm.do")
+	public String findIdPwForm() {
+	    return "/member/findIdPwForm";
+	}
+	
+	/* 아이디 찾기 처리 */
+	@RequestMapping("findId.do")
+	@ResponseBody
+	public String findId(@RequestParam("user_name") String userName, @RequestParam("user_email") String userEmail) throws Exception {
+	    String userId = memberService.findId(userName, userEmail);
+	    return userId != null ? userId : "not found";
+	}
+	
+	/* 비밀번호 찾기 처리 */
+	@RequestMapping("findPw.do")
+	@ResponseBody
+	public String findPw(@RequestParam("user_id") String userId, @RequestParam("user_name") String userName, @RequestParam("user_tel") String userTel) throws Exception {
+	    boolean userExists = memberService.findPw(userId, userName, userTel);
+	    return userExists ? "found" : "not found";
+	}
+	
+	/* 비밀번호 재설정 */
+	@RequestMapping("resetPassword.do")
+	@ResponseBody
+	public String resetPassword(@RequestParam("user_id") String userId, @RequestParam("new_password") String newPassword) throws Exception {
+	    boolean success = memberService.resetPassword(userId, newPassword);
+	    return success ? "success" : "fail";
+	}
+	
+	@RequestMapping("verifyCode.do")
+	@ResponseBody
+	public String verifyCode(@RequestParam("verificationCode") String verificationCode, HttpSession session) {
+	    String sessionCode = (String) session.getAttribute("verificationCode");
+	
+	    if (verificationCode.equals(sessionCode)) {
+	        return "ok";
+	    } else {
+	        return "fail";
+	    }
+	}
+	
+	@RequestMapping("checkEmailAuthCode.do")
+	@ResponseBody
+	public String checkEmailAuthCode(@RequestParam("emailAuthCode") String emailAuthCode, HttpSession session) {
+	    String sessionCode = (String) session.getAttribute("emailAuthCode");
+	
+	    if (emailAuthCode.equals(sessionCode)) {
+	        return "ok";
+	    } else {
+	        return "fail";
+	    }
+	}
+	
+	/* 네이버 로그인 */
+	@RequestMapping("naverLogin.do")
+	public String naverLogin(HttpSession session) {
+	    session.setAttribute("state", state);
+	    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + clientId
+	            + "&redirect_uri=" + redirectURI + "&state=" + state;
+	    return "redirect:" + apiURL;
+	}
+	
+	@GetMapping("/callback.do")
     public RedirectView naverCallback(@RequestParam(value = "code", required = false) String code, 
                                       @RequestParam(value = "state", required = false) String state, 
                                       @RequestParam(value = "error", required = false) String error,
@@ -256,13 +256,7 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         memberVO.setUser_tel(userTel);
         memberVO.setUser_address(userAddress);
         memberVO.setUser_authority("1");
-        
-        boolean checkTelExists = memberService.checkTelExists(userTel);
-        if (checkTelExists == true) {
-           redirectAttributes.addFlashAttribute("errorMessage", "일반회원가입자 입니다.");
-            return new RedirectView("login.do");
-        }
-        
+
         int userExists = memberService.selectSnsIdChk(userId);
         if (userExists == 0) {
             memberService.insertNaverMember(memberVO);
@@ -272,6 +266,6 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         session.setAttribute("accessToken", accessToken);
         session.setAttribute("loginInfo", memberVO);
 
-      return new RedirectView("/");
+        return new RedirectView("/");
     }
 }

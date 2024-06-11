@@ -3,7 +3,7 @@
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
-        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="false" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none">
+        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,all" treeasynctoggle="true" font="12px/normal &quot;Gulim&quot;" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none">
           <Formats>
             <Format id="default">
               <Columns>
@@ -13,7 +13,7 @@
                 <Row size="50"/>
               </Rows>
               <Band id="body">
-                <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" font="30px/normal &quot;Gulim&quot;" border="1px none #dbdee2, 1px none #dbdee2, 1px solid #dbdee2" cursor="pointer"/>
+                <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" font="30px/normal &quot;Gulim&quot;" border="1px none #4F4537, 1px none #4F4537, 1px solid #4F4537" cursor="pointer"/>
               </Band>
             </Format>
           </Formats>

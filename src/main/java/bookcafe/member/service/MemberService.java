@@ -30,7 +30,7 @@ boolean resetPassword(String userId, String newPassword) throws Exception;
 public String insertNaverMember(MemberVO memberVO) throws Exception;
 
 // user_sns_id 중복 체크
-public int selectSnsIdChk(String user_sns_id); 
+public int selectSnsIdChk(String user_sns_id);
 
 //회원정보 조회하기
 public MemberVO getUserInfo(String user_id);

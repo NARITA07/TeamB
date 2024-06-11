@@ -231,5 +231,9 @@
 .Grid .body .row .cell.grid_nav[userstatus=selected]
 {
 	background : #FAEBD7;
+}.ImageViewer.iv_none_border
+{
+	-nexa-border : 0px none transparent,0px none,0px none;
+
 }
 ]]></XCSS>

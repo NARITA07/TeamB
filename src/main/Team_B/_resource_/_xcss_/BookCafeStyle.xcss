@@ -226,4 +226,10 @@
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
+
+.Grid .body .row .cell.grid_nav[status=mouseover],
+.Grid .body .row .cell.grid_nav[userstatus=selected]
+{
+	background : #FAEBD7;
+}
 ]]></XCSS>

@@ -7,6 +7,12 @@ public String insertMember(MemberVO memberVO) throws Exception;
 
 /* 중복 확인 */
 public int selectIdChk(String user_id);
+
+/* 마지막으로 id 한번더 체크 */
+public boolean checkIdExists(String user_id);
+
+/* 마지막으로 tel 한번더 체크 */
+public boolean checkTelExists(String user_tel);
 	
 /* 로그인 */
 public int loginProc(MemberVO memberVO);
@@ -24,7 +30,7 @@ boolean resetPassword(String userId, String newPassword) throws Exception;
 public String insertNaverMember(MemberVO memberVO) throws Exception;
 
 // user_sns_id 중복 체크
-public int selectSnsIdChk(String user_sns_id);
+public int selectSnsIdChk(String user_sns_id); 
 
 //회원정보 조회하기
 public MemberVO getUserInfo(String user_id);

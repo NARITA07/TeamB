@@ -19,6 +19,13 @@
 			user_address = #{user_address}
 		where user_id = #{user_id}
 	</update>
+	
+	<!-- 전화번호 중복 확인하기 -->
+	<select id="checkDupTel" resultType="int">
+		select count(user_tel) 
+		from USER 
+		where user_tel = #{user_tel}
+	</select>
 
 	<!-- 회원정보 삭제하기 -->
 	<update id="deleteMember">
@@ -27,119 +34,113 @@
 		where user_id = #{user_id}
 	</update>
 	
-	<!-- 예약정보 현재시각기준 업데이트 -->
-<!-- 	<update id="updateTBLReserve"> -->
-<!-- 	<![CDATA[ -->
-<!-- 		update rent001.TBL_RESERVE as r -->
-<!-- 		left join TBL_PAYMENT as p on r.res_rid = p.pay_res_rid -->
-<!-- 		set r.res_status =  -->
-<!-- 		    case  -->
-<!-- 		        when r.res_status != '예약취소'  -->
-<!-- 		            and r.res_rental_date <= now()  -->
-<!-- 		            and r.res_return_date >= now()  -->
-<!-- 		            and p.pay_status is null then '기한만료' -->
-<!-- 		        when r.res_status != '예약취소'  -->
-<!-- 		            and r.res_rental_date <= now()  -->
-<!-- 		            and r.res_return_date >= now() then '이용중' -->
-<!-- 		        when r.res_status != '예약취소'  -->
-<!-- 		            and r.res_return_date < now() then '이용완료' -->
-<!-- 		        when r.res_status != '예약취소'  -->
-<!-- 		            and r.res_return_date < now() -->
-<!-- 		            and p.pay_status is null then '기한만료' -->
-<!-- 		        else r.res_status -->
-<!-- 		    end, -->
-<!-- 		    r.res_modi_date = now() -->
-<!-- 		where r.res_mem_id = #{mem_id} -->
-<!--    	]]> -->
-<!-- 	</update> -->
+	<!-- 3개월 구매금액 조회하기 -->
+	<select id="getMyPurchaseAmount" resultType="Integer">
+		select sum(total_price) as total_purchase_amount
+		from ORDERS
+		where user_code = #{user_code} 
+  		and payment_date >= date_sub(CURDATE(), INTERVAL 3 MONTH);
+	</select>
 	
-	<!-- 카페주문내역 조회하기(ORDERS + CART) -->
+	<!-- 카페주문내역 조회하기(전체내역) -->
  	<select id="getMyOrderList" resultType="bookcafe.myPage.service.MyOrderDTO">
- 		SELECT O.* , C.PRODUCT_CODE , C.CART_CODE , C.ORDER_QUANTITY 
-		FROM ORDERS O 
-		JOIN CART C ON O.USER_CODE = C.USER_CODE 
-		WHERE O.USER_CODE = #{user_code} 
-		GROUP BY O.ORDER_CODE 
-		ORDER BY O.PAYMENT_DATE;
+		SELECT *
+		FROM (
+		    SELECT
+		        O.*,
+		        C.product_code,
+		        F.product_name,
+		        C.whole_quantity,
+		        ROW_NUMBER() OVER (ORDER BY O.PAYMENT_DATE ASC) AS ROWNUM
+		    FROM
+		        ORDERS O
+		    JOIN (
+		        SELECT
+		            cart_code,
+		            product_code,
+		            SUM(order_quantity) AS whole_quantity
+		        FROM
+		            CART
+		        GROUP BY
+		            cart_code
+		    ) C ON O.cart_code = C.cart_code
+		    JOIN FOOD F ON C.product_code = F.product_code
+		    WHERE
+		        O.user_code = #{user_code}
+		    GROUP BY
+		        O.order_code
+		) AS T
+		ORDER BY ROWNUM DESC;
   	</select>
-	
-	<!-- 주문 건 1개 조회(CART + FOOD) -->
-<!--  	<select id="getMyOrderListByOne" resultType="bookcafe.myPage.service.MyOrderDTO"> -->
-<!--  		SELECT O.* , C.PRODUCT_CODE , C.CART_CODE , C.ORDER_QUANTITY  -->
-<!-- 		FROM ORDERS O  -->
-<!-- 		JOIN CART C ON O.USER_CODE = C.USER_CODE  -->
-<!-- 		WHERE O.USER_CODE = #{user_code}  -->
-<!-- 		GROUP BY O.ORDER_CODE  -->
-<!-- 		ORDER BY O.PAYMENT_DATE; -->
-<!--   	</select> -->
-	
-	<!-- 예약취소 -->
-<!-- 	<update id="cancelReservation"> -->
-<!-- 		update rent001.TBL_RESERVE -->
-<!-- 		set res_status = '예약취소' -->
-<!-- 		where res_rid = #{res_rid} -->
-<!-- 		and res_status = '예약중' -->
-<!-- 	</update> -->
-	
-	<!-- 예약정보 현재시각기준 업데이트(비회원) -->
-<!-- 	<update id="updateNonMember"> -->
-<!-- 	<![CDATA[ -->
-<!-- 		update rent001.TBL_NONMEMBER -->
-<!-- 		set non_status =  -->
-<!--    			case  -->
-<!-- 	        when non_status != '예약취소' and non_rental_date <= now() and non_return_date >= now() then '이용중' -->
-<!-- 	        when non_status != '예약취소' and non_return_date < now() then '이용완료' -->
-<!-- 	        else non_status -->
-<!--     	end, -->
-<!--     	non_modi_date = NOW() -->
-<!--     	where non_name = #{non_name} and non_tel = #{non_tel} -->
-<!--    	]]> -->
-<!-- 	</update> -->
-	
-	<!-- 예약정보 조회하기(비회원) -->
-<!--  	<select id="getMemberList_non" resultType="com.kh.rent.reserve.domain.NonMemberVO"> -->
-<!--  		select * -->
-<!--  		from rent001.TBL_NONMEMBER -->
-<!--  		where non_name = #{non_name} -->
-<!--  		and non_tel = #{non_tel} -->
-<!--   	</select> -->
   	
-	<!-- 예약번호로 차종 조회하기(비회원) -->
-<!-- 	<select id="getCarName_non" resultType="String"> -->
-<!-- 		select ci.car_name -->
-<!-- 		from rent001.TBL_NONMEMBER as n -->
-<!-- 		join rent001.TBL_CAR_INFO as ci on n.non_car_id = ci.car_index -->
-<!-- 		where n.non_rid = #{res_rid} and n.non_car_id = #{res_car_id} -->
-<!-- 	</select> -->
-	
-	<!-- 예약취소(비회원) -->
-<!-- 	<update id="cancelReservation_non"> -->
-<!-- 		update rent001.TBL_NONMEMBER -->
-<!-- 		set non_status = '예약취소' -->
-<!-- 		where non_rid = #{non_rid} -->
-<!-- 	</update> -->
-	
-	<!-- 예약정보 조회하기(마이페이지) -->
-<!--  	<select id="getMyReserveList" resultType="com.kh.rent.myPage.domain.GetStatusDTO"> -->
-<!--  		SELECT R.*, CI.FILE_ID, CI.CAR_INDEX, CI.CAR_NAME, F.UNIQUE_FILE_NM -->
-<!-- 		FROM TBL_RESERVE R -->
-<!-- 		LEFT JOIN TBL_CAR_INFO CI ON R.RES_CAR_ID = CI.CAR_INDEX -->
-<!-- 		LEFT JOIN TBL_FILE F ON CI.FILE_ID = F.FILE_ID -->
-<!-- 		WHERE R.res_mem_id = #{mem_id} -->
-<!-- 		AND (R.res_status = '예약중' OR R.res_status = '예약완료') -->
-<!-- 		ORDER BY R.res_rental_date ASC; -->
-<!-- 	</select> -->
-
-	<!-- 예약정보 조회하기(예약번호 1개 정보) -->
-<!-- 	<select id="getMyResInfo" resultType="com.kh.rent.myPage.domain.GetStatusDTO"> -->
-<!--  		select r.*,  -->
-<!--  			   p.pay_status, p.pay_pid,  -->
-<!--  			   c.car_name, c.car_company, c.car_fuel, -->
-<!--  			   c.op_carseat, c.op_navi, c.op_bt, c.op_cam -->
-<!-- 		from TBL_RESERVE as r -->
-<!-- 		left join TBL_PAYMENT as p on r.res_rid = p.pay_res_rid -->
-<!--    		left join TBL_CAR_INFO as c on r.res_car_id = c.car_index -->
-<!--  		where res_rid = #{res_rid} -->
-<!-- 	</select> -->
+	<!-- 카페주문내역 조회하기(오늘날짜) -->
+ 	<select id="getMyOrder" resultType="bookcafe.myPage.service.MyOrderDTO">
+		SELECT
+        O.*,
+        C.product_code,
+        F.product_name,
+        F.product_path,
+        C.whole_quantity
+	    FROM
+	        ORDERS O
+	    JOIN (
+	        SELECT
+	            cart_code,
+	            product_code,
+	            SUM(order_quantity) AS whole_quantity
+	        FROM
+	            CART
+	        GROUP BY
+	            cart_code
+	    ) C ON O.cart_code = C.cart_code
+	    JOIN FOOD F ON C.product_code = F.product_code
+	    WHERE
+	        O.user_code = #{user_code}
+	        AND DATE(O.payment_date) = CURDATE() 
+	    GROUP BY
+	        O.order_code
+	    ORDER BY O.payment_date;
+  	</select>
+  	
+ 	<!-- 도서 대여내역 조회하기(전체내역) -->
+ 	<select id="getMyBookList" resultType="bookcafe.myPage.service.MyBookDTO">
+		SELECT *
+		FROM (
+		    SELECT
+		        BK.*,
+		        BR.BORROW_CODE,
+		        BR.USER_CODE,
+		        O.ORDER_CODE,
+		        O.PAYMENT_DATE,
+		        SC.SEC_NAME,
+		        ROW_NUMBER() OVER (ORDER BY O.PAYMENT_DATE ASC) AS ROWNUM
+		    FROM
+		        BOOK BK
+		    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE
+		    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
+		    JOIN SEC_CODE SC ON BK.BOOK_CATEGORY = SC.SEC_CODE
+		    WHERE
+		        O.USER_CODE = #{user_code}
+		) AS T
+		ORDER BY ROWNUM DESC
+  	</select>
+  	
+  	<!-- 도서 대여내역 조회하기(오늘날짜) -->
+ 	<select id="getMyBook" resultType="bookcafe.myPage.service.MyBookDTO">
+	    SELECT
+	        BK.*,
+	        BR.BORROW_CODE,
+	        BR.USER_CODE,
+	        O.ORDER_CODE,
+	        O.ORDER_STATE,
+	        O.PAYMENT_DATE
+	    FROM
+	        BOOK BK
+	    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE
+	    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
+	    WHERE
+	        O.USER_CODE = #{user_code}
+	        AND DATE(O.payment_date) = CURDATE()
+  	</select>
 	
 </mapper>

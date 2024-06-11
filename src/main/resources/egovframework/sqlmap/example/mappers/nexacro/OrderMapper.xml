@@ -16,10 +16,14 @@
 		   AND fc.USER_CODE = u.USER_CODE 
 		WHERE o.ORDER_STATE <![CDATA[<]]> #{end_state}
 		  AND o.ORDER_STATE <![CDATA[>]]> #{start_state}
-		  <if test="start_state == 4">
-		  AND DATE(o.PAYMENT_DATE) = DATE(NOW())
-		  </if>
-		  AND o.PAYMENT_STATE <![CDATA[=]]> 1
+		  <choose>
+			<when test="end_state == 4"> 
+				AND DATE(o.PAYMENT_DATE) = DATE(NOW()) 
+			</when>
+			<otherwise> 
+				AND o.PAYMENT_STATE = 1 
+			</otherwise>
+		</choose>
 	ORDER BY o.PAYMENT_DATE ASC
 	</select>
 	<update id="updateOrders">

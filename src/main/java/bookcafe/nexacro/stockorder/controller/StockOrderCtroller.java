@@ -44,17 +44,13 @@ public class StockOrderCtroller {
     	return result;
     } 
     
+    // grid2 list 불러오기
     @RequestMapping(value = "/grid2OrderList.do")
     public NexacroResult grid2OrderList() {
-    	
-    	System.out.println("grid2 메뉴리스트 조회 요청이 들어왔습니다.");
-    	
     	List<Map<String, Object>> dataList = soservice.grid2OrderList();
     	
     	NexacroResult result = new NexacroResult();
     	result.addDataSet("stock_grid2", dataList);
-    	
-    	System.out.println("전송되는 데이터 : " + dataList);
     	return result;
     }     
     
@@ -99,31 +95,59 @@ public class StockOrderCtroller {
     @RequestMapping("/saveStockOrder.do")
     public NexacroResult saveStockOrder(@ParamDataSet(name = "stock_order", required = false) List<Map<String,String>> stock_order){
     	
-    	System.out.println("뭐가들어왔나요?"+stock_order);
-    	
     	NexacroResult result = new NexacroResult();	
     
         int service_result = soservice.saveStockOrder(stock_order);
-	    //result.addDataSet("result_stock_order",dataList);
+
         return result;
     }
     
-    // 조회하기 버튼
+    // 발주신청서 상태 업데이트
+    @RequestMapping("/updateStockOrder.do")
+    public NexacroResult updateStockOrder(@ParamDataSet(name = "stock_order_update", required = false) List<Map<String,String>> stock_order_update){
+    	
+    	NexacroResult result = new NexacroResult();	
+    
+        int service_result = soservice.updateStockOrder(stock_order_update);
+
+        return result;
+    }
+    
+    // 재고 업데이트
+    @RequestMapping("/updateStockQuantity.do")
+    public NexacroResult updateStockQuantity(@ParamDataSet(name = "stock_order_update", required = false) List<Map<String,String>> stock_order_update){
+    	
+    	System.out.println("뭐가들어왔나요?"+stock_order_update);
+    	
+    	NexacroResult result = new NexacroResult();	
+    
+        int service_result = soservice.updateStockQuantity(stock_order_update);
+
+        return result;
+    }
+    
+    // 조회하기 버튼 grid1
     @RequestMapping(value = "/ViewList.do")
     public NexacroResult ViewList(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
-    	
-    	System.out.println("조회하기버튼 클릭! : " + search_so_grid);
-    	
     	List<Map<String, Object>> dataList = soservice.ViewList(search_so_grid);
-    	
 	    NexacroResult result = new NexacroResult();
-	    result.addDataSet("stock_grid1", dataList);
-	    
-	    System.out.println("보내는 데이터 : "+ dataList);
-	
+	    result.addDataSet("stock_grid1", dataList);	
 	    return result;
     	
     }
+    
+    // 조회하기 버튼 grid2
+    @RequestMapping(value = "/ViewStockOrder.do")
+    public NexacroResult ViewStockOrder(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
+    	
+    	List<Map<String, Object>> dataList = soservice.ViewStockOrder(search_so_grid);
+    	
+	    NexacroResult result = new NexacroResult();
+	    result.addDataSet("stock_grid2", dataList);
+	
+	    return result;
+    	
+    }    
     
 }
 

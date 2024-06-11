@@ -15,6 +15,16 @@
     WHERE USER_ID = #{value}
 </select>
 
+<!--  마지막으로 아이디 중복 체크  -->
+<select id="checkIdExists" resultType="int" parameterType="String"> 
+	SELECT COUNT(*) FROM USER WHERE USER_ID = #{user_id} 
+</select>
+
+<!--  마지막으로 전화번호 중복 체크  -->
+<select id="checkTelExists" resultType="int" parameterType="String"> 
+	SELECT COUNT(*) FROM USER WHERE USER_TEL = #{user_tel} 
+</select>
+
 <!-- 로그인 처리 -->
 <select id="loginProc" resultType="int" parameterType="bookcafe.member.service.MemberVO">
     SELECT COUNT(*)
@@ -34,7 +44,7 @@
 <select id="selectSnsIdChk" resultType="int" parameterType="String"> 
 	SELECT COUNT(*) 
 	FROM USER 
-	WHERE USER_SNS_ID = #{value} 
+	WHERE USER_SNS_ID = #{value}
 </select>
 
 <!--  아이디 찾기 수정  -->

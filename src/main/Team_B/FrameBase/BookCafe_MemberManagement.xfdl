@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="1.85%" bottom="2.78%" border="1px solid #4F4537">
+        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" oncellclick="user_table_oncellclick" autofittype="col" right="1.85%" bottom="2.78%" border="1px solid #4F4537" oncelldblclick="user_table_oncelldblclick" onheadclick="user_table_onheadclick" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter">
           <Formats>
             <Format id="default">
               <Columns>
@@ -16,7 +16,6 @@
                 <Column size="60"/>
                 <Column size="80"/>
                 <Column size="50"/>
-                <Column size="87"/>
               </Columns>
               <Rows>
                 <Row size="40" band="head"/>
@@ -32,83 +31,154 @@
                 <Cell col="6" text="휴대폰" background="#FFF8EE"/>
                 <Cell col="7" text="주소" background="#FFF8EE"/>
                 <Cell col="8" text="포인트" background="#FFF8EE"/>
-                <Cell col="9" text="포인트 사용일" background="#FFF8EE" maskedittype="string" maskeditformat="@@@@-@@-@@"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:USER_AUTHORITY" textAlign="center"/>
-                <Cell col="2" text="bind:USER_JOINDATE" displaytype="mask" maskeditformat="####-##-##"/>
-                <Cell col="3" text="bind:USER_ID"/>
-                <Cell col="4" text="bind:USER_NAME"/>
-                <Cell col="5" text="bind:USER_EMAIL"/>
-                <Cell col="6" text="bind:USER_TEL" textAlign="center"/>
-                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english"/>
-                <Cell col="8" text="bind:USER_POINT"/>
-                <Cell col="9" text="bind:POINT_JOINDATE" textAlign="right" displaytype="mask"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
+                <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="2" text="bind:USER_JOINDATE" displaytype="mask" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="4" text="bind:USER_NAME" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="6" text="bind:USER_TEL" textAlign="center" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="8" text="bind:USER_POINT" edittype="normal" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
         <Static id="Static00" taborder="1" text="회원관리" left="1.85%" width="128" height="37" top="2.78%" cssclass="main_title"/>
-        <Button id="Button00_00" taborder="3" text="수정" left="916" top="56" height="30" cssclass="btn_dafault" right="94"/>
-        <Button id="Button00" taborder="2" text="추가" left="841" top="56" height="30" cssclass="btn_dafault" right="Button00_00:5"/>
-        <Button id="Button00_01" taborder="4" text="삭제" left="991" top="56" width="70" height="30" cssclass="btn_dafault"/>
+        <Button id="Button00_00" taborder="2" text="수정" left="916" top="56" height="30" cssclass="btn_dafault" right="94" onclick="Button00_00_onclick"/>
+        <Button id="Button00_01" taborder="3" text="삭제" left="991" top="56" width="70" height="30" cssclass="btn_dafault" onclick="Button00_01_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="Member_Management">
+      <Dataset id="Member_Management" oncolumnchanged="Member_Management_oncolumnchanged">
         <ColumnInfo>
-          <ConstColumn id="USER_ID" type="STRING" size="30"/>
-          <ConstColumn id="USER_NAME" type="STRING" size="30"/>
-          <ConstColumn id="USER_EMAIL" type="STRING" size="30"/>
-          <ConstColumn id="USER_TEL" type="STRING" size="30"/>
-          <ConstColumn id="USER_ADDRESS" type="STRING" size="30"/>
-          <ConstColumn id="USER_POINT" type="STRING" size="30"/>
-          <ConstColumn id="USER_JOINDATE" type="STRING" size="30"/>
-          <ConstColumn id="USER_AUTHORITY" type="STRING" size="30"/>
-          <ConstColumn id="POINT_JOINDATE" type="STRING" size="30"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_TEL" type="STRING" size="256"/>
+          <Column id="USER_ADDRESS" type="STRING" size="256"/>
+          <Column id="USER_POINT" type="STRING" size="256"/>
+          <Column id="USER_JOINDATE" type="STRING" size="256"/>
+          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="USER_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Member_Authority">
+        <ColumnInfo>
+          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
+          <Column id="TXT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Member_Selected" oncolumnchanged="Member_Management_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_TEL" type="STRING" size="256"/>
+          <Column id="USER_ADDRESS" type="STRING" size="256"/>
+          <Column id="USER_POINT" type="STRING" size="256"/>
+          <Column id="USER_JOINDATE" type="STRING" size="256"/>
+          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
+          <Column id="POINT_JOINDATE" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="USER_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[//폼이 시작되면
 this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
+	this.fnSelect_Members();
+	this.fnGetCombo();
 	
-	//가입되어있는 회원들 정보 불러오기
+};
+//체크박스에 대한 처리
+this.Member_Management_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{//row의 내용이 바뀌면 그 row의 체크박스 체크가 됨
+	if(e.col != obj.getColIndex("CHK")){
+		obj.setColumn(e.row,"CHK",'Y');
+	}
+	
+};
+
+this.user_table_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{//head 체크 했을때 전체 체크되게
+	if(e.cell == 0){
+		var val = 'N';
+		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){
+			obj.setCellProperty("head",e.cell,"text",val);
+		}
+		else{
+			val = 'Y';
+			obj.setCellProperty("head",e.cell,"text",val);
+		}
+		
+		var dataset = obj.getBindDataset();
+		dataset.set_enableevent(false);
+		for(var i=0; i<dataset.rowcount; i++){
+			dataset.setColumn(i,"CHK",val);
+		}
+		dataset.set_enableevent(true);
+	}else {
+		var dataset = obj.getBindDataset();
+		var id = this.getBindColumnIDByIndex(obj,e.cell);
+		var text = "";
+		text=dataset.keystring;
+		if(text.includes('+'))
+			dataset.set_keystring("S:-"+id);
+		else
+			dataset.set_keystring("S:+"+id);
+	}
+};
+//트랜잭션
+this.fnSelect_Members = function(){ //멤버 받아오기 (검색 조건 추가해야됨)
 	var id = "membermanagement"
 	var url = "svc::membermanagement.do"
 	var indata = "";
 	var outdata = "Member_Management=Member_Management";
 	var callback ="membermanagement";
 	
-	this.transaction(id, url, indata, outdata, callback)
+	this.transaction(id, url, indata, outdata, callback);
+}
+this.fnGetCombo = function(){//멤버 권한 리스트 받아오기
+	var strSvcId = "getcombo";
+	var strSvcUrl = "svc::getcombo.do";
+	var inData = "";
+	var outData = "Member_Authority=Member_Authority";
+	var strArg="";
+	var callBackFnc ="";
+	var isAsync = true;
 	
+	this.transaction(strSvcId,strSvcUrl,inData,outData,strArg,callBackFnc,isAsync);
+}
+this.fnUpdateMember = function(){//수정
+	var strSvcId = "updateMember";
+	var strSvcUrl = "svc::updateMember.do";
+	var inData = "Member_Selected=Member_Selected";
+	var outData = "";
+	var strArg="";
+	var callBackFnc ="fnCallback_select";
+	var isAsync = true;
 	
-};
-
-this.user_table_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
+	this.transaction(strSvcId,strSvcUrl,inData,outData,strArg,callBackFnc,isAsync);
+}
+this.fnDeleteMember = function(){//삭제
+	var strSvcId = "deleteMember";
+	var strSvcUrl = "svc::deleteMember.do";
+	var inData = "Member_Selected=Member_Selected";
+	var outData = "";
+	var strArg="";
+	var callBackFnc ="fnCallback_select";
+	var isAsync = true;
 	
-	if(this.Member_Management.getColumn(e.row,"USER_ID") != "비회원"){
-	var member = this.Member_Management.getColumn(e.row,"USER_CODE"); // 전화번호
-
-// 	var insert_index = this.Member_Management.getColIndex(e.row+1);
-// 	
-// 	this.Member_Management.insertRow(insert_index)
-// 	this.Member_Management.setColumn(insert_index,"USER_ID","변경")
-// 	
-// 	var id = "non_member";
-// 	var url = "svc::member.do";
-// 	var arg =  "member="+member;
-// 	var outdata = "Member_Management=Member_Management";
-// 	var callback ="membermanagement";
-// 	
-// 	this.transaction(id,url,outdata,callback,arg)
-// 	
- 	}
-};
-
-
+	this.transaction(strSvcId,strSvcUrl,inData,outData,strArg,callBackFnc,isAsync);
+}
+this.fnCallback_select = function(){
+	this.fnSelect_Members();
+}
 this.membermanagement = function(id,ErorrC, ErorrM){
 	
 	this.alert(id);
@@ -119,9 +189,76 @@ this.membermanagement = function(id,ErorrC, ErorrM){
         alter("Error" + ErorrM);
         return;
     }
-
-
 }
+
+
+
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//수정버튼
+	this.Member_Selected.clearData();
+	for(var i =0; i<this.Member_Management.rowcount; i++){
+		if(this.Member_Management.getColumn(i,"CHK") == 'Y'){
+			var idx = this.Member_Selected.addRow();
+			this.Member_Selected.copyRow(idx,this.Member_Management,i);
+		}
+	}
+	this.fnUpdateMember();
+};
+
+this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{//삭제버튼
+	this.Member_Selected.clearData();
+	for(var i =0; i<this.Member_Management.rowcount; i++){
+		if(this.Member_Management.getColumn(i,"CHK") == 'Y'){
+			var idx = this.Member_Selected.addRow();
+			this.Member_Selected.copyRow(idx,this.Member_Management,i);
+		}
+	}
+	this.fnDeleteMember();
+};
+
+this.getBindColumnIDByIndex = function(grid, index) 
+{
+  var text = "";
+  var columnid = null;
+  var subCell = grid.getCellProperty("body", index, "subcell");
+  if ( subCell > 0 )
+  {
+    text = grid.getSubCellProperty("body", index, 0, "text");
+  }
+  else
+  {
+    text = grid.getCellProperty("body", index, "text");
+  }
+  
+  if ( text && text.length > 0 )
+  {
+    if ( text.search(/^bind:/) > -1 ) 
+    {
+      columnid = text.replace(/^bind:/, "");
+    }  
+    else if ( text.search(/^BIND\(/) > -1 ) 
+    {  
+      columnid = text.replace(/^BIND\(/, "");
+      columnid = columnid.substr(0, columnid.length-1);
+    } 
+  }
+  
+  return columnid;
+}
+this.user_table_onmousemove = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+
+};
+
+this.user_table_onmouseenter = function(obj:nexacro.Grid,e:nexacro.MouseEventInfo)
+{
+		if(e. == -1){
+		this.user_table.set_tooltiptext("컬럼명을 누르면 정렬됩니다");
+	}else{
+		this.user_table.set_tooltiptext("");
+	}
+};
 ]]></Script>
   </Form>
 </FDL>

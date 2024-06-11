@@ -8,8 +8,6 @@
     </Layout>
     <Style url="xcssrc::BookCafeStyle.xcss"/>
     <Style url="xcssrc::Chart.xcss"/>
-    <Style url="xcssrc::gridespr.xcss"/>
-    <Style url="xcssrc::BookListCss.xcss"/>
   </Application>
   <Script type="xscript5.1"><![CDATA[]]></Script>
 </ADL>

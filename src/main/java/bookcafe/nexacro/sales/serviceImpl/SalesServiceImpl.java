@@ -53,11 +53,6 @@ public class SalesServiceImpl extends EgovAbstractServiceImpl implements SalesSe
 		Sales_mapper.insertSelected(param);
 	}
 
-	@Override
-	public void deleteSelected(Map<String, String> param) {
-		Sales_mapper.deleteSelected(param);
-	}
-
 
 	
 

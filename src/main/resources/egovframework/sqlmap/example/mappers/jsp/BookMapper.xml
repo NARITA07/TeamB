@@ -79,13 +79,5 @@
         SELECT SEC_CODE, SEC_NAME 
         FROM SEC_CODE
         WHERE FIR_CODE = 'fir_001'
-    </select>
-    
-    <!-- 도서 대여 가능 여부 확인 -->
-    <select id="getBookQuantity" parameterType="string" resultType="string">
-        SELECT BOOK_QUANTITY
-        FROM BOOK
-        WHERE BOOK_CODE = #{bookCode}
-    </select>
-    
+    </select>  
 </mapper>

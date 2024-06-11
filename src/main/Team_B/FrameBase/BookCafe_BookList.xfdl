@@ -1,25 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Book_List" width="1080" height="670" titletext="도서대여목록" onload="Book_List_onload">
+  <Form id="Book_List" width="1080" height="670" titletext="도서대여목록" onload="Book_List_onload" cssclass="grid_default">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Div id="Div00" taborder="10" text="" left="1.94%" top="61" height="108" background="#dbdee2" right="1.94%">
-          <Layouts>
-            <Layout>
-              <Edit id="Edit00" taborder="0" left="551" top="37" width="100" height="25"/>
-            </Layout>
-          </Layouts>
-        </Div>
-        <Edit id="Edit00" taborder="0" left="405" top="98" height="25" onchanged="Edit00_onchanged" width="70"/>
-        <Static id="Static00" taborder="1" text="이름" left="370" top="98" width="30" height="25"/>
-        <Button id="Button00" taborder="2" text="조회" top="27" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="2%"/>
-        <Calendar id="Calendar00" taborder="3" left="782" top="98" width="107" height="25" onchanged="Calendar00_onchanged"/>
-        <Static id="Static06" taborder="4" text="기간" left="755" top="98" width="25" height="25" onclick="Static06_onclick"/>
-        <Grid id="Grid01" taborder="5" top="223" width="96.39%" height="297" binddataset="book_sales_dtl" autofittype="col" right="1.76%" onheadclick="Grid01_onheadclick">
+        <Grid id="Grid01" taborder="5" top="160" binddataset="book_sales_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="1.76%" right="1.76%" bottom="2.99%">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="40"/>
+                <Column size="80"/>
                 <Column size="80"/>
                 <Column size="140"/>
                 <Column size="80"/>
@@ -30,28 +19,42 @@
               </Rows>
               <Band id="head">
                 <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="이름"/>
-                <Cell col="2" text="도서명"/>
-                <Cell col="3" text="대여일"/>
+                <Cell col="1" text="주문번호"/>
+                <Cell col="2" text="이름"/>
+                <Cell col="3" text="도서명"/>
+                <Cell col="4" text="대여일"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:NAME"/>
-                <Cell col="2" text="bind:BOOK"/>
-                <Cell col="3" text="bind:TIME"/>
+                <Cell text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:ORDER_CODE"/>
+                <Cell col="2" text="bind:NAME"/>
+                <Cell col="3" text="bind:BOOK"/>
+                <Cell col="4" text="bind:TIME"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static08" taborder="6" text="분류" left="60" top="98" width="40" height="25" onclick="Static08_onclick"/>
-        <Combo id="Combo02" taborder="7" text="Combo02" left="100" top="98" width="100" height="25" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME"/>
-        <Static id="Static09" taborder="8" text="-" left="892" top="98" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
-        <Calendar id="Calendar01" taborder="9" left="912" top="98" width="107" height="25"/>
-        <Static id="Static01_00" taborder="11" text="도서명" left="532" top="98" width="38" height="25"/>
-        <Static id="Static00_00" taborder="12" text="도서대여목록" left="2%" width="200" font="24px/normal &quot;Gulim&quot;" height="40" top="14"/>
-        <Button id="Button01_00" taborder="13" text="엑셀" left="91.30%" top="190" width="70" height="27" borderRadius="5px"/>
-        <Button id="Button01_00_00" taborder="14" text="반납처리" left="83.33%" top="190" width="70" height="27" borderRadius="5px" onclick="Button01_00_00_onclick"/>
-        <Combo id="Combo00" taborder="15" left="785" top="190" width="100" height="25" innerdataset="return_yn" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged"/>
+        <Div id="Div00" taborder="10" text="" left="1.85%" top="100" right="1.85%" cssclass="main_nav" bottom="Grid01:20">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="0" left="421" top="5" width="100" height="30" cssclass="edit_default"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Edit id="Edit00" taborder="0" left="275" top="105" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
+        <Combo id="Combo02" taborder="7" text="Combo02" left="5.09%" top="105" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
+        <Static id="Static00" taborder="1" text="이름" left="Combo02:30%" top="113" width="24" height="14"/>
+        <Button id="Button00" taborder="2" text="조회" height="30" onclick="Button00_onclick" borderRadius="5px" right="1.85%" cssclass="btn_dafault" bottom="Div00:5" width="70"/>
+        <Calendar id="Calendar00" taborder="3" left="752" top="105" width="100" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
+        <Static id="Static06" taborder="4" text="기간" left="725" top="108" width="24" height="14" onclick="Static06_onclick"/>
+        <Static id="Static08" taborder="6" text="분류" left="2.50%" top="113" width="24" height="14" onclick="Static08_onclick"/>
+        <Static id="Static09" taborder="8" text="-" left="862" top="112" width="8" height="16" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
+        <Calendar id="Calendar01" taborder="9" left="882" top="105" width="100" height="30" cssclass="cal_default"/>
+        <Static id="Static01_00" taborder="11" text="도서명" left="402" top="113" width="36" height="14"/>
+        <Static id="Static00_00" taborder="12" text="도서대여목록" left="2%" width="192" height="38" top="14" cssclass="main_title"/>
+        <Button id="Button01_00" taborder="13" text="엑셀" height="30" borderRadius="5px" cssclass="btn_dafault" bottom="Div00:5" width="70" right="Button00:5"/>
+        <Button id="Button01_00_00" taborder="14" text="반납처리" height="30" borderRadius="5px" onclick="Button01_00_00_onclick" cssclass="btn_dafault" bottom="Div00:5" right="Button01_00:5" width="70"/>
+        <Combo id="Combo00" taborder="15" height="30" innerdataset="return_yn" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged" right="Button01_00_00:5" bottom="Div00:5" width="100" cssclass="combo_default"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -71,6 +74,7 @@
       <Dataset id="book_sales_dtl">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="256"/>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="NAME" type="STRING" size="256"/>
           <Column id="BOOK" type="STRING" size="256"/>
           <Column id="TIME" type="STRING" size="256"/>
@@ -149,8 +153,12 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
+		this.Grid01.setCellProperty("head",4,"text","대여일");
+		this.Button01_00_00.set_text("반납처리");
 		this.fnSelectBookList();
 	}else{
+		this.Grid01.setCellProperty("head",4,"text","반납일");
+		this.Button01_00_00.set_text("반납취소");
 		this.fnSelectBookSales();
 	}
 };
@@ -289,7 +297,14 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.fnUpdateSelected();
-	this.fnInsertSelected();
+	
+	var con = this.Grid01.getCellProperty("head",4,"text");
+	if(con == '대여일'){
+		this.fnInsertSelected();
+	}else{
+		this.fnDeleteSelected();
+	}
+	
 };
 
 // 반납 update처리 함수
@@ -311,6 +326,20 @@ this.fnInsertSelected = function ()
 {
   var strSvcId    = "insertSelected";
   var strSvcUrl   = "svc::insertSelected.do";
+  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var outData     = "";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+// 반납 delete 처리 함수
+this.fnDeleteSelected = function ()
+{
+  var strSvcId    = "deleteSelected";
+  var strSvcUrl   = "svc::deleteSelected.do";
   var inData      = "book_sales_dtl=book_sales_dtl:U";
   var outData     = "";
   var strArg      = "";
@@ -347,8 +376,12 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
+		this.Grid01.setCellProperty("head",4,"text","대여일");
+		this.Button01_00_00.set_text("반납처리");
 		this.fnSelectBookList();
 	}else{
+		this.Grid01.setCellProperty("head",4,"text","반납일");
+		this.Button01_00_00.set_text("반납취소");
 		this.fnSelectBookSales();
 	}
 	

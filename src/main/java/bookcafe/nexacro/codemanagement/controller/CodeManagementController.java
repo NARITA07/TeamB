@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.nexacro.codemanagement.service.CodeManagementService;
@@ -18,85 +19,25 @@ public class CodeManagementController {
 	@Autowired
 	CodeManagementService codemservice;
 	
-	
-	//대분류 코드 생성
-	@RequestMapping("add_fir_code.do")
-	public NexacroResult add_fir_code(@ParamDataSet(name="fir_code_add",required = false)Map<String,Object>fir_code_add) {
+	//상위코드 그리드 조회
+	@RequestMapping("fir_grid.do")
+	public NexacroResult fir_grid () {
 		NexacroResult result = new NexacroResult();
 		
-		System.out.println("코드관리 "+ fir_code_add);
-		result.addDataSet("message",codemservice.add_fir_code(fir_code_add));
+		result.addDataSet("fir_code_grid",codemservice.selectfirgrid());
+		
 		return result;
+		
 	}
-	
-	
-		//중분류 코드 생성
-		@RequestMapping("C_add_sec_code.do")
-		public void add_sec_cdoe(@ParamDataSet(name="sec_code_add",required = false)Map<String,Object>sec_code_add) {
-			System.out.println(sec_code_add);
-			codemservice.sec_code_add(sec_code_add);
-			
-			
-			
-		}
+	//하위코드 그리드 조회
+	@RequestMapping("fir_category.do")
+	public NexacroResult fir_category(@ParamVariable(name = "fir_category", required = false) String fir_category) {
+		NexacroResult result = new NexacroResult();
 		
-		@RequestMapping("C_modi_sec_code.do")
-		public void C_modi_sec_code(@ParamDataSet(name="modi_date_sec",required = false)List<Map<String,Object>>modi_date_sec) {
-			System.out.println(modi_date_sec);
-			codemservice.sec_code_modi(modi_date_sec);
-			
+		result.addDataSet("sec_code_grid",codemservice.selectsecgrid(fir_category));
 		
-		}
-		
-		//중위 카테고리 삭제
-		@RequestMapping("C_del_sec_code.do")
-		public void C_del_sec_code(@ParamDataSet(name="del_date_sec",required = false)List<Map<String,Object>>del_date_sec) {
-			System.out.println(del_date_sec);
-			codemservice.del_date_sec(del_date_sec);
+		return result;
 	
-		}
-	
-	
-
-	@RequestMapping("C_init_fir_code.do")
-	public NexacroResult init_fir_code() {
-		System.out.println("코드관리 ");
-		// 넥사크로 변수 선언
-		NexacroResult nex_fir_code = new NexacroResult();
-
-		nex_fir_code.addDataSet("init_fir_code", codemservice.init_fir_code());
-		return nex_fir_code;
-
 	}
-
-	// 대분류 코드 선택 시 중분류 하위카테고리 조회
-	@RequestMapping("C_select_sec_code.do")
-	public NexacroResult select_sec_code(
-			@ParamDataSet(name = "fir_category_select", required = false) Map<String, Object> sec_category_select) {
-		System.out.println(sec_category_select);
-		NexacroResult nex_sec_category_select = new NexacroResult();
-
-		nex_sec_category_select.addDataSet("sec_code", codemservice.sec_category_select(sec_category_select));
-		return nex_sec_category_select;
-	}
-	
-	//대분류 코드 수정
-		@RequestMapping("C_fir_code_chx.do")
-		public void C_fir_code_chx(@ParamDataSet(name = "modi_date", required = false) Map<String, Object> modi_date) {
-			System.out.println(modi_date);
-				
-			codemservice.C_fir_code_chx(modi_date);
-			
-		}
-		
-		//대분류 코드 삭제
-		@RequestMapping("C_del_date.do")
-		public void C_del_date(@ParamDataSet(name="del_date", required = false)List<Map<String,Object>>del_date){
-			System.out.println(del_date);
-			codemservice.del_date(del_date);
-			
-			
-		}
-		
 		
 }

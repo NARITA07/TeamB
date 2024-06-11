@@ -29,6 +29,7 @@ public class CodeManagementController {
 		return result;
 		
 	}
+	
 	//하위코드 그리드 조회
 	@RequestMapping("fir_category.do")
 	public NexacroResult fir_category(@ParamVariable(name = "fir_category", required = false) String fir_category) {
@@ -39,5 +40,19 @@ public class CodeManagementController {
 		return result;
 	
 	}
+	
+	//저장
+	@RequestMapping("grid_modi.do")
+	public NexacroResult grid_modi(@ParamDataSet(name = "save", required = false)List<Map<String, Object>> save) {
+		System.out.println(save);
+		NexacroResult result = new NexacroResult();
+		
+		result.addVariable("message_count",codemservice.gridmodi(save));
+		
+		return result;
+	
+	}
+		
+	
 		
 }

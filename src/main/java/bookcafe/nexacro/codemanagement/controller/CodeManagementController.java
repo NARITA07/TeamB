@@ -82,11 +82,14 @@ public class CodeManagementController {
 	
 	//대분류 코드 수정
 		@RequestMapping("C_fir_code_chx.do")
-		public void C_fir_code_chx(@ParamDataSet(name = "modi_date", required = false) Map<String, Object> modi_date) {
-			System.out.println(modi_date);
-				
-			codemservice.C_fir_code_chx(modi_date);
+		public  NexacroResult C_fir_code_chx(@ParamDataSet(name = "modi_date", required = false) List<Map<String, Object>> modi_date) {
+			System.out.println("오잉?" + modi_date);
 			
+			NexacroResult indate = new NexacroResult();
+			
+			indate.addDataSet("message",codemservice.C_fir_code_chx(modi_date));
+			System.out.println(indate.getDataSets());
+			return indate;
 		}
 		
 		//대분류 코드 삭제
@@ -103,8 +106,7 @@ public class CodeManagementController {
 		public NexacroResult max_fir_code(){
 			NexacroResult max_code = new NexacroResult();
 			
-			max_code.addVariable("max_fir_code", codemservice.max_code());
-			
+			max_code.addVariable("maxi_fir_code", codemservice.max_code());
 			return max_code;
 		}
 		

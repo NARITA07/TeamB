@@ -6,9 +6,13 @@
         <Div id="Main" taborder="0" left="0.00%" top="0.00%" text="" cssclass="btn_dafault" right="0" bottom="0">
           <Layouts>
             <Layout>
-              <Div id="Div01" taborder="11" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%"/>
-              <Static id="Static00" taborder="5" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-              <Div id="Div00" taborder="10" left="1.85%" top="Static00:40" height="40" cssclass="main_nav" right="1.85%"/>
+              <Div id="Div01" taborder="9" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%"/>
+              <Static id="Static00" taborder="4" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Div id="Div00" taborder="8" left="1.85%" top="Static00:40" height="40" cssclass="main_nav" right="1.85%" text="">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
               <Grid id="Sec_code" taborder="1" binddataset="view_code" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" oncelldblclick="Main_Sec_code_oncelldblclick" height="200" right="20" bottom="2.78%">
                 <Formats>
                   <Format id="default">
@@ -65,16 +69,13 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_del" taborder="7" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:84" right="1.94%" width="70" onclick="Main_btn_del_onclick"/>
-              <Button id="btn_modi" taborder="6" text="저장" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="905" bottom="Fir_code:84" height="30" width="70"/>
-              <Button id="btn_Fir" taborder="3" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="185" cssclass="btn_save" bottom="Fir_code:84" onclick="Main_btn_Fir_onclick" height="30"/>
-              <Button id="btn_Modi_sec" taborder="9" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" height="30" bottom="Sec_code:83" width="70" right="105" onclick="Main_btn_Modi_sec_onclick"/>
-              <Button id="btn_Sec_add" taborder="8" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:83" right="185" onclick="Main_btn_Sec_add_onclick"/>
-              <Edit id="Sec_in" taborder="2" onchanged="Main_Sec_in_onchanged" minheight="30" maxheight="30" minwidth="150" maxwidth="150" borderRadius="5px" width="150" right="735" height="30" bottom="Sec_code:43" displaynulltext="하위코드 등록창" cssclass="edit_default"/>
-              <Combo id="Sec_combo" taborder="4" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="Sec_in:10" height="30" bottom="Sec_code:43" cssclass="combo_default"/>
+              <Button id="btn_del" taborder="6" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:84" right="1.94%" width="70" onclick="Main_btn_del_onclick"/>
+              <Button id="btn_modi" taborder="5" text="저장" onclick="Main_btn_modi_onclick" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="905" bottom="Fir_code:84" height="30" width="70"/>
+              <Button id="btn_Fir" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="185" cssclass="btn_save" bottom="Fir_code:84" onclick="Main_btn_Fir_onclick" height="30"/>
+              <Button id="btn_Sec_add" taborder="7" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:85" right="20" onclick="Main_btn_Sec_add_onclick"/>
+              <Combo id="Sec_combo" taborder="3" text="Combo00" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="895" height="30" bottom="Sec_code:43" cssclass="combo_default"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
-              <Button id="btn_del_sec" taborder="14" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Sec_code:83" right="2.13%" width="71" onclick="Main_btn_del_sec_onclick"/>
               <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:1" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>
             </Layout>
           </Layouts>
@@ -172,18 +173,16 @@
       <Dataset id="message" useclientlayout="true">
         <ColumnInfo>
           <Column id="num" type="STRING" size="256"/>
-          <Column id="fir_name" type="STRING" size="256"/>
-          <Column id="sec_num" type="STRING" size="256"/>
-          <Column id="sec_name" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.maxi_fir_code = "";
+    <Script type="xscript5.1"><![CDATA[this.maxi_fir_code = null;
 
 
 //대분류 조회
 this.Sales_Board_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
+	
 	id = "init_fir_code"
 	url = "svc::C_init_fir_code.do";
 	set = ""; 
@@ -217,12 +216,12 @@ this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 	
 };
 
-// 수정 버튼 
+//저장 버튼 
 this.Main_btn_modi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 
-	var a = 0;
- 	for(i = 0; i < this.init_fir_code.rowcount; i++ ){
+	var row = 0;
+ 	for(i = 0; i < this.init_fir_code.rowcount; i++){
  		if(this.init_fir_code.getColumn(i,"chx") == 1){
 		
 		var code = this.init_fir_code.getColumn(i,"FIR_CODE");
@@ -231,16 +230,18 @@ this.Main_btn_modi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInf
 	
 		this.modi_date.addRow()
 		
-		this.modi_date.setColumn(a,"FIR_CODE", code);
-		this.modi_date.setColumn(a,"FIR_NAME", name);
-		this.modi_date.setColumn(a,"USE_STATUS", use);
-		a++
+		this.modi_date.setColumn(row,"FIR_CODE", code);
+		this.modi_date.setColumn(row,"FIR_NAME", name);
+		this.modi_date.setColumn(row,"USE_STATUS", use);
+		row++
 		
  		}
  	}
+		alert(this.modi_date.saveXML());
+	
 	if(this.view_code.rowcount != 0){ 
 	
-	var con = this.confirm("하위카테고리가 존재합니다.")
+	var con = this.confirm("변경 값에 하위카테고리가 존재합니다.")
 	
 	if(con == true){
 	
@@ -284,7 +285,7 @@ this.modi = function(){
 	var id = "fir_code_chx";
 	var url = "svc::C_fir_code_chx.do";
 	var set = "modi_date = modi_date";
-	var get = "";
+	var get = "message = message";
 	var arg = "" ;
 	var callback ="fn_category";
 	
@@ -297,25 +298,17 @@ this.modi = function(){
 this.Main_btn_Fir_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
 	this.max_fir_code(); //최신 fir_code 조회
-
-	alert(this.maxi_fir_code)
 	
-	var row = this.init_fir_code.rowcount;
-	this.init_fir_code.addRow() // 로우 추가
-	//this.init_fir_code.setColumn(row,"FIR_CODE",)
-	this.init_fir_code.setColumn(row,"USE_STATUS","Y")
 };
 
 
 //최신 max_fir_code 조회
 this.max_fir_code = function(){
 		
-		alert("asd")
-		
 			var id = "max_fir_code"
 			var url = "svc::max_fir_code.do";
 			var set = "";
-			var get = "max_fir_code = max_fir_code";
+			var get = "maxi_fir_code = maxi_fir_code";
 			var arg = "";
 			var	callback = "fn_category";
 			
@@ -384,25 +377,12 @@ this.Main_btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 				
 };
 
-//삭제
+//하위코드 추가
 this.Main_btn_Sec_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var code = this.Main.form.Sec_combo.value
-	this.sec_code_add.setColumn(0,"FIR_CODE",code)
-	var name = this.Main.form.Sec_in.value
-	this.sec_code_add.setColumn(0,"SEC_NAME",name)
-	
-	alert(this.sec_code_add.saveXML())
-	
-	
-	var id = "add_sec_code"
-			var url = "svc::C_add_sec_code.do";
-			var set = "sec_code_add = sec_code_add";
-			var get = "";
-			var arg = "";
-			var	callback = "fn_category";
-			
-			this.transaction(id, url, set, get, arg, callback)
+	var row = this.view_code.addRow() // 로우 추가
+	this.view_code.setColumn(row,"FIR_CODE","1")
+	this.view_code.setColumn(row,"USE_STATUS","Y")
 };
 
 
@@ -420,7 +400,7 @@ this.Main_Fir_code_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 
 this.Main_btn_Modi_sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var row_date = 0;
+	var row = 0;
 	for(i = 0; i < this.view_code.getRowCount(); i++){
 	if(this.view_code.getColumn(i,"chx") == 1){
 		
@@ -428,10 +408,10 @@ this.Main_btn_Modi_sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 		var name = this.view_code.getColumn(i,"SEC_NAME")
 		var status = this.view_code.getColumn(i,"USE_STATUS")
 		this.modi_date_sec.addRow();
-		this.modi_date_sec.setColumn(row_date,"SEC_CODE",code)
-		this.modi_date_sec.setColumn(row_date,"SEC_NAME",name)
-		this.modi_date_sec.setColumn(row_date,"USE_STATUS",status)
-		row_date++;
+		this.modi_date_sec.setColumn(row,"SEC_CODE",code)
+		this.modi_date_sec.setColumn(row,"SEC_NAME",name)
+		this.modi_date_sec.setColumn(row,"USE_STATUS",status)
+		row++;
 		
 		
 	}
@@ -450,14 +430,14 @@ this.Main_btn_Modi_sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 this.Main_btn_del_sec_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
-	var row_date = 0;
+	var row = 0;
 	for(i = 0; i < this.view_code.getRowCount(); i++){
 	if(this.view_code.getColumn(i,"chx") == 1){
 		
 		var sec_code = this.view_code.getColumn(i,"SEC_CODE");
 		this.del_date_sec.addRow();
-		this.del_date_sec.setColumn(row_date, "SEC_CODE",sec_code)
-		row_date++;
+		this.del_date_sec.setColumn(row, "SEC_CODE",sec_code)
+		row++;
 		
 	}
 	}
@@ -479,15 +459,28 @@ this.fn_category = function(id, code, message){
 	if(code == 0){
 			
 			switch(id) {
-			case "add_fir_code":
-				var count = this.message.getColumn(0,"num");
-				alert(count + "건 등록되었습니다.")
-				this.reload();
-				break;
 			case "del_date":
 				var count = this.message.getColumn(0,"num");
 				alert(count + "건 삭제되었습니다.")
 				break;
+				
+			case "fir_code_chx":
+			alert(this.message.saveXML());
+			var count = this.message.getColumn(0, "num");
+			alert(count + "건 적용되었습니다.")
+			this.reload();
+			break;
+			
+			case "init_fir_code":
+			this.init_fir_code.deleteRow(0);
+			break;
+				
+			case "max_fir_code":
+			var row = this.init_fir_code.addRow() // 로우 추가
+			this.init_fir_code.setColumn(row,"FIR_CODE",this.maxi_fir_code)
+			this.init_fir_code.setColumn(row,"USE_STATUS","Y")
+			break;
+			
 			
 		}
 
@@ -510,6 +503,7 @@ this.del_date = function(){
 
 
 }
+
 ]]></Script>
   </Form>
 </FDL>

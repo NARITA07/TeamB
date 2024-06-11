@@ -14,10 +14,10 @@ public interface CodeManagementMapper {
 	List<Map<String, Object>> sec_category_select(Map<String, Object> sec_category_select);
 
 	//상위코드 변경
-	void C_fir_code_chx(Map<String, Object> modi_date);
+	int C_fir_code_chx(Map<String, Object> modi_date);
 
 	//하위코드 변경
-	void C_sec_code_chx(Map<String, Object> modi_date);
+	int C_sec_code_chx(Map<String, Object> modi_date);
 
 	//상위코드 생성
 	int add_fir_code(Map<String, Object> fir_code_add);
@@ -35,6 +35,10 @@ public interface CodeManagementMapper {
 	void del_date_sec(Map<String, Object> map);
 
 	String max_code();
+
+	int select_mo_or_in(Object FIR_CODE);
+
+	int insert_fir_code(Map<String, Object> map);
 	
 
 	

@@ -33,13 +33,31 @@ public class CodeManagementImpl implements CodeManagementService {
 
 
 	@Override
-	public void C_fir_code_chx(Map<String, Object> modi_date) {
+	public Map<String, Object> C_fir_code_chx(List<Map<String, Object>> modi_date) {
+		Map<String, Object> num = new HashMap<>();
+		int date = 0;
+		for(int i = 0; i < modi_date.size(); i++) {	
+
+			int result = codemmapper.select_mo_or_in(modi_date.get(i).get("FIR_CODE"));
+		if(result == 1) { // 값이 있음 -> 수정 
+			
+			//중위코드
+			date += codemmapper.C_sec_code_chx(modi_date.get(i));
+			
+			//상위코드
+			date += codemmapper.C_fir_code_chx(modi_date.get(i));
+			
 		
-		//하위코드 변경
-		codemmapper.C_sec_code_chx(modi_date);
+			}else {// 그 외는 인서트
+			
+			
+				date += codemmapper.insert_fir_code(modi_date.get(i));
+			
+			}
+			num.put("num", date);
+		}
 		
-		//상위코드 변경 
-		codemmapper.C_fir_code_chx(modi_date);
+		return num;
 	}
 
 
@@ -101,10 +119,6 @@ for(int i = 0; i < modi_date_sec.size(); i++ ) {
 	@Override
 	public String max_code() {
 		
-		String date = codemmapper.max_code();
-		
-		System.out.println(date.substring(4));
-		String fir_code = date.substring(4);
 		return codemmapper.max_code();
 	}		
 	

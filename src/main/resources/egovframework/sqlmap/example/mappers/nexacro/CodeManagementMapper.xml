@@ -54,7 +54,15 @@
  	</delete>
  	
  	<select id="max_code" resultType="String">
- 	SELECT MAX(FIR_CODE) FROM FIR_CODE;
+ 	SELECT fnCode('fir');
  	</select>
+ 	
+ 	<select id="select_mo_or_in" resultType="int">
+ 	SELECT count(FIR_CODE) FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
+ 	</select>
+ 	
+ 	<insert id="insert_fir_code">
+ 	insert into FIR_CODE(FIR_CODE, FIR_NAME, USE_STATUS) VALUES(#{FIR_CODE}, #{FIR_NAME}, #{USE_STATUS});
+ 	</insert>
  	
 </mapper>

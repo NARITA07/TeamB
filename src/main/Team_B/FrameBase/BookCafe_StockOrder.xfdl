@@ -334,17 +334,17 @@ this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 	
 	// 현재 컬럼의 헤드값 가져오기
 	var sortHeader1 = obj.getCellProperty("head",1,"text");
-	
+	// 현재 컬럼의 헤드값이 asc(오름차순)이면
 	if(this.sortState1.column1 === "asc"){
-			
+			// desc(내림차순)으로 값 변경
 			this.sortState1.column1 = "desc";
-			/*alert("내림차순으로");*/
+			//set_keystring 함수 사용. S(정렬):-(내림차순)
 			this.stock_grid1.set_keystring("S:-PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▼");
 			
 		} else {
 			this.sortState1.column1 = "asc";
-			/*alert("오름차순으로");*/
+			
 			this.stock_grid1.set_keystring("S:+PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▲");
 		}

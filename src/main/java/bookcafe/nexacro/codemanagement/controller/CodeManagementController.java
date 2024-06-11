@@ -98,5 +98,15 @@ public class CodeManagementController {
 			
 		}
 		
+		//최신 상위코드 조회
+		@RequestMapping("max_fir_code.do")
+		public NexacroResult max_fir_code(){
+			NexacroResult max_code = new NexacroResult();
+			
+			max_code.addVariable("max_fir_code", codemservice.max_code());
+			
+			return max_code;
+		}
+		
 		
 }

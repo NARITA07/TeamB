@@ -403,19 +403,11 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 	var name = img_name.substring(0,type_num)
 	var full_date = name + day + type
 
-	this.FileUpTransfer00.addFile(full_date, e.virtualfiles[0])
+	this.FileUpTransfer00.addFile("images\\"+full_date, e.virtualfiles[0])
 
-	this.view_code.setColumn(g_row,"PRODUCT_PATH",full_date)
+	this.view_code.setColumn(g_row,"PRODUCT_PATH","images\\"+full_date)
 	
 	}
-	
-
-   
-   //새로 수정해서 넣을 이미지
-  //images/책빵2024-05-29
-  
-  
-
 
 
 };
@@ -423,7 +415,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 
 //카테고리 콜백 함수
 this.fn_category = function(id, code, message){
-	alert("aa")
+
 	this.message.reset()
 	
 	if(code == 0){
@@ -464,7 +456,6 @@ this.fn_category = function(id, code, message){
 	
 
 }
-
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>

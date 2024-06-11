@@ -33,7 +33,7 @@
                 <Cell col="2" text="bind:MENU" textAlign="center"/>
                 <Cell col="3" text="bind:QUANTITY" textAlign="center"/>
                 <Cell col="4" text="bind:SALES"/>
-                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss"/>
+                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd" calendareditformat="yyyy-MM-dd"/>
               </Band>
               <Band id="summary">
                 <Cell background="#FAEBD7"/>

@@ -54,6 +54,7 @@
 	<select id="selectBookSales" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			'N' AS CHK,
+			T.ORDER_CODE AS ORDER_CODE,
 		    T.USER_CODE AS NAME,
 		    B.BOOK_NAME AS BOOK,
 		    DATE_FORMAT(STR_TO_DATE(T.RETURN_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME
@@ -95,6 +96,7 @@
 	    WITH LatestBooks AS (
 	        SELECT 
 	            'N' AS CHK,
+	            O.ORDER_CODE AS ORDER_CODE,
 	            U.USER_NAME AS NAME,
 	            B.BOOK_NAME AS BOOK,
 	            DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME,
@@ -135,6 +137,7 @@
 	    )
 	    SELECT 
 	        CHK,
+	        ORDER_CODE,
 	        NAME,
 	        BOOK,
 	        TIME
@@ -223,12 +226,12 @@
 		<selectKey keyProperty="returnCode" resultType="string" order="BEFORE">
             SELECT fnCode('return') FROM DUAL
         </selectKey>
-		INSERT INTO RETURN_BOOK(RETURN_CODE, BOOK_CODE, USER_CODE, RETURN_DATE)
-		VALUES(#{returnCode},#{BOOK},#{NAME},date_format(now(),'%Y%m%d%H%m%s'))
+		INSERT INTO RETURN_BOOK(RETURN_CODE, BOOK_CODE, USER_CODE, RETURN_DATE, ORDER_CODE)
+		VALUES(#{returnCode},#{BOOK},#{NAME},date_format(now(),'%Y%m%d%H%m%s'),#{ORDER_CODE})
 	</insert>
 	<!-- 반납 테이블에서 제거 -->
 	<delete id="deleteSelected" parameterType="java.util.Map">
 		DELETE FROM RETURN_BOOK
-		WHERE BOOK_CODE = #{BOOK}
+		WHERE ORDER_CODE = #{ORDER_CODE}
 	</delete>
 </mapper>

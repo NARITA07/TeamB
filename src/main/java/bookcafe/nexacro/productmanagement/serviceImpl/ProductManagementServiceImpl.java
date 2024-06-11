@@ -18,6 +18,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 
 	@Override
 	public int product_save(Map<String, Object> save_date) {
+		System.out.println(save_date);
 		int result = 0;
 		
 	String bool = (String) save_date.get("FIR_CODE");

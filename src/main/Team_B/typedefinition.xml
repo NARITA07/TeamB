@@ -46,6 +46,7 @@
     <Component type="JavaScript" id="PieChart" classname="nexacro.PieChart" iconindex="410" iconextra="true"/>
     <Component type="JavaScript" id="BubbleChart" classname="nexacro.BubbleChart" iconindex="409" iconextra="true"/>
     <Component type="JavaScript" id="Series" classname="nexacro.ChartFloatSeriesControl"/>
+    <Component type="JavaScript" id="VirtualFile" classname="nexacro.VirtualFile"/>
   </Components>
   <Services>
     <Service prefixid="theme" type="resource" url="./_resource_/_theme_/" version="0" cachelevel="session" include_subdir="true"/>

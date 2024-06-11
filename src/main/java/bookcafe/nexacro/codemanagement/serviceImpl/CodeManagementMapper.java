@@ -12,6 +12,8 @@ public interface CodeManagementMapper {
 	
 	//하위코드 조회
 	List<Map<String, Object>> selectsecgrid(String fir_category);
+
+	int gridmodi(List<Map<String, Object>> save);
 	
 
 	

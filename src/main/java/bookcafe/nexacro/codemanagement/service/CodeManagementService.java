@@ -12,6 +12,9 @@ public interface CodeManagementService {
 	
 	//하위코드 그리드 조회
 	List<Map<String,Object>> selectsecgrid(String fir_category);
+
+	//저장
+	int gridmodi(List<Map<String, Object>> save);
 	
 
 

@@ -1,13 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload">
+  <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Div id="Div00" taborder="12" text="" left="1.76%" top="98" height="40" right="1.76%" cssclass="main_nav">
-          <Layouts>
-            <Layout/>
-          </Layouts>
-        </Div>
         <Grid id="Grid00" taborder="0" left="1.76%" top="160" width="96.30%" binddataset="sales_dtl" scrollbartype="none default" autofittype="col" bottom="2.99%" cssclass="grid_default">
           <Formats>
             <Format id="default">
@@ -51,19 +46,24 @@
             </Format>
           </Formats>
         </Grid>
+        <Div id="Div00" taborder="12" text="" left="1.76%" top="98" right="1.85%" cssclass="main_nav" bottom="Grid00:19">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
         <Static id="Static08" taborder="8" text="분류" left="2.5%" top="111" width="24" height="14" onclick="Static08_onclick"/>
         <Combo id="Combo02" taborder="9" text="Combo02" left="Static08:5" top="103" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
         <Static id="Static00" taborder="3" text="이름" left="Combo02:30" top="111" width="24" height="14"/>
         <Edit id="Edit00" taborder="1" left="Static00:5" top="103" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
         <Static id="Static01" taborder="4" text="메뉴" left="346" top="111" width="24" height="14"/>
         <Edit id="Edit01" taborder="2" left="Static01:5" top="103" width="100" height="30" onchanged="Edit01_onchanged" cssclass="edit_default"/>
-        <Button id="Button00" taborder="5" text="조회" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="19" cssclass="btn_dafault" bottom="Div00:5"/>
+        <Button id="Button00" taborder="5" text="조회" height="30" onclick="Button00_onclick" borderRadius="5px" width="70" right="1.85%" cssclass="btn_dafault" bottom="Div00:5"/>
         <Static id="Static06" taborder="7" text="기간" left="Edit01:30" top="111" width="24" height="14" onclick="Static06_onclick"/>
         <Calendar id="Calendar00" taborder="6" left="Static06:5" top="103" width="100" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Static id="Static09" taborder="10" text="~" left="Calendar00:3" top="106" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="11" left="Static09:3" top="103" width="100" height="30" cssclass="cal_default"/>
-        <Static id="Static00_00" taborder="13" text="매출현황" left="1.85%" width="128" height="38" top="2.99%" cssclass="main_title"/>
-        <Button id="Button01_00" taborder="14" text="엑셀" width="70" borderRadius="5px" cssclass="btn_dafault" right="Button00:5" height="30" bottom="Div00:5" onclick="Button01_00_onclick"/>
+        <Button id="Button01_00" taborder="13" text="엑셀" width="70" borderRadius="5px" cssclass="btn_dafault" right="Button00:5" height="30" bottom="Div00:5" onclick="Button01_00_onclick"/>
+        <Static id="Static02" taborder="14" text="매출현황" left="1.85%" top="2.99%" width="128" height="38" cssclass="main_title"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)

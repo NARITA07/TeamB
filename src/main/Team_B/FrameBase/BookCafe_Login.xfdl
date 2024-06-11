@@ -3,10 +3,11 @@
   <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인" oninit="BookCafe_Login_oninit">
     <Layouts>
       <Layout height="720" width="1280">
-        <Div id="Main" taborder="0" top="26.81%" maxheight="328" right="23.44%" maxwidth="580" minheight="" text="" cssclass="div_default" left="26.09%" bottom="26.67%">
+        <Static id="Static00" text="책빵" left="47.50%" top="133" height="38" onclick="Div00_Static00_onclick" textAlign="center" width="64" cssclass="main_title" taborder="2"/>
+        <Div id="Main" taborder="0" top="Static00:10" maxheight="328" maxwidth="580" minheight="" text="" cssclass="div_default" bottom="26.53%" left="Static00:-319" width="615">
           <Layouts>
             <Layout>
-              <Button id="Btn_Login" taborder="3" text="로그인" borderRadius="5px" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.2%" bottom="4.80%" height="9.01%" width="23.14%"/>
+              <Button id="Btn_Login" taborder="3" text="로그인" borderRadius="5px" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.56%" bottom="3.46%" height="8.07%" width="22.39%"/>
               <Static id="S_Membership" taborder="2" text="회원가입" left="70" top="193" height="32" textAlign="left" onclick="Main_S_Membership_onclick" cursor="pointer" width="60" font="14px/normal &quot;Gulim&quot;" color="#888888"/>
               <Static id="S_Find" taborder="4" text="아이디 및 비밀번호 찾기" top="194" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
               <Edit id="Ed_ID" taborder="0" left="150" top="84" height="32" border="0px none,0px none,1px solid #4f4537" right="80" background="none" font="16px/normal &quot;Gulim&quot;" onchanged="Main_Ed_ID_onchanged" onkeyup="Main_Ed_ID_onchanged"/>
@@ -19,7 +20,6 @@
           </Layouts>
         </Div>
         <ImageViewer id="ImageViewer00" taborder="1" top="40" height="83" edge="url('imagerc::logo.png') 0px 0px" border="0px none" left="46.72%" width="85"/>
-        <Static id="Static00" text="책빵" left="47.50%" top="133" height="37" onclick="Div00_Static00_onclick" textAlign="center" width="64" cssclass="main_title" taborder="2"/>
       </Layout>
     </Layouts>
     <Objects>

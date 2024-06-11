@@ -2,12 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.nexacro.codemanagement.serviceImpl.CodeManagementMapper">
 
-	<!-- 대분류 코드  --> 
-	<select id="init_fir_code" resultType="java.util.Map">
-	SELECT * FROM FIR_CODE ORDER BY FIR_CODE ;
+	<!--  상위코드 조회 -->
+	<select id="selectfirgrid" resultType="java.util.Map">
+	SELECT
+			 * 
+	FROM
+			 FIR_CODE 
+	ORDER BY 
+			 FIR_CODE ;
 	</select>
 	
-	<select id="sec_category_select" resultType="java.util.Map">
+	<!--  하위코드 조회 -->
+	<select id="selectsecgrid" resultType="java.util.Map">
+	SELECT 
+			*
+	 FROM 
+			SEC_CODE 
+	 WHERE 
+	 		FIR_CODE = #{fir_category};
+	</select>
+	
+	
+	<!-- <select id="sec_category_select" resultType="java.util.Map">
 	<choose>
 	<when test="FIR_CODE.equals('fir_000')">
 		SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
@@ -63,6 +79,6 @@
  	
  	<insert id="insert_fir_code">
  	insert into FIR_CODE(FIR_CODE, FIR_NAME, USE_STATUS) VALUES(#{FIR_CODE}, #{FIR_NAME}, #{USE_STATUS});
- 	</insert>
+ 	</insert> -->
  	
 </mapper>

@@ -10,11 +10,11 @@
                 <Column size="199"/>
               </Columns>
               <Rows>
-                <Row size="100" band="head"/>
+                <Row size="98" band="head"/>
                 <Row size="50"/>
               </Rows>
               <Band id="head">
-                <Cell/>
+                <Cell background="#ffffff" border="1px solid transparent"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" border="1px none" cursor="pointer" cssclass="grid_nav" treestate="bind:LEVEL"/>

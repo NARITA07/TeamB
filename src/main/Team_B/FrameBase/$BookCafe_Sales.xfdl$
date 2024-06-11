@@ -25,7 +25,7 @@
                 <Cell col="2" text="메뉴명" background="#FFF8EE"/>
                 <Cell col="3" text="수량" background="#FFF8EE"/>
                 <Cell col="4" text="매출액" background="#FFF8EE"/>
-                <Cell col="5" text="주문일시" background="#FFF8EE"/>
+                <Cell col="5" text="주문일" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>

@@ -9,6 +9,7 @@
               <Columns>
                 <Column size="40"/>
                 <Column size="80"/>
+                <Column size="80"/>
                 <Column size="140"/>
                 <Column size="80"/>
               </Columns>
@@ -17,16 +18,18 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
-                <Cell col="1" text="이름" background="#FFF8EE"/>
-                <Cell col="2" text="도서명" background="#FFF8EE"/>
-                <Cell col="3" text="대여일" background="#FFF8EE"/>
+                <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                <Cell col="1" text="주문번호"/>
+                <Cell col="2" text="이름"/>
+                <Cell col="3" text="도서명"/>
+                <Cell col="4" text="대여일"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:NAME" textAlign="center" verticalAlign="middle"/>
-                <Cell col="2" text="bind:BOOK" textAlign="center" verticalAlign="middle"/>
-                <Cell col="3" text="bind:TIME" textAlign="center" verticalAlign="middle"/>
+                <Cell text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:ORDER_CODE"/>
+                <Cell col="2" text="bind:NAME"/>
+                <Cell col="3" text="bind:BOOK"/>
+                <Cell col="4" text="bind:TIME"/>
               </Band>
             </Format>
           </Formats>
@@ -71,6 +74,7 @@
       <Dataset id="book_sales_dtl">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="256"/>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="NAME" type="STRING" size="256"/>
           <Column id="BOOK" type="STRING" size="256"/>
           <Column id="TIME" type="STRING" size="256"/>
@@ -149,8 +153,12 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
+		this.Grid01.setCellProperty("head",4,"text","대여일");
+		this.Button01_00_00.set_text("반납처리");
 		this.fnSelectBookList();
 	}else{
+		this.Grid01.setCellProperty("head",4,"text","반납일");
+		this.Button01_00_00.set_text("반납취소");
 		this.fnSelectBookSales();
 	}
 };
@@ -289,7 +297,14 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.fnUpdateSelected();
-	this.fnInsertSelected();
+	
+	var con = this.Grid01.getCellProperty("head",4,"text");
+	if(con == '대여일'){
+		this.fnInsertSelected();
+	}else{
+		this.fnDeleteSelected();
+	}
+	
 };
 
 // 반납 update처리 함수
@@ -311,6 +326,20 @@ this.fnInsertSelected = function ()
 {
   var strSvcId    = "insertSelected";
   var strSvcUrl   = "svc::insertSelected.do";
+  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var outData     = "";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+// 반납 delete 처리 함수
+this.fnDeleteSelected = function ()
+{
+  var strSvcId    = "deleteSelected";
+  var strSvcUrl   = "svc::deleteSelected.do";
   var inData      = "book_sales_dtl=book_sales_dtl:U";
   var outData     = "";
   var strArg      = "";
@@ -347,8 +376,12 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
+		this.Grid01.setCellProperty("head",4,"text","대여일");
+		this.Button01_00_00.set_text("반납처리");
 		this.fnSelectBookList();
 	}else{
+		this.Grid01.setCellProperty("head",4,"text","반납일");
+		this.Button01_00_00.set_text("반납취소");
 		this.fnSelectBookSales();
 	}
 	

@@ -28,6 +28,8 @@ public class MyBookDTO {
 	// SEC_CODE
 	private String sec_name;			//카테고리 이름
 	
+	private String return_state;		//반납상태
+	
 	
 	
 	public int getRowNum() {
@@ -126,6 +128,12 @@ public class MyBookDTO {
 	public void setSec_name(String sec_name) {
 		this.sec_name = sec_name;
 	}
+	public String getReturn_state() {
+		return return_state;
+	}
+	public void setReturn_state(String return_state) {
+		this.return_state = return_state;
+	}
 	
 	@Override
 	public String toString() {
@@ -134,7 +142,7 @@ public class MyBookDTO {
 				+ ", book_publication_date=" + book_publication_date + ", book_path=" + book_path + ", book_category="
 				+ book_category + ", book_cnt=" + book_cnt + ", borrow_code=" + borrow_code + ", order_code="
 				+ order_code + ", cart_code=" + cart_code + ", order_state=" + order_state + ", payment_date="
-				+ payment_date + ", sec_name=" + sec_name + "]";
+				+ payment_date + ", sec_name=" + sec_name + ", return_state=" + return_state + "]";
 	}
 	
 }

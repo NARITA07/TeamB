@@ -3,7 +3,7 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer" visible="true">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Grid id="Grid00" taborder="1" left="20" top="120" height="250" binddataset="ds_orders" autoupdatetype="none" autofittype="col" right="20" border="1px solid #4F4537" onheadclick="Grid00_onheadclick">
+        <Grid id="Grid00" taborder="1" left="1.76%" top="120" height="250" binddataset="ds_orders" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" onheadclick="Grid00_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -92,8 +92,8 @@
         </Grid>
         <Static id="Static01" taborder="3" text="주문처리완료" left="1.85%" onclick="Static01_onclick" cssclass="title_sub" bottom="Grid00_00:5" right="935" height="24" width="126"/>
         <Static id="Static02" taborder="4" text="주문현황" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
-        <Button id="Button00" taborder="5" text="저장" left="990" top="80" width="70" cssclass="btn_dafault" height="30" onclick="Button00_onclick"/>
-        <Button id="Button00_02" taborder="6" text="저장" left="990" top="400" width="70" cssclass="btn_dafault" height="30" onclick="Button00_02_onclick"/>
+        <Button id="Button00" taborder="5" text="저장" cssclass="btn_dafault" onclick="Button00_onclick" bottom="Grid00:10" right="1.76%" height="30" width="70"/>
+        <Button id="Button00_02" taborder="6" text="저장" width="70" cssclass="btn_dafault" onclick="Button00_02_onclick" bottom="Grid00_00:10" right="1.76%" height="30"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -140,7 +140,7 @@
         <Rows>
           <Row>
             <Col id="payment_state">1</Col>
-            <Col id="txt">결재완료</Col>
+            <Col id="txt">결제완료</Col>
           </Row>
           <Row>
             <Col id="payment_state">2</Col>

@@ -1,6 +1,9 @@
 package bookcafe.cart.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
@@ -13,6 +16,8 @@ public interface CartMapper {
 	public int insertCart(CartVO cart);
 	
 	public List<CartVO> selectCartList(CartVO cartListVO);
+	
+	public CartVO selectCartCode(@Param("user_code") String user_code);
 	   
 	public String selectMaxCartCode(String user_code);
 	
@@ -43,6 +48,19 @@ public interface CartMapper {
 	public int updateCartcode(String cart_code);
 	
 	public int updateSeq();
+
+	public int updateQuantity1(@Param("cart_code") String cart_code, 
+            @Param("product_code") String product_code, 
+            @Param("order_quantity") int order_quantity);
+
+	public void minusQuantity(@Param("cart_code") String cart_code, 
+            @Param("product_code") String product_code, 
+            @Param("order_quantity") int order_quantity);
+
+	
+	public List<Map<String,Object>> selectQuantitiy(String cart_code);
+	
+	public int updateQuantity2(Map<String,Object> cart);
 	
 	
 }

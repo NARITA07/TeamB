@@ -7,6 +7,8 @@ public interface CartService {
 
 	public int insertCart(CartVO cart);
 	
+	public CartVO selectCartCode(String user_code);
+	
 	public List<CartVO> selectCartList(CartVO cartListVO);
 	   
 	public String selectMaxCartCode(String user_code);
@@ -34,6 +36,12 @@ public interface CartService {
 	public int directInsertOrders(OrdersVO orders);
 	
 	public int updateCartcode(String cart_code);
+
+	public int updateQuantity1(String cart_code, String product_code, int order_quantity);
+
+	public void minusQuantity(String cart_code, String product_code, int order_quantity);
+
+	public void selectQuantitiy(String cart_code);
 
 
 }

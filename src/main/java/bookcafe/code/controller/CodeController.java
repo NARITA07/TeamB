@@ -65,8 +65,6 @@ public class CodeController {
 	//중분류 코드 선택 시 선택에 맞춰 조회
 	@RequestMapping("choice_sec_code.do")
 	public NexacroResult choice_sec_code(@ParamDataSet(name="choice_sec_code")Map<String, Object> choice_sec_code){
-		System.out.println(choice_sec_code);
-		System.out.println("중분류 선택");
 		NexacroResult nex_sec_category_select = new NexacroResult();
 		
 		nex_sec_category_select.addDataSet("view_code",codeservice.choice_sec_code(choice_sec_code));

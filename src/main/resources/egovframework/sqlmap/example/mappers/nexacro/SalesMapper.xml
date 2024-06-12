@@ -119,9 +119,6 @@
 	        <if test="BOOK != null and BOOK != ''">
 	            AND B.BOOK_NAME LIKE CONCAT('%', #{BOOK}, '%')
 	        </if>
-	        <if test="RETURN_YN != null and RETURN_YN != ''">
-	            AND B.BOOK_QUANTITY = #{RETURN_YN}
-	        </if>
 	        <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
 	            AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
 	        </if>

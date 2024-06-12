@@ -38,4 +38,11 @@ public interface BookMapper {
     
     // 대여 기록 삽입
     void insertBorrowRecordWithCode(Map<String, Object> borrowRecord);
+    
+    // 도서 대여 가능 여부 확인
+    String getBookQuantity(String bookCode);
+
+    // 도서대여 탑3
+	List<BookVO> selectTopBooksOfMonth();
+
 }

@@ -1,6 +1,7 @@
 package bookcafe.book.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import bookcafe.paging.serviceImpl.PagingServiceImpl;
 public class BookController { 
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-// ㄴ
+
     @Resource(name = "bookService")
     public BookService bookService;
         
@@ -106,7 +107,7 @@ public class BookController {
         }
         bookService.addToCart(cart, bookCode, bookName);
         session.setAttribute("cart", cart);
-        return renderCartHtml(cart);
+		return renderCartHtml(cart);
     }
 
     // 장바구니에서 도서 제거
@@ -119,7 +120,7 @@ public class BookController {
         }
         bookService.removeFromCart(cart, bookCode);
         session.setAttribute("cart", cart);
-        return renderCartHtml(cart);
+		return renderCartHtml(cart);
     }
 
     // 단일 도서 대여
@@ -131,7 +132,7 @@ public class BookController {
         String userCode = loginInfo.getUser_code(); 
         bookService.rentBook(bookCode, userCode, cart);
         session.setAttribute("cart", cart);
-        return renderCartHtml(cart);
+		return renderCartHtml(cart);
     }
     
     // 장바구니 도서 대여
@@ -140,9 +141,11 @@ public class BookController {
     public String rentBooks(HttpSession session) {
         Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo"); 
-        String userCode = loginInfo.getUser_code(); 
+        String userCode = loginInfo.getUser_code();
+
+        StringBuilder alertMessage = new StringBuilder();
+        // 장바구니가 null이 아니고 비어 있지 않으면 실행
         if (cart != null && !cart.isEmpty()) {
-            bookService.rentBooks(cart, userCode);
             Iterator<Map.Entry<String, String>> iterator = cart.entrySet().iterator();
             // 장바구니에 있는 모든 책을 확인
             while (iterator.hasNext()) {
@@ -164,7 +167,7 @@ public class BookController {
             }
         }
         session.setAttribute("cart", cart);
-        return renderCartHtml(cart);
+        return alertMessage.toString();
     }
 
     // 장바구니 HTML 렌더링

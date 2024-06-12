@@ -55,7 +55,7 @@ public class SalesController {
 	// 대여중인 도서 조회
 		@RequestMapping(value = "/selectBookList.do")
 	    public NexacroResult selectBookList(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) { 
-			System.out.println("=====대여중");
+			System.out.println("=====대여중"+sales_con);
 			List<Map<String, Object>> dataList = sales_service.selectBookList(sales_con);
 		    NexacroResult result = new NexacroResult();
 		    result.addDataSet("book_sales_dtl", dataList);

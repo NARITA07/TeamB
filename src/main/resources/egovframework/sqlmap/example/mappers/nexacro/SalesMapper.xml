@@ -94,61 +94,52 @@
 	</select>
 	<!-- 대여중인 책 목록 조회 -->
 	<select id="selectBookList" parameterType="java.util.Map" resultType="java.util.Map">
-		WITH LatestBooks AS (
-	        SELECT 
-	            'N' AS CHK,
-	            O.ORDER_CODE AS ORDER_CODE,
-	            U.USER_NAME AS NAME,
-	            B.BOOK_NAME AS BOOK,
-	            O.PAYMENT_DATE AS TIME,
-	            ROW_NUMBER() OVER (PARTITION BY B.BOOK_NAME ORDER BY ORDER_CODE DESC) AS rn
-	        FROM 
-	            ORDERS O
-	        JOIN 
-	            BORROW R ON O.CART_CODE = R.BORROW_CODE and O.USER_CODE = R.USER_CODE
-	        JOIN
-	            BOOK B ON R.BOOK_CODE = B.BOOK_CODE
-	        JOIN 
-	            USER U ON R.USER_CODE = U.USER_CODE
-	        WHERE 
-	            1=1
-	            <if test="NAME != null and NAME != ''">
-	                AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
-	            </if>
-	            <if test="BOOK != null and BOOK != ''">
-	                AND B.BOOK_NAME LIKE CONCAT('%', #{BOOK}, '%')
-	            </if>
-	            <if test="RETURN_YN != null and RETURN_YN != ''">
-				    AND B.BOOK_QUANTITY = #{RETURN_YN}
-				</if>
-	            <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
-	                AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
-	            </if>
-	            <!-- 인풋날짜부터 이력 조회-->
-	            <if test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
-	                AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d') >= STR_TO_DATE(#{DATE1},'%Y%m%d')
-	            </if>
-	            <!-- 인풋날짜까지 이력 조회-->
-	            <if test="DATE2 != null and DATE2 != '' and (DATE1 == null or DATE1 == '')">
-	                AND STR_TO_DATE(#{DATE2}, '%Y%m%d') >= STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d')
-	            </if>
-	            <if test="SEC_CODE != null and SEC_CODE != ''">
-	                AND B.BOOK_CATEGORY = #{SEC_CODE}
-	            </if>
-	    )
-	    SELECT 
-	        CHK,
-	        ORDER_CODE,
-	        NAME,
-	        BOOK,
-	        TIME
+		SELECT 
+	        'N' AS CHK,
+	        O.ORDER_CODE AS ORDER_CODE,
+	        U.USER_NAME AS NAME,
+	        B.BOOK_NAME AS BOOK,
+	        O.PAYMENT_DATE AS TIME
 	    FROM 
-	        LatestBooks
+	        ORDERS O
+	    JOIN 
+	        BORROW R ON O.CART_CODE = R.BORROW_CODE AND O.USER_CODE = R.USER_CODE
+	    JOIN
+	        BOOK B ON R.BOOK_CODE = B.BOOK_CODE
+	    JOIN 
+	        USER U ON R.USER_CODE = U.USER_CODE
+	    LEFT JOIN 
+	        RETURN_BOOK RB ON O.ORDER_CODE = RB.ORDER_CODE AND B.BOOK_NAME = RB.BOOK_CODE
 	    WHERE 
-	        rn = 1
+	        RB.ORDER_CODE IS NULL
+	        AND RB.BOOK_CODE IS NULL
+	        <if test="NAME != null and NAME != ''">
+	            AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
+	        </if>
+	        <if test="BOOK != null and BOOK != ''">
+	            AND B.BOOK_NAME LIKE CONCAT('%', #{BOOK}, '%')
+	        </if>
+	        <if test="RETURN_YN != null and RETURN_YN != ''">
+	            AND B.BOOK_QUANTITY = #{RETURN_YN}
+	        </if>
+	        <if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
+	            AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
+	        </if>
+	        <!-- 인풋날짜부터 이력 조회-->
+	        <if test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
+	            AND STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d') >= STR_TO_DATE(#{DATE1},'%Y%m%d')
+	        </if>
+	        <!-- 인풋날짜까지 이력 조회-->
+	        <if test="DATE2 != null and DATE2 != '' and (DATE1 == null or DATE1 == '')">
+	            AND STR_TO_DATE(#{DATE2}, '%Y%m%d') >= STR_TO_DATE(SUBSTRING(O.PAYMENT_DATE,1,8), '%Y%m%d')
+	        </if>
+	        <if test="SEC_CODE != null and SEC_CODE != ''">
+	            AND B.BOOK_CATEGORY = #{SEC_CODE}
+	        </if>
 	    ORDER BY 
-	        ORDER_CODE DESC;
-	</select>
+	        ORDER_CODE DESC
+		</select>
+
 	<!-- 중분류 콤보박스 -->
 	<select id="selectSalesCombo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT FIR_CODE, SEC_CODE, SEC_NAME

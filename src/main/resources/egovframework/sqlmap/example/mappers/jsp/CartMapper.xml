@@ -38,7 +38,7 @@
 			#{cart_code},
 			1,
 			#{total_price},
-			date_format(now(),'%Y%m%d%H%m%s'),
+			date_format(now(),'%Y%m%d%H%i%s'),
 			1)
 	</insert>
 	
@@ -82,6 +82,12 @@
 	        F.PRODUCT_NAME, 
 	        F.PRODUCT_PRICE
 	    ORDER BY F.PRODUCT_CODE;
+	</select>
+	
+	<select id="selectCartCode" parameterType="String" resultType="bookcafe.cart.service.CartVO">
+    	SELECT USER_CODE, MAX(CART_CODE) as CART_CODE
+    	FROM CART 
+    	WHERE USER_CODE = #{user_code};
 	</select>
 	
 	<!-- 최근 카트코드 가져오기 -->
@@ -131,6 +137,18 @@
 		    WHERE CART.cart_code = #{cart_code}
 		);
 	</update>
+	
+	<select id="selectQuantitiy" parameterType="String" resultType="java.util.Map">
+		SELECT  PRODUCT_CODE , ORDER_QUANTITY 
+		  FROM CART 
+		 WHERE CART_CODE = #{cart_code};
+	</select>
+	<update id="updateQuantity2" >
+		UPDATE FOOD 
+		SET PRODUCT_QUANTITY = PRODUCT_QUANTITY - #{ORDER_QUANTITY}
+   		WHERE PRODUCT_CODE  = #{PRODUCT_CODE}
+	</update>
+	
 	
 	<!-- 최근 오더코드 조회 -->
 	<select id="getLastInsertOrderCode" parameterType="string" resultType="string">
@@ -209,7 +227,7 @@
 			#{cart_code},
 			1,
 			#{total_price},
-			date_format(now(),'%Y%m%d%H%m%s'),
+			date_format(now(),'%Y%m%d%H%i%s'),
 			1)
 	</insert>
 	
@@ -227,4 +245,16 @@
 		SELECT NEXTVAL(cart_seq) FROM DUAL;
 	</select>
 	
+	
+	<update id="updateQuantity1" parameterType="map">
+	    UPDATE CART
+	    SET order_quantity = #{order_quantity, jdbcType=INTEGER}
+	    WHERE cart_code = #{cart_code} AND product_code = #{product_code}
+	</update>
+	
+	<update id="minusQuantity" parameterType="map">
+	    UPDATE CART
+	    SET order_quantity = order_quantity - #{order_quantity, jdbcType=INTEGER}
+	    WHERE cart_code = #{cart_code} AND product_code = #{product_code}
+	</update>
 </mapper>

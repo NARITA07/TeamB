@@ -89,7 +89,7 @@ $(document).ready(function() {
 						</div>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px;">
-								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+								<div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
 									<h3>
 										금일 카페 주문목록
 									</h3>
@@ -143,7 +143,7 @@ $(document).ready(function() {
 						<hr>
 						<div class="row">
 							<div class="col-md-12" style="padding-top: 30px;">
-								<div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+								<div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
 									<h3>
 										금일 도서 대여목록
 									</h3>

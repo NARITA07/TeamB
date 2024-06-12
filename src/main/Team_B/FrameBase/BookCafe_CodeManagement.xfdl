@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_CodeManagement" width="1080" height="720" titletext="코드관리" oninit="BookCafe_CodeManagement_oninit">
     <Layouts>
@@ -38,8 +37,8 @@
                       <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox"/>
                       <Cell col="1" text="bind:NO" textAlign="center"/>
                       <Cell col="2" text="bind:SEC_CODE" textAlign="center"/>
-                      <Cell col="3" text="bind:SEC_NAME" textAlign="center"/>
-                      <Cell col="4" text="bind:USE_STATUS" textAlign="center"/>
+                      <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
+                      <Cell col="4" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -76,8 +75,8 @@
                 </Formats>
               </Grid>
               <Button id="btn_all_del" taborder="6" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:84" right="1.94%" width="70" onclick="Main_btn_del_onclick"/>
-              <Button id="btn_all_save" taborder="5" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" left="905" bottom="Fir_code:84" height="30" width="70" onclick="Main_btn_all_save_onclick"/>
-              <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="185" cssclass="btn_save" bottom="Fir_code:84" height="30" onclick="Main_btn_fir_add_onclick"/>
+              <Button id="btn_all_save" taborder="5" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_dafault" bottom="Fir_code:84" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:10"/>
+              <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_all_save:10" cssclass="btn_save" bottom="Fir_code:84" height="30" onclick="Main_btn_fir_add_onclick"/>
               <Button id="btn_Sec_add" taborder="7" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:85" right="20" onclick="Main_btn_Sec_add_onclick"/>
               <Combo id="fir_category" taborder="3" text="Combo00" innerdataset="fir_code_grid" codecolumn="FIR_CODE" datacolumn="FIR_NAME" minheight="30" maxheight="30" width="150" borderRadius="5px" displaynulltext="카테고리 선택" minwidth="150" maxwidth="150" right="895" height="30" bottom="Sec_code:43" cssclass="combo_default" onitemchanged="Main_fir_category_onitemchanged"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
@@ -98,7 +97,7 @@
           <Column id="USE_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="use_status">
+      <Dataset id="use_status" useclientlayout="true">
         <ColumnInfo>
           <Column id="use_status" type="STRING" size="256"/>
         </ColumnInfo>
@@ -120,8 +119,18 @@
           <Column id="USE_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="save" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
+          <Column id="USE_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[var row = 0;
+this.message_count = 0;
 /***************************************************************************************/
 								//페이지 실행
 /***************************************************************************************/
@@ -188,9 +197,28 @@ this.Main_btn_fir_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 {
 	var row = this.fir_code_grid.addRow();
 	
+	this.fir_code_grid.setColumn(row,"NO",row+1)//체크
 	this.fir_code_grid.setColumn(row,"CHK",1)//체크
 	this.fir_code_grid.setColumn(row,"FIR_CODE","?")//체크
 	this.fir_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
+	
+};
+
+/***************************************************************************************/
+								//하위코드 추가 버튼 클릭 시
+/***************************************************************************************/
+this.Main_btn_Sec_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	
+	var row = this.sec_code_grid.addRow();
+	
+	this.sec_code_grid.setColumn(row,"NO",row+1)//체크
+	this.sec_code_grid.setColumn(row,"CHK",1)//체크
+	this.sec_code_grid.setColumn(row,"SEC_CODE","?")//체크
+	this.sec_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
+	
+	
 	
 };
 
@@ -229,10 +257,70 @@ this.codemanagement = function(id, code, message){
 								//저장 버튼 클릭 시
 /***************************************************************************************/
 this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
+{	
+	this.save.reset()
+	var fir_chx = 0; // 상위 선택 확인용
+	var sec_chx = 0;
+	var count = 0; 
+	var num = this.fir_code_grid.rowcount; 
+	var num2 = this.sec_code_grid.rowcount;
 	
-	for(i = 0; i < 5; i++){
+	num > num2  ? count = num : count = num2;
+	for(i = 0; i < count; i++){
 	
+		if(this.fir_code_grid.getColumn(i,"CHK") == 1){ //상위 데이터셋
+			this.save.addRow()
+			this.save.setColumn(row,"FIR_CODE", this.fir_code_grid.getColumn(i, "FIR_CODE"));	
+			this.save.setColumn(row,"FIR_NAME", this.fir_code_grid.getColumn(i, "FIR_NAME"));
+			this.save.setColumn(row,"USE_STATUS", this.fir_code_grid.getColumn(i, "USE_STATUS"));
+				
+			row++;
+			fir_chx++
+		}
+		if(this.sec_code_grid.getColumn(i,"CHK") == 1){//하위 데이터 셋
+			
+			this.save.addRow()
+			this.save.setColumn(row,"SEC_CODE", this.sec_code_grid.getColumn(i, "SEC_CODE"));	
+			this.save.setColumn(row,"SEC_NAME", this.sec_code_grid.getColumn(i, "SEC_NAME"));
+			this.save.setColumn(row,"USE_STATUS", this.sec_code_grid.getColumn(i, "USE_STATUS"));
+			
+			row++;
+			sec_chx++
+		} 
+
+	}
+	
+	if(this.fir_code_grid.getRowCount() == 0 && this.sec_code_grid.getRowCount() == 0){
+		
+		alert("항목을 선택해주세요")
+		
+	}
+	
+	if(fir_chx> 0){ // 상위 선택이 있음.
+		
+		var row_category = this.sec_code_grid.getRowCount()
+		
+		var con = this.confirm("하위 항목 " + row_category +"개가 있습니다.")
+		
+		if(con == true){
+			this.grid_modi();
+		}else {
+			alert("취소하셨습니다.")
+			this.reload()
+		}
+	}else{
+		if(sec_chx > 0){
+		var con = this.confirm(sec_chx + fir_chx + "건 저장하시겠습니까?" )
+			
+			if(con == true){
+				this.grid_modi();
+			}else{
+			alert("취소하셨습니다.")
+			this.reload()
+			}
+			
+		}
+
 	}
 };
 /***************************************************************************************/
@@ -252,6 +340,22 @@ this.Main_Sec_code_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 	this.sec_code_grid.setColumn(e.row,"CHK",1);
 	
 };
+
+
+this.grid_modi = function(){
+
+	var id = "grid_modi";
+	var url = "svc::grid_modi.do";
+	var set = "save = save:u";
+	var get = "message_count = message_count ";
+	var arg = "";
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+
+}
+
+
 ]]></Script>
   </Form>
 </FDL>

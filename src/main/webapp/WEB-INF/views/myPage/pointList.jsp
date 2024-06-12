@@ -40,6 +40,22 @@
 </head>
 <body>
 <script>
+// 기간별 포인트내역조회
+function pointHistory() {
+    var startDate = $("#startDate").val();
+    var endDate = $("#endDate").val();
+    console.log("startDate:" + startDate + ", endDate:" + endDate);
+
+    if (!startDate || !endDate) {
+        alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
+        return;
+    }
+
+    // 쿼리 문자열을 생성하여 URL에 추가
+    var queryString = "?startDate=" + startDate + "&endDate=" + endDate;
+    window.location.href = "/myPage/pointList" + queryString;
+}
+
 // 날짜 형식 변환
 function formattedDate(point_use_date) {
 	if (!point_use_date) {
@@ -72,7 +88,7 @@ $(document).ready(function() {
 
 $(function() {
 	
-	var originalData = $("#tbl_point tbody").html();
+	var originalData = $("#pointHistory").html();
 	
 	 // 전체 버튼 클릭
    $("#pointAll").click(function() {
@@ -126,20 +142,34 @@ $(function() {
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
 									<div style="display: flex; align-items: center; justify-content: center;">
-										<h2 style="margin-right:20px;">${loginInfo.user_name}님의 현재 포인트 : 
+										<h2 style="margin-bottom:50px;">${loginInfo.user_name}님의 현재 포인트 : 
 										<a id="myPoint" style="margin-left:10px;">
 											<fmt:formatNumber value="${totalPoint}" type="number" groupingUsed="true"/>
 										</a>P
 										</h2>
 									</div>
-									<div style="display: flex; justify-content: center; margin: 20px; padding-bottom: 5px;">
-										<div class="btn-group" role="group">
-											<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
-											<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
-											<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
+								    <!-- 날짜 선택기 -->
+						            <div class="d-flex justify-content-between align-items-center" style="margin:15px;">
+										<div style="display: flex; justify-content: center;">
+											<div class="btn-group" role="group">
+												<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
+												<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
+												<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
+											</div>
 										</div>
-									</div>
-									<%-- 포인트내역이 없는 경우 --%>
+								        <div style="display: flex; align-items: center; justify-content: center;">
+								            <div class="col-auto">
+								                <input type="date" class="form-control" id="startDate" value="${startDate}">
+								            </div>
+								            <span>~</span>
+								            <div class="col-auto">
+								                <input type="date" class="form-control" id="endDate" value="${endDate}">
+								            </div>
+								            <div class="col-auto">
+								                <button class="btn btn-primary" onclick="pointHistory()">조회</button>
+								            </div>
+								        </div>
+								    </div>
 									<table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
 										<thead>
 											<tr class="table-warning">
@@ -152,7 +182,8 @@ $(function() {
 												<th>구분</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="pointHistory">
+										<%-- 포인트내역이 없는 경우 --%>
 							         	<c:if test="${empty pointList}">
 						          			<tr>
 												<td colspan='7'>포인트 내역이 없습니다.</td>

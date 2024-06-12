@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BookService {
+//ㄴ
 	// 도서 목록 조회
     List<BookVO> getBookList();
     
@@ -40,6 +41,7 @@ public interface BookService {
     // 모든 카테고리 조회
     List<BookVO> getAllCategories();
     
-
+    // 도서 대여 가능 여부 확인
+    boolean isBookAvailable(String bookCode);
 
 }

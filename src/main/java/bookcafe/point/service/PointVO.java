@@ -14,6 +14,9 @@ public class PointVO {
 	private int user_point;
 	private String point_section;
 	private int total_price;
+	private String startDate;
+	private String endDate;
+	
 	
 	public String getPoint_code() {
 		return point_code;
@@ -75,13 +78,25 @@ public class PointVO {
 	public void setTotal_price(int total_price) {
 		this.total_price = total_price;
 	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	
 	@Override
 	public String toString() {
 		return "PointVO [point_code=" + point_code + ", user_code=" + user_code + ", order_code=" + order_code
 				+ ", point_change=" + point_change + ", point_joindate=" + point_joindate + ", rowNum=" + rowNum
 				+ ", payment_state=" + payment_state + ", user_point=" + user_point + ", point_section=" + point_section
-				+ ", total_price=" + total_price + "]";
+				+ ", total_price=" + total_price + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
-
+	
 }

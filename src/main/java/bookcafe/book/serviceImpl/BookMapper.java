@@ -8,6 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("bookMapper")
 public interface BookMapper {
+	//ㄴ
 	// 도서 전체목록 조회
     List<BookVO> selectBookList();
     

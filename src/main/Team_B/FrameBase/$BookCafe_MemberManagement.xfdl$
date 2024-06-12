@@ -4,6 +4,7 @@
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
         <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize">
+
           <Formats>
             <Format id="default">
               <Columns>
@@ -52,7 +53,9 @@
       </Layout>
     </Layouts>
     <Objects>
+
       <Dataset id="Member_Management">
+
         <ColumnInfo>
           <Column id="USER_ID" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
@@ -73,6 +76,7 @@
         </ColumnInfo>
       </Dataset>
       <Dataset id="Member_Selected">
+
         <ColumnInfo>
           <Column id="USER_ID" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
@@ -105,6 +109,7 @@ this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.Even
 {	
 	this.fnSelect_Members();
 	this.fnGetCombo(); //수정
+
 	this.pageinit(1,15); //페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	
 	this.check_sort(this.user_table);
@@ -116,6 +121,7 @@ this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.Even
 this.Member_Management_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
 	//row의 내용이 바뀌면 그 row의 체크박스 체크가 됨
+
 	if(e.col != obj.getColIndex("CHK")){
 		obj.setColumn(e.row,"CHK",'Y');
 	}
@@ -150,6 +156,7 @@ this.user_table_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEvent
 			dataset.set_keystring("S:+"+id);
 	}
 };
+
 */
 
 //트랜잭션
@@ -166,6 +173,7 @@ this.fnCallback_Member = function(){
 		var div = this.components['pagediv'];
 		if(div != null)
 			div.destroy();
+
 		this.setPaging(this.Member_Management,this.user_table);//수정
 }
 this.fnGetCombo = function(){//멤버 권한 리스트 받아오기
@@ -231,8 +239,10 @@ this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 };
 
 
+
 // 컬럼ID 가져오기
 /*
+
 this.getBindColumnIDByIndex = function(grid, index) 
 {
   var text = "";
@@ -262,7 +272,9 @@ this.getBindColumnIDByIndex = function(grid, index)
   
   return columnid;
 }
+
 */
+
 
 //페이징 기능 
 this.setPaging = function(ds,grid){
@@ -399,6 +411,30 @@ this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {//그리드 사이즈 변화 이벤트
 	this.setpagediv(obj);//수정
 };
+
+
+// 데이터 더블클릭시 팝업호출
+this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var objParam = {USER_ID:this.Member_Management.getColumn(this.Member_Management.rowposition, "USER_ID")};
+				  
+	this.showPopup(objParam);
+};
+
+// 팝업호출
+this.showPopup = function (objParam) 
+{		  
+	popup = new nexacro.ChildFrame;
+	popup.init("popupWork", 0, 0, 800, 700, null, null, "FrameBase::BookCafe_MemberManagement_PopUp.xfdl");
+	popup.set_dragmovetype("all");
+	popup.set_layered("true");
+	popup.set_autosize(true);
+	popup.set_showtitlebar("Popup Title");
+	popup.set_showstatusbar(false);
+	popup.set_resizable(true);
+	popup.set_openalign("center middle");
+}
+
 ]]></Script>
   </Form>
 </FDL>

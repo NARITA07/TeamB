@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Script version="1.0" type="xscript5.1"><![CDATA[/* 체크박스 및 정렬 공통함수 */
+<Script version="1.0" type="xscript5.1"><![CDATA[/* 
+사용조건
+0. 체크박스가 그리드의 0번째 인덱스에 위치할 것
+1. 체크박스가 들어있는 데이터셋에서 체크박스의 컬럼명 : CHK
+2. CellCheckBox : falsevalue -> N / truevalue -> Y
+3. SQL 쿼리 : 'N' as CHK
+*/
+
+/* 체크박스 및 정렬 공통함수 */
 this.check_sort = function(objGrid)
 {
-	// 오름차순 마커
-	objGrid.ascMarker = "▲";
-	
-	// 내림차순 마커
-	objGrid.descMarker = "▼";
 	
 	// 정렬값을 저장
 	objGrid.arrSort = {};
@@ -14,18 +17,95 @@ this.check_sort = function(objGrid)
 	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
 	objGrid.addEventHandler("onheadclick",this.grid_onheadclick, this);
 	
-}
-
-/* 그리드 헤더 클릭 시 실행될 이벤트 함수 */
-this.grid_onheadclick = function(obj, e){
+	// 그리드의 row값 변경 시 체크박스가 체크되는 이벤트 함수 추가
+	objGrid.addEventHandler("oncolumnchanged",this.grid_oncolumnchanged, this);
 	
-	// 정렬 실행 함수 호출
-	this.runSort(obj, e.cell, obj.arrSort);
 }
 
-/*  */
-this.runSort = function(obj, column, sortState){
+//row의 내용이 바뀌면 그 row의 체크박스 체크가 됨
+this.grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.col != obj.getColIndex("CHK")){
+		obj.setColumn(e.row,"CHK",'Y');
+	}
+};
 
+/* 그리드 헤더 클릭 시 실행될 이벤트 함수(체크박스 이벤트/정렬이벤트) */
+this.grid_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	// 체크박스 셀 클릭
+	if(e.cell == 0){
+		
+		var val = 'N';	// 체크박스 N상태를 변수에 저장
+		
+		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){	// 이벤트가 발생한 컬럼값을 가져와서 Y와 비교.
+			
+			obj.setCellProperty("head",e.cell,"text",val);	// 컬럼값이 Y일 시 N으로 변환
+		}else{
+			val = 'Y';
+			obj.setCellProperty("head",e.cell,"text",val);
+		}
+		
+		var dataset = obj.getBindDataset();
+		
+		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 잠깐 끄기
+		
+		for(var i=0; i<dataset.rowcount; i++){
+			dataset.setColumn(i,"CHK",val);
+		}
+		dataset.set_enableevent(true);
+		
+	// 정렬이 필요한 셀 클릭
+	}else {
+	
+		this.resetAllHeaderTexts();	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해
+		
+		var dataset = obj.getBindDataset();	// 바인딩된 데이터셋 가져오기
+		var id = this.getBindColumnIDByIndex(obj,e.cell);	// 현재 클릭된 셀의 컬럼ID 가져오기(getBindColumnIDByIndex : 사용자가 만든 함수)
+		var text = "";
+		
+		text=dataset.keystring;	// 바인딩된 데이터셋의 현재 정렬 keyString 가져오기
+		
+		// 현재 오름차순 상태라면
+		if(text.includes('+')) {
+			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경
+			obj.setCellProperty("head",e.cell,"text",id.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
+		}else{
+			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
+			obj.setCellProperty("head",e.cell,"text",id.replace(/ ▲| ▼/g,"")+" ▲");
+			}
+	}
+};
+
+/* 정렬을 위한 컬럼값 꺼내는 함수 / columnid 리턴 */
+this.getBindColumnIDByIndex = function(grid, index) 
+{
+  var text = "";
+  var columnid = null;
+  var subCell = grid.getCellProperty("body", index, "subcell");
+  if ( subCell > 0 )
+  {
+    text = grid.getSubCellProperty("body", index, 0, "text");
+  }
+  else
+  {
+    text = grid.getCellProperty("body", index, "text");
+  }
+  
+  if ( text && text.length > 0 )
+  {
+    if ( text.search(/^bind:/) > -1 ) 
+    {
+      columnid = text.replace(/^bind:/, "");
+    }  
+    else if ( text.search(/^BIND\(/) > -1 ) 
+    {  
+      columnid = text.replace(/^BIND\(/, "");
+      columnid = columnid.substr(0, columnid.length-1);
+    } 
+  }
+  
+  return columnid;
 }
 
 /* 모든 헤더 초기화 */

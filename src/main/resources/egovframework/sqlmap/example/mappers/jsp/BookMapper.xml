@@ -88,4 +88,14 @@
         WHERE BOOK_CODE = #{bookCode}
     </select>
     
+    <!-- 이달의 책 상위 3개 가져오기 -->
+    <select id="selectTopBooksOfMonth" resultType="bookcafe.book.service.BookVO">
+        SELECT b.BOOK_CODE, b.BOOK_NAME,b.BOOK_PATH
+        FROM BOOK b
+        JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE
+        JOIN BORROW br ON b.BOOK_CODE = br.BOOK_CODE
+        GROUP BY b.BOOK_CODE
+        ORDER BY COUNT(br.BOOK_CODE) DESC
+        LIMIT 3
+    </select>
 </mapper>

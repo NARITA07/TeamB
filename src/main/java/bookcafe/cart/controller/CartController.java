@@ -10,15 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
-import bookcafe.point.service.PointVO;
 import bookcafe.member.service.MemberVO;
 import bookcafe.point.service.PointService;
+import bookcafe.point.service.PointVO;
 
 	@Controller
 	public class CartController {
@@ -29,36 +31,69 @@ import bookcafe.point.service.PointService;
 	@Autowired
 	private PointService pointService;
 	
-	// 장바구니 담기
+	// 장바구니 담기 (비동기)
 	@RequestMapping("insertCart.do")
+	@ResponseBody
 	public String insertCart(@RequestParam("user_code") String user_code,
-	                         @RequestParam("product_code") String product_code, 
-	                         @RequestParam("order_quantity") int order_quantity) {
-		  
-		String cart_code = cartService.selectMaxCartCode(user_code);
-		// 카트코드 부여
-		int isOrders = cartService.selectOrders(cart_code);
-		if (isOrders > 0) {
-			cart_code = null;
-		}
+	                             @RequestParam("product_code") String product_code, 
+	                             @RequestParam("order_quantity") int order_quantity) {
+	  
+	    String cart_code = cartService.selectMaxCartCode(user_code);
+	    System.out.println("테스트1: " + cart_code);
+	    // 카트코드 부여
+	    int isOrders = cartService.selectOrders(cart_code);
+	    System.out.println("테스트2: " + isOrders);
+	    if (isOrders > 0) {
+	        cart_code = null;
+	    }
 	    System.out.println("cart_code: " + cart_code);
 	  
-		CartVO cart = new CartVO();
-		cart.setUser_code(user_code);
-		cart.setProduct_code(product_code);
-		cart.setOrder_quantity(order_quantity);
-		cart.setCart_code(cart_code);
-		System.out.println("cartVO: " + cart.toString());
-		
-		int result = cartService.insertCart(cart);
-		if (result == 1) {
-			System.out.println("장바구니 담기 성공");
-		} else {
-			System.out.println("장바구니 담기 실패");
-		}
-			
-		return "redirect:/foodList.do";
+	    CartVO cart = new CartVO();
+	    cart.setUser_code(user_code);
+	    cart.setProduct_code(product_code);
+	    cart.setOrder_quantity(order_quantity);
+	    cart.setCart_code(cart_code);
+	    System.out.println("cartVO: " + cart.toString());
+	    
+	    int result = cartService.insertCart(cart);
+	    if (result == 1) {
+	        System.out.println("장바구니 담기 성공");
+	        return "success";
+	    } else {
+	        System.out.println("장바구니 담기 실패");
+	        return "fail";
+	    }
+	} 
+	
+	
+	// 장바구니 상품 갯수 수정 (비동기)
+	@RequestMapping("updateQuantity.do")
+	@ResponseBody
+	public String updateQuantity(@RequestParam("cart_code") String[] cartCodes,
+								@RequestParam("product_code") String[] productCodes,
+							    @RequestParam("order_quantity") String[] orderQuantities,
+							    Model model) {
+		String message = "";
+		int result = 0;
+
+	        for (int i = 0; i < cartCodes.length; i++) {
+	            String cart_code = cartCodes[i];
+	            String product_code = productCodes[i];
+	            String order_quantity = orderQuantities[i];
+
+	            System.out.println("Cart Code: " + cart_code);
+	            System.out.println("Product Code: " + product_code);
+	            System.out.println("Order Quantity: " + order_quantity);
+	            
+	            result =  cartService.updateQuantity1(cart_code, product_code, Integer.parseInt(order_quantity));
+	        }
+
+		if(result == 1) {
+			message = "success";
+        }
+		return message;
 	}
+	
 	
 	// 장바구니 리스트 보기
 	@RequestMapping("cartList.do")
@@ -119,7 +154,7 @@ import bookcafe.point.service.PointService;
 	
 	// 주문 넣기(결제)
 	@PostMapping("/submitOrder")
-	public String submitOrder(@ModelAttribute OrdersVO order, HttpSession session) {
+	public String submitOrder(@ModelAttribute OrdersVO order, HttpSession session, CartVO cart, int total_price, int point_change) {
 		System.out.println("결제 컨트롤러 - 카트코드: " + order.getCart_code());
 		System.out.println("결제VO: " + order.toString());
 		cartService.insertOrder(order);
@@ -128,22 +163,31 @@ import bookcafe.point.service.PointService;
 	    MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 	    String user_code = loginInfo.getUser_code();
 	    String cart_code =cartService.selectMaxCartCode(user_code);
-	    cartService.updateQuantity(cart_code);
-		
-	    // 포인트 증가
+	    //cartService.updateQuantity(cart_code);
+	    cartService.selectQuantitiy(cart_code);
+	    
 		String order_code = cartService.selectOrderCode(cart_code);
 		System.out.println("컨트롤러 오더코드1: "+order_code);
 		int totalPrice = cartService.getTotalPrice(order_code);
 		System.out.println("컨트롤러 토탈가격1: "+totalPrice);
-		 
+		
+		// 포인트 업데이트
+		PointVO pointLog = new PointVO();
+		if(point_change != 0) {
+			int minus_point = point_change * -1;
+			System.out.println("포인트차감 : " + minus_point);
+			pointLog.setUser_code(user_code);
+			pointLog.setOrder_code(order_code);
+			pointLog.setPoint_change(minus_point);
+			pointService.insertPointLog(pointLog);
+			System.out.println("test3");
+		}
+		// 포인트 증가
 		int pointChange = (int) (totalPrice * 0.05);
 		System.out.println("주문넣기 컨트롤러 오더코드: " + order_code);
 		System.out.println("총 가격: " + totalPrice);
 		System.out.println("포인트 적립: " + pointChange);
 		 
-		 
-		// 포인트 업데이트
-		PointVO pointLog = new PointVO();
 		pointLog.setUser_code(user_code);
 		pointLog.setOrder_code(order_code);
 		pointLog.setPoint_change(pointChange);
@@ -166,16 +210,6 @@ import bookcafe.point.service.PointService;
 		return "redirect:/cartList.do";
 	}
 	
-	// 장바구니 상품 갯수 수정
-	@PostMapping("/updateQuantity")
-	public void updateQuantity(@RequestParam("order_quantity") int order_quantity[],
-					            @RequestParam("cart_code") String cart_code, 
-					            @RequestParam("product_name") String product_name[]) {
-		System.out.println("테스트1"+order_quantity[1]);
-		System.out.println("테스트2"+cart_code);
-		System.out.println("테스트3"+product_name[0]);
-		
-	}
 	
 	// 바로구매 
 	@PostMapping("/submitOrderDirect")

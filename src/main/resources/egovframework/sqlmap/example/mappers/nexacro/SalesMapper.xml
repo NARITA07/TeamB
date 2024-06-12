@@ -10,7 +10,7 @@
 	        F.PRODUCT_NAME AS MENU,
 	        C.ORDER_QUANTITY AS QUANTITY,
 	        SUM(F.PRODUCT_PRICE * C.ORDER_QUANTITY) AS SALES,
-	        DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME
+	        O.PAYMENT_DATE AS TIME
 	    FROM 
 	        ORDERS O
 	    INNER JOIN 
@@ -57,7 +57,7 @@
 			T.ORDER_CODE AS ORDER_CODE,
 		    T.USER_CODE AS NAME,
 		    B.BOOK_NAME AS BOOK,
-		    DATE_FORMAT(STR_TO_DATE(T.RETURN_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME
+		    T.RETURN_DATE AS TIME
 		FROM 
 		    RETURN_BOOK T
 		JOIN
@@ -100,7 +100,7 @@
 	            O.ORDER_CODE AS ORDER_CODE,
 	            U.USER_NAME AS NAME,
 	            B.BOOK_NAME AS BOOK,
-	            DATE_FORMAT(STR_TO_DATE(O.PAYMENT_DATE, '%Y%m%d'), '%Y-%m-%d') AS TIME,
+	            O.PAYMENT_DATE AS TIME,
 	            ROW_NUMBER() OVER (PARTITION BY B.BOOK_NAME ORDER BY ORDER_CODE DESC) AS rn
 	        FROM 
 	            ORDERS O

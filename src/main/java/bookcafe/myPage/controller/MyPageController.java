@@ -78,12 +78,19 @@ public class MyPageController {
 	
 	// 포인트페이지
 	@GetMapping("/pointList")
-	public void pointList(HttpSession session, Model model) {
+	public void pointList(HttpSession session, Model model,
+				  		  @RequestParam(required = false) String startDate, 
+			              @RequestParam(required = false) String endDate) {
+		
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 		String user_code = loginInfo.getUser_code();
+		PointVO pointVO = new PointVO();
+		pointVO.setUser_code(user_code);
+		pointVO.setStartDate(startDate);
+		pointVO.setEndDate(endDate);
 		
 		// 포인트 내역 조회
-		List<PointVO> pointList = pointService.getPointList(user_code);
+		List<PointVO> pointList = pointService.getPointList(pointVO);
 		System.out.println("pointList:" + pointList.toString());
 		
 		// 포인트 총금액
@@ -92,6 +99,8 @@ public class MyPageController {
 		
 		model.addAttribute("pointList", pointList);
 		model.addAttribute("totalPoint", totalPoint);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 	}
 	
 	// 카페 전체 주문내역 페이지

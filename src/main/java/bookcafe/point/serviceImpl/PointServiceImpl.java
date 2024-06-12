@@ -16,9 +16,8 @@ public class PointServiceImpl implements PointService {
 	
 	// 포인트 전체 조회하기(한사람)
 	@Override
-	public List<PointVO> getPointList(String user_code) {
-		List<PointVO> pointVOList = pointMapper.getPointList(user_code);
-		return pointVOList;
+	public List<PointVO> getPointList(PointVO pointVO) {
+	    return pointMapper.getPointList(pointVO);
 	}
 
 	// 포인트 내역 기록

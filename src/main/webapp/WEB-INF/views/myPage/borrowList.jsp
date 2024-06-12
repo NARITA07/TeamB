@@ -125,10 +125,7 @@ $(function() {
 													<td>${borrow.book_name}</td>
 													<td>${borrow.book_writer}</td>
 													<td>${borrow.sec_name}</td>
-													<td>
-														<c:if test="${borrow.book_quantity == 'N'}">대여중</c:if>
-														<c:if test="${borrow.book_quantity == 'Y'}">반납완료</c:if>
-													</td>
+													<td>${borrow.return_state}</td>
 												</tr>
 											</c:forEach>
 										</c:if>

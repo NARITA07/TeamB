@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bookcafe.book.serviceImpl.BookMapper">
 
-    <!-- 도서 전체목록 조회 -->
+    <!-- 도서 전체목록 조회! -->
     <select id="selectBookList" resultType="bookcafe.book.service.BookVO"> 
         SELECT b.BOOK_CODE, b.BOOK_NAME, b.BOOK_WRITER, b.BOOK_PUBLICATION_DATE, b.BOOK_CATEGORY, b.BOOK_QUANTITY, s.SEC_NAME as sec_name 
         FROM BOOK b JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE 
@@ -79,5 +79,23 @@
         SELECT SEC_CODE, SEC_NAME 
         FROM SEC_CODE
         WHERE FIR_CODE = 'fir_001'
-    </select>  
+    </select>
+    
+    <!-- 도서 대여 가능 여부 확인 -->
+    <select id="getBookQuantity" parameterType="string" resultType="string">
+        SELECT BOOK_QUANTITY
+        FROM BOOK
+        WHERE BOOK_CODE = #{bookCode}
+    </select>
+    
+    <!-- 이달의 책 상위 3개 가져오기 -->
+    <select id="selectTopBooksOfMonth" resultType="bookcafe.book.service.BookVO">
+        SELECT b.BOOK_CODE, b.BOOK_NAME,b.BOOK_PATH
+        FROM BOOK b
+        JOIN SEC_CODE s ON b.BOOK_CATEGORY = s.SEC_CODE
+        JOIN BORROW br ON b.BOOK_CODE = br.BOOK_CODE
+        GROUP BY b.BOOK_CODE
+        ORDER BY COUNT(br.BOOK_CODE) DESC
+        LIMIT 3
+    </select>
 </mapper>

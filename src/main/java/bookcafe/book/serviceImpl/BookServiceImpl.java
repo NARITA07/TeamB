@@ -1,7 +1,5 @@
 package bookcafe.book.serviceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +15,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 @Service("bookService") 
 public class BookServiceImpl extends EgovAbstractServiceImpl implements BookService {
     
+	//ㄴ
     @Resource(name = "bookMapper") 
     BookMapper bookMapper;
     
@@ -78,7 +77,6 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
                 borrowRecord.put("userCode", userCode);
                 bookMapper.insertBorrowRecordWithCode(borrowRecord);
             }
-
             bookMapper.updateBookQuantity(bookCode);
         }
 
@@ -151,5 +149,17 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
         return bookMapper.selectAllCategories();
     }
 
+    // 대여가능여부 조회
+    @Override
+    public boolean isBookAvailable(String bookCode) {
+        String bookQuantity = bookMapper.getBookQuantity(bookCode);
+        return "Y".equals(bookQuantity);
+    }
+
+    // 도서대여 탑3
+	@Override
+	public List<BookVO> selectTopBooksOfMonth() {
+		return bookMapper.selectTopBooksOfMonth();
+	}
 
 }

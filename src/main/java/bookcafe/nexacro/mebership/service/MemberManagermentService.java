@@ -16,4 +16,6 @@ public interface MemberManagermentService {
 	public int update_Member(List<Map<String,String>> members);
 	
 	public int delete_Member(List<Map<String,String>> members);
+
+	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
 }

@@ -36,5 +36,17 @@ DELETE FROM USER
 	<insert id="img_path">
     INSERT INTO IMG (IMG_PATH) VALUES (#{path})
 </insert>
+
+<select id="selectPointlog" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT
+		ORDER_CODE,
+		POINT_CHANGE,
+		POINT_JOINDATE
+	FROM
+		POINTLOG
+	WHERE
+		USER_CODE = #{USER_CODE}
+		
+</select>
 	
 </mapper>

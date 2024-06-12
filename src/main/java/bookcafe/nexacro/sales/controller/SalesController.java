@@ -55,7 +55,7 @@ public class SalesController {
 	// 대여중인 도서 조회
 		@RequestMapping(value = "/selectBookList.do")
 	    public NexacroResult selectBookList(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) { 
-			System.out.println("=====대여중"+sales_con);
+			System.out.println("=====대여중");
 			List<Map<String, Object>> dataList = sales_service.selectBookList(sales_con);
 		    NexacroResult result = new NexacroResult();
 		    result.addDataSet("book_sales_dtl", dataList);
@@ -92,7 +92,7 @@ public class SalesController {
 		    
 		    NexacroResult result = new NexacroResult();
 		    
-		    System.out.println("====반납" + book_sales_dtl);
+		    System.out.println("====반납 수정" + book_sales_dtl);
 		    try {
 		        if (book_sales_dtl != null) {
 		            for (Map<String, String> param : book_sales_dtl) {
@@ -127,6 +127,35 @@ public class SalesController {
 		            for (Map<String, String> param : book_sales_dtl) {
 		                if ("Y".equals(param.get("CHK"))) {
 		                    sales_service.insertSelected(param);
+		                }
+		            }
+		        }
+		        transactionManager.commit(txStatus);
+		    } catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg(e.getMessage());
+		        transactionManager.rollback(txStatus);
+		    }
+		    
+		    return result;
+		}
+		
+		//반납테이블 DELETE
+		@RequestMapping(value = "/deleteSelected.do")
+		public NexacroResult deleteSelected(@ParamDataSet(name = "book_sales_dtl", required = false) List<Map<String, String>> book_sales_dtl) throws IOException, InvocationTargetException, SQLException {
+		    DefaultTransactionDefinition transDef = new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED); 
+		    transDef.setReadOnly(false);
+		    transDef.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+		    TransactionStatus txStatus = transactionManager.getTransaction(transDef);
+		    
+		    NexacroResult result = new NexacroResult();
+		    
+		    System.out.println("====반납 수정" + book_sales_dtl);
+		    try {
+		        if (book_sales_dtl != null) {
+		            for (Map<String, String> param : book_sales_dtl) {
+		                if ("Y".equals(param.get("CHK"))) {
+		                    sales_service.deleteSelected(param);
 		                }
 		            }
 		        }

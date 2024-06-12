@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Script version="1.0" type="xscript5.1"><![CDATA[/* 체크박스 및 정렬 공통함수 */
+this.check_sort = function(objGrid)
+{
+	// 오름차순 마커
+	objGrid.ascMarker = "▲";
+	
+	// 내림차순 마커
+	objGrid.descMarker = "▼";
+	
+	// 정렬값을 저장
+	objGrid.arrSort = {};
+	
+	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
+	objGrid.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	
+}
+
+/* 그리드 헤더 클릭 시 실행될 이벤트 함수 */
+this.grid_onheadclick = function(obj, e){
+	
+	// 정렬 실행 함수 호출
+	this.runSort(obj, e.cell, obj.arrSort);
+}
+
+/*  */
+this.runSort = function(obj, column, sortState){
+
+}
+
+/* 모든 헤더 초기화 */
+this.resetAllHeaderTexts = function(obj)
+{
+    var headerCount = this.obj.getCellCount("head");
+    for (var i = 0; i < headerCount; i++) {
+        var originalText = this.obj.getCellProperty("head", i, "text").replace(/ ▲| ▼/g, "");
+        this.obj.setCellProperty("head", i, "text", originalText);
+    }
+}]]></Script>

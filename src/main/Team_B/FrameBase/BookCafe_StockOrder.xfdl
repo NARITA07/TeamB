@@ -52,14 +52,15 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="Button01" taborder="3" text="저장" width="70" height="30" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5" onclick="stock02_div_Button01_onclick"/>
-              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="Button01:5" width="70" cssclass="btn_dafault" onclick="stock02_div_Button00_onclick"/>
+              <Button id="Button01" taborder="3" text="저장" width="70" height="30" cssclass="btn_save" right="1.85%" bottom="Grid00:5" onclick="stock02_div_Button01_onclick"/>
+              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="Button01:5" width="70" cssclass="btn_view" onclick="stock02_div_Button00_onclick"/>
               <Static id="Static00" taborder="2" text="입고 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
-              <Static id="Static01" taborder="4" text="입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="19" top="Grid00:0.52%" width="316" height="14" cssclass="warning_txt"/>
+              <Static id="Static01" taborder="4" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="19" top="Grid00:0.52%" width="316" height="14" cssclass="warning_txt"/>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="1.85%" height="40">
+        <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
+        <Div id="Div00" taborder="3" left="1.76%" top="Static00:40" text="" cssclass="main_nav" right="1.85%" height="40">
           <Layouts>
             <Layout>
               <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
@@ -68,7 +69,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100%">
+        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:40">
           <Formats>
             <Format id="default">
               <Columns>
@@ -99,10 +100,10 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
-        <Button id="Button00" taborder="4" text="발주신청" onclick="Button00_onclick" cssclass="btn_dafault" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
-        <Button id="Button01" taborder="5" text="조회" height="30" cssclass="btn_dafault" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
+        <Button id="Button00" taborder="4" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
+        <Button id="Button01" taborder="5" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="6" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+        <Button id="Button02" taborder="8" text="테스트" left="416" top="17" width="120" height="50" onclick="Button02_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
@@ -125,11 +126,11 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	this.fnFind_Thir_Combo();
 	
 	// grid1의 현재재고 오름차순 내림차순 정렬을 위해 현재 상태 변수지정
+	// gird의 컬럼 개수 count 해서 차례대로 변수 지정해보기
 	// Grid00_onheadclick 에서 사용
 	this.sortState1 = { column1 : "asc" };
 	this.sortState2 = { column2 : "asc" };
 	this.sortState3 = { column3 : "asc" };
-
 };
 
 ///////////* 2. 이벤트 *///////////
@@ -334,17 +335,17 @@ this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 	
 	// 현재 컬럼의 헤드값 가져오기
 	var sortHeader1 = obj.getCellProperty("head",1,"text");
-	
+	// 현재 컬럼의 헤드값이 asc(오름차순)이면
 	if(this.sortState1.column1 === "asc"){
-			
+			// desc(내림차순)으로 값 변경
 			this.sortState1.column1 = "desc";
-			/*alert("내림차순으로");*/
+			//set_keystring 함수 사용. S(정렬):-(내림차순)
 			this.stock_grid1.set_keystring("S:-PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▼");
 			
 		} else {
 			this.sortState1.column1 = "asc";
-			/*alert("오름차순으로");*/
+			
 			this.stock_grid1.set_keystring("S:+PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▲");
 		}
@@ -665,6 +666,11 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 	}
 };
 
+
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Grid00.getFormatColCount());
+};
 ]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true" oncolumnchanged="stock_grid1_oncolumnchanged">

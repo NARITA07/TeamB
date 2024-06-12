@@ -60,6 +60,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		return nums;
 	}
 
+	//제품 수정
 	@Override
 	public Map<String, Object> update_product(List<Map<String, Object>> save_date) {
 		Map<String, Object>nums = new HashMap<>();

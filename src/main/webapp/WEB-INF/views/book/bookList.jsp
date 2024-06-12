@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <title>Book List</title>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .main-content {
         display: flex;
@@ -215,136 +214,122 @@
     }
 </style>
 <script>
-$(document).ready(function() {
-    // 카트 목록추가
-    function bindAddToCart() {
-        $('.add-to-cart').off('click').on('click', function(event) {
+    $(document).ready(function() {
+        // 카트 목록추가
+        function bindAddToCart() {
+            $('.add-to-cart').off('click').on('click', function(event) {
+                event.preventDefault();
+                var button = $(this);
+                var bookCode = button.data('book-code');
+                var bookName = button.data('book-name');
+                $.ajax({
+                    url: 'addToCart',
+                    type: 'POST',
+                    data: { bookCode: bookCode, bookName: bookName },
+                    success: function(response) {
+                        updateCart(response);
+                        button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('이미 담겼습니다');
+                    },
+                    error: function(xhr, status, error) {
+                        alert("카트에 담기를 실패하였습니다.");
+                    }
+                });
+            });
+        }
+
+        // 카트목록 삭제
+        $(document).on('click', '.remove-from-cart', function(event) {
+            event.preventDefault();
             var button = $(this);
             var bookCode = button.data('book-code');
-            var bookName = button.data('book-name');
             $.ajax({
-                url: 'addToCart',
+                url: 'removeFromCart',
                 type: 'POST',
-                data: { bookCode: bookCode, bookName: bookName },
+                data: { bookCode: bookCode },
                 success: function(response) {
                     updateCart(response);
-                    button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('이미 담겼습니다');
+                    reloadBookList(); // 도서 목록 다시 로드
                 },
                 error: function(xhr, status, error) {
-                    alert("카트에 담기를 실패하였습니다.");
+                    alert("목록 삭제에 실패하였습니다.");
                 }
             });
         });
-    }
 
-    // 카트목록 삭제
-    $(document).on('click', '.remove-from-cart', function(event) {
-        var button = $(this);
-        var bookCode = button.data('book-code');
-        $.ajax({
-            url: 'removeFromCart',
-            type: 'POST',
-            data: { bookCode: bookCode },
-            success: function(response) {
-                updateCart(response);
-                reloadBookList(); // 도서 목록 다시 로드
-            },
-            error: function(xhr, status, error) {
-                alert("목록 삭제에 실패하였습니다.");
-            }
-        });
-    });
-
-    // 단건대여
-    $(document).on('click', '.rent-book', function(event) {
-        var button = $(this);
-        var bookCode = button.data('book-code');
-        $.ajax({
-            url: 'rentBook',
-            type: 'POST',
-            data: { bookCode: bookCode },
-            success: function(response) {
-                updateCart(response);
-                reloadBookList();
-            },
-            error: function(xhr, status, error) {
-                alert("대여가 실패하였습니다");
-            }
-        });
-    });
-
-    // 카트대여 버튼 클릭 시 모달 표시
-    $('#rent-books').click(function(event) {
-        $('#rentBooksModal').modal('show');
-    });
-
-    // 모달의 확인 버튼 클릭 시
-    $('#confirmRentBooks').click(function() {
-        $.ajax({
-            url: 'rentBooks',
-            type: 'POST',
-            success: function(response) {
-                $('#rentBooksModal').modal('hide');
-                if (response.trim()) {
-                    alert(response.trim());
+        // 단건대여
+        $(document).on('click', '.rent-book', function(event) {
+            event.preventDefault();
+            var button = $(this);
+            var bookCode = button.data('book-code');
+            $.ajax({
+                url: 'rentBook',
+                type: 'POST',
+                data: { bookCode: bookCode },
+                success: function(response) {
+                    updateCart(response);
+                    reloadBookList();
+                },
+                error: function(xhr, status, error) {
+                    alert("대여가 실패하였습니다");
                 }
-                updateCart(); // 카트 업데이트
-                reloadBookList(); // 도서 목록 다시 로드
-            },
-            error: function(xhr, status, error) {
-                alert("대여가 실패하였습니다");
-            }
+            });
         });
-    });
 
-    // 카트 업데이트 함수
-    function updateCart() {
-        $.ajax({
-            url: window.location.href,
-            type: 'GET',
-            success: function(response) {
-                var newCart = $(response).find('#cartTableBody').html();
-                $('#cartTableBody').html(newCart);
-                bindAddToCart(); // 다시 바인딩
-                toggleRentButton(); // 대여하기 버튼 상태 업데이트
-            },
-            error: function(xhr, status, error) {
-                alert("카트 업데이트를 실패하였습니다.");
-            }
+        // 카트대여
+        $('#rent-books').click(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'rentBooks',
+                type: 'POST',
+                success: function(response) {
+                    updateCart(response);
+                    reloadBookList();
+                },
+                error: function(xhr, status, error) {
+                    alert("대여가 실패하였습니다");
+                }
+            });
         });
-    }
 
-    // 도서 목록 다시 로드 함수
-    function reloadBookList() {
-        $.ajax({
-            url: window.location.href,
-            type: 'GET',
-            success: function(response) {
-                // 새로운 도서 목록을 페이지에 반영
-                var newBookList = $(response).find('.table-responsive').html();
-                $('.table-responsive').html(newBookList);
-                bindAddToCart(); // 도서 목록을 다시 로드한 후 이벤트를 다시 바인딩
-                toggleRentButton(); // 대여하기 버튼 상태 업데이트
-            },
-            error: function(xhr, status, error) {
-                alert("대여목록 불러오기를 실패하였습니다.");
-            }
-        });
-    }
-
-    // 대여하기 버튼 상태 업데이트 함수
-    function toggleRentButton() {
-        if ($('#cartTableBody').children().length > 0) {
-            $('#rent-books').prop('disabled', false).css('background-color', '#AB8212');
-        } else {
-            $('#rent-books').prop('disabled', true).css('background-color', '#ccc');
+        // 카트 업데이트 함수
+        function updateCart(cartHtml) {
+            $('#cartTableBody').html(cartHtml);
+            bindAddToCart(); // 다시 바인딩
+            toggleRentButton(); // 대여하기 버튼 상태 업데이트
         }
-    }
 
-    // 초기 이벤트 바인딩
-    bindAddToCart();
-    toggleRentButton(); // 초기 상태 확인
-});
+        // 도서 목록 다시 로드 함수
+        function reloadBookList() {
+            var currentUrl = window.location.href;
+            $.ajax({
+                url: currentUrl,
+                type: 'GET',
+                success: function(response) {
+                    // 새로운 도서 목록을 페이지에 반영
+                    var newBookList = $(response).find('.table-responsive').html();
+                    $('.table-responsive').html(newBookList);
+                    bindAddToCart(); // 도서 목록을 다시 로드한 후 이벤트를 다시 바인딩
+                    toggleRentButton(); // 대여하기 버튼 상태 업데이트
+                },
+                error: function(xhr, status, error) {
+                    alert("대여목록 불러오기를 실패하였습니다.");
+                }
+            });
+        }
+
+        // 대여하기 버튼 상태 업데이트 함수
+        function toggleRentButton() {
+            if ($('#cartTableBody').children().length > 0) {
+                $('#rent-books').prop('disabled', false).css('background-color', '#AB8212');
+            } else {
+                $('#rent-books').prop('disabled', true).css('background-color', '#ccc');
+            }
+        }
+
+        // 초기 이벤트 바인딩
+        bindAddToCart();
+        toggleRentButton(); // 초기 상태 확인
+    });
 </script>
 </head>
 <body>
@@ -399,12 +384,10 @@ $(document).ready(function() {
                                 <td>
                                     <c:choose>
                                         <c:when test="${loginInfo != null && loginInfo.user_leadbook == 'Y' && book.book_quantity == 'Y'}">
-                                            <%-- <button class="btn-primary btn rent-book" data-book-code="${book.book_code}" style="background-color: #AB8212; font-weight: bold !important; font-size: 18px !important;">대여하기</button> --%>
-                                            <span>대여가능</span>
+                                            <button class="btn-primary btn rent-book" data-book-code="${book.book_code}" style="background-color: #AB8212; font-weight: bold !important; font-size: 18px !important;">대여하기</button>
                                         </c:when>
                                         <c:otherwise>
-                                            <!-- <button disabled class="btn btn-secondary" style="font-weight: bold !important; font-size: 18px !important;">대여하기</button> -->
-                                            <span>대여불가능</span>
+                                            <button disabled class="btn btn-secondary" style="font-weight: bold !important; font-size: 18px !important;">대여하기</button>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
@@ -453,7 +436,7 @@ $(document).ready(function() {
             </nav>
         </div>
         <div class="col-lg-3 col-md-10 sidebar">
-           <h2>담긴도서</h2>
+        	<h2>담긴도서</h2>
             <div class="half-height" style="height: 90%">
                 <div id="cartTableBody">
                     <c:forEach var="entry" items="${cart}">
@@ -465,25 +448,20 @@ $(document).ready(function() {
                 </div>
             </div>
             <button id="rent-books" class="btn btn-primary" style="background-color: #ccc; margin-top: 20px; font-weight: bold !important; font-size: 18px !important; margin-bottom:50px;" disabled>대여하기</button>
+            <%-- <h2>대여 목록</h2>
+            <div class="half-height">
+                
+                <div id="borrowedBooksTableBody">
+                    <c:forEach var="borrow" items="${borrowedBooks}">
+                        <div class="cart-item">
+                            <span>${borrow.book_name}</span>
+                            <!-- <button style="font-weight: bold !important; font-size: 18px !important;">반납</button> -->
+                        </div>
+                    </c:forEach>
+                </div>
+            </div> --%>
         </div>
     </div>
-   <!-- Modal -->
-   <div class="modal fade" id="rentBooksModal" role="dialog"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-         <div class="modal-content" style="text-align: center;">
-         <div class="modal-header" style="justify-content: center;">
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-         <div class="modal-body">
-              선택하신 도서를 대여하시겠습니까?
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-           <button type="button" class="btn btn-primary" id="confirmRentBooks">확인</button>
-         </div>
-       </div>
-     </div>
-   </div>
 </div>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 <!--  ㄴ-->

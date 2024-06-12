@@ -7,32 +7,13 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper
 public interface CodeManagementMapper {
-
-	//대분류 코드 조회
-	List<Map<String, Object>> init_fir_code();
+	//상위코드 조회
+	List<Map<String, Object>> selectfirgrid();
 	
-	List<Map<String, Object>> sec_category_select(Map<String, Object> sec_category_select);
+	//하위코드 조회
+	List<Map<String, Object>> selectsecgrid(String fir_category);
 
-	//상위코드 변경
-	void C_fir_code_chx(Map<String, Object> modi_date);
-
-	//하위코드 변경
-	void C_sec_code_chx(Map<String, Object> modi_date);
-
-	//상위코드 생성
-	int add_fir_code(Map<String, Object> fir_code_add);
-
-	//상위코드 삭제
-	void C_del_date(Map<String, Object> map);
-
-	void sec_code_add(Map<String, Object> sec_code_add);
-	
-	//중위코드 삭제
-	void C_del_sec_date(Map<String, Object> map);
-
-	void sec_code_modi(Map<String, Object> modi_date_sec);
-
-	void del_date_sec(Map<String, Object> map);
+	int gridmodi(List<Map<String, Object>> save);
 	
 
 	

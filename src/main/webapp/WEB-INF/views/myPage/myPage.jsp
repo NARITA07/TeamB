@@ -173,7 +173,8 @@ $(document).ready(function() {
 													<div class="card-body" style="height: 250px; 
 																				  background-image: url(/${myBook.book_path}); 
 																				  background-size: cover; 
-																				  background-position: center;">
+																				  background-position: center;"
+																		   onerror="this.style.background-image='url(/images/book_no_image.jpg)'">
 												    </div>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 

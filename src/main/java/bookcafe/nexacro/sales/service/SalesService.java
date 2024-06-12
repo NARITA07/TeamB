@@ -22,4 +22,7 @@ public interface SalesService {
 	
 	//insert 반납
 	public void insertSelected(Map<String, String> param);
+	
+	//DELETE 반납
+	public void deleteSelected(Map<String, String> param);
 }

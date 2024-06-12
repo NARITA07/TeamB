@@ -79,6 +79,7 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
                 borrowRecord.put("userCode", userCode);
                 bookMapper.insertBorrowRecordWithCode(borrowRecord);
             }
+
             bookMapper.updateBookQuantity(bookCode);
         }
 
@@ -151,11 +152,5 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
         return bookMapper.selectAllCategories();
     }
 
-    // 대여가능여부 조회
-    @Override
-    public boolean isBookAvailable(String bookCode) {
-        String bookQuantity = bookMapper.getBookQuantity(bookCode);
-        return "Y".equals(bookQuantity);
-    }
 
 }

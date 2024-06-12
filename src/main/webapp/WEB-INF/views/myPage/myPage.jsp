@@ -119,11 +119,7 @@ $(document).ready(function() {
 								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
 								                        </c:choose>
 													</h6>
-													<div class="card-body" style="height: 250px; 
-																				  background-image: url(/${myOrder.product_path}); 
-																				  background-size: cover; 
-																				  background-position: center;">
-												    </div>
+													<img class="card-body-img" src="${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/coffee_no_image.png'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -163,19 +159,13 @@ $(document).ready(function() {
 						          	<div class="row">
 						          		<c:forEach var="myBook" items="${myBook}">
 											<div class="orderDiv col-md-4" onclick="getResInfo(${myBook.order_code})" >
-												<div class="card" style="height: 80%;">
+												<div class="card" >
 													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
-														<c:if test="${myBook.book_quantity == 'N'}">대여중</c:if>
-														<c:if test="${myBook.book_quantity == 'Y'}">반납완료</c:if>
+													${myBook.return_state}
 													</h6>
-													<div class="card-body" style="height: 250px; 
-																				  background-image: url(/${myBook.book_path}); 
-																				  background-size: cover; 
-																				  background-position: center;"
-																		   onerror="this.style.background-image='url(/images/book_no_image.jpg)'">
-												    </div>
+													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/book_no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -188,7 +178,6 @@ $(document).ready(function() {
 								</c:if>
 							</div>
 						</div>
-						<hr>
 					</div>
 					<div class="col-md-2">
 					</div>

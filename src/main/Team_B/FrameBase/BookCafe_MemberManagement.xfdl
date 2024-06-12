@@ -103,7 +103,7 @@ this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.Even
 {	
 	this.fnSelect_Members();
 	this.fnGetCombo(); //수정
-	this.pageinit(1,3); //페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
+	this.pageinit(1,15); //페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 };
 //체크박스에 대한 처리
 this.Member_Management_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
@@ -153,6 +153,9 @@ this.fnSelect_Members = function(){ //멤버 받아오기 (검색 조건 추가�
 	this.transaction(id, url, indata, outdata,"", callback);
 }
 this.fnCallback_Member = function(){
+		var div = this.components['pagediv'];
+		if(div != null)
+			div.destroy();
 		this.setPaging(this.Member_Management,this.user_table);//수정
 }
 this.fnGetCombo = function(){//멤버 권한 리스트 받아오기
@@ -380,7 +383,7 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 
 this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {//그리드 사이즈 변화 이벤트
-	this.setpagediv(this.user_table);//수정
+	this.setpagediv(obj);//수정
 };
 ]]></Script>
   </Form>

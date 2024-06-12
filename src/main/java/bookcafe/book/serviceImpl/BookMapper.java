@@ -42,4 +42,7 @@ public interface BookMapper {
     // 도서 대여 가능 여부 확인
     String getBookQuantity(String bookCode);
 
+    // 도서대여 탑3
+	List<BookVO> selectTopBooksOfMonth();
+
 }

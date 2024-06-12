@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="Book_List" width="1080" height="670" titletext="도서대여목록" onload="Book_List_onload" cssclass="grid_default">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Grid id="Grid01" taborder="5" top="160" binddataset="book_sales_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="1.76%" right="1.76%" bottom="2.99%">
+        <Grid id="Grid01" taborder="5" top="160" binddataset="book_sales_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="1.76%" right="1.76%" bottom="8%" onsize="Grid01_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -22,14 +22,14 @@
                 <Cell col="1" text="주문번호"/>
                 <Cell col="2" text="이름"/>
                 <Cell col="3" text="도서명"/>
-                <Cell col="4" text="대여일"/>
+                <Cell col="4" text="대여일시"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" displaytype="checkboxcontrol" edittype="checkbox"/>
                 <Cell col="1" text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>
                 <Cell col="2" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center"/>
                 <Cell col="3" text="bind:BOOK" textAlign="center"/>
-                <Cell col="4" text="bind:TIME" textAlign="center"/>
+                <Cell col="4" text="bind:TIME" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
               </Band>
             </Format>
           </Formats>
@@ -53,7 +53,7 @@
         <Static id="Static01_00" taborder="11" text="도서명" left="402" top="113" width="36" height="14"/>
         <Static id="Static00_00" taborder="12" text="도서대여목록" left="2%" width="192" height="38" top="14" cssclass="main_title"/>
         <Button id="Button01_00" taborder="13" text="엑셀" height="30" borderRadius="5px" cssclass="btn_dafault" bottom="Div00:5" width="70" right="Button00:5" onclick="Button01_00_onclick"/>
-        <Button id="Button01_00_00" taborder="14" text="반납처리" height="30" borderRadius="5px" onclick="Button01_00_00_onclick" cssclass="btn_dafault" bottom="Div00:5" right="Button01_00:5" width="70"/>
+        <Button id="Button01_00_00" taborder="14" text="반납" height="30" borderRadius="5px" onclick="Button01_00_00_onclick" cssclass="btn_dafault" bottom="Div00:5" right="Button01_00:5" width="70"/>
         <Combo id="Combo00" taborder="15" height="30" innerdataset="return_yn" codecolumn="COD" datacolumn="TXT" onitemchanged="Combo00_onitemchanged" right="Button01_00_00:5" bottom="Div00:5" width="100" cssclass="combo_default"/>
       </Layout>
     </Layouts>
@@ -68,7 +68,6 @@
           <Column id="DATE2" type="STRING" size="256"/>
           <Column id="FIR_CODE" type="STRING" size="256"/>
           <Column id="SEC_CODE" type="STRING" size="256"/>
-          <Column id="RETURN_YN" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="book_sales_dtl">
@@ -108,6 +107,16 @@
           </Row>
         </Rows>
       </Dataset>
+      <Dataset id="paging">
+        <ColumnInfo>
+          <Column id="page" type="INT" size="256"/>
+          <Column id="start" type="INT" size="256"/>
+          <Column id="end" type="INT" size="256"/>
+          <Column id="pagecount" type="INT" size="256"/>
+          <Column id="pagesize" type="INT" size="256"/>
+          <Column id="nextpage" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
     <Bind>
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
@@ -121,7 +130,8 @@
 	this.Combo00.set_index(0);
 	
 	this.fnselectSalesCombo();
-	
+	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
+	this.pageinit(1,15); 
 };
 
 //조회
@@ -145,15 +155,14 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.sales_con.setColumn(sales_row, "DATE1", date1);
 	this.sales_con.setColumn(sales_row, "DATE2", date2);
 	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
-		this.Grid01.setCellProperty("head",4,"text","대여일");
-		this.Button01_00_00.set_text("반납처리");
+		this.Grid01.setCellProperty("head",4,"text","대여일시");
+		this.Button01_00_00.set_text("반납");
 		this.fnSelectBookList();
 	}else{
-		this.Grid01.setCellProperty("head",4,"text","반납일");
-		this.Button01_00_00.set_text("반납취소");
+		this.Grid01.setCellProperty("head",4,"text","반납일시");
+		this.Button01_00_00.set_text("취소");
 		this.fnSelectBookSales();
 	}
 };
@@ -285,6 +294,13 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			
 			this.combo_dtl.setColumn(row, "SEC_NAME", "전체");
 			break;
+		case "selectBookList":
+		case "selectBookSales":
+			var div = this.components['pagediv'];
+			if(div != null)
+				div.destroy();
+			this.setPaging(this.book_sales_dtl,this.Grid01);//수정
+			break;
 	}
 };
 
@@ -294,7 +310,7 @@ this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 	this.fnUpdateSelected();
 	
 	var con = this.Grid01.getCellProperty("head",4,"text");
-	if(con == '대여일'){
+	if(con == '대여일시'){
 		this.fnInsertSelected();
 	}else{
 		this.fnDeleteSelected();
@@ -368,15 +384,14 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.sales_con.setColumn(sales_row, "DATE1", date1);
 	this.sales_con.setColumn(sales_row, "DATE2", date2);
 	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	this.sales_con.setColumn(sales_row, "RETURN_YN", combo);
 	
 	if(combo=='N'){
-		this.Grid01.setCellProperty("head",4,"text","대여일");
-		this.Button01_00_00.set_text("반납처리");
+		this.Grid01.setCellProperty("head",4,"text","대여일시");
+		this.Button01_00_00.set_text("반납");
 		this.fnSelectBookList();
 	}else{
-		this.Grid01.setCellProperty("head",4,"text","반납일");
-		this.Button01_00_00.set_text("반납취소");
+		this.Grid01.setCellProperty("head",4,"text","반납일시");
+		this.Button01_00_00.set_text("취소");
 		this.fnSelectBookSales();
 	}
 	
@@ -413,6 +428,143 @@ this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportE
 /* 엑셀 내보내기 오류 핸들러 */
 this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo) {
     trace("Export00_onerror");
+};
+
+
+//페이징 기능 
+this.setPaging = function(ds,grid){
+	//pagecount 세팅 (전체 페이지)
+	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
+	
+	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
+		pagecount+=1;
+	}
+	this.paging.setColumn(0,"pagecount",Number(pagecount));
+	//div 만들어주기 
+	var div = new nexacro.Div();
+	div.init("pagediv",1,2,300,50); // left top width height
+	this.addChild("pagediv",div);
+	
+	div.set_top(grid.id+":10px");
+	div.set_left(( (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+	div.set_text("PAGEDIV");
+	div.show();
+	
+	this.makebtn(div,pagecount);
+
+	this.setds(ds,1);
+}
+this.makebtn = function(div,pagecount){
+	//div 안에 버튼 만들어주기
+	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 15)-25;
+	
+	var firstbtn = new nexacro.Button(); // << 버튼 만들기
+	firstbtn.init("firstbtn",0,0,20, 30); // left top width height
+  	firstbtn.set_left((leftpos  + "px"));
+ 	firstbtn.set_text("<<");
+	firstbtn.set_cssclass("btn_num");	
+	firstbtn.addEventHandler("onclick",this.onclick_firstbtn,this);
+ 	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
+ 	firstbtn.show();
+	
+	leftpos += 25;
+	var prevbtn = new nexacro.Button(); // <버튼 만들기
+	prevbtn.init("prevbtn",0,0,10, 30); // left top width height
+  	prevbtn.set_left((leftpos  + "px"));
+ 	prevbtn.set_text("<");
+	prevbtn.set_cssclass("btn_num");	
+	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
+ 	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
+ 	prevbtn.show();
+ 		
+ 	for(var i =1; i<=pagecount; i++){
+ 		var btn = new nexacro.Button(); // 숫자 버튼 만들기
+ 		btn.init("pagebtn"+i,0,0,10, 30); // left top width height
+		leftpos += 15;
+ 		btn.set_left(leftpos + "px");
+ 		btn.set_text(i);
+		btn.set_cssclass("btn_num");
+		btn.addEventHandler("onclick",this.onclick_pagebtn,this);
+ 		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
+ 		btn.show();
+ 	}
+	leftpos += 15;
+	var nextbtn = new nexacro.Button(); // > 버튼 만들기
+	nextbtn.init("nextbtn",0,0,10, 30); // left top width height
+  	nextbtn.set_left((leftpos  + "px"));
+ 	nextbtn.set_text(">");
+	nextbtn.set_cssclass("btn_num");
+	nextbtn.addEventHandler("onclick",this.onclick_nextbtn,this);
+ 	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
+ 	nextbtn.show();
+	
+	leftpos += 15;
+	
+	var endbtn = new nexacro.Button(); // >> 버튼 만들기
+	endbtn.init("endbtn",0,0,20, 30); // left top width height
+  	endbtn.set_left((leftpos  + "px"));
+ 	endbtn.set_text(">>");
+	endbtn.set_cssclass("btn_num");
+	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
+ 	div.addChild("endbtn",endbtn); // div에  버튼 추가
+ 	endbtn.show();
+};
+
+this.pageinit = function(page, pagesize){ // 페이징 세팅
+	this.paging.addRow();
+	this.paging.setColumn(0,"page",page); //현재 페이지
+	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
+}
+this.setpagediv = function(grid){
+	var div = this.components['pagediv'];
+	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+};
+this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
+	var pagesize = this.paging.getColumn(0,"pagesize");
+	ds.filter("");
+	for(var i =0; i<(page-1)*pagesize;i++){
+		ds.filterRow(0);
+	}
+	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
+		ds.filterRow(pagesize);
+	}
+	this.paging.setColumn(0,"page",page);
+};
+
+//버튼 클릭 이벤트
+this.onclick_firstbtn = function(obj:nexacro.Button){
+	var ds = this.book_sales_dtl; //수정
+	this.setds(ds,1);
+};
+this.onclick_prevbtn = function(obj:nexacro.Button){
+	var ds = this.book_sales_dtl; //수정
+	var prevpage = this.paging.getColumn(0,"page")-1;
+	if(prevpage <= 1)
+		this.setds(ds,1);
+	else
+		this.setds(ds,prevpage);
+};
+this.onclick_nextbtn = function(obj:nexacro.Button){
+	var ds = this.book_sales_dtl; //수정
+	var nextpage = this.paging.getColumn(0,"page")+1;
+	if(nextpage >= this.paging.getColumn(0,"pagecount"))
+		this.setds(ds,this.paging.getColumn(0,"pagecount"));
+	else
+		this.setds(ds,nextpage);
+};
+this.onclick_endbtn = function(obj:nexacro.Button){
+	var ds = this.book_sales_dtl; //수정
+	this.setds(ds,this.paging.getColumn(0,"pagecount"));
+};
+this.onclick_pagebtn = function(obj:nexacro.Button){
+//버튼 이벤트
+	this.setds(this.book_sales_dtl,obj.text); //수정
+};
+
+
+this.Grid01_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
+{
+	this.setpagediv(obj);
 };
 ]]></Script>
   </Form>

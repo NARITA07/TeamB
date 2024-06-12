@@ -54,6 +54,11 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 		}
 		return result;
 	}
+
+	@Override
+	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected) {
+		return mmm.selectPointlog(member_Selected);
+	}
 	 
 
 

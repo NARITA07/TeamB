@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_MemberManagement_PopUp" width="800" height="700" titletext="New Form">
+  <Form id="BookCafe_MemberManagement_PopUp" width="800" height="700" titletext="New Form" onload="BookCafe_MemberManagement_PopUp_onload">
     <Layouts>
       <Layout height="700" width="800">
-        <Grid id="Grid00" taborder="0" left="144" top="87" width="381" height="238" binddataset="pointlog_dtl" autofittype="col">
+        <Grid id="Grid00" taborder="0" left="70" top="87" width="630" height="238" binddataset="pointlog_dtl" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
@@ -18,12 +18,12 @@
               <Band id="head">
                 <Cell text="주문번호"/>
                 <Cell col="1" text="포인트사용"/>
-                <Cell col="2" text="사용날짜" displaytype="normal"/>
+                <Cell col="2" text="사용일시" displaytype="normal"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:ORDER_CODE"/>
-                <Cell col="1" text="bind:POINT_CHANGE"/>
-                <Cell col="2" text="bind:POINT_JOINDATE"/>
+                <Cell text="bind:ORDER_CODE" textAlign="center"/>
+                <Cell col="1" text="bind:POINT_CHANGE" textAlign="center"/>
+                <Cell col="2" text="bind:POINT_JOINDATE" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" textAlign="center"/>
               </Band>
             </Format>
           </Formats>
@@ -38,6 +38,30 @@
           <Column id="POINT_JOINDATE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="Member_Selected">
+        <ColumnInfo>
+          <Column id="USER_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.BookCafe_MemberManagement_PopUp_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.Member_Selected.clearData();
+	this.Member_Selected.addRow();
+	this.Member_Selected.setColumn(0,"USER_CODE", this.parent.USER_CODE);
+	
+	this.fnSelectPointlog();
+};
+
+this.fnSelectPointlog = function(){
+	var id = "selectPointlog"
+	var url = "svc::selectPointlog.do"
+	var indata = "Member_Selected=Member_Selected";
+	var outdata = "pointlog_dtl=pointlog_dtl";
+	var callback ="";
+	
+	this.transaction(id, url, indata, outdata,"", callback);
+};]]></Script>
   </Form>
 </FDL>

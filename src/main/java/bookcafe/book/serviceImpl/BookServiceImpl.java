@@ -1,7 +1,5 @@
 package bookcafe.book.serviceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,5 +155,11 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
         String bookQuantity = bookMapper.getBookQuantity(bookCode);
         return "Y".equals(bookQuantity);
     }
+
+    // 도서대여 탑3
+	@Override
+	public List<BookVO> selectTopBooksOfMonth() {
+		return bookMapper.selectTopBooksOfMonth();
+	}
 
 }

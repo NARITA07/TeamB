@@ -399,6 +399,28 @@ this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {//그리드 사이즈 변화 이벤트
 	this.setpagediv(obj);//수정
 };
+
+// 데이터 더블클릭시 팝업호출
+this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var objParam = {USER_ID:this.Member_Management.getColumn(this.Member_Management.rowposition, "USER_ID")};
+				  
+	this.showPopup(objParam);
+};
+
+// 팝업호출
+this.showPopup = function (objParam) 
+{		  
+	popup = new nexacro.ChildFrame;
+	popup.init("popupWork", 0, 0, 800, 700, null, null, "FrameBase::BookCafe_MemberManagement_PopUp.xfdl");
+	popup.set_dragmovetype("all");
+	popup.set_layered("true");
+	popup.set_autosize(true);
+	popup.set_showtitlebar("Popup Title");
+	popup.set_showstatusbar(false);
+	popup.set_resizable(true);
+	popup.set_openalign("center middle");
+}
 ]]></Script>
   </Form>
 </FDL>

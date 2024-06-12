@@ -1,6 +1,7 @@
 package bookcafe.cart.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,20 @@ public class CartServiceImpl implements CartService{
 	public int insertCart(CartVO cart) {
 	    return cartMapper.insertCart(cart);
 	}
+	
+	@Override
+   public CartVO selectCartCode(String user_code) {
+	 
+	CartVO cartvo;
+	try {
+		cartvo = cartMapper.selectCartCode(user_code);
+	}
+	catch(NullPointerException e) {
+		cartvo = new CartVO();
+		return cartvo;
+	}
+	return cartvo;
+	   }
 	
 	@Override
 	public List<CartVO> selectCartList(CartVO cartListVO) {
@@ -109,6 +124,25 @@ public class CartServiceImpl implements CartService{
 		int seq = cartMapper.updateSeq();
 		System.out.println("updateSeq:" + seq);
 		return result;
+	}
+
+	@Override
+	public int updateQuantity1(String cart_code, String product_code, int order_quantity) {
+		return cartMapper.updateQuantity1(cart_code, product_code, order_quantity);
+	}
+
+	@Override
+	public void minusQuantity(String cart_code, String product_code, int order_quantity) {
+		cartMapper.minusQuantity(cart_code, product_code, order_quantity);
+	}
+
+	@Override
+	public void selectQuantitiy(String cart_code) {
+		List<Map<String,Object>> cartList = cartMapper.selectQuantitiy(cart_code);
+		System.out.println(cartList);
+		for(Map<String,Object> cart : cartList){
+			cartMapper.updateQuantity2(cart);
+		}
 	}
 
 

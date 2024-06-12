@@ -9,6 +9,7 @@
    	<meta name="description" content="" />
     <meta name="author" content="" />
 	<title>foodList</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<style>
 	.btn.btn-light.push_cart,.btn.btn-light{
 		background-color: #AB8212;
@@ -75,7 +76,7 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${food.product_path}" alt="..." />
+	                            <img class="card-img-top" src="${food.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
@@ -84,7 +85,7 @@
 	                                </div>
 	                                <div class="cart_btn_box">
 	                                    <div>
-	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
+	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" max="1">
 	                                    </div>
 	                                    <div class="count_price">
 	                                    	<span class="total-price-span" id="total_price_${food.product_code}">
@@ -120,7 +121,7 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${food.product_path}" alt="..." />
+	                            <img class="card-img-top" src="${food.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
@@ -161,7 +162,7 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${food.product_path}" alt="..." />
+	                            <img class="card-img-top" src="${food.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
@@ -202,7 +203,7 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${food.product_path}" alt="..." />
+	                            <img class="card-img-top" src="${food.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
@@ -256,8 +257,8 @@
                 </div>
                  <div class="form-group">
                      <label for="usePoints">사용 포인트 입력 : </label>
-                     <input type="text" class="form-control usePoints" id="usePoints" name="usePoints"
-                      oninput="validatePoints(${loginInfo.user_point})" value="">   원
+                     <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
+                      oninput="validatePoints(${loginInfo.user_point})">   원
                  </div>
                  <div class="form-group">
                      <label for="amountOfPayment">결제 금액 : </label>
@@ -324,36 +325,35 @@
 	    var myModal = document.getElementById('myModal')
 		var myInput = document.getElementById('myInput')
 		// 장바구니 담기
-        function isLogin(user_code, product_code, order_quantity){
-            console.log("isLogin function called with sUID:", sUID);
-            if(sUID == "null"){
-                alert('로그인 후 이용해 하세요.');
-                var url = 'login.do';
-                window.location.href = url;
-            } else {
-                alert('장바구니에 담겼습니다.');
-                var form = document.createElement("form");
-                form.setAttribute("method", "post");
-                form.setAttribute("action", "insertCart.do");
-                
-                var inputs = [
-                    { name: "user_code", value: user_code },
-                    { name: "product_code", value: product_code },
-                    { name: "order_quantity", value: order_quantity }
-                ];
-                
-                inputs.forEach(function(input) {
-                    var element = document.createElement("input");
-                    element.setAttribute("type", "hidden");
-                    element.setAttribute("name", input.name);
-                    element.setAttribute("value", input.value);
-                    form.appendChild(element);
-                });
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
+        function isLogin(user_code, product_code, order_quantity) {
+		    console.log("isLogin function called with sUID:", sUID);
+		    if (sUID == "null") {
+		        alert('로그인 후 이용해 하세요.');
+		        var url = 'login.do';
+		        window.location.href = url;
+		    } else {
+		        $.ajax({
+		            type: "POST",
+		            url: "insertCart.do",
+		            data: {
+		                user_code: user_code,
+		                product_code: product_code,
+		                order_quantity: order_quantity
+		            },
+		            success: function(response) {
+		                if (response === "success") {
+		                    alert('장바구니에 담겼습니다.');
+		                } else {
+		                    alert('장바구니 담기 실패.');
+		                }
+		            },
+		            error: function() {
+		                alert('서버와의 통신 중 오류가 발생했습니다.');
+		            }
+		        });
+		    }
+		}
+
 	    // 상품갯수 표시
         function calculateTotalPrice(price, productCode){
             var quantity = document.getElementById('order_quantity-' + productCode).value;
@@ -379,6 +379,11 @@
                 
              	// 사용 포인트 입력값 가져오기
                 var usePoints = document.getElementById('usePoints').value;
+             	
+             	// 빈 문자열을 0으로 변환
+                if (usePoints === "") {
+                    usePoints = "0";
+                }
                 var pointChangeInput = document.getElementById('pointChangeInput');
                 pointChangeInput.value = usePoints; // 사용 포인트를 point_change에 설정
                 
@@ -400,6 +405,14 @@
             var usePointsValue = usePointsInput.value;
 			var totalPointsValue = document.getElementById('modalTotalPrice').textContent;
 			var paymentAmount = document.getElementById('paymentAmount')
+			
+			// 빈 문자열을 0으로 변환
+		    if (usePointsValue === "") {
+		        usePointsInput.value = 0;
+		        usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+		    }
+			console.log("테스트1"+usePointsValue)
+			
             // 정규식으로 양의 정수인지 확인
             var isPositiveInteger = /^\d+$/.test(usePointsValue);
             

@@ -27,6 +27,10 @@
 		        (SELECT @ROWNUM:=0) AS R
 		    WHERE 
 		        U.USER_CODE = #{user_code}
+		        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                	AND DATE_FORMAT(P.POINT_JOINDATE, '%Y%m%d') 
+                	BETWEEN DATE_FORMAT(#{startDate}, '%Y%m%d') AND DATE_FORMAT(#{endDate}, '%Y%m%d')
+            	</if>
 		    ORDER BY 
 		        P.POINT_JOINDATE ASC
 		) AS T
@@ -38,7 +42,7 @@
 		INSERT INTO POINTLOG (
 			POINT_CODE, USER_CODE, ORDER_CODE, POINT_CHANGE, POINT_JOINDATE)
 	    VALUES (
-	    	fnCode('pointlog'), #{user_code}, #{order_code}, #{point_change}, date_format(now(),'%Y%m%d%H%m%s') )
+	    	fnCode('pointlog'), #{user_code}, #{order_code}, #{point_change}, date_format(now(),'%Y%m%d%H%i%s') )
 	</insert>
 	
 	<!-- 회원 포인트 업데이트 -->

@@ -119,7 +119,7 @@ $(document).ready(function() {
 								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
 								                        </c:choose>
 													</h6>
-													<img class="card-body-img" src="${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/coffee_no_image.png'"/>
+													<img class="card-body-img" src="${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -165,7 +165,7 @@ $(document).ready(function() {
 																				   align-items: center;">
 													${myBook.return_state}
 													</h6>
-													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/book_no_image.jpg'"/>
+													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">

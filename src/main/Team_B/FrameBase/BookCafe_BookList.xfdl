@@ -291,7 +291,7 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 //반납 처리 버튼
 this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	//this.fnUpdateSelected();
+	this.fnUpdateSelected();
 	
 	var con = this.Grid01.getCellProperty("head",4,"text");
 	if(con == '대여일'){

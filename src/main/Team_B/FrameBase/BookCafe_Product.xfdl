@@ -8,16 +8,16 @@
         <Static id="Static01" taborder="8" text="분류" left="30" top="110" width="24" height="14"/>
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default"/>
         <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:5" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default"/>
-        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_code" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick">
+        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_code" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="20"/>
                 <Column size="52"/>
+                <Column size="70"/>
                 <Column size="100"/>
-                <Column size="100"/>
-                <Column size="100"/>
-                <Column size="45"/>
+                <Column size="160"/>
+                <Column size="30"/>
               </Columns>
               <Rows>
                 <Row size="24" band="head"/>
@@ -36,7 +36,7 @@
                 <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" verticalAlign="middle"/>
                 <Cell col="2" text="bind:SEC_NAME" textAlign="center" verticalAlign="middle"/>
                 <Cell col="3" text="bind:PRODUCT_NAME" edittype="text" tooltiptext="더블클릭 시 수정이 가능합니다." textAlign="center" verticalAlign="middle"/>
-                <Cell col="4" text="bind:PRODUCT_PATH" edittype="text"/>
+                <Cell col="4" text="bind:PRODUCT_PATH" edittype="text" textAlign="center"/>
                 <Cell col="5" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat="###,###,###0" textAlign="right" maskeditmaskchar="," maskeditautoselect="false" maskeditlimitbymask="none" maskedittype="number" tooltiptext="더블클릭 시 수정이 가능합니다." verticalAlign="middle"/>
               </Band>
             </Format>
@@ -125,9 +125,10 @@
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 
 //화면 시작 시
-var g_row = null;
+var g_row = 0;
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
+	
 	this.check_sort(this.Grid00);
 
 	this.sec_category.set_enable(false)// 중분류 카테고리 잠그기
@@ -153,7 +154,7 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 		this.transaction(id, url, set, get, arg, callback);
 		
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,15); 
+	this.pageinit(1,20); 
 }
 
 
@@ -161,6 +162,15 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
 	this.sec_category.set_enable(true) // 중분류 카테고리 열기
+	if(this.fir_category.value == "fir_000"){
+	this.sec_category.set_value(null)
+	this.sec_category.set_enable(false)
+	}else {
+	this.sec_category.set_enable(true)
+	}
+
+
+	
 	var select_category = this.fir_category.value;
 	this.fir_category_select.setColumn(0,"FIR_CODE",select_category)
 	
@@ -322,7 +332,8 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 {
 	this.view_code.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 5){
+	if(e.cell == 4){
+
 		g_row = e.row
 
 			this.FileDialog00.open('이미지수정', 1);
@@ -418,11 +429,6 @@ this.fn_category = function(id, code, message){
 				break;
 				
 				case "view_code":
-				for(i = 0; i < this.view_code.getRowCount(); i++){
-				var img_name = this.view_code.getColumn(i,"PRODUCT_PATH")
-				var f_img_name = img_name.substr(7)
-				this.view_code.setColumn(i,"PRODUCT_PATH",f_img_name)
-				}
 				var div = this.components['pagediv'];
 				if(div != null)
 					div.destroy();
@@ -434,7 +440,9 @@ this.fn_category = function(id, code, message){
 		}
 }
 
-//페이징 기능 
+/***************************************************************************************/
+								//페이징
+/***************************************************************************************/
 this.setPaging = function(ds,grid){
 	//pagecount 세팅 (전체 페이지)
 	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
@@ -562,7 +570,17 @@ this.onclick_endbtn = function(obj:nexacro.Button){
 this.onclick_pagebtn = function(obj:nexacro.Button){
 //버튼 이벤트
 	this.setds(this.view_code,obj.text); //수정
-};]]></Script>
+};
+this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
+{
+	this.setpagediv(obj);
+	//ss = 23;
+	//this.paging.setColumn(0,"pagesize",ss);
+	//this.setds(obj.getBindDataset(),this.paging.getColumn(0,"page"));
+};
+
+
+]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="sec_category" propid="text" datasetid="sec_set" columnid="SEC_NAME"/>

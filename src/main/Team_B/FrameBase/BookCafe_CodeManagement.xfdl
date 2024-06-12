@@ -1,16 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_CodeManagement" width="1080" height="720" titletext="코드관리" oninit="BookCafe_CodeManagement_oninit">
+  <Form id="BookCafe_CodeManagement" width="1080" height="720" titletext="코드관리" oninit="BookCafe_CodeManagement_oninit" onkeyup="BookCafe_CodeManagement_onkeyup">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Div id="Main" taborder="0" left="0.00%" top="0.00%" text="" cssclass="btn_dafault" right="0" bottom="0">
+        <Div id="Main" taborder="0" left="0.00%" top="-1.39%" text="" cssclass="btn_dafault" right="0" bottom="10">
           <Layouts>
             <Layout>
-              <Div id="Div01" taborder="9" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%"/>
+              <Div id="Div01" taborder="9" left="1.76%" top="422" height="40" cssclass="main_nav" right="1.76%">
+                <Layouts>
+                  <Layout>
+                    <Edit id="sec_search" taborder="0" left="195" top="9" width="157" height="27"/>
+                  </Layout>
+                </Layouts>
+              </Div>
               <Static id="Static00" taborder="4" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
               <Div id="Div00" taborder="8" left="1.85%" top="Static00:40" height="40" cssclass="main_nav" right="1.85%" text="">
                 <Layouts>
-                  <Layout/>
+                  <Layout>
+                    <Combo id="fir_search" taborder="0" text="" left="14" top="4" width="174" height="31" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemclick="Main_Div00_fir_search_onitemclick" oncloseup="Main_Div00_fir_search_oncloseup"/>
+                  </Layout>
                 </Layouts>
               </Div>
               <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" height="200" right="20" bottom="2.78%" oncelldblclick="Main_Sec_code_oncelldblclick">
@@ -120,6 +128,11 @@
           <Column id="SEC_CODE" type="STRING" size="256"/>
           <Column id="SEC_NAME" type="STRING" size="256"/>
           <Column id="USE_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="FIR_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -430,7 +443,10 @@ this.codemanagement = function(id, code, message){
 			
 		break;
 		
-	case "fir_category":
+	case "fir_grid":
+	this.search.copyData(this.fir_code_grid)
+		this.fir_code_grid.deleteRow(0)//'전체'부분 삭제
+
 		break;
 	
 	case "fn_fir_code_new":
@@ -461,6 +477,8 @@ this.codemanagement = function(id, code, message){
 		var count =this.message_count;
 		alert(count + "건 적용되었습니다")
 		this.reload();
+		
+	
 	
 	}
 
@@ -480,6 +498,21 @@ this.grid_modi = function(){
 
 }
 
+this.Main_Div00_fir_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.ComboCloseUpEventInfo)
+{
+	var search = this.Main.form.Div00.form.fir_search.value;
+	
+	var id = "search";
+	var url = "svc::fir_grid_search.do";
+	var set = "";
+	var get = "fir_code_grid = fir_code_grid ";
+	var arg = "search=" + search;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+	
+};
 ]]></Script>
   </Form>
 </FDL>

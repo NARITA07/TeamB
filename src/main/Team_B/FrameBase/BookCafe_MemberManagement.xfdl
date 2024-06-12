@@ -380,7 +380,7 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 
 this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {//그리드 사이즈 변화 이벤트
-	this.setpagediv(this.user_table);//수정
+	this.setpagediv(obj);//수정
 };
 ]]></Script>
   </Form>

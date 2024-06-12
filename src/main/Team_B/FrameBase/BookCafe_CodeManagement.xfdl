@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_CodeManagement" width="1080" height="720" titletext="코드관리" oninit="BookCafe_CodeManagement_oninit">
     <Layouts>
@@ -131,12 +132,15 @@
     </Objects>
     <Script type="xscript5.1"><![CDATA[var row = 0;
 this.message_count = 0;
+this.fir_code_new = ""; // 상위코드 최신화
+this.sec_code_new = ""; // 하위코드 최신화
 /***************************************************************************************/
 								//페이지 실행
 /***************************************************************************************/
 
 this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
+	
 	var id = "fir_grid";
 	var url = "svc::fir_grid.do";
 	var set = "";
@@ -195,12 +199,7 @@ this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 
 this.Main_btn_fir_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var row = this.fir_code_grid.addRow();
-	
-	this.fir_code_grid.setColumn(row,"NO",row+1)//체크
-	this.fir_code_grid.setColumn(row,"CHK",1)//체크
-	this.fir_code_grid.setColumn(row,"FIR_CODE","?")//체크
-	this.fir_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
+	this.fn_fir_code_new();
 	
 };
 
@@ -210,14 +209,7 @@ this.Main_btn_fir_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 this.Main_btn_Sec_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
-	
-	var row = this.sec_code_grid.addRow();
-	
-	this.sec_code_grid.setColumn(row,"NO",row+1)//체크
-	this.sec_code_grid.setColumn(row,"CHK",1)//체크
-	this.sec_code_grid.setColumn(row,"SEC_CODE","?")//체크
-	this.sec_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
-	
+	this.fn_sec_code_new();
 	
 	
 };
@@ -234,25 +226,7 @@ for(i = 0; i < count; i++){
 	}
 }
 
-/***************************************************************************************/
-								//콜백 함수
-/***************************************************************************************/
-this.codemanagement = function(id, code, message){
-	
-	switch(id) {
-	case "fir_grid":
-	this.fn_NO(this.fir_code_grid.rowcount, this.fir_code_grid)
-			
-		break;
-		
-	case "fir_category":
-		this.fn_NO(this.sec_code_grid.rowcount, this.sec_code_grid)
-		break;
-	
-	}
 
-
-}
 /***************************************************************************************/
 								//저장 버튼 클릭 시
 /***************************************************************************************/
@@ -355,7 +329,81 @@ this.grid_modi = function(){
 
 }
 
+/***************************************************************************************/
+								//상위코드 최신값 가져오기
+/***************************************************************************************/
+this.fn_fir_code_new = function(){
 
+	var id = "fn_fir_code_new";
+	var url = "svc::fir_code_new.do";
+	var set = "";
+	var get = "fir_code_new = fir_code_new";
+	var arg = "";
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+
+}
+/***************************************************************************************/
+								//하위코드 최신값 가져오기
+/***************************************************************************************/
+
+this.fn_sec_code_new = function(){
+
+	var id = "fn_sec_code_new";
+	var url = "svc::sec_code_new.do";
+	var set = "";
+	var get = "sec_code_new = sec_code_new";
+	var arg = "";
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+
+
+}
+
+/***************************************************************************************/
+								//콜백 함수
+/***************************************************************************************/
+this.codemanagement = function(id, code, message){
+	
+	switch(id) {
+	case "fir_grid":
+	this.fn_NO(this.fir_code_grid.rowcount, this.fir_code_grid)
+			
+		break;
+		
+	case "fir_category":
+		this.fn_NO(this.sec_code_grid.rowcount, this.sec_code_grid)
+		break;
+	
+	case "fn_fir_code_new":
+		
+	var row = this.fir_code_grid.addRow();
+	
+	this.fir_code_grid.setColumn(row,"NO",row+1)//체크
+	this.fir_code_grid.setColumn(row,"CHK",1)//체크
+	this.fir_code_grid.setColumn(row,"FIR_CODE",this.fir_code_new)//체크
+	this.fir_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
+		
+		
+		break;
+	
+	case "fn_sec_code_new":
+		
+	var row = this.sec_code_grid.addRow();
+	
+	this.sec_code_grid.setColumn(row,"NO",row+1)//체크
+	this.sec_code_grid.setColumn(row,"CHK",1)//체크
+	this.sec_code_grid.setColumn(row,"SEC_CODE",this.sec_code_new)//체크
+	this.sec_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
+		
+		break;
+	
+	}
+
+
+}
 ]]></Script>
   </Form>
 </FDL>

@@ -254,7 +254,7 @@ this.view_code_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DS
 {
 //변경 된 값의 ROW의 갯 수 만큼 그리드 안의 NUM에 갯수 표시
 	for(i = 0; i < this.view_code.getRowCount(); i++){
-	this.view_code.setColumn(i, "num", i+1+"번")
+	this.view_code.setColumn(i, "num", i+1)
 	}
 };
 
@@ -403,9 +403,9 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 	var name = img_name.substring(0,type_num)
 	var full_date = name + day + type
 
-	this.FileUpTransfer00.addFile("images\\"+full_date, e.virtualfiles[0])
+	this.FileUpTransfer00.addFile("images/"+full_date, e.virtualfiles[0])
 
-	this.view_code.setColumn(g_row,"PRODUCT_PATH","images\\"+full_date)
+	this.view_code.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
 	
 	}
 

@@ -45,9 +45,9 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_del" taborder="5" text="삭제" width="70" height="30" right="20" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick"/>
-        <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:10" bottom="Div00:5" cssclass="btn_save" onclick="btn_save_onclick"/>
-        <Button id="btn_add" taborder="3" text="신규" width="70" onclick="btn_add_onclick" right="btn_save:10" bottom="Div00:5" height="30" cssclass="btn_view"/>
+        <Button id="btn_del" taborder="5" text="삭제" width="70" height="30" right="1.85%" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick"/>
+        <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:5" bottom="Div00:5" cssclass="btn_save" onclick="btn_save_onclick"/>
+        <Button id="btn_add" taborder="3" text="신규" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_view"/>
       </Layout>
     </Layouts>
     <Objects>

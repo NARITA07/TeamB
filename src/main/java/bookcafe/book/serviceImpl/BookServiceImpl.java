@@ -17,6 +17,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 @Service("bookService") 
 public class BookServiceImpl extends EgovAbstractServiceImpl implements BookService {
     
+	//ㄴ
     @Resource(name = "bookMapper") 
     BookMapper bookMapper;
     
@@ -121,7 +122,6 @@ public class BookServiceImpl extends EgovAbstractServiceImpl implements BookServ
         orderRecord.put("cartCode", borrowCode);
         orderRecord.put("orderState", 1); 
         orderRecord.put("totalPrice", 0);
-        orderRecord.put("paymentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         orderRecord.put("paymentMethod", 0); 
         orderRecord.put("paymentState", 1);
 

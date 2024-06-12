@@ -29,7 +29,7 @@ import bookcafe.paging.serviceImpl.PagingServiceImpl;
 public class BookController { 
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-
+// ㄴ
     @Resource(name = "bookService")
     public BookService bookService;
         
@@ -143,6 +143,25 @@ public class BookController {
         String userCode = loginInfo.getUser_code(); 
         if (cart != null && !cart.isEmpty()) {
             bookService.rentBooks(cart, userCode);
+            Iterator<Map.Entry<String, String>> iterator = cart.entrySet().iterator();
+            // 장바구니에 있는 모든 책을 확인
+            while (iterator.hasNext()) {
+                Map.Entry<String, String> entry = iterator.next();
+                String bookCode = entry.getKey();
+                if (!bookService.isBookAvailable(bookCode)) {
+                    if (alertMessage.length() > 0) {
+                        alertMessage.append(", ");
+                    }
+                    alertMessage.append(entry.getValue());
+                    iterator.remove();
+                }
+            }
+            if (alertMessage.length() > 0) {
+                alertMessage.append(" 책은 이미 대여되어서 대여가 불가능 합니다.");
+            }
+            if (!cart.isEmpty()) {
+                bookService.rentBooks(cart, userCode);
+            }
         }
         session.setAttribute("cart", cart);
         return renderCartHtml(cart);

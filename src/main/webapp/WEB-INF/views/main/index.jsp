@@ -26,7 +26,7 @@
         
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-    	<h1 style="text-align:center; margin-bottom:50px;">이달의 책</h1>
+    	<h1 style="text-align:center; margin-bottom:50px;">도서대여 Top3</h1>
 			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     			<c:forEach items="${books}" var="book">
 					<div class="col mb-5">

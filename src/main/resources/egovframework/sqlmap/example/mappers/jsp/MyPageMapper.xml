@@ -113,12 +113,18 @@
 		        O.ORDER_CODE,
 		        O.PAYMENT_DATE,
 		        SC.SEC_NAME,
+		        CASE
+	            WHEN RB.BOOK_CODE IS NOT NULL THEN '반납완료'
+	            ELSE '대여중'
+        END AS RETURN_STATE,
 		        ROW_NUMBER() OVER (ORDER BY O.PAYMENT_DATE ASC) AS ROWNUM
 		    FROM
 		        BOOK BK
 		    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE
 		    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
 		    JOIN SEC_CODE SC ON BK.BOOK_CATEGORY = SC.SEC_CODE
+		    LEFT JOIN RETURN_BOOK RB ON RB.ORDER_CODE = O.ORDER_CODE 
+	    							AND RB.BOOK_CODE = BK.BOOK_NAME
 		    WHERE
 		        O.USER_CODE = #{user_code}
 		) AS T
@@ -133,7 +139,16 @@
 	        BR.USER_CODE,
 	        O.ORDER_CODE,
 	        O.ORDER_STATE,
-	        O.PAYMENT_DATE
+	        O.PAYMENT_DATE,
+	        CASE
+	            WHEN EXISTS (
+	                SELECT 1
+	                FROM RETURN_BOOK RB
+	                WHERE RB.ORDER_CODE = O.ORDER_CODE
+	                AND RB.BOOK_CODE = BK.BOOK_NAME
+	            ) THEN '반납완료'
+	            ELSE '대여중'
+	        END AS RETURN_STATE
 	    FROM
 	        BOOK BK
 	    JOIN BORROW BR ON BR.BOOK_CODE = BK.BOOK_CODE

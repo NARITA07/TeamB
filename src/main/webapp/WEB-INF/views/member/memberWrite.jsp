@@ -486,5 +486,6 @@ function sample2_execDaumPostcode() {
 </div>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!--!  -->
 </body>
 </html>

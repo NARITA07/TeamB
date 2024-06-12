@@ -3,7 +3,7 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Div id="Div01" taborder="7" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
+        <Div id="Div01" taborder="6" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
           <Layouts>
             <Layout>
               <Static id="Static02" taborder="0" text="발주상태" left="8" top="13" width="48" height="14"/>
@@ -15,51 +15,8 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="stock02_div" taborder="0" left="0.00%" top="470" bottom="0.00%" right="0" text="">
-          <Layouts>
-            <Layout>
-              <Grid id="Grid00" taborder="0" left="1.85%" binddataset="stock_grid2" autofittype="col" right="1.85%" bottom="8%" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick" top="36">
-                <Formats>
-                  <Format id="default">
-                    <Columns>
-                      <Column size="30"/>
-                      <Column size="50"/>
-                      <Column size="102"/>
-                      <Column size="49"/>
-                      <Column size="71"/>
-                      <Column size="70"/>
-                    </Columns>
-                    <Rows>
-                      <Row size="24" band="head"/>
-                      <Row size="24"/>
-                    </Rows>
-                    <Band id="head">
-                      <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
-                      <Cell col="1" text="발주상태" background="#FFF8EE"/>
-                      <Cell col="2" text="메뉴명" background="#FFF8EE"/>
-                      <Cell col="3" text="발주수량" background="#FFF8EE"/>
-                      <Cell col="4" text="발주일시" background="#FFF8EE"/>
-                      <Cell col="5" text="신청자" background="#FFF8EE"/>
-                    </Band>
-                    <Band id="body">
-                      <Cell displaytype="checkboxcontrol" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
-                      <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
-                      <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
-                      <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
-                      <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
-                      <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
-                    </Band>
-                  </Format>
-                </Formats>
-              </Grid>
-              <Button id="Button01" taborder="3" text="저장" width="70" height="30" cssclass="btn_dafault" right="1.85%" bottom="Grid00:5" onclick="stock02_div_Button01_onclick"/>
-              <Button id="Button00" taborder="1" text="엑셀" height="30" bottom="Grid00:5" right="Button01:5" width="70" cssclass="btn_dafault" onclick="stock02_div_Button00_onclick"/>
-              <Static id="Static00" taborder="2" text="입고 관리" left="1.85%" width="153" height="24" cssclass="title_sub" bottom="Grid00:5"/>
-              <Static id="Static01" taborder="4" text="입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="19" top="Grid00:0.52%" width="316" height="14" cssclass="warning_txt"/>
-            </Layout>
-          </Layouts>
-        </Div>
-        <Div id="Div00" taborder="3" left="1.76%" top="95" text="" cssclass="main_nav" right="1.85%" height="40">
+        <Static id="Static00" taborder="1" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
+        <Div id="Div00" taborder="2" left="1.76%" top="Static00:40" text="" cssclass="main_nav" right="1.85%" height="40">
           <Layouts>
             <Layout>
               <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
@@ -68,7 +25,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="1" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:100%">
+        <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:40">
           <Formats>
             <Format id="default">
               <Columns>
@@ -99,10 +56,47 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="2" text="재고/입고 관리" left="1.76%" top="2.78%" width="210" height="37" initvalueid="" cssclass="main_title"/>
-        <Button id="Button00" taborder="4" text="발주신청" onclick="Button00_onclick" cssclass="btn_dafault" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
-        <Button id="Button01" taborder="5" text="조회" height="30" cssclass="btn_dafault" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
-        <Static id="Static01" taborder="6" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
+        <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
+        <Static id="Static01" taborder="5" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="stock_grid2" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick" top="506" onsize="stock02_div_Grid00_onsize">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="50"/>
+                <Column size="102"/>
+                <Column size="49"/>
+                <Column size="71"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                <Cell col="1" text="발주상태" background="#FFF8EE"/>
+                <Cell col="2" text="메뉴명" background="#FFF8EE"/>
+                <Cell col="3" text="발주수량" background="#FFF8EE"/>
+                <Cell col="4" text="발주일시" background="#FFF8EE"/>
+                <Cell col="5" text="신청자" background="#FFF8EE"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
+                <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
+                <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
+                <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
+                <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00_00" taborder="7" text="입고 관리" left="1.76%" width="153" height="24" cssclass="title_sub" bottom="Grid01:5"/>
+        <Static id="Static01_00" taborder="9" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="1.76%" top="95.69%" width="316" height="14" cssclass="warning_txt"/>
+        <Button id="Button01_00" taborder="11" text="저장" width="70" height="30" cssclass="btn_save" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
+        <Button id="Button00_00" taborder="10" text="엑셀" height="30" bottom="Grid01:5" right="Button01_00:5" width="70" cssclass="btn_view" onclick="stock02_div_Button00_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[/*
@@ -125,11 +119,15 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	this.fnFind_Thir_Combo();
 	
 	// grid1의 현재재고 오름차순 내림차순 정렬을 위해 현재 상태 변수지정
+	// gird의 컬럼 개수 count 해서 차례대로 변수 지정해보기
 	// Grid00_onheadclick 에서 사용
 	this.sortState1 = { column1 : "asc" };
 	this.sortState2 = { column2 : "asc" };
 	this.sortState3 = { column3 : "asc" };
-
+	
+	//페이징 세팅
+	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
+	this.pageinit(1,5);
 };
 
 ///////////* 2. 이벤트 *///////////
@@ -334,17 +332,17 @@ this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 	
 	// 현재 컬럼의 헤드값 가져오기
 	var sortHeader1 = obj.getCellProperty("head",1,"text");
-	
+	// 현재 컬럼의 헤드값이 asc(오름차순)이면
 	if(this.sortState1.column1 === "asc"){
-			
+			// desc(내림차순)으로 값 변경
 			this.sortState1.column1 = "desc";
-			/*alert("내림차순으로");*/
+			//set_keystring 함수 사용. S(정렬):-(내림차순)
 			this.stock_grid1.set_keystring("S:-PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▼");
 			
 		} else {
 			this.sortState1.column1 = "asc";
-			/*alert("오름차순으로");*/
+			
 			this.stock_grid1.set_keystring("S:+PRODUCT_NAME");
 			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▲");
 		}
@@ -396,7 +394,7 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 		var chkOrder = obj.getCellProperty("head",0,"text");
 		
 		/* grid2에 바인딩되어있는 데이터셋 가져오기 */
-		var ds_grid2 = this.stock02_div.form.Grid00.getBindDataset();
+		var ds_grid2 = this.Grid01.getBindDataset();
 		
 		// 0:미체크 1:체크
 		if(chkOrder == "1") {
@@ -453,7 +451,7 @@ this.stock02_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
     this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
     
     // 내보낼 항목 추가 (grid2의 데이터를 "Sheet1"의 A1 셀부터 시작해서 내보내기)
-    this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.stock02_div.form.Grid00, "Sheet1!A1");
+    this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid01, "Sheet1!A1");
 
     // 성공 및 오류 이벤트 추가
     this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
@@ -662,9 +660,152 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 		  this.find_thir_combo.setColumn(0, "PRODUCT_CODE", "");
           this.find_thir_combo.setColumn(0, "PRODUCT_NAME", "전체보기"); 
          break;
+		case "grid2OrderList":
+		case "ViewStockOrder":
+			this.setPaging(this.stock_grid2,this.Grid01);
+		break;
 	}
 };
 
+
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Grid00.getFormatColCount());
+};
+
+//페이징 기능 
+this.setPaging = function(ds,grid){
+	//pagecount 세팅 (전체 페이지)
+	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
+	
+	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
+		pagecount+=1;
+	}
+	this.paging.setColumn(0,"pagecount",Number(pagecount));
+	//div 만들어주기 
+	var div = new nexacro.Div();
+	div.init("pagediv",1,2,300,50); // left top width height
+	grid.parent.addChild("pagediv",div);
+	
+	div.set_top(grid.id+":10px");
+	div.set_left(( (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+	div.set_text("PAGEDIV");
+	div.show();
+	
+	this.makebtn(div,pagecount);
+
+	this.setds(ds,1);
+}
+this.makebtn = function(div,pagecount){
+	//div 안에 버튼 만들어주기
+	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 15)-25;
+	
+	var firstbtn = new nexacro.Button(); // << 버튼 만들기
+	firstbtn.init("firstbtn",0,0,20, 30); // left top width height
+  	firstbtn.set_left((leftpos  + "px"));
+ 	firstbtn.set_text("<<");
+	firstbtn.set_cssclass("btn_num");	
+	firstbtn.addEventHandler("onclick",this.onclick_firstbtn,this);
+ 	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
+ 	firstbtn.show();
+	
+	leftpos += 25;
+	var prevbtn = new nexacro.Button(); // <버튼 만들기
+	prevbtn.init("prevbtn",0,0,10, 30); // left top width height
+  	prevbtn.set_left((leftpos  + "px"));
+ 	prevbtn.set_text("<");
+	prevbtn.set_cssclass("btn_num");	
+	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
+ 	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
+ 	prevbtn.show();
+ 		
+ 	for(var i =1; i<=pagecount; i++){
+ 		var btn = new nexacro.Button(); // 숫자 버튼 만들기
+ 		btn.init("pagebtn"+i,0,0,10, 30); // left top width height
+		leftpos += 15;
+ 		btn.set_left(leftpos + "px");
+ 		btn.set_text(i);
+		btn.set_cssclass("btn_num");
+		btn.addEventHandler("onclick",this.onclick_pagebtn,this);
+ 		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
+ 		btn.show();
+ 	}
+	leftpos += 15;
+	var nextbtn = new nexacro.Button(); // > 버튼 만들기
+	nextbtn.init("nextbtn",0,0,10, 30); // left top width height
+  	nextbtn.set_left((leftpos  + "px"));
+ 	nextbtn.set_text(">");
+	nextbtn.set_cssclass("btn_num");
+	nextbtn.addEventHandler("onclick",this.onclick_nextbtn,this);
+ 	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
+ 	nextbtn.show();
+	
+	leftpos += 15;
+	
+	var endbtn = new nexacro.Button(); // >> 버튼 만들기
+	endbtn.init("endbtn",0,0,20, 30); // left top width height
+  	endbtn.set_left((leftpos  + "px"));
+ 	endbtn.set_text(">>");
+	endbtn.set_cssclass("btn_num");
+	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
+ 	div.addChild("endbtn",endbtn); // div에  버튼 추가
+ 	endbtn.show();
+};
+
+this.pageinit = function(page, pagesize){ // 페이징 세팅
+	this.paging.addRow();
+	this.paging.setColumn(0,"page",page); //현재 페이지
+	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
+}
+this.setpagediv = function(grid){
+	var div = this.components['pagediv'];
+	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+};
+this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
+	var pagesize = this.paging.getColumn(0,"pagesize");
+	ds.filter("");
+	for(var i =0; i<(page-1)*pagesize;i++){
+		ds.filterRow(0);
+	}
+	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
+		ds.filterRow(pagesize);
+	}
+	this.paging.setColumn(0,"page",page);
+};
+
+//버튼 클릭 이벤트
+this.onclick_firstbtn = function(obj:nexacro.Button){
+	var ds = this.stock_grid2; //수정
+	this.setds(ds,1);
+};
+this.onclick_prevbtn = function(obj:nexacro.Button){
+	var ds = this.stock_grid2; //수정
+	var prevpage = this.paging.getColumn(0,"page")-1;
+	if(prevpage <= 1)
+		this.setds(ds,1);
+	else
+		this.setds(ds,prevpage);
+};
+this.onclick_nextbtn = function(obj:nexacro.Button){
+	var ds = this.stock_grid2; //수정
+	var nextpage = this.paging.getColumn(0,"page")+1;
+	if(nextpage >= this.paging.getColumn(0,"pagecount"))
+		this.setds(ds,this.paging.getColumn(0,"pagecount"));
+	else
+		this.setds(ds,nextpage);
+};
+this.onclick_endbtn = function(obj:nexacro.Button){
+	var ds = this.stock_grid2; //수정
+	this.setds(ds,this.paging.getColumn(0,"pagecount"));
+};
+this.onclick_pagebtn = function(obj:nexacro.Button){
+//버튼 이벤트
+	this.setds(this.stock_grid2,obj.text); //수정
+};
+this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
+{
+	this.setpagediv(obj);//수정
+};
 ]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true" oncolumnchanged="stock_grid1_oncolumnchanged">
@@ -757,6 +898,16 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
           <Column id="STOCK_ORDER_DATE" type="STRING" size="256" description="발주일자"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
           <Column id="STOCK_ORDER_STATUS_IN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="paging">
+        <ColumnInfo>
+          <Column id="page" type="INT" size="256"/>
+          <Column id="start" type="INT" size="256"/>
+          <Column id="end" type="INT" size="256"/>
+          <Column id="pagecount" type="INT" size="256"/>
+          <Column id="pagesize" type="INT" size="256"/>
+          <Column id="nextpage" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

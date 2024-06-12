@@ -8,6 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("bookMapper")
 public interface BookMapper {
+	//ㄴ
 	// 도서 전체목록 조회
     List<BookVO> selectBookList();
     
@@ -40,5 +41,8 @@ public interface BookMapper {
     
     // 도서 대여 가능 여부 확인
     String getBookQuantity(String bookCode);
+
+    // 도서대여 탑3
+	List<BookVO> selectTopBooksOfMonth();
 
 }

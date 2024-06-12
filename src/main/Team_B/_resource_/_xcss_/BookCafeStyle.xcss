@@ -128,4 +128,175 @@
 	-nexa-vertical-align : middle;
 	border-radius : 5px;
 }
+.Button.btn_view,
+.Button.btn_view[status=disabled],
+.Button.btn_view[status=focused],
+.Button.btn_view[userstatus=selected]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #4F4537;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_del,
+.Button.btn_del[status=disabled],
+.Button.btn_del[status=focused],
+.Button.btn_del[userstatus=selected]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #4F4537;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}.Button.btn_del[status=mouseover]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : red;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_del[userstatus=pushed]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : red;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_save,
+.Button.btn_save[status=disabled],
+.Button.btn_save[status=focused],
+.Button.btn_save[userstatus=selected]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #4F4537;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_save[status=mouseover]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : yellowgreen;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_save[userstatus=pushed]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : yellowgreen;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_view[status=mouseover]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #BEA888;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_view[userstatus=pushed]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #BEA888;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+
+.Grid .body .row .cell.grid_nav[userstatus=selected]
+{
+	background : #FAEBD7;
+}
+
+.Grid .body .row .cell.grid_nav[status=mouseover]
+{
+	background : #FFF8EE;
+}.ImageViewer.iv_none_border
+{
+	-nexa-border : 0px none transparent,0px none,0px none;
+
+}
+/* 디폴트 */
+.Button.btn_num
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 브라운 */
+	background : #4F4537;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+
+/* 사용자가 클릭 후 */
+.Button.btn_num[status=focused]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 모카 */
+	background : #BEA888;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}/* 사용자가 마우스를 가져다 댈 때 */
+.Button.btn_num[status=mouseover]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 아이보리 */
+	background : #FAEBD7;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+/* 사용자가 꾹 클릭하고 있을 때 */
+.Button.btn_num[userstatus=pushed]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 아이보리 */
+	background : #FAEBD7 ;
+	border-radius : 5px;	
+	color : #FFFFFF;
+	font : normal bold  10pt/normal "Arial";
+}
+
+
+.Grid .body .row .cell.grid_nav .celltreeitem .treeitemtext
+{
+	font : normal 12pt /normal "Arial";
+
+}
+.Grid .body .row .cell.grid_nav .celltreeitem .treeitemtext[status=mouseover]
+{
+	font : normal bold 13pt/normal "Arial";
+}
 ]]></XCSS>

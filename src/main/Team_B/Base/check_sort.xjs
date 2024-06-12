@@ -3,37 +3,37 @@
 사용조건
 0. 체크박스가 그리드의 0번째 인덱스에 위치할 것
 1. 체크박스가 들어있는 데이터셋에서 체크박스의 컬럼명 : CHK
-2. CellCheckBox : falsevalue -> N / truevalue -> Y
-3. SQL 쿼리 : 'N' as CHK
+2. 그리드 에디터 CellCheckBox : falsevalue -> N / truevalue -> Y
+3. SQL 쿼리 SELECT : 'N' as CHK
 */
 
 /* 체크박스 및 정렬 공통함수 */
-this.check_sort = function(objGrid)
+// form에서 호출 시 onheadclick, oncolumnchanged 이벤트 추가
+this.check_sort = function(obj:nexacro.Grid)
 {
-	
-	// 정렬값을 저장
-	objGrid.arrSort = {};
-	
 	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
-	objGrid.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	var head = obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
 	
-	// 그리드의 row값 변경 시 체크박스가 체크되는 이벤트 함수 추가
-	objGrid.addEventHandler("oncolumnchanged",this.grid_oncolumnchanged, this);
+	// 그리드에 바인딩된 데이터셋 가져오기
+	var ds_grid = obj.getBindDataset();
+	
+	// 그리드의 row값 변경 시 체크박스가 체크되는 이벤트 데이터셋에 추가
+	ds_grid.addEventHandler("oncolumnchanged",this.ds_grid_oncolumnchanged, this);
 	
 }
 
-//row의 내용이 바뀌면 그 row의 체크박스 체크가 됨
-this.grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+/* oncolumnchanged 이벤트 : 컬럼값이 바뀌면 자동으로 CHK가 체크 */
+this.ds_grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
 	if(e.col != obj.getColIndex("CHK")){
 		obj.setColumn(e.row,"CHK",'Y');
 	}
 };
 
-/* 그리드 헤더 클릭 시 실행될 이벤트 함수(체크박스 이벤트/정렬이벤트) */
-this.grid_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+/* onheadclick 이벤트 : 그리드 헤더 클릭(체크박스 이벤트/정렬이벤트) */
+this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	// 체크박스 셀 클릭
+	// 체크박스 셀 클릭(동작 잘됨)
 	if(e.cell == 0){
 		
 		var val = 'N';	// 체크박스 N상태를 변수에 저장
@@ -46,36 +46,47 @@ this.grid_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
 			obj.setCellProperty("head",e.cell,"text",val);
 		}
 		
-		var dataset = obj.getBindDataset();
+		var dataset = obj.getBindDataset();	// 바인딩된 데이터셋 가져오기
 		
-		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 잠깐 끄기
+		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 OFF
 		
 		for(var i=0; i<dataset.rowcount; i++){
 			dataset.setColumn(i,"CHK",val);
 		}
-		dataset.set_enableevent(true);
+		dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
 		
 	// 정렬이 필요한 셀 클릭
 	}else {
 	
-		this.resetAllHeaderTexts();	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해
+		this.resetAllHeaderTexts(obj);	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해
 		
 		var dataset = obj.getBindDataset();	// 바인딩된 데이터셋 가져오기
 		var id = this.getBindColumnIDByIndex(obj,e.cell);	// 현재 클릭된 셀의 컬럼ID 가져오기(getBindColumnIDByIndex : 사용자가 만든 함수)
+		var headtext = obj.getCellText(e.row,e.cell);	// 현재 그리드의 컬럼 text값 가져오기
 		var text = "";
 		
 		text=dataset.keystring;	// 바인딩된 데이터셋의 현재 정렬 keyString 가져오기
 		
 		// 현재 오름차순 상태라면
-		if(text.includes('+')) {
+		if(text.includes('+')) {	
 			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경
-			obj.setCellProperty("head",e.cell,"text",id.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
+			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
 		}else{
 			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
-			obj.setCellProperty("head",e.cell,"text",id.replace(/ ▲| ▼/g,"")+" ▲");
+			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▲");
 			}
 	}
-};
+}
+
+/* 다른 컬럼의 마크 초기화 함수 */
+this.resetAllHeaderTexts = function(obj)
+{
+    var headerCount = obj.getCellCount("head");
+    for (var i = 0; i < headerCount; i++) {
+        var originalText = (""+obj.getCellProperty("head", i, "text")).replace(/ ▲| ▼/g, "");
+        obj.setCellProperty("head", i, "text", originalText);
+    }
+}
 
 /* 정렬을 위한 컬럼값 꺼내는 함수 / columnid 리턴 */
 this.getBindColumnIDByIndex = function(grid, index) 
@@ -106,14 +117,4 @@ this.getBindColumnIDByIndex = function(grid, index)
   }
   
   return columnid;
-}
-
-/* 모든 헤더 초기화 */
-this.resetAllHeaderTexts = function(obj)
-{
-    var headerCount = this.obj.getCellCount("head");
-    for (var i = 0; i < headerCount; i++) {
-        var originalText = this.obj.getCellProperty("head", i, "text").replace(/ ▲| ▼/g, "");
-        this.obj.setCellProperty("head", i, "text", originalText);
-    }
 }]]></Script>

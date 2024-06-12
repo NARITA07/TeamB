@@ -34,36 +34,37 @@ private final String clientSecret = "3eFou5WWJ5";
 private final String redirectURI = "http://localhost:8082/callback.do";
 private final String state = "randomState"; // CSRF 방지를 위한 상태 코드
 
-	/* 회원 등록 페이지 호출 */
-	@RequestMapping("memberWrite.do") 
-	public String MemberWrite() { 
-	    return "/member/memberWrite"; 
-	}
-	
-	/* 회원 가입 처리 */
-	@RequestMapping("memberWriteSave.do")
-	@ResponseBody
-	public String insertMember(MemberVO memberVO) throws Exception {
-		
-	    String message = memberService.insertMember(memberVO);
-	    return message;
-	}
-	
-	/* 아이디 중복 체크 */
-	@RequestMapping("idChk.do")
-	@ResponseBody
-	public String selectIdChk(String user_id) throws Exception {
-	    String message = "";
-	    System.out.println("user_id :" + user_id);
-	    int cnt = memberService.selectIdChk(user_id);
-	    if (cnt == 0) {
-	        message = "ok";
-	    }
-	    return message;
-	}
-	
-	/* 회원가입 시 마지막으로 id,tel 한번더체크 */
-	@PostMapping("/checkDuplicates.do")
+   /* 회원 등록 페이지 호출 */
+   @RequestMapping("memberWrite.do") 
+   public String MemberWrite() { 
+       return "/member/memberWrite"; 
+   }
+   
+   /* 회원 가입 처리 */
+   @RequestMapping("memberWriteSave.do")
+   @ResponseBody
+   public String insertMember(MemberVO memberVO) throws Exception {
+      
+       String message = memberService.insertMember(memberVO);
+       return message;
+   }
+   
+   /* 아이디 중복 체크 */
+   @RequestMapping("idChk.do")
+   @ResponseBody
+   public String selectIdChk(String user_id) throws Exception {
+       String message = "";
+       System.out.println("user_id :" + user_id);
+       int cnt = memberService.selectIdChk(user_id);
+       if (cnt == 0) {
+           message = "ok";
+       }
+       return message;
+   }
+   
+   /* 회원가입 시 마지막으로 id,tel 한번더체크 */
+   @PostMapping("/checkDuplicates.do")
+
     @ResponseBody
     public String checkDuplicates(@RequestParam String user_id, @RequestParam String user_tel) {
         Map<String, Boolean> response = new HashMap<>();
@@ -257,6 +258,12 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         memberVO.setUser_address(userAddress);
         memberVO.setUser_authority("1");
 
+        boolean checkTelExists = memberService.checkTelExists(userTel);
+        if (checkTelExists == true) {
+           redirectAttributes.addFlashAttribute("errorMessage", "이미 가입한 회원입니다.");
+            return new RedirectView("login.do");
+        }
+        
         int userExists = memberService.selectSnsIdChk(userId);
         if (userExists == 0) {
             memberService.insertNaverMember(memberVO);

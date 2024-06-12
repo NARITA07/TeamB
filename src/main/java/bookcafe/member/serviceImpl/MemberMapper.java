@@ -6,7 +6,7 @@ import bookcafe.member.service.MemberVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("memberMapper")
-public interface MemberMapper {    
+public interface MemberMapper { //!   
 	/* 회원가입 */
 	int insertMember(MemberVO memberVO);
 	

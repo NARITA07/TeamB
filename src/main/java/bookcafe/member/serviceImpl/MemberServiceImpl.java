@@ -19,7 +19,7 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 MemberMapper memberMapper;
  
 private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+//!
     /* 회원가입 */
     @Override
     public String insertMember(MemberVO memberVO) throws Exception {

@@ -17,6 +17,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 @Service("bookService") 
 public class BookServiceImpl extends EgovAbstractServiceImpl implements BookService {
     
+	//ㄴ
     @Resource(name = "bookMapper") 
     BookMapper bookMapper;
     

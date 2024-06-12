@@ -1,7 +1,7 @@
 package bookcafe.member.service;
 
 public interface MemberService {
-
+//!
 /* 회원 등록 처리 */
 public String insertMember(MemberVO memberVO) throws Exception;
 

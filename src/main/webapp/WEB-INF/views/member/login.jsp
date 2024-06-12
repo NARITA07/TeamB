@@ -198,5 +198,6 @@ button {
 </div>
 
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+<!-- ! -->
 </body>
 </html>

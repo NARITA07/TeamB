@@ -30,7 +30,7 @@ import bookcafe.paging.serviceImpl.PagingServiceImpl;
 public class BookController { 
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-
+// ㄴ
     @Resource(name = "bookService")
     public BookService bookService;
         
@@ -147,7 +147,7 @@ public class BookController {
         // 장바구니가 null이 아니고 비어 있지 않으면 실행
         if (cart != null && !cart.isEmpty()) {
             Iterator<Map.Entry<String, String>> iterator = cart.entrySet().iterator();
-            // 장바구니에 있는 모든 책을 순회
+            // 장바구니에 있는 모든 책을 확인
             while (iterator.hasNext()) {
                 Map.Entry<String, String> entry = iterator.next();
                 String bookCode = entry.getKey();

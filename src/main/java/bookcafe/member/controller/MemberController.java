@@ -33,7 +33,7 @@ private final String clientId = "KFlxuf0Rhy_fUBNEU_1e";
 private final String clientSecret = "3eFou5WWJ5";
 private final String redirectURI = "http://localhost:8082/callback.do";
 private final String state = "randomState"; // CSRF 방지를 위한 상태 코드
-
+//!
    /* 회원 등록 페이지 호출 */
    @RequestMapping("memberWrite.do") 
    public String MemberWrite() { 
@@ -259,7 +259,7 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         
         boolean checkTelExists = memberService.checkTelExists(userTel);
         if (checkTelExists == true) {
-           redirectAttributes.addFlashAttribute("errorMessage", "일반회원가입자 입니다.");
+           redirectAttributes.addFlashAttribute("errorMessage", "이미 가입한 회원입니다.");
             return new RedirectView("login.do");
         }
         

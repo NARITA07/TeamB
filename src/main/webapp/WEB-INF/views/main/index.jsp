@@ -31,7 +31,7 @@
     			<c:forEach items="${books}" var="book">
 					<div class="col mb-5">
     					<div class="card h-100">
-        					<img class="card-img-top" src="${book.book_path}" alt="..." />
+        					<img class="card-img-top" src="${book.book_path}" onerror="this.onerror=null; this.src='/images/no_image1.jpg'" />
 								<div class="card-body p-4">
 									<div class="text-center">
 										<h5 class="fw-bolder">${book.book_name }</h5>

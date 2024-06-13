@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="Member_Management" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
+        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="view_dtl" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -102,6 +102,20 @@
           <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="POINT_CHANGE" type="INT" size="256"/>
           <Column id="POINT_JOINDATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="view_dtl">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_TEL" type="STRING" size="256"/>
+          <Column id="USER_ADDRESS" type="STRING" size="256"/>
+          <Column id="USER_POINT" type="STRING" size="256"/>
+          <Column id="USER_JOINDATE" type="STRING" size="256"/>
+          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="USER_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -368,14 +382,36 @@ this.setpagediv = function(grid){
 	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
+// 	var pagesize = this.paging.getColumn(0,"pagesize");
+// 	ds.filter("");
+// 	for(var i =0; i<(page-1)*pagesize;i++){
+// 		ds.filterRow(0);
+// 	}
+// 	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
+// 		ds.filterRow(pagesize);
+// 	}
+// 	this.paging.setColumn(0,"page",page);
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	ds.filter("");
-	for(var i =0; i<(page-1)*pagesize;i++){
-		ds.filterRow(0);
+	
+	if(ds.rowcount == 0){
+		this.paging.setColumn(0,"page",1);
+		return;
 	}
-	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-		ds.filterRow(pagesize);
+	this.view_dtl.set_enableevent(false);
+	this.view_dtl.clearData();
+	if(page == this.paging.getColumn(0,"pagecount")){
+		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
+	}else{
+		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
 	}
+	
+	this.view_dtl.set_enableevent(true);
 	this.paging.setColumn(0,"page",page);
 };
 

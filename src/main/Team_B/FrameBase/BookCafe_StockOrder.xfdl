@@ -59,7 +59,7 @@
         <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="5" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
-        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="stock_grid2" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick" top="506" onsize="stock02_div_Grid00_onsize">
+        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick" top="506" onsize="stock02_div_Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -174,7 +174,7 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 /* 2-3. grid1 발주신청 버튼 */
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-
+	
 	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
     var condition = "PRODUCT_CHECK" + " == '1'";
@@ -254,7 +254,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
     var condition = "PRODUCT_CHECK" + " == '1'";
 	
     // getCaseCount 메서드 호출
-    var chkCnt = this.stock_grid2.getCaseCount(condition);
+    var chkCnt = this.view_dtl.getCaseCount(condition);
 		
 	/* (2) 체크된 행 카운트 */
     if (chkCnt > 0) {
@@ -269,13 +269,13 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 		if(adminCode != null){
 		
 		//체크된 항목 카운트
-		for(var i=0; i<this.stock_grid2.rowcount; i++){
-			if(this.stock_grid2.getColumn(i, "PRODUCT_CHECK") == "1"){
+		for(var i=0; i<this.view_dtl.rowcount; i++){
+			if(this.view_dtl.getColumn(i, "PRODUCT_CHECK") == "1"){
 				var row = this.stock_order_update.addRow();
 				
 				//dataset에 ADMIN_CODE 추가
 				this.stock_order_update.setColumn(row,"USER_CODE",adminCode);
-				this.stock_order_update.copyRow(row, this.stock_grid2, i);
+				this.stock_order_update.copyRow(row, this.view_dtl, i);
 				}
 			}
 		}
@@ -406,16 +406,16 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 			ds_grid2.set_enableevent(false);
 			
 			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid2.rowcount; i++){
-				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","0");
+			for( var i=0; i<ds_grid2.rowcount; i++){
+				ds_grid2.setColumn(i,"PRODUCT_CHECK","0");
 				
 			}ds_grid2.set_enableevent(true);	// 이벤트 다시 켜기
 		}else {
 			chkOrder = "1";
 			ds_grid2.set_enableevent(false);
 			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid2.rowcount; i++){
-				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","1");
+			for( var i=0; i<ds_grid2.rowcount; i++){
+				ds_grid2.setColumn(i,"PRODUCT_CHECK","1");
 			}ds_grid2.set_enableevent(true);
 		}	
 	}
@@ -662,6 +662,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
          break;
 		case "grid2OrderList":
 		case "ViewStockOrder":
+			var div = this.components['pagediv'];
+			if(div != null)
+				div.destroy();
 			this.setPaging(this.stock_grid2,this.Grid01);
 		break;
 	}
@@ -763,13 +766,26 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	ds.filter("");
-	for(var i =0; i<(page-1)*pagesize;i++){
-		ds.filterRow(0);
+	this.Grid01.setCellProperty("head",0,"text",0);
+	if(ds.rowcount == 0){
+		this.paging.setColumn(0,"page",1);
+		return;
 	}
-	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-		ds.filterRow(pagesize);
+	this.view_dtl.set_enableevent(false);
+	this.view_dtl.clearData();
+	if(page == this.paging.getColumn(0,"pagecount")){
+		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
+	}else{
+		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
 	}
+	
+	this.view_dtl.set_enableevent(true);
 	this.paging.setColumn(0,"page",page);
 };
 
@@ -908,6 +924,20 @@ this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventIn
           <Column id="pagecount" type="INT" size="256"/>
           <Column id="pagesize" type="INT" size="256"/>
           <Column id="nextpage" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="view_dtl" useclientlayout="true" oncolumnchanged="stock_grid2_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="STOCK_ORDER_CODE" type="STRING" size="256" description="발주신청서 코드"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256" description="메뉴코드"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256" description="메뉴명"/>
+          <Column id="PRODUCT_QUANTITY" type="INT" size="256"/>
+          <Column id="STOCK_ORDER_DATE" type="STRING" size="256" description="발주일자"/>
+          <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256" description="발주수량"/>
+          <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
+          <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
+          <Column id="PRODUCT_CHECK" type="STRING" size="256" description="체크박스"/>
+          <Column id="STOCK_ORDER_STATUS_IN" type="STRING" size="256" description="입고완료 처리"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

@@ -6,7 +6,7 @@
         <Div id="Main" taborder="0" left="0.00%" top="-1.39%" text="" cssclass="btn_dafault" right="0" bottom="10">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="4" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Static id="Static00" taborder="3" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
               <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" height="260" right="20" bottom="2.78%" oncelldblclick="Main_Sec_code_oncelldblclick">
                 <Formats>
                   <Format id="default">
@@ -63,12 +63,11 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_all_del" taborder="6" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:4" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
-              <Button id="btn_all_save" taborder="5" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:4" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
+              <Button id="btn_all_del" taborder="5" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:4" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
+              <Button id="btn_all_save" taborder="4" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:4" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
               <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_all_save:5" cssclass="btn_dafault" bottom="Fir_code:4" height="30" onclick="Main_btn_fir_add_onclick"/>
-              <Button id="btn_Sec_add" taborder="7" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
-              <Combo id="fir_search00" taborder="12" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemclick="Main_Div00_fir_search_onitemclick" oncloseup="Main.form.fir_search_oncloseup" width="100" right="btn_Sec_add:5" bottom="285" height="30" cssclass="combo_default" displaynulltext="분류" onitemchanged="Main_fir_search_onitemchanged"/>
-              <Combo id="fir_category" taborder="3" text="Combo00" innerdataset="fir_code_grid" codecolumn="FIR_CODE" datacolumn="FIR_NAME" width="100" borderRadius="5px" displaynulltext="분류" right="fir_search00:5" height="30" bottom="Sec_code:4" cssclass="combo_default" onitemchanged="Main_fir_category_onitemchanged"/>
+              <Button id="btn_Sec_add" taborder="6" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
+              <Combo id="sec_search" taborder="7" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search2" codecolumn="SEC_CODE" datacolumn="SEC_NAME" width="100" right="btn_Sec_add:5" bottom="285" height="30" cssclass="combo_default" displaynulltext="분류" oncloseup="Main_sec_search_oncloseup"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
               <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:1" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>
@@ -121,6 +120,13 @@
       <Dataset id="search" useclientlayout="true">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="search2">
+        <ColumnInfo>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -151,35 +157,8 @@ this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventI
 };
 
 
-/***************************************************************************************/
-								//상위코드 콤보 선택 시
-/***************************************************************************************/
 
-this.Main_fir_category_onitemchanged = function(val)
-{	
 	
-	//콤보로 선택했다면
-	if(val == this.Main.form.fir_category){
-	
-	val = this.Main.form.fir_category.value;
-	
-	}else {// 그리드 셀 선택 시
-	
-		this.Main.form.fir_category.set_value(val)
-		val = this.Main.form.fir_category.value
-	}
-	
-	var id = "fir_category";
-	var url = "svc::fir_category.do";
-	var set = "";
-	var get = "sec_code_grid = sec_code_grid";
-	var arg = "fir_category=" + val;
-	var callback ="codemanagement";
-	
-	this.transaction(id, url, set, get, arg, callback)
-	
-	
-};
 
 /***************************************************************************************/
 								//상위코드 그리드 셀 선택 시
@@ -188,13 +167,22 @@ this.Main_fir_category_onitemchanged = function(val)
 this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
 
+	var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
+
 	if(e.cell == 0){
 	return false;
 	
 	}else {
-	var val = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
 	
-	this.Main_fir_category_onitemchanged(val)
+	var id = "fir_category";
+	var url = "svc::fir_category.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid";
+	var arg = "fir_category=" + search;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
 	}
 };
 
@@ -438,6 +426,10 @@ this.codemanagement = function(id, code, message){
 				this.fir_code_grid.deleteRow(0)
 			}
 			break;
+			
+		case "fir_category":
+		this.search2.copyData(this.sec_code_grid)
+		break;
 		
 	case "del_code":
 		var count =this.message_count;
@@ -520,10 +512,36 @@ this.Main.form.fir_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.Combo
 	this.transaction(id, url, set, get, arg, callback)
 	
 	
+
+	var id = "fir_category";
+	var url = "svc::fir_category.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid";
+	var arg = "fir_category=" + search;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+
 };
 
 
 
+
+
+this.Main_sec_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.ComboCloseUpEventInfo)
+{
+	
+	var search2 = this.Main.form.sec_search.value;
+	
+	var id = "search2";
+	var url = "svc::sec_grid_search.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid ";
+	var arg = "search2=" + search2;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+};
 ]]></Script>
   </Form>
 </FDL>

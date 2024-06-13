@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.nexacro.codemanagement.serviceImpl.CodeManagementMapper">
 
-	<!-- 코드 조회 검색 -->
+	<!-- 상위코드 조회 검색 -->
 	<select id="searchfirgrid" resultType="java.util.Map">
 	<choose>
 	<when test="FIR_CODE.equals('fir_000')">
@@ -13,6 +13,14 @@
 	</otherwise>
 	
 	</choose>
+	</select>
+	
+	
+	<!-- 하위코드 조회 검색 -->
+	<select id="searchsecgrid" resultType="java.util.Map">
+	
+	SELECT * FROM SEC_CODE WHERE SEC_CODE = #{search2}
+	
 	</select>
 
 	<!--  상위코드 조회 -->

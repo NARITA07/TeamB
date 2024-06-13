@@ -11,6 +11,9 @@ public interface CodeManagementMapper {
 	//코드검색 조회
 	List<Map<String, Object>> searchfirgrid(Map<String, Object> search);
 	
+	//하위 코드 검색
+	List<Map<String, Object>> searchsecgrid(String search2);
+	
 	//상위코드 조회
 	List<Map<String, Object>> selectfirgrid();
 	
@@ -43,6 +46,7 @@ public interface CodeManagementMapper {
 	
 	//상위코드 삭제 -> 하위코드 삭제하기
 	int codedel_sec(Map<String, Object> map);
+
 
 
 }

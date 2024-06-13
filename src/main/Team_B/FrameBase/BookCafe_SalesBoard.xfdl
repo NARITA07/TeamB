@@ -3,7 +3,7 @@
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Grid id="Grid00" taborder="0" left="1.76%" top="160" width="96.30%" binddataset="sales_dtl" scrollbartype="none default" autofittype="col" bottom="8%" cssclass="grid_default" onsize="Grid00_onsize">
+        <Grid id="Grid00" taborder="0" left="1.76%" top="160" width="96.30%" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="8%" cssclass="grid_default" onsize="Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -159,6 +159,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			this.combo_dtl.setColumn(row, "SEC_NAME", "전체");
 			break;
 		case "selectSales":
+			var div = this.components['pagediv'];
+			if(div != null)
+				div.destroy();
 			this.setPaging(this.sales_dtl,this.Grid00);
 			break;
 	}
@@ -220,7 +223,7 @@ this.setPaging = function(ds,grid){
 	div.show();
 	
 	this.makebtn(div,pagecount);
-
+	
 	this.setds(ds,1);
 }
 this.makebtn = function(div,pagecount){
@@ -290,12 +293,30 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	ds.filter("");
-	for(var i =0; i<(page-1)*pagesize;i++){
-		ds.filterRow(0);
+	
+	if(ds.rowcount == 0){
+		this.paging.setColumn(0,"page",1);
+		return;
 	}
-	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-		ds.filterRow(pagesize);
+// 	ds.filter("");
+// 	for(var i =0; i<(page-1)*pagesize;i++){
+// 		ds.filterRow(0);
+// 	}
+// 	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
+// 		ds.filterRow(pagesize);
+// 	}
+// 	this.paging.setColumn(0,"page",page);
+	this.view_dtl.clearData();
+	if(page == this.paging.getColumn(0,"pagecount")){
+		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
+	}else{
+		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
 	}
 	this.paging.setColumn(0,"page",page);
 };
@@ -377,6 +398,16 @@ this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
           <Column id="pagecount" type="INT" size="256"/>
           <Column id="pagesize" type="INT" size="256"/>
           <Column id="nextpage" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="view_dtl">
+        <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256" prop="NONE" sumtext=""/>
+          <Column id="MENU" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="SALES" type="INT" size="256" prop="NONE"/>
+          <Column id="TIME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

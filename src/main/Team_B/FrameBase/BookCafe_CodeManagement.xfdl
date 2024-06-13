@@ -6,7 +6,7 @@
         <Div id="Main" taborder="0" left="0.00%" top="-1.39%" text="" cssclass="btn_dafault" right="0" bottom="10">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="4" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Static id="Static00" taborder="3" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
               <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" height="260" right="20" bottom="2.78%" oncelldblclick="Main_Sec_code_oncelldblclick">
                 <Formats>
                   <Format id="default">
@@ -21,13 +21,13 @@
                       <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                      <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
                       <Cell col="1" text="분류코드" background="#FFF8EE"/>
                       <Cell col="2" text="코드명" background="#FFF8EE"/>
                       <Cell col="3" text="사용여부" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
                       <Cell col="1" text="bind:SEC_CODE" textAlign="center"/>
                       <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
                       <Cell col="3" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
@@ -49,13 +49,13 @@
                       <Row size="24"/>
                     </Rows>
                     <Band id="head">
-                      <Cell text="CHK" edittype="checkbox" background="#FFF8EE" displaytype="checkboxcontrol" cursor="auto" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell text="CHK" edittype="checkbox" background="#FFF8EE" displaytype="checkboxcontrol" cursor="auto" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                       <Cell col="1" text="분류코드" background="#FFF8EE" cursor="auto"/>
                       <Cell col="2" text="분류명" background="#FFF8EE" cursor="auto"/>
                       <Cell col="3" text="사용여부" background="#FFF8EE" cursor="auto"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:CHK" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                      <Cell text="bind:CHK" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                       <Cell col="1" text="bind:FIR_CODE" textAlign="center"/>
                       <Cell col="2" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
                       <Cell col="3" text="bind:USE_STATUS" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center"/>
@@ -63,16 +63,15 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_all_del" taborder="6" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:4" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
-              <Button id="btn_all_save" taborder="5" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:4" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
+              <Button id="btn_all_del" taborder="5" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:4" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
+              <Button id="btn_all_save" taborder="4" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:4" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
               <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_all_save:5" cssclass="btn_dafault" bottom="Fir_code:4" height="30" onclick="Main_btn_fir_add_onclick"/>
-              <Button id="btn_Sec_add" taborder="7" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
-              <Edit id="sec_search" taborder="8" right="btn_Sec_add:5" width="150" bottom="Sec_code:5" height="30" cssclass="edit_default"/>
-              <Combo id="fir_category" taborder="3" text="Combo00" innerdataset="fir_code_grid" codecolumn="FIR_CODE" datacolumn="FIR_NAME" width="100" borderRadius="5px" displaynulltext="분류" right="sec_search:5" height="30" bottom="Sec_code:5" cssclass="combo_default" onitemchanged="Main_fir_category_onitemchanged"/>
+              <Button id="btn_Sec_add" taborder="6" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
+              <Combo id="sec_search" taborder="7" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search2" codecolumn="SEC_CODE" datacolumn="SEC_NAME" width="100" right="btn_Sec_add:5" bottom="285" height="30" cssclass="combo_default" displaynulltext="분류" oncloseup="Main_sec_search_oncloseup"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
               <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:1" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>
-              <Combo id="fir_search" taborder="13" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemclick="Main_Div00_fir_search_onitemclick" oncloseup="Main.form.fir_search_oncloseup" width="100" right="btn_fir_add:5" bottom="Fir_code:5" height="30" cssclass="combo_default" displaynulltext="분류"/>
+              <Combo id="fir_search" taborder="13" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemclick="Main_Div00_fir_search_onitemclick" oncloseup="Main.form.fir_search_oncloseup" width="100" right="btn_fir_add:5" bottom="Fir_code:5" height="30" cssclass="combo_default" displaynulltext="분류" onitemchanged="Main_fir_search_onitemchanged"/>
             </Layout>
           </Layouts>
         </Div>
@@ -109,7 +108,7 @@
           <Column id="FIR_CODE" type="STRING" size="256" description="저장수정"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="save" useclientlayout="true">
+      <Dataset id="save" useclientlayout="false">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
           <Column id="FIR_NAME" type="STRING" size="256"/>
@@ -121,10 +120,19 @@
       <Dataset id="search" useclientlayout="true">
         <ColumnInfo>
           <Column id="FIR_CODE" type="STRING" size="256"/>
+          <Column id="FIR_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="search2">
+        <ColumnInfo>
+          <Column id="SEC_CODE" type="STRING" size="256"/>
+          <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[var row = 0;
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
+var row = 0;
 this.message_count = 0;
 this.fir_code_new = ""; // 상위코드 최신화
 this.sec_code_new = ""; // 하위코드 최신화
@@ -135,6 +143,8 @@ var row_category = 0; //하위코드 갯수
 
 this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
+	this.check_sort(this.Main.form.Fir_code);
+	this.check_sort(this.Main.form.Sec_code);
 	
 	var id = "fir_grid";
 	var url = "svc::fir_grid.do";
@@ -147,35 +157,8 @@ this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventI
 };
 
 
-/***************************************************************************************/
-								//상위코드 콤보 선택 시
-/***************************************************************************************/
 
-this.Main_fir_category_onitemchanged = function(val)
-{	
 	
-	//콤보로 선택했다면
-	if(val == this.Main.form.fir_category){
-	
-	val = this.Main.form.fir_category.value;
-	
-	}else {// 그리드 셀 선택 시
-	
-		this.Main.form.fir_category.set_value(val)
-		val = this.Main.form.fir_category.value
-	}
-	
-	var id = "fir_category";
-	var url = "svc::fir_category.do";
-	var set = "";
-	var get = "sec_code_grid = sec_code_grid";
-	var arg = "fir_category=" + val;
-	var callback ="codemanagement";
-	
-	this.transaction(id, url, set, get, arg, callback)
-	
-	
-};
 
 /***************************************************************************************/
 								//상위코드 그리드 셀 선택 시
@@ -184,13 +167,22 @@ this.Main_fir_category_onitemchanged = function(val)
 this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
 
+	var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
+
 	if(e.cell == 0){
 	return false;
 	
 	}else {
-	var val = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
 	
-	this.Main_fir_category_onitemchanged(val)
+	var id = "fir_category";
+	var url = "svc::fir_category.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid";
+	var arg = "fir_category=" + search;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
 	}
 };
 
@@ -227,6 +219,8 @@ this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 	var fir_chx = 0; // 상위 선택 확인용
 	var sec_chx = 0;
 	var count = 0; 
+	var fir_name_null = 0;
+	var sec_name_null = 0;
 	var num = this.fir_code_grid.rowcount; 
 	var num2 = this.sec_code_grid.rowcount;
 
@@ -236,7 +230,7 @@ this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 	
 	for(i = 0; i < count; i++){
 	
-		if(this.fir_code_grid.getColumn(i,"CHK") == 1){ //상위 데이터셋
+		if(this.fir_code_grid.getColumn(i,"CHK") == "Y"){ //상위 데이터셋
 			this.save.addRow()
 			this.save.setColumn(row,"FIR_CODE", this.fir_code_grid.getColumn(i, "FIR_CODE"));	
 			this.save.setColumn(row,"FIR_NAME", this.fir_code_grid.getColumn(i, "FIR_NAME"));
@@ -246,7 +240,7 @@ this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 			fir_chx++
 			
 		}
-		if(this.sec_code_grid.getColumn(i,"CHK") == 1){//하위 데이터 셋
+		if(this.sec_code_grid.getColumn(i,"CHK") == "Y"){//하위 데이터 셋
 			
 			this.save.addRow()
 			this.save.setColumn(row,"FIR_CODE", this.sec_code_grid.getColumn(i, "FIR_CODE"))
@@ -259,6 +253,7 @@ this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 		} 
 
 	}
+	
 	
 	if(fir_chx == 0 && sec_chx == 0){
 		
@@ -315,7 +310,7 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 	
 	for(i = 0; i < count; i++){
 	
-		if(this.fir_code_grid.getColumn(i,"CHK") == 1){ //상위 데이터셋
+		if(this.fir_code_grid.getColumn(i,"CHK") == "Y"){ //상위 데이터셋
 			this.save.addRow()
 			this.save.setColumn(row,"FIR_CODE", this.fir_code_grid.getColumn(i, "FIR_CODE"));	
 				
@@ -323,7 +318,7 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 			fir_chx++
 			
 		}
-		if(this.sec_code_grid.getColumn(i,"CHK") == 1){//하위 데이터 셋
+		if(this.sec_code_grid.getColumn(i,"CHK") == "Y"){//하위 데이터 셋
 			
 			this.save.addRow()
 			this.save.setColumn(row,"SEC_CODE", this.sec_code_grid.getColumn(i, "SEC_CODE"));	
@@ -368,7 +363,7 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 this.Main_Fir_code_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 
-	this.fir_code_grid.setColumn(e.row,"CHK",1);
+	this.fir_code_grid.setColumn(e.row,"CHK","Y");
 	
 };
 /***************************************************************************************/
@@ -376,7 +371,7 @@ this.Main_Fir_code_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClic
 /***************************************************************************************/
 this.Main_Sec_code_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	this.sec_code_grid.setColumn(e.row,"CHK",1);
+	this.sec_code_grid.setColumn(e.row,"CHK","Y");
 	
 };
 
@@ -418,7 +413,24 @@ this.fn_sec_code_new = function(){
 /***************************************************************************************/
 this.codemanagement = function(id, code, message){
 	
+	if(code < 0){
+		alert("빈칸에 값을 넣어주세요");
+		this.reload();
+		}
+	
+	if(code == 0){
 	switch(id) {
+		
+		case "search":
+			if(this.fir_code_grid.getColumn(0,"FIR_CODE") == "fir_000"){
+				this.fir_code_grid.deleteRow(0)
+			}
+			break;
+			
+		case "fir_category":
+		this.search2.copyData(this.sec_code_grid)
+		break;
+		
 	case "del_code":
 		var count =this.message_count;
 	
@@ -442,7 +454,7 @@ this.codemanagement = function(id, code, message){
 	var row = this.fir_code_grid.addRow();
 	
 	this.fir_code_grid.setColumn(row,"NO",row+1)//체크
-	this.fir_code_grid.setColumn(row,"CHK",1)//체크
+	this.fir_code_grid.setColumn(row,"CHK","Y")//체크
 	this.fir_code_grid.setColumn(row,"FIR_CODE",this.fir_code_new)//체크
 	this.fir_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
 		
@@ -454,7 +466,7 @@ this.codemanagement = function(id, code, message){
 	var row = this.sec_code_grid.addRow();
 	
 	this.sec_code_grid.setColumn(row,"NO",row+1)//체크
-	this.sec_code_grid.setColumn(row,"CHK",1)//체크
+	this.sec_code_grid.setColumn(row,"CHK","Y")//체크
 	this.sec_code_grid.setColumn(row,"SEC_CODE",this.sec_code_new)//체크
 	this.sec_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
 	this.sec_code_grid.setColumn(row,"FIR_CODE",this.Main.form.fir_category.value)
@@ -470,7 +482,7 @@ this.codemanagement = function(id, code, message){
 	
 	}
 
-
+}
 }
 
 this.grid_modi = function(){
@@ -500,6 +512,35 @@ this.Main.form.fir_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.Combo
 	this.transaction(id, url, set, get, arg, callback)
 	
 	
+
+	var id = "fir_category";
+	var url = "svc::fir_category.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid";
+	var arg = "fir_category=" + search;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
+
+};
+
+
+
+
+
+this.Main_sec_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.ComboCloseUpEventInfo)
+{
+	
+	var search2 = this.Main.form.sec_search.value;
+	
+	var id = "search2";
+	var url = "svc::sec_grid_search.do";
+	var set = "";
+	var get = "sec_code_grid = sec_code_grid ";
+	var arg = "search2=" + search2;
+	var callback ="codemanagement";
+	
+	this.transaction(id, url, set, get, arg, callback)
 };
 ]]></Script>
   </Form>

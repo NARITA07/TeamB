@@ -90,7 +90,7 @@
 									<td class="total_price">
 									<fmt:formatNumber value="${cart.product_price*cart.order_quantity}" type="number" groupingUsed="true"/>원
 									</td>
-									<td><button class="btn btn-light delete_btn" onclick="deleteCart('${cart.cart_code}','${cart.product_code}','${cart.user_code}','${cart.order_quantity}')">삭제</button></td>
+									<td><button class="btn btn-light delete_btn" onclick="deleteCart('${cart.cart_code}', '${cart.product_code}', '${cart.user_code}', '${cart.order_quantity}'); return false;">삭제</button></td>
 									<td>
 										<input type="hidden" name="cart_code" class="cartCode" value="${cart.cart_code}">
 									</td>
@@ -165,13 +165,14 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-	        <button type="submit" form="orderForm" class="btn btn-light">결제</button>
+	        <button type="submit" form="orderForm" class="btn btn-light">
+	        	 결제
+        	</button>
 	   			</div>
 	    </div>
 	  </div>
 	</div>
 	<!-- End Modal -->
-        
 	<script>
 	calculateTotalPrice();
 		// 주문 수량과 가격을 곱한 값을 계산하고 총 금액을 업데이트하는 함수
@@ -196,6 +197,16 @@
 	        // 총 금액을 화면에 표시
 	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + '원';
 	        
+	    }
+	    /* 삭제 함수 */
+	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
+			console.log("카트코드 확인 "+ cart_code)
+	        alert("삭제되었습니다.");
+	        var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
+	            '&product_code=' + encodeURIComponent(product_code) +
+	            '&user_code=' + encodeURIComponent(user_code) +
+	            '&order_quantity=' + encodeURIComponent(order_quantity);
+	        window.location.href = url;
 	    }
 	
 		// 구매버튼 클릭시 장바구니 수량 변경
@@ -353,16 +364,6 @@
 	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
 	    }
 		    
-		/* 삭제 함수 */
-	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
-			console.log("카트코드 확인 "+ cart_code)
-	        alert("삭제되었습니다.");
-	        var url = 'deleteCart.do?cart_code=' + encodeURIComponent(cart_code) +
-	            '&product_code=' + encodeURIComponent(product_code) +
-	            '&user_code=' + encodeURIComponent(user_code) +
-	            '&order_quantity=' + encodeURIComponent(order_quantity);
-	        window.location.href = url;
-	    }
 	</script>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>

@@ -24,6 +24,15 @@ public interface ProductManagementMapper {
 
 	void img_path_food(String path);
 
+	//반납
+	int bookReturn();
+
+	int updatevipstatus();
+
+	void updateuserleadbook();
+
+	void downdatevipstatus();
+
 
 
 	

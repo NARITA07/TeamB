@@ -125,5 +125,11 @@ public class CodeManagementImpl implements CodeManagementService {
 		return result;
 	}
 
+
+	@Override
+	public List<Map<String, Object>> searchsecgrid(String search2) {
+		return codemmapper.searchsecgrid(search2);
+	}
+
 	
 }

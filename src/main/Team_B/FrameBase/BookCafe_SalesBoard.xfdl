@@ -3,7 +3,7 @@
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Grid id="Grid00" taborder="0" left="1.76%" top="160" width="96.30%" binddataset="sales_dtl" scrollbartype="none default" autofittype="col" bottom="8%" cssclass="grid_default" onsize="Grid00_onsize">
+        <Grid id="Grid00" taborder="0" left="1.76%" top="160" width="96.30%" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="8%" cssclass="grid_default" onsize="Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -66,13 +66,17 @@
         <Static id="Static02" taborder="14" text="매출현황" left="1.85%" top="2.99%" width="128" height="38" cssclass="main_title"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
+this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();
 	this.combo_dtl.setColumn(0,"FIR_CODE","fir_002");
 	
 	this.fnselectSalesCombo();
+	
+	this.check_sort(this.Grid00);
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,15); 
@@ -159,6 +163,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			this.combo_dtl.setColumn(row, "SEC_NAME", "전체");
 			break;
 		case "selectSales":
+			var div = this.components['pagediv'];
+			if(div != null)
+				div.destroy();
 			this.setPaging(this.sales_dtl,this.Grid00);
 			break;
 	}
@@ -211,7 +218,7 @@ this.setPaging = function(ds,grid){
 	this.paging.setColumn(0,"pagecount",Number(pagecount));
 	//div 만들어주기 
 	var div = new nexacro.Div();
-	div.init("pagediv",1,2,300,50); // left top width height
+	div.init("pagediv",1,2,400,50); // left top width height
 	this.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
@@ -220,15 +227,15 @@ this.setPaging = function(ds,grid){
 	div.show();
 	
 	this.makebtn(div,pagecount);
-
+	
 	this.setds(ds,1);
 }
 this.makebtn = function(div,pagecount){
 	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 15)-25;
+	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
 	
 	var firstbtn = new nexacro.Button(); // << 버튼 만들기
-	firstbtn.init("firstbtn",0,0,20, 30); // left top width height
+	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
   	firstbtn.set_left((leftpos  + "px"));
  	firstbtn.set_text("<<");
 	firstbtn.set_cssclass("btn_num");	
@@ -236,9 +243,9 @@ this.makebtn = function(div,pagecount){
  	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
  	firstbtn.show();
 	
-	leftpos += 25;
+	leftpos += 35;
 	var prevbtn = new nexacro.Button(); // <버튼 만들기
-	prevbtn.init("prevbtn",0,0,10, 30); // left top width height
+	prevbtn.init("prevbtn",0,0,30, 30); // left top width height
   	prevbtn.set_left((leftpos  + "px"));
  	prevbtn.set_text("<");
 	prevbtn.set_cssclass("btn_num");	
@@ -248,8 +255,8 @@ this.makebtn = function(div,pagecount){
  		
  	for(var i =1; i<=pagecount; i++){
  		var btn = new nexacro.Button(); // 숫자 버튼 만들기
- 		btn.init("pagebtn"+i,0,0,10, 30); // left top width height
-		leftpos += 15;
+ 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
+		leftpos += 35;
  		btn.set_left(leftpos + "px");
  		btn.set_text(i);
 		btn.set_cssclass("btn_num");
@@ -257,9 +264,9 @@ this.makebtn = function(div,pagecount){
  		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
  		btn.show();
  	}
-	leftpos += 15;
+	leftpos += 35;
 	var nextbtn = new nexacro.Button(); // > 버튼 만들기
-	nextbtn.init("nextbtn",0,0,10, 30); // left top width height
+	nextbtn.init("nextbtn",0,0,30, 30); // left top width height
   	nextbtn.set_left((leftpos  + "px"));
  	nextbtn.set_text(">");
 	nextbtn.set_cssclass("btn_num");
@@ -267,10 +274,10 @@ this.makebtn = function(div,pagecount){
  	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
  	nextbtn.show();
 	
-	leftpos += 15;
+	leftpos += 35;
 	
 	var endbtn = new nexacro.Button(); // >> 버튼 만들기
-	endbtn.init("endbtn",0,0,20, 30); // left top width height
+	endbtn.init("endbtn",0,0,30, 30); // left top width height
   	endbtn.set_left((leftpos  + "px"));
  	endbtn.set_text(">>");
 	endbtn.set_cssclass("btn_num");
@@ -290,13 +297,25 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	ds.filter("");
-	for(var i =0; i<(page-1)*pagesize;i++){
-		ds.filterRow(0);
+	this.view_dtl.clearData();
+	
+	if(ds.rowcount == 0){
+		this.paging.setColumn(0,"page",1);
+		return;
 	}
-	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-		ds.filterRow(pagesize);
+	this.view_dtl.set_enableevent(false);
+	if(page == this.paging.getColumn(0,"pagecount")){
+		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
+	}else{
+		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
 	}
+	this.view_dtl.set_enableevent(true);
 	this.paging.setColumn(0,"page",page);
 };
 
@@ -377,6 +396,16 @@ this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
           <Column id="pagecount" type="INT" size="256"/>
           <Column id="pagesize" type="INT" size="256"/>
           <Column id="nextpage" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="view_dtl">
+        <ColumnInfo>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256" prop="NONE" sumtext=""/>
+          <Column id="MENU" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+          <Column id="SALES" type="INT" size="256" prop="NONE"/>
+          <Column id="TIME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>

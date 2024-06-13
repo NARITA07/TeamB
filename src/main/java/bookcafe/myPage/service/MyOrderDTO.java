@@ -27,6 +27,16 @@ public class MyOrderDTO {
 	private String payment_date;		//결제일자
 	private int payment_state;			//결제상태(0:결제중, 1:결제완료, 2:환불, 3:취소)
 	
+	// 기간조회
+	private String startDate;
+	private String endDate;
+	
+	// 포인트 테이블(POINTLOG)
+	private String point_code1;
+	private int point_change1;
+	private String point_code2;
+	private int point_change2;
+	
 	
 	
 	public int getRowNum() {
@@ -131,7 +141,42 @@ public class MyOrderDTO {
 	public void setPayment_state(int payment_state) {
 		this.payment_state = payment_state;
 	}
-	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getPoint_code1() {
+		return point_code1;
+	}
+	public void setPoint_code1(String point_code1) {
+		this.point_code1 = point_code1;
+	}
+	public int getPoint_change1() {
+		return point_change1;
+	}
+	public void setPoint_change1(int point_change1) {
+		this.point_change1 = point_change1;
+	}
+	public String getPoint_code2() {
+		return point_code2;
+	}
+	public void setPoint_code2(String point_code2) {
+		this.point_code2 = point_code2;
+	}
+	public int getPoint_change2() {
+		return point_change2;
+	}
+	public void setPoint_change2(int point_change2) {
+		this.point_change2 = point_change2;
+	}
 	@Override
 	public String toString() {
 		return "MyOrderDTO [rowNum=" + rowNum + ", user_code=" + user_code + ", cart_code=" + cart_code
@@ -140,6 +185,9 @@ public class MyOrderDTO {
 				+ ", product_quantity=" + product_quantity + ", product_category=" + product_category
 				+ ", product_path=" + product_path + ", order_code=" + order_code + ", admin_code=" + admin_code
 				+ ", order_state=" + order_state + ", total_price=" + total_price + ", payment_date=" + payment_date
-				+ ", payment_state=" + payment_state + "]";
+				+ ", payment_state=" + payment_state + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", point_code1=" + point_code1 + ", point_change1=" + point_change1 + ", point_code2=" + point_code2
+				+ ", point_change2=" + point_change2 + "]";
 	}
+	
 }

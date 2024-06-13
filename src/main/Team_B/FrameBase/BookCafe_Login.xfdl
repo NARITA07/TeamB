@@ -7,15 +7,14 @@
         <Div id="Main" taborder="0" top="Static00:10" maxheight="328" maxwidth="580" minheight="" text="" cssclass="div_default" bottom="26.53%" left="Static00:-319" width="615">
           <Layouts>
             <Layout>
-              <Button id="Btn_Login" taborder="3" text="로그인" borderRadius="5px" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.56%" bottom="3.46%" height="8.07%" width="22.39%"/>
-              <Static id="S_Membership" taborder="2" text="회원가입" left="70" top="193" height="32" textAlign="left" onclick="Main_S_Membership_onclick" cursor="pointer" width="60" font="14px/normal &quot;Gulim&quot;" color="#888888"/>
-              <Static id="S_Find" taborder="4" text="아이디 및 비밀번호 찾기" top="194" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
+              <Button id="Btn_Login" taborder="2" text="로그인" borderRadius="5px" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.56%" bottom="3.46%" height="8.07%" width="22.39%"/>
+              <Static id="S_Find" taborder="3" text="아이디 및 비밀번호 찾기" top="194" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
               <Edit id="Ed_ID" taborder="0" left="150" top="84" height="32" border="0px none,0px none,1px solid #4f4537" right="80" background="none" font="16px/normal &quot;Gulim&quot;" onchanged="Main_Ed_ID_onchanged" onkeyup="Main_Ed_ID_onchanged"/>
               <Edit id="Ed_PASS" taborder="1" left="150" top="154" height="32" border="0px none,0px none,1px solid #4f4537" right="80" background="none" font="16px/normal &quot;Gulim&quot;" password="true" onkeyup="Main_Ed_PASS_onkeyup"/>
-              <Button id="btn_id_reset" taborder="5" text="X" left="470" top="74" height="31" borderRadius="100px" background="none" width="30" cursor="pointer" visible="false" onclick="Main_btn_id_reset_onclick"/>
-              <Button id="btn_view" taborder="6" text="O" top="144" height="31" borderRadius="100px" background="none" left="470" width="30" cursor="pointer" visible="false" onclick="Main_btn_view_onclick"/>
-              <Static id="tac_id" taborder="7" text="아이디" left="70" top="84" width="70" height="32" border="0px none,1px solid #4f4537,1px solid #4f4537,0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>
-              <Static id="tac_pass" taborder="8" text="비밀번호" left="70" top="154" width="70" height="32" border="0px none,1px solid #4f4537,1px solid #4f4537,0px none" font="14px/normal &quot;Gulim&quot;"/>
+              <Button id="btn_id_reset" taborder="4" text="X" left="470" top="74" height="31" borderRadius="100px" background="none" width="30" cursor="pointer" visible="false" onclick="Main_btn_id_reset_onclick"/>
+              <Button id="btn_view" taborder="5" text="O" top="144" height="31" borderRadius="100px" background="none" left="470" width="30" cursor="pointer" visible="false" onclick="Main_btn_view_onclick"/>
+              <Static id="tac_id" taborder="6" text="아이디" left="70" top="84" width="70" height="32" border="0px none,1px solid #4f4537,1px solid #4f4537,0px none" font="14px/normal &quot;Gulim&quot;" textDecoration="none"/>
+              <Static id="tac_pass" taborder="7" text="비밀번호" left="70" top="154" width="70" height="32" border="0px none,1px solid #4f4537,1px solid #4f4537,0px none" font="14px/normal &quot;Gulim&quot;"/>
             </Layout>
           </Layouts>
         </Div>
@@ -68,29 +67,22 @@ this.login = function(id,code,message){
 		
     if(code == 0){//리턴 결과 
 	
-	
-		
-		if(this.Result_Data.getColumn(0,"ERROR") == "1"){//아이디가 틀릴 시
-		alert("아이디가 틀렸습니다")
-		
-		
-	}else if(this.Result_Data.getColumn(0,"ERROR") == "2"){// 비밀번호가 틀릴 시
-		alert("비밀번호가 틀렸습니다")
-	
-	}else{
-	nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
-	
-		this.go("FrameBase::BookCafe_Main.xfdl")
-	
+		switch(id) {
+		case "login":
+					
+					if(this.Result_Data.getColCount() == 1){
+					alert(this.Result_Data.getColumn(0,"ERROR"))
+					}else{
+					
+					
+					nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사	
+					this.go("FrameBase::BookCafe_Main.xfdl")
+					break;
+			}
+		}
 	}
-			
-	
-	
-	}
-	
-
 }
-
+	
 //아이디 or 비밀번호 찾기
 this.Main_S_Find_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
 {

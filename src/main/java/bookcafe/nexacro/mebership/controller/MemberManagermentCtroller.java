@@ -82,4 +82,14 @@ public class MemberManagermentCtroller {
 		
 	}
 	
+	// 포인트로그 조회
+		@RequestMapping(value = "/selectPointlog.do")
+	    public NexacroResult selectPointlog(@ParamDataSet(name = "Member_Selected", required = false) Map<String,String> Member_Selected) { 
+			System.out.println("=====포인트로그"+Member_Selected);
+			List<Map<String, Object>> dataList = mms.selectPointlog(Member_Selected);
+		    NexacroResult result = new NexacroResult();
+		    result.addDataSet("pointlog_dtl", dataList);
+		    return result;
+	    }
+	
 }

@@ -4,37 +4,68 @@
 
 	<!-- 회원 관리 -->
 	<select id="select_member" resultType="java.util.Map">
-SELECT 
-	'N' as CHK,
-    a.USER_CODE,
-    a.USER_ID,
-    a.USER_NAME,
-    a.USER_TEL,
-    a.USER_EMAIL,
-    a.USER_ADDRESS,
-    a.USER_JOINDATE,
-    a.USER_POINT,
-    a.USER_AUTHORITY
-FROM 
-    USER a
-ORDER BY USER_AUTHORITY ASC;
-	</select>
-	<select id="select_User_Authority" resultType="java.util.Map">
-SELECT USER_AUTHORITY,TXT
-  FROM USER_AUTHORITY
+		SELECT 
+			'N' as CHK,
+		    a.USER_CODE,
+		    a.USER_ID,
+		    a.USER_NAME,
+		    a.USER_TEL,
+		    a.USER_EMAIL,
+		    a.USER_ADDRESS,
+		    a.USER_JOINDATE,
+		    a.USER_POINT,
+		    a.USER_AUTHORITY
+		FROM 
+		    USER a
+		ORDER BY USER_AUTHORITY ASC;
+			</select>
+			<select id="select_User_Authority" resultType="java.util.Map">
+		SELECT USER_AUTHORITY,TXT
+		  FROM USER_AUTHORITY
 	</select>
 	<update id="update_Member">
-UPDATE USER
-   SET USER_POINT = #{USER_POINT},
-	   USER_AUTHORITY = #{USER_AUTHORITY}
- WHERE USER_CODE = #{USER_CODE}
+		UPDATE USER
+		   SET USER_POINT = #{USER_POINT},
+			   USER_AUTHORITY = #{USER_AUTHORITY}
+		 WHERE USER_CODE = #{USER_CODE}
 	</update>
 	<delete id="delete_Member">
-DELETE FROM USER 
-      WHERE USER_CODE = #{USER_CODE}
+		DELETE FROM USER 
+		WHERE USER_CODE = #{USER_CODE}
 	</delete>
 	<insert id="img_path">
-    INSERT INTO IMG (IMG_PATH) VALUES (#{path})
-</insert>
+		INSERT INTO IMG (IMG_PATH) VALUES (#{path})
+	</insert>
+
+	<select id="selectPointlog" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ORDER_CODE,
+			POINT_CHANGE,
+			POINT_JOINDATE
+		FROM
+			POINTLOG
+		WHERE
+			USER_CODE = #{USER_CODE}
+			<if test="DATE1 != null and DATE1 != '' and DATE2 != null and DATE2 != ''">
+			    AND STR_TO_DATE(SUBSTRING(POINT_JOINDATE, 1, 8), '%Y%m%d') BETWEEN STR_TO_DATE(#{DATE1}, '%Y%m%d') AND STR_TO_DATE(#{DATE2}, '%Y%m%d')
+			</if>
+			<if test="DATE1 != null and DATE1 != '' and (DATE2 == null or DATE2 == '')">
+			   AND STR_TO_DATE(SUBSTRING(POINT_JOINDATE, 1, 8), '%Y%m%d') >= STR_TO_DATE(#{DATE1}, '%Y%m%d')
+			</if>
+			<if test="DATE2 != null and DATE2 != '' and (DATE1 == null or DATE1 == '')">
+			   AND STR_TO_DATE(#{DATE2}, '%Y%m%d') >= STR_TO_DATE(SUBSTRING(POINT_JOINDATE, 1, 8), '%Y%m%d')
+			</if>
+			 <if test="POINT_PM != null and POINT_PM != ''">
+                <choose>
+                    <when test="POINT_PM == 1">
+                        AND POINT_CHANGE <![CDATA[>]]> 0
+                    </when>
+                    <when test="POINT_PM == 2">
+                        AND POINT_CHANGE <![CDATA[<]]> 0
+                    </when>
+                </choose>
+            </if>
+		ORDER BY POINT_JOINDATE DESC;
+	</select>
 	
 </mapper>

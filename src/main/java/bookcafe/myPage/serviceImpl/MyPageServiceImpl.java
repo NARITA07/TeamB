@@ -61,8 +61,8 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 
 	// 카페주문내역 조회하기(전체내역)
 	@Override
-	public List<MyOrderDTO> getMyOrderList(String user_code) {
-		List<MyOrderDTO> list = myPageMapper.getMyOrderList(user_code);
+	public List<MyOrderDTO> getMyOrderList(MyOrderDTO myOrderDTO) {
+		List<MyOrderDTO> list = myPageMapper.getMyOrderList(myOrderDTO);
 		return list;
 	}
 	
@@ -73,10 +73,17 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		return list;
 	}
 	
+	// 카페주문내역 조회하기(단건정보)
+	@Override
+	public List<MyOrderDTO> getOrderInfo(String order_code) {
+		List<MyOrderDTO> list = myPageMapper.getOrderInfo(order_code);
+		return list;
+	}
+	
 	// 도서대여내역 조회하기(전체내역)
 	@Override
-	public List<MyBookDTO> getMyBookList(String user_code) {
-		List<MyBookDTO> list = myPageMapper.getMyBookList(user_code);
+	public List<MyBookDTO> getMyBookList(MyBookDTO myBookDTO) {
+		List<MyBookDTO> list = myPageMapper.getMyBookList(myBookDTO);
 		return list;
 	}
 	

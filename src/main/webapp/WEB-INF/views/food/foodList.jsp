@@ -38,6 +38,9 @@
     	width: 75px;
     	display:inline-block;
 	}
+	.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+  }
 	
 /* 	.card-img-top{
 		width: 204px;
@@ -274,7 +277,9 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-	        <button type="submit" form="orderForm" class="btn btn-light">결제</button>
+		        <button type="submit" form="orderForm" class="btn btn-light">
+		        	결제
+		        </button>
 	      </div>
 	    </div>
 	  </div>
@@ -325,7 +330,7 @@
 	    var myModal = document.getElementById('myModal')
 		var myInput = document.getElementById('myInput')
 		// 장바구니 담기
-        function isLogin(user_code, product_code, order_quantity) {
+        /* function isLogin(user_code, product_code, order_quantity) {
 		    console.log("isLogin function called with sUID:", sUID);
 		    if (sUID == "null") {
 		        alert('로그인 후 이용해 하세요.');
@@ -352,7 +357,38 @@
 		            }
 		        });
 		    }
-		}
+		} */
+		function isLogin(user_code, product_code, order_quantity) {
+	        console.log("isLogin function called with sUID:", sUID);
+	        if (sUID == "null") {
+	            alert('로그인 후 이용해 하세요.');
+	            var url = 'login.do';
+	            window.location.href = url;
+	        } else {
+	            $.ajax({
+	                type: "POST",
+	                url: "insertCart.do",
+	                data: {
+	                    user_code: user_code,
+	                    product_code: product_code,
+	                    order_quantity: order_quantity
+	                },
+	                success: function(response) {
+	                    var jsonResponse = JSON.parse(response);
+	                    if (jsonResponse.status === "success") {
+	                        alert('장바구니에 담겼습니다.');
+	                        // 장바구니 숫자 업데이트
+	                        $('#cartSize').text(jsonResponse.cartSize);
+	                    } else {
+	                        alert('장바구니 담기 실패.');
+	                    }
+	                },
+	                error: function() {
+	                    alert('서버와의 통신 중 오류가 발생했습니다.');
+	                }
+	            });
+	        }
+	    }
 
 	    // 상품갯수 표시
         function calculateTotalPrice(price, productCode){
@@ -471,8 +507,7 @@
             var paymentAmount = totalPrice - usePoints;
             document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
         }
-		
-		
+        
     </script>
 
     <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>

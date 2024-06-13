@@ -6,40 +6,40 @@
 
 	<!-- 비밀번호 변경하기 -->
 	<update id="updatePassword">
-		update USER set
-			user_pass = #{newPassword}
-		where user_id = #{user_id}
+		UPDATE USER SET
+			USER_PASS = #{newPassword}
+		WHERE USER_ID = #{user_id}
 	</update>
 	
 	<!-- 회원정보 수정하기 -->
 	<update id="updateMember">
-		update USER set
-			user_tel = #{user_tel},
-			user_email = #{user_email},
-			user_address = #{user_address}
-		where user_id = #{user_id}
+		UPDATE USER SET
+			USER_TEL = #{user_tel},
+			USER_EMAIL = #{user_email},
+			USER_ADDRESS = #{user_address}
+		WHERE USER_ID = #{user_id}
 	</update>
 	
 	<!-- 전화번호 중복 확인하기 -->
 	<select id="checkDupTel" resultType="int">
-		select count(user_tel) 
-		from USER 
-		where user_tel = #{user_tel}
+		SELECT COUNT(USER_TEL) 
+		FROM USER 
+		WHERE USER_TEL = #{user_tel}
 	</select>
 
 	<!-- 회원정보 삭제하기 -->
 	<update id="deleteMember">
-		update USER set
-			user_authority = "5"
-		where user_id = #{user_id}
+		UPDATE USER SET
+			USER_AUTHORITY = "5"
+		WHERE USER_ID = #{user_id}
 	</update>
 	
 	<!-- 3개월 구매금액 조회하기 -->
 	<select id="getMyPurchaseAmount" resultType="Integer">
-		select sum(total_price) as total_purchase_amount
-		from ORDERS
-		where user_code = #{user_code} 
-  		and payment_date >= date_sub(CURDATE(), INTERVAL 3 MONTH);
+		SELECT SUM(TOTAL_PRICE) AS TOTAL_PURCHASE_AMOUNT
+		FROM ORDERS
+		WHERE USER_CODE = #{user_code} 
+  		AND PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH);
 	</select>
 	
 	<!-- 카페주문내역 조회하기(전체내역) -->
@@ -48,27 +48,31 @@
 		FROM (
 		    SELECT
 		        O.*,
-		        C.product_code,
-		        F.product_name,
-		        C.whole_quantity,
+		        C.PRODUCT_CODE,
+		        F.PRODUCT_NAME,
+		        C.WHOLE_QUANTITY,
 		        ROW_NUMBER() OVER (ORDER BY O.PAYMENT_DATE ASC) AS ROWNUM
 		    FROM
 		        ORDERS O
 		    JOIN (
 		        SELECT
-		            cart_code,
-		            product_code,
-		            SUM(order_quantity) AS whole_quantity
+		            CART_CODE,
+		            PRODUCT_CODE,
+		            SUM(ORDER_QUANTITY) AS WHOLE_QUANTITY
 		        FROM
 		            CART
 		        GROUP BY
-		            cart_code
-		    ) C ON O.cart_code = C.cart_code
-		    JOIN FOOD F ON C.product_code = F.product_code
+		            CART_CODE
+		    ) C ON O.CART_CODE = C.CART_CODE
+		    JOIN FOOD F ON C.PRODUCT_CODE = F.PRODUCT_CODE
 		    WHERE
-		        O.user_code = #{user_code}
+		        O.USER_CODE = #{user_code}
+ 		        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+	             	AND DATE_FORMAT(O.PAYMENT_DATE, '%Y%m%d') 
+	             	BETWEEN DATE_FORMAT(#{startDate}, '%Y%m%d') AND DATE_FORMAT(#{endDate}, '%Y%m%d')
+         		</if>
 		    GROUP BY
-		        O.order_code
+		        O.ORDER_CODE
 		) AS T
 		ORDER BY ROWNUM DESC;
   	</select>
@@ -77,29 +81,57 @@
  	<select id="getMyOrder" resultType="bookcafe.myPage.service.MyOrderDTO">
 		SELECT
         O.*,
-        C.product_code,
-        F.product_name,
-        F.product_path,
-        C.whole_quantity
+        C.PRODUCT_CODE,
+        F.PRODUCT_NAME,
+        F.PRODUCT_PATH,
+        C.WHOLE_QUANTITY
 	    FROM
 	        ORDERS O
 	    JOIN (
 	        SELECT
-	            cart_code,
-	            product_code,
-	            SUM(order_quantity) AS whole_quantity
+	            CART_CODE,
+	            PRODUCT_CODE,
+	            SUM(ORDER_QUANTITY) AS WHOLE_QUANTITY
 	        FROM
 	            CART
 	        GROUP BY
-	            cart_code
-	    ) C ON O.cart_code = C.cart_code
-	    JOIN FOOD F ON C.product_code = F.product_code
+	            CART_CODE
+	    ) C ON O.CART_CODE = C.CART_CODE
+	    JOIN FOOD F ON C.PRODUCT_CODE = F.PRODUCT_CODE
 	    WHERE
-	        O.user_code = #{user_code}
-	        AND DATE(O.payment_date) = CURDATE() 
+	        O.USER_CODE = #{user_code}
+	        AND DATE(O.PAYMENT_DATE) = CURDATE() 
 	    GROUP BY
-	        O.order_code
-	    ORDER BY O.payment_date;
+	        O.ORDER_CODE
+	    ORDER BY O.PAYMENT_DATE;
+  	</select>
+  	
+  	<!-- 카페주문내역 조회하기(단건정보) -->
+ 	<select id="getOrderInfo" resultType="bookcafe.myPage.service.MyOrderDTO">
+		WITH POINTLOG_RANKED AS (
+		    SELECT
+		        P.*,
+		        ROW_NUMBER() OVER (PARTITION BY P.ORDER_CODE ORDER BY P.POINT_CODE DESC) AS RN
+		    FROM
+		        POINTLOG P
+		)
+		SELECT
+		    O.*,
+		    C.PRODUCT_CODE,
+		    C.ORDER_QUANTITY,
+		    F.PRODUCT_NAME,
+		    P1.POINT_CODE AS POINT_CODE1,
+		    P1.POINT_CHANGE AS POINT_CHANGE1,
+		    P2.POINT_CODE AS POINT_CODE2,
+		    P2.POINT_CHANGE AS POINT_CHANGE2
+		FROM
+		    ORDERS O
+		JOIN CART C ON O.CART_CODE = C.CART_CODE
+		JOIN FOOD F ON C.PRODUCT_CODE = F.PRODUCT_CODE
+		LEFT JOIN POINTLOG_RANKED P1 ON O.ORDER_CODE = P1.ORDER_CODE AND P1.RN = 1
+		LEFT JOIN POINTLOG_RANKED P2 ON O.ORDER_CODE = P2.ORDER_CODE AND P2.RN = 2
+		WHERE
+		    O.ORDER_CODE = #{order_code}
   	</select>
   	
  	<!-- 도서 대여내역 조회하기(전체내역) -->
@@ -127,6 +159,10 @@
 	    							AND RB.BOOK_CODE = BK.BOOK_NAME
 		    WHERE
 		        O.USER_CODE = #{user_code}
+   		        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+	               	AND DATE_FORMAT(O.PAYMENT_DATE, '%Y%m%d') 
+	               	BETWEEN DATE_FORMAT(#{startDate}, '%Y%m%d') AND DATE_FORMAT(#{endDate}, '%Y%m%d')
+           		</if>
 		) AS T
 		ORDER BY ROWNUM DESC
   	</select>
@@ -155,7 +191,7 @@
 	    JOIN ORDERS O ON O.CART_CODE = BR.BORROW_CODE
 	    WHERE
 	        O.USER_CODE = #{user_code}
-	        AND DATE(O.payment_date) = CURDATE()
+	        AND DATE(O.PAYMENT_DATE) = CURDATE()
   	</select>
 	
 </mapper>

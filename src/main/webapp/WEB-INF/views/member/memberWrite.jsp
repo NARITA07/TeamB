@@ -341,9 +341,11 @@ function sample2_execDaumPostcode() {
         margin-bottom: 20px;
     }
     .form-container h2 {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         text-align: center;
+        font-size: 28px;
     }
+
     .form-group {
         margin-bottom: 15px;
         display: flex;
@@ -354,6 +356,7 @@ function sample2_execDaumPostcode() {
         margin-right: 10px;
         text-align: left;
     }
+
     .form-group input,
     .form-group button {
         flex: 1;
@@ -361,13 +364,19 @@ function sample2_execDaumPostcode() {
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+
+
     .form-group button {
-        background-color: #AB8212;
+        background-color: #4F4537;
         color: white;
         border: none;
         cursor: pointer;
         margin-left: 10px;
     }
+    .form-group button:hover{
+        background-color: #373026;
+    }
+
     .div_btn {
         display: flex;
         justify-content: center;
@@ -375,12 +384,25 @@ function sample2_execDaumPostcode() {
     }
     .div_btn button {
         padding: 10px 20px;
-        background-color: #AB8212;
+        background-color: #4F4537;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 4px;
     }
+
+    #user_agree_checkbox{
+        margin-left: 160px;
+    }
+
+    #btn_submit:hover{
+        background-color: #373026;
+    }
+
+    #btn_cancel:hover{
+        background-color: crimson;
+    }
+
     .address-group {
         display: flex;
         align-items: center;
@@ -428,7 +450,7 @@ function sample2_execDaumPostcode() {
 <div class="container1">
     <div class="form-container">
         <h2>회원등록</h2>
-        <form name="frm" id="frm">
+        <form name="frm" id="frm" >
             <div class="form-group">
                 <label for="user_id">아이디</label>
                 <input type="text" name="user_id" id="user_id" placeholder="아이디">
@@ -460,18 +482,17 @@ function sample2_execDaumPostcode() {
                     <input type="text" id="sample2_postcode" placeholder="우편번호" readonly>
                     <button type="button" onclick="sample2_execDaumPostcode()">우편번호 찾기</button>
             </div>
-                <div class="form-group address-group">
-                    <input type="text" id="sample2_address" placeholder="주소" readonly>
-                    <input type="text" id="sample2_detailAddress" placeholder="상세주소">
-                </div>
-                <input type="hidden" id="user_address" name="user_address">
+            <div class="form-group address-group" >
+                    <input type="text" id="sample2_address" placeholder="주소" readonly style="margin-right:auto;">
+                    <input type="text" id="sample2_detailAddress" placeholder="상세주소" style="margin-right:auto;">
+            </div>
+            <input type="hidden" id="user_address" name="user_address">
             <div class="form-group" style="display:none;">
                 <label for="user_authority">권한</label>
                 <input type="text" name="user_authority" id="user_authority" value="1">
             </div>
-            <div class="form-group">
-                <input type="checkbox" id="terms" name="terms">
-                <label for="terms">약관 동의 <a href="javascript:void(0);" id="terms-link">보기</a></label>
+            <div class="form-group" id="user_agree_checkbox">
+                <label for="terms"><input type="checkbox" id="terms" name="terms" style="margin-right: 10px;" >약관 동의 <a href="javascript:void(0);" id="terms-link">보기</a></label>
             </div>
         </form>
     </div>

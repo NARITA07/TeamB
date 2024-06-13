@@ -5,7 +5,7 @@
 .Grid .body .row .cell.ExprBlue
 {
 	color : blue;
-}.Grid .body .row .cell.ExprGreen
+}.Grid .body .row .cell.ExprRed
 {
-	color : #00ff00;
+	color : red;
 }]]></XCSS>

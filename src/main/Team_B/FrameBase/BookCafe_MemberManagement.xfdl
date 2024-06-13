@@ -97,13 +97,7 @@
           <Column id="nextpage" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="pointlog_dtl">
-        <ColumnInfo>
-          <Column id="ORDER_CODE" type="STRING" size="256"/>
-          <Column id="POINT_CHANGE" type="INT" size="256"/>
-          <Column id="POINT_JOINDATE" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
+
       <Dataset id="view_dtl">
         <ColumnInfo>
           <Column id="USER_ID" type="STRING" size="256"/>
@@ -455,7 +449,8 @@ this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 // 데이터 더블클릭시 팝업호출
 this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-	var objParam = {USER_CODE:this.Member_Management.getColumn(this.Member_Management.rowposition, "USER_CODE")};
+	var objParam = {USER_CODE:this.Member_Management.getColumn(this.Member_Management.rowposition, "USER_CODE"),
+					USER_NAME:this.Member_Management.getColumn(this.Member_Management.rowposition, "USER_NAME")};
 				  
 	this.showPopup(objParam);
 };
@@ -464,7 +459,7 @@ this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 this.showPopup = function (objParam) 
 {		  
 	popup = new nexacro.ChildFrame;
-	popup.init("popupWork", 0, 0, 800, 700, null, null, "FrameBase::BookCafe_MemberManagement_PopUp.xfdl");
+	popup.init("popupWork", 0, 0, 700, 700, null, null, "FrameBase::BookCafe_MemberManagement_PopUp.xfdl");
 	popup.set_dragmovetype("all");
 	popup.set_layered("true");
 	popup.set_autosize(true);
@@ -476,7 +471,6 @@ this.showPopup = function (objParam)
 	popup.style.set_overlaycolor("#6666664C");
 	popup.form.style.set_border("1 solid #4c5a6f");
 	
-}
-]]></Script>
+}]]></Script>
   </Form>
 </FDL>

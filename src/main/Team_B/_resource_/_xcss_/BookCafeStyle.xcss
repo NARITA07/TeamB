@@ -228,6 +228,13 @@
 }
 .Grid .body .row .cell.ExprBlue
 {
+	color : blue;
+}.Grid .body .row .cell.ExprRed
+{
+	color : red;
+}
+.Grid .body .row .cell.ExprBlue
+{
    color : blue;
 }.Grid .body .row .cell.ExprRed
 {

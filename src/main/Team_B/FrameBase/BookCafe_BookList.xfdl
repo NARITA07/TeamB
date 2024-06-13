@@ -35,7 +35,7 @@
           </Formats>
         </Grid>
         <Button id="Button01_00_00" taborder="14" text="반납완료로 변경" height="30" borderRadius="5px" onclick="Button01_00_00_onclick" bottom="Grid01:5" right="1.85%" width="150" cssclass="btn_fn"/>
-        <Div id="Div00" taborder="10" text="" left="1.85%" right="1.85%" cssclass="main_nav" bottom="Button01_00_00:20" height="40">
+        <Div id="Div00" taborder="10" text="" left="1.76%" right="1.76%" cssclass="main_nav" bottom="Button01_00_00:20" height="40">
           <Layouts>
             <Layout/>
           </Layouts>
@@ -44,7 +44,8 @@
         <Combo id="Combo02" taborder="7" text="Combo02" left="Static08:5" top="100" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
         <Static id="Static00" taborder="1" text="이름" top="108" width="24" height="14" left="Combo02:30"/>
         <Edit id="Edit00" taborder="0" left="Static00:5" top="100" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
-        <Button id="Button00" taborder="2" text="조회" height="30" onclick="Button00_onclick" borderRadius="5px" right="9.26%" cssclass="btn_dafault" bottom="Div00:5" width="70"/>
+        <Button id="Button01_00" taborder="13" text="엑셀" height="30" borderRadius="5px" cssclass="btn_dafault" bottom="Div00:5" width="70" onclick="Button01_00_onclick" right="1.85%"/>
+        <Button id="Button00" taborder="2" text="조회" height="30" onclick="Button00_onclick" borderRadius="5px" cssclass="btn_dafault" bottom="Div00:5" width="70" right="Button01_00:5"/>
         <Static id="Static01_00" taborder="11" text="도서명" left="Edit00:30" top="108" width="36" height="14"/>
         <Edit id="Edit00_00" taborder="16" left="Static01_00:5" top="100" width="100" height="30" cssclass="edit_default" onchanged="Div00_Edit00_onchanged"/>
         <Static id="Static01" taborder="17" text="반납여부" left="Edit00_00:30" top="108" width="48" height="14"/>
@@ -53,8 +54,7 @@
         <Calendar id="Calendar00" taborder="3" left="Static06:5" top="100" width="110" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Static id="Static09" taborder="8" text="-" left="Calendar00:3" top="107" width="8" height="16" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="9" left="Static09:3" top="100" width="110" height="30" cssclass="cal_default"/>
-        <Static id="Static00_00" taborder="12" text="도서대여목록" left="2%" width="192" height="38" top="14" cssclass="main_title"/>
-        <Button id="Button01_00" taborder="13" text="엑셀" height="30" borderRadius="5px" cssclass="btn_dafault" bottom="Div00:5" width="70" right="20" onclick="Button01_00_onclick"/>
+        <Static id="Static00_00" taborder="12" text="도서대여목록" left="1.85%" width="192" height="38" top="2.99%" cssclass="main_title"/>
       </Layout>
     </Layouts>
     <Objects>

@@ -25,13 +25,13 @@
 		width: 20%;
 	}
 	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
-		width: 25%;
+		width: 22%;
 	}
 	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
-		width: 15%;
+		width: 13%;
 	}
 	#tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
-		width: 10%;
+		width: 15%;
 	}
 	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
 		width: 10%;
@@ -40,6 +40,22 @@
 </head>
 <body>
 <script>
+//기간별 구매내역조회
+function orderHistory() {
+    var startDate = $("#startDate").val();
+    var endDate = $("#endDate").val();
+    console.log("startDate:" + startDate + ", endDate:" + endDate);
+
+    if (!startDate || !endDate) {
+        alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
+        return;
+    }
+
+    // 검색날짜 포함해서 페이지 리로드
+    var queryString = "?startDate=" + startDate + "&endDate=" + endDate;
+    window.location.href = "/myPage/orderList" + queryString;
+}
+
 // 날짜 형식 변환
 function formattedDate(point_use_date) {
 	if (!point_use_date) {
@@ -89,14 +105,24 @@ $(function() {
 						<div class="row">
 							<div class="col-md-12">
 								<div style="padding-top: 30px; padding-bottom: 50px;">
-									<div style="display: flex; justify-content: center; padding : 30px;">
-										<h2 style="margin-right:20px;">${loginInfo.user_name}님의 카페 주문내역입니다.</h2>
+									<div style="display: flex; justify-content: center;">
+										<h2 style="margin-bottom:50px;">${loginInfo.user_name}님의 카페 주문내역입니다.</h2>
 									</div>
-<!-- 									<div class="btn-group" role="group" style="padding-top: 20px; padding-bottom: 5px;"> -->
-<!-- 										<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button> -->
-<!-- 										<button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button> -->
-<!-- 										<button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button> -->
-<!-- 									</div> -->
+								    <!-- 날짜 선택기 -->
+						            <div class="d-flex justify-content-end align-items-center" style="margin:10px;">
+								        <div style="display: flex; align-items: center; justify-content: center;">
+								            <div class="col-auto">
+								                <input type="date" class="form-control" id="startDate" value="${startDate}">
+								            </div>
+								            <span>~</span>
+								            <div class="col-auto">
+								                <input type="date" class="form-control" id="endDate" value="${endDate}">
+								            </div>
+								            <div class="col-auto">
+								                <button class="btn btn-primary" onclick="orderHistory()">조회</button>
+								            </div>
+								        </div>
+								    </div>
 									<%-- 주문내역이 없는 경우 --%>
 									<table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
 										<thead>
@@ -149,6 +175,27 @@ $(function() {
 										</c:if>
 										</tbody>
 									</table>
+									<nav>
+										<ul class="pagination" style="display: flex; justify-content: center;">
+											<li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
+												<a class="page-link" href="?page=1&size=${pagination.recordsPerPage}">&laquo;&laquo;</a>
+											</li>
+											<li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}">&laquo;</a>
+											</li>
+											<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
+												<li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
+													<a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}">${i}</a>
+												</li>
+											</c:forEach>
+											<li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}">&raquo;</a>
+											</li>
+											<li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}">&raquo;&raquo;</a>
+											</li>
+										</ul>
+									</nav>
 								</div>
 							</div>
 						</div>

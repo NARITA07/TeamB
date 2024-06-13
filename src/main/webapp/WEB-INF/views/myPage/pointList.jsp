@@ -51,7 +51,7 @@ function pointHistory() {
         return;
     }
 
-    // 쿼리 문자열을 생성하여 URL에 추가
+    // 검색날짜 포함해서 페이지 리로드
     var queryString = "?startDate=" + startDate + "&endDate=" + endDate;
     window.location.href = "/myPage/pointList" + queryString;
 }
@@ -149,7 +149,7 @@ $(function() {
 										</h2>
 									</div>
 								    <!-- 날짜 선택기 -->
-						            <div class="d-flex justify-content-between align-items-center" style="margin:15px;">
+						            <div class="d-flex justify-content-between align-items-center" style="margin:10px;">
 										<div style="display: flex; justify-content: center;">
 											<div class="btn-group" role="group">
 												<button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
@@ -211,6 +211,27 @@ $(function() {
 										</c:if>
 										</tbody>
 									</table>
+									<nav>
+										<ul class="pagination" style="display: flex; justify-content: center;">
+											<li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
+												<a class="page-link" href="?page=1&size=${pagination.recordsPerPage}">&laquo;&laquo;</a>
+											</li>
+											<li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}">&laquo;</a>
+											</li>
+											<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
+												<li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
+													<a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}">${i}</a>
+												</li>
+											</c:forEach>
+											<li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}">&raquo;</a>
+											</li>
+											<li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
+												<a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}">&raquo;&raquo;</a>
+											</li>
+										</ul>
+									</nav>
 								</div>
 							</div>
 						</div>

@@ -22,13 +22,16 @@ public interface MyPageService {
 	public int getMyPurchaseAmount(String user_code);
 	
 	// 카페주문내역 조회하기(전체내역)
-	public List<MyOrderDTO> getMyOrderList(String user_code);
+	public List<MyOrderDTO> getMyOrderList(MyOrderDTO myOrderDTO);
 	
 	// 카페주문내역 조회하기(오늘날짜)
 	public List<MyOrderDTO> getMyOrder(String user_code);
 	
+	// 카페주문내역 조회하기(단건정보)
+	public List<MyOrderDTO> getOrderInfo(String order_code);
+	
 	// 도서대여내역 조회하기(전체내역)
-	public List<MyBookDTO> getMyBookList(String user_code);
+	public List<MyBookDTO> getMyBookList(MyBookDTO myBookDTO);
 	
 	// 도서대여내역 조회하기(오늘날짜)
 	public List<MyBookDTO> getMyBook(String user_code);

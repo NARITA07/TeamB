@@ -5,15 +5,15 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +24,10 @@ import bookcafe.myPage.service.MyBookDTO;
 import bookcafe.myPage.service.MyOrderDTO;
 import bookcafe.myPage.service.MyPageService;
 import bookcafe.myPage.service.PWchangeDTO;
+import bookcafe.paging.service.PaginationVO;
+import bookcafe.paging.service.PagingRequestVO;
+import bookcafe.paging.service.PagingService;
+import bookcafe.paging.serviceImpl.PagingServiceImpl;
 import bookcafe.point.service.PointService;
 import bookcafe.point.service.PointVO;
 
@@ -80,16 +84,18 @@ public class MyPageController {
 	@GetMapping("/pointList")
 	public void pointList(HttpSession session, Model model,
 				  		  @RequestParam(required = false) String startDate, 
-			              @RequestParam(required = false) String endDate) {
+			              @RequestParam(required = false) String endDate,
+			              @RequestParam(value = "page", defaultValue = "1") int page,
+                          @RequestParam(value = "size", defaultValue = "10") int size) {
 		
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 		String user_code = loginInfo.getUser_code();
+		
+		// 포인트 내역 조회
 		PointVO pointVO = new PointVO();
 		pointVO.setUser_code(user_code);
 		pointVO.setStartDate(startDate);
 		pointVO.setEndDate(endDate);
-		
-		// 포인트 내역 조회
 		List<PointVO> pointList = pointService.getPointList(pointVO);
 		System.out.println("pointList:" + pointList.toString());
 		
@@ -97,36 +103,82 @@ public class MyPageController {
 		int totalPoint = pointService.selectTotalPoint(user_code);
 		System.out.println("totalPoint:" + totalPoint);
 		
-		model.addAttribute("pointList", pointList);
+		// 페이징
+		PagingRequestVO pagingRequest = new PagingRequestVO(page, size);
+		PagingService<PointVO> pagingService = new PagingServiceImpl<PointVO>(pointList);
+		List<PointVO> pagedList = pagingService.getPagedList(pagingRequest);
+		int totalRecords = pagingService.getTotalRecords();
+		PaginationVO pagination = new PaginationVO(totalRecords, page, size);
+		
+		model.addAttribute("pointList", pagedList);
 		model.addAttribute("totalPoint", totalPoint);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("pagination", pagination);
 	}
 	
 	// 카페 전체 주문내역 페이지
 	@GetMapping("/orderList")
-	public void myOrderList(HttpSession session, Model model) {
+	public void myOrderList(HttpSession session, Model model,
+							@RequestParam(required = false) String startDate, 
+				            @RequestParam(required = false) String endDate,
+				            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size) {
+		
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 		String user_code = loginInfo.getUser_code();
 		
-		// 카페주문내역 조회하기(전체내역)
-		List<MyOrderDTO> orderList = myPageService.getMyOrderList(user_code);
+		// 카페주문내역 조회(전체내역)
+		MyOrderDTO myOrderDTO = new MyOrderDTO();
+		myOrderDTO.setUser_code(user_code);
+		myOrderDTO.setStartDate(startDate);
+		myOrderDTO.setEndDate(endDate);
+		List<MyOrderDTO> orderList = myPageService.getMyOrderList(myOrderDTO);
 		System.out.println("orderList:" + orderList);
 		
-		model.addAttribute("orderList", orderList);
+		// 페이징
+		PagingRequestVO pagingRequest = new PagingRequestVO(page, size);
+		PagingService<MyOrderDTO> pagingService = new PagingServiceImpl<MyOrderDTO>(orderList);
+		List<MyOrderDTO> pagedList = pagingService.getPagedList(pagingRequest);
+		int totalRecords = pagingService.getTotalRecords();
+		PaginationVO pagination = new PaginationVO(totalRecords, page, size);
+		
+		model.addAttribute("orderList", pagedList);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("pagination", pagination);
 	}
 	
 	// 책 대여 내역조회 페이지
 	@GetMapping("/borrowList")
-	public void myBorrowList(HttpSession session, Model model) {
+	public void myBorrowList(HttpSession session, Model model,
+							 @RequestParam(required = false) String startDate, 
+				             @RequestParam(required = false) String endDate,
+				             @RequestParam(value = "page", defaultValue = "1") int page,
+                             @RequestParam(value = "size", defaultValue = "10") int size) {
+		
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 		String user_code = loginInfo.getUser_code();
 		
-		// 도서대여내역 조회하기(전체내역)
-		List<MyBookDTO> borrowList = myPageService.getMyBookList(user_code);
+		// 도서대여내역 조회(전체내역)
+		MyBookDTO myBookDTO = new MyBookDTO();
+		myBookDTO.setUser_code(user_code);
+		myBookDTO.setStartDate(startDate);
+		myBookDTO.setEndDate(endDate);
+		List<MyBookDTO> borrowList = myPageService.getMyBookList(myBookDTO);
 		System.out.println("borrowList:" + borrowList);
 		
-		model.addAttribute("borrowList", borrowList);
+		// 페이징
+		PagingRequestVO pagingRequest = new PagingRequestVO(page, size);
+		PagingService<MyBookDTO> pagingService = new PagingServiceImpl<MyBookDTO>(borrowList);
+		List<MyBookDTO> pagedList = pagingService.getPagedList(pagingRequest);
+		int totalRecords = pagingService.getTotalRecords();
+		PaginationVO pagination = new PaginationVO(totalRecords, page, size);
+		
+		model.addAttribute("borrowList", pagedList);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("pagination", pagination);
 	}
 	
 	// 정보수정완료
@@ -206,6 +258,16 @@ public class MyPageController {
 			}
 		}
 		return ResponseEntity.ok("mismatch");
+	}
+	
+	// 구매상세정보
+	@PostMapping(value = "/getOrderInfo", produces = "application/json")
+	@ResponseBody
+	public List<MyOrderDTO> getOrderInfo(@RequestParam String order_code) {
+	    System.out.println("getOrderCode: " + order_code);
+	    List<MyOrderDTO> orderInfo = myPageService.getOrderInfo(order_code);
+	    System.out.println("orderInfo:" + orderInfo);
+	    return orderInfo;
 	}
 		
 }

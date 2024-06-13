@@ -19,18 +19,72 @@ function formatNumberWithCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+//구매내역 모달창 내용
+function getOrderInfo(order_code) {
+	$.ajax({
+	    url: '/myPage/getOrderInfo',
+	    method: 'POST',
+	    dataType: 'json',
+	    data: { order_code: order_code },
+	    success: function (data) {
+	    	console.log('Success:', data);
+			var modalBody = $("#orderModalBody");
+			modalBody.empty();
+			
+	     	if (data == "") {
+	     		modalBody.text("구매건 정보없음");
+	      	} else {
+	    		$.each(data, function(index, order) {
+// 	    			var rental_date = formattedDate(order.res_rental_date);
+// 	    			var return_date = formattedDate(order.res_return_date);
+// 	    			var totalPay = formatNumberWithCommas(order.res_totalpay);
+// 	    			var op_carseat = order.op_carseat == 'Y' ? 'O' : 'X';
+// 	    			var op_navi = order.op_navi == 'Y' ? 'O' : 'X';
+// 	    			var op_bt = order.op_bt == 'Y' ? 'O' : 'X';
+// 	    			var op_cam = order.op_cam == 'Y' ? 'O' : 'X';
+	    			
+	   	  			var row = $("<ul style='color: black;'>");
+	    	  		row.append($("<li>").text("주문번호: "));
+// 	    	  		row.append($("<li>").text("주문번호: " + order.order_code));
+// 	    	  		row.append($("<li>").text("대여시작일: " + rental_date));
+// 	    	  		row.append($("<li>").text("대여종료일: " + return_date));
+// 	    	  		row.append($("<li>").text("차종: " + resInfo.car_company + "-" + resInfo.car_name + "(" + resInfo.car_fuel + ")"));
+// 	    	  		row.append($("<li>").html("옵션 <br>	-카시트: " + op_carseat + 
+// 	    	  								  "<br> -내비게이션: " + op_navi + 
+// 	    	  								  "<br> -블루투스: " + op_bt + 
+// 	    	  								  "<br> -후방카메라: " + op_cam));
+// 	    	  		row.append($("<li>").text("금액: " + totalPay + " P"));
+// 	    	  		if (resInfo.pay_status == null) {
+// 		    	  		row.append($("<li>").text("예약상태: " + resInfo.res_status + "(결제 전)"));
+// 	    	  		} else {
+// 		    	  		row.append($("<li>").text("예약상태: " + resInfo.res_status));
+// 	    	  		}
+	    	  		row.append($("</ul>"));
+	    	  		
+	    	  		modalBody.append(row);
+	            });
+	
+	            $("#orderModal").modal("show");
+	         }
+      },
+      error: function(xhr, status, error) {
+          console.log('구매상세정보 에러:', error);
+      }
+	});
+}
+
 $(document).ready(function() {
 	
-	var myPoint = $("#myPoint").text();
-	if (myPoint.length > 0) {
-		$("#myPoint").text(formatNumberWithCommas(myPoint));
-	}
+// 	var myPoint = $("#myPoint").text();
+// 	if (myPoint.length > 0) {
+// 		$("#myPoint").text(formatNumberWithCommas(myPoint));
+// 	}
 	
-    // 아이콘 클릭 시 모달 표시
+    // vip 등급설명 모달
     $(".fa-info-circle").click(function() {
         $("#myGradeModal").modal("show");
     });
-	
+    
 });
 </script>
 	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
@@ -100,7 +154,7 @@ $(document).ready(function() {
 								<%-- 주문내역이 없는 경우 --%>
 					         	<c:if test="${empty myOrder}">
 									<div class="jumbotron card card-block">
-							            <p>아직 카페 주문 전입니다.</p>
+							            <p>오늘의 주문내역이 없습니다.</p>
 							            <p><a class="btn btn-primary btn-large" href="/foodList.do">맛있는 커피 주문하러 가기</a></p>
 							        </div>
 					          	</c:if>
@@ -108,8 +162,8 @@ $(document).ready(function() {
 					          	<c:if test="${not empty myOrder}">
 						          	<div class="row">
 						          		<c:forEach var="myOrder" items="${myOrder}">
-											<div class="orderDiv col-md-4" onclick="getResInfo(${myOrder.order_code})" >
-												<div class="card" style="height: 80%;">
+											<div class="orderDiv col-md-4" onclick="getOrderInfo('${myOrder.order_code}')" style="padding: 20px;">
+												<div class="card">
 													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
@@ -125,7 +179,7 @@ $(document).ready(function() {
 																					align-items: center;">
 														<h6 style="color:#fff;">${myOrder.product_name}
 															<c:if test="${myOrder.whole_quantity > 1}">
-																<br>외 ${myOrder.whole_quantity-1} 건
+																외 ${myOrder.whole_quantity-1} 건
 															</c:if>
 														</h6>
 													</div>
@@ -150,7 +204,7 @@ $(document).ready(function() {
 								<%-- 대여중인 도서가 없는 경우 --%>
 					         	<c:if test="${empty myBook}">
 									<div class="jumbotron card card-block">
-							            <p>현재 대여중인 도서가 없습니다.</p>
+							            <p>오늘의 대여내역이 없습니다.</p>
 							            <p><a class="btn btn-primary btn-large" href="/bookList.do">도서 목록 보러 가기</a></p>
 							        </div>
 					          	</c:if>
@@ -158,15 +212,15 @@ $(document).ready(function() {
 					          	<c:if test="${not empty myBook}">
 						          	<div class="row">
 						          		<c:forEach var="myBook" items="${myBook}">
-											<div class="orderDiv col-md-4" onclick="getResInfo(${myBook.order_code})" >
-												<div class="card" >
-													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
+											<div class="orderDiv col-md-4" onclick="getResInfo(${myBook.order_code})" style="padding: 20px;">
+												<div class="card">
+													<h6 class="card-header" style="background-color: #324554; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 													${myBook.return_state}
 													</h6>
 													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
-													<div class="card-footer" style="background-color: #AB8212;
+													<div class="card-footer" style="background-color: #324554;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
 														<h6 style="color:#fff;">${myBook.book_name}</h6>
@@ -207,7 +261,7 @@ $(document).ready(function() {
 	                	</c:if>
 	                	현재 ${loginInfo.user_name}님의 3개월 구매금액은
 	                	<a id="purchaseAmount"><fmt:formatNumber value="${purchaseAmount}" type="number" groupingUsed="true"/></a>
-	                	원 입니다.</p>
+	                	원 입니다. (등급조건 충족시 익일 등급반영)</p>
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -216,28 +270,26 @@ $(document).ready(function() {
 	    </div>
 	</div>
 	
-	<!-- 예약내역 모달창 -->
-	<div class="modal fade" id="reserveInModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<!-- 구매내역 모달창 -->
+	<div class="modal fade" id="orderModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="background-color: #f07039;">
-					<h5 class="modal-title" id="myModalLabel" style="color: #fff;">예약 정보</h5>
-					<button type="button" class="close" data-dismiss="modal">
+				<div class="modal-header" style="background-color: #AB8212;">
+					<h5 class="modal-title" id="myModalLabel" style="color: #fff;">구매 정보</h5>
+					<button type="button" class="close" data-bs-dismiss="modal">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body" id="resModalBody">
+				<div class="modal-body" id="orderModalBody">
 				
 				</div>
 				<div class="modal-footer" style="justify-content: center;">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- // 예약내역 모달창 -->
-	
-
+	<!-- // 구매내역 모달창 -->
 	
 	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>

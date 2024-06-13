@@ -6,12 +6,13 @@
         <Div id="Div01" taborder="6" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
           <Layouts>
             <Layout>
-              <Static id="Static02" taborder="0" text="발주상태" left="8" top="13" width="48" height="14"/>
-              <Static id="Static00_00" taborder="1" text="기간" left="191" top="13" width="24" height="14"/>
+              <ImageViewer id="ImageViewer00" taborder="6" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/chk_WF_Box.png')" stretch="fit"/>
+              <Static id="Static02" taborder="0" text="발주상태" left="ImageViewer00:5" top="13" width="48" height="14"/>
+              <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="110" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default"/>
+              <Static id="Static00_00" taborder="1" text="기간" left="Combo00:30" top="13" width="24" height="14"/>
               <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default"/>
               <Static id="Static01" taborder="4" text="~" left="Calendar00:3" top="13" width="9" height="14"/>
               <Calendar id="Calendar01" taborder="3" left="Static01:3" top="5" width="110" height="30" cssclass="cal_default"/>
-              <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="110" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default"/>
             </Layout>
           </Layouts>
         </Div>
@@ -19,9 +20,10 @@
         <Div id="Div00" taborder="2" left="1.76%" top="Static00:40" text="" cssclass="main_nav" right="1.85%" height="40">
           <Layouts>
             <Layout>
-              <Combo id="Combo03" taborder="0" left="143" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
-              <Static id="Static03" taborder="2" text="분류" left="11" top="13" width="24" height="14"/>
-              <Combo id="Combo00" taborder="1" left="40" top="5" width="100" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵"/>
+              <Combo id="Combo00" taborder="1" left="55" top="5" width="130" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵/샐러드"/>
+              <Combo id="Combo03" taborder="0" left="Combo00:3" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
+              <ImageViewer id="ImageViewer00_00" taborder="3" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/chk_WF_Box.png')" stretch="fit"/>
+              <Static id="Static03" taborder="2" text="분류" left="ImageViewer00_00:5" top="13" width="24" height="14"/>
             </Layout>
           </Layouts>
         </Div>
@@ -29,7 +31,7 @@
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="20"/>
+                <Column size="9"/>
                 <Column size="100"/>
                 <Column size="49"/>
                 <Column size="37"/>
@@ -56,7 +58,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
+        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_fn" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="5" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
         <Grid id="Grid01" taborder="8" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" top="506" onsize="stock02_div_Grid00_onsize">
@@ -95,8 +97,8 @@
         </Grid>
         <Static id="Static00_00" taborder="7" text="입고 관리" left="1.76%" width="153" height="24" cssclass="title_sub" bottom="Grid01:5"/>
         <Static id="Static01_00" taborder="9" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="1.76%" top="95.69%" width="316" height="14" cssclass="warning_txt"/>
-        <Button id="Button01_00" taborder="11" text="저장" width="70" height="30" cssclass="btn_save" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
-        <Button id="Button00_00" taborder="10" text="엑셀" height="30" bottom="Grid01:5" right="Button01_00:5" width="70" cssclass="btn_view" onclick="stock02_div_Button00_onclick"/>
+        <Button id="Button01_00" taborder="11" text="저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
+        <Button id="Button00_00" taborder="10" text="엑셀" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" top="471"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";

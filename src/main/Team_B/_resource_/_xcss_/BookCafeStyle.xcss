@@ -43,7 +43,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #4F4537;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -53,7 +53,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #BEA888;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -126,7 +126,7 @@
 	background : #FAEBD7;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle;
-	border-radius : 5px;
+	/*border-radius : 5px;*/
 }
 .Button.btn_view,
 .Button.btn_view[status=disabled],
@@ -137,7 +137,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #4F4537;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -150,7 +150,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #4F4537;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }.Button.btn_del[status=mouseover]
@@ -159,7 +159,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : red;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -169,7 +169,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : red;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -182,7 +182,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #4F4537;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -192,7 +192,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : yellowgreen;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -202,7 +202,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : yellowgreen;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -212,7 +212,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #BEA888;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -222,7 +222,7 @@
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
 	background : #BEA888;
-	border-radius : 5px;	
+	/*border-radius : 5px;*/	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -311,8 +311,8 @@
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
-	background : #FFF8EE;	
-	color : #4F4537;
+	background : #FAEBD7;	
+	color : #000000;
 	font : normal bold  10pt/normal "Arial";
 }
 
@@ -323,7 +323,7 @@
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
-	background : #FAEBD7;	
+	background : #FFF8EE;	
 	color : #000000;
 	font : normal bold  10pt/normal "Arial";
 }

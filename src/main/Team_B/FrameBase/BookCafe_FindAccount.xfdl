@@ -32,7 +32,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btn_Cansle" taborder="3" text="돌아가기" top="Main00:22.76%" height="35" borderRadius="5px" onclick="Main_btn_Cansle_onclick" left="78.13%" minwidth="" right="10.00%" minheight="" maxwidth="242" cssclass="btn_dafault" font="18px/normal &quot;Arial&quot;"/>
+        <Button id="btn_Cansle" taborder="3" text="돌아가기" top="Main00:22.76%" height="35" onclick="Main_btn_Cansle_onclick" left="78.13%" minwidth="" right="10.00%" minheight="" maxwidth="242" cssclass="btn_del" font="18px/normal &quot;Arial&quot;"/>
         <ImageViewer id="ImageViewer00" taborder="4" top="40" height="83" edge="url('imagerc::logo.png') 0px 0px" onclick="ImageViewer00_onclick" border="0px none" width="80" left="46.88%"/>
       </Layout>
     </Layouts>

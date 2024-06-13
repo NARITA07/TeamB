@@ -47,8 +47,8 @@
           </Formats>
         </Grid>
         <Static id="Static00" taborder="1" text="회원관리" left="1.85%" width="128" height="37" top="2.78%" cssclass="main_title"/>
-        <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="user_table:10" right="1.76%"/>
-        <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:5" bottom="user_table:10"/>
+        <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="user_table:5" right="1.76%"/>
+        <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:5" bottom="user_table:5"/>
       </Layout>
     </Layouts>
     <Objects>

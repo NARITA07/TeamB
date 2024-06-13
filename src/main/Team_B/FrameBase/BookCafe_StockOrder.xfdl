@@ -25,7 +25,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" onheadclick="Grid00_onheadclick" cssclass="grid_default" height="195" top="Div00:40">
+        <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" cssclass="grid_default" height="195" top="Div00:40">
           <Formats>
             <Format id="default">
               <Columns>
@@ -40,14 +40,14 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="bind:PRODUCT_CHECK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" background="#FFF8EE"/>
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
                 <Cell col="1" text="메뉴명" background="#FFF8EE"/>
                 <Cell col="2" text="메뉴코드" background="#FFF8EE"/>
                 <Cell col="3" text="현재재고" background="#FFF8EE"/>
                 <Cell col="4" text="발주수량" editinputtype="number" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center"/>
                 <Cell col="3" displaytype="decoratetext" edittype="none" textAlign="center" text="expr:PRODUCT_QUANTITY &lt; 10 ? '&lt;fc v=\&quot;red\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;' : '&lt;fc v=\&quot;#666666\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;'"/>
@@ -59,7 +59,7 @@
         <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
         <Static id="Static01" taborder="5" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
-        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" onheadclick="stock02_div_Grid00_onheadclick" top="506" onsize="stock02_div_Grid00_onsize">
+        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" top="506" onsize="stock02_div_Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -99,14 +99,19 @@
         <Button id="Button00_00" taborder="10" text="엑셀" height="30" bottom="Grid01:5" right="Button01_00:5" width="70" cssclass="btn_view" onclick="stock02_div_Button00_onclick"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[/*
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
+/*
 1. 화면 초기화
 2. 이벤트
 3. 함수
+4. 페이징
 */
 
 
-///////////* 1. 화면 초기화 *///////////
+/****************************************************/  
+/* 					1. 화면 초기화					*/
+/****************************************************/ 
 this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	// grid1 list 불러오기
@@ -118,19 +123,20 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	this.fnFind_Sec_Combo();
 	this.fnFind_Thir_Combo();
 	
-	// grid1의 현재재고 오름차순 내림차순 정렬을 위해 현재 상태 변수지정
-	// gird의 컬럼 개수 count 해서 차례대로 변수 지정해보기
-	// Grid00_onheadclick 에서 사용
-	this.sortState1 = { column1 : "asc" };
-	this.sortState2 = { column2 : "asc" };
-	this.sortState3 = { column3 : "asc" };
-	
+	// 체크박스+정렬 공통함수 끌어오기
+	this.check_sort(this.Grid00);
+	this.check_sort(this.Grid01);
+
 	//페이징 세팅
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,5);
 };
 
-///////////* 2. 이벤트 *///////////
+
+/****************************************************/  
+/* 					2. 이벤트 정의					*/
+/****************************************************/
+
 /* 2-1. 중분류 선택 시 소분류 변화 */ 
 this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
@@ -177,7 +183,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
-    var condition = "PRODUCT_CHECK" + " == '1'";
+    var condition = "CHK" + " == 'Y'";
 	
     // getCaseCount 메서드 호출
     var chkCnt = this.stock_grid1.getCaseCount(condition);
@@ -195,7 +201,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
 		 /* (4) 체크된 항목 가져오기 */
 		for(var i=0; i<this.stock_grid1.rowcount; i++){
-			if(this.stock_grid1.getColumn(i, "PRODUCT_CHECK") == "1"){
+			if(this.stock_grid1.getColumn(i, "CHK") == "Y"){
 				
 				//체크된 항목 중 STOCK_ORDER_QUANTITY 값 판단
 				var orderquantity = this.stock_grid1.getColumn(i, "STOCK_ORDER_QUANTITY");
@@ -251,7 +257,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 
 	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
-    var condition = "PRODUCT_CHECK" + " == '1'";
+    var condition = "CHK" + " == 'Y'";
 	
     // getCaseCount 메서드 호출
     var chkCnt = this.view_dtl.getCaseCount(condition);
@@ -270,7 +276,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 		
 		//체크된 항목 카운트
 		for(var i=0; i<this.view_dtl.rowcount; i++){
-			if(this.view_dtl.getColumn(i, "PRODUCT_CHECK") == "1"){
+			if(this.view_dtl.getColumn(i, "CHK") == "Y"){
 				var row = this.stock_order_update.addRow();
 				
 				//dataset에 ADMIN_CODE 추가
@@ -286,156 +292,6 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 	this.reload();
 }
 	
-};
-
-/* 2-5. gird1 체크박스/정렬 */
-this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-
-	if(e.cell == 0){
-		/* 체크박스가 존재하는 0번째 column의 text값 가져오기
-		== var chkOrder = obj.getCellValue(-1,3); */
-		var chkOrder = obj.getCellProperty("head",0,"text");
-		
-		var ds_grid1 = this.Grid00.getBindDataset();
-		
-		// 0:미체크 1:체크
-		if(chkOrder == "1") {
-			// 미체크로 초기화
-			chkOrder = "0";
-			
-			// 이벤트 잠깐 끄기
-			ds_grid1.set_enableevent(false);
-			
-			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid1.rowcount; i++){
-				this.stock_grid1.setColumn(i,"PRODUCT_CHECK","0");
-				
-			}ds_grid1.set_enableevent(true);	// 이벤트 다시 켜기
-		}else {
-			chkOrder = "1";
-			
-			// 이벤트 잠깐 끄기
-			ds_grid1.set_enableevent(false);
-			
-			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid1.rowcount; i++){
-				this.stock_grid1.setColumn(i,"PRODUCT_CHECK","1");
-				
-			}ds_grid1.set_enableevent(true);	// 이벤트 다시 켜기
-		} 
-	} //(체크박스)if end
-	else if(e.cell == 1){
-	
-	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해 
-	this.resetAllHeaderTexts();
-	
-	// 현재 컬럼의 헤드값 가져오기
-	var sortHeader1 = obj.getCellProperty("head",1,"text");
-	// 현재 컬럼의 헤드값이 asc(오름차순)이면
-	if(this.sortState1.column1 === "asc"){
-			// desc(내림차순)으로 값 변경
-			this.sortState1.column1 = "desc";
-			//set_keystring 함수 사용. S(정렬):-(내림차순)
-			this.stock_grid1.set_keystring("S:-PRODUCT_NAME");
-			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▼");
-			
-		} else {
-			this.sortState1.column1 = "asc";
-			
-			this.stock_grid1.set_keystring("S:+PRODUCT_NAME");
-			obj.setCellProperty("head",1,"text",sortHeader1.replace(/ ▲| ▼/g,"")+" ▲");
-		}
-	}
-	else if(e.cell == 2){
-	
-	this.resetAllHeaderTexts();
-	var sortHeader2 = obj.getCellProperty("head",2,"text");
-	
-	if(this.sortState2.column2 === "asc"){
-			this.sortState2.column2 = "desc";
-			/*alert("내림차순으로");*/
-			this.stock_grid1.set_keystring("S:-PRODUCT_CODE");
-			obj.setCellProperty("head",2,"text",sortHeader2.replace(/ ▲| ▼/g,"")+" ▼");
-		} else {
-			this.sortState2.column2 = "asc";
-			/*alert("오름차순으로");*/
-			this.stock_grid1.set_keystring("S:+PRODUCT_CODE");
-			obj.setCellProperty("head",2,"text",sortHeader2.replace(/ ▲| ▼/g,"")+" ▲");
-		}
-	}
-	else if(e.cell == 3){
-	
-	this.resetAllHeaderTexts();
-	
-	var sortHeader3 = obj.getCellProperty("head",3,"text");
-	
-		if(this.sortState3.column3 === "asc"){
-			this.sortState3.column3 = "desc";
-			/*alert("내림차순으로");*/
-			this.stock_grid1.set_keystring("S:-PRODUCT_QUANTITY");
-			obj.setCellProperty("head",3,"text",sortHeader3.replace(/ ▲| ▼/g,"")+" ▼");
-		} else {
-			this.sortState3.column3 = "asc";
-			/*alert("오름차순으로");*/
-			this.stock_grid1.set_keystring("S:+PRODUCT_QUANTITY");
-			obj.setCellProperty("head",3,"text",sortHeader3.replace(/ ▲| ▼/g,"")+" ▲");
-		}
-	}
-};
-
-/* 2-6. grid2 체크박스 */
-this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-		/* 클릭된 cell이 0번째 column일 때 */
-		if(e.cell == 0){
-		
-		/* 체크박스가 존재하는 0번째 column의 text값 가져오기 */
-		var chkOrder = obj.getCellProperty("head",0,"text");
-		
-		/* grid2에 바인딩되어있는 데이터셋 가져오기 */
-		var ds_grid2 = this.Grid01.getBindDataset();
-		
-		// 0:미체크 1:체크
-		if(chkOrder == "1") {
-		
-			// 미체크로 초기화
-			chkOrder = "0";
-			
-			// 데이터셋 이벤트 끄기
-			ds_grid2.set_enableevent(false);
-			
-			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<ds_grid2.rowcount; i++){
-				ds_grid2.setColumn(i,"PRODUCT_CHECK","0");
-				
-			}ds_grid2.set_enableevent(true);	// 이벤트 다시 켜기
-		}else {
-			chkOrder = "1";
-			ds_grid2.set_enableevent(false);
-			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<ds_grid2.rowcount; i++){
-				ds_grid2.setColumn(i,"PRODUCT_CHECK","1");
-			}ds_grid2.set_enableevent(true);
-		}	
-	}
-};
-
-/* 2-7. 컬럼값이 바뀌면 체크박스 바뀌게 */
-/* grid1 */
-this.stock_grid1_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
-{
-		if(e.col != obj.getColIndex("PRODUCT_CHECK")){
-			obj.setColumn(e.row,"PRODUCT_CHECK",'1');
-	 }
-};
-
-/* gird2 */
-this.stock_grid2_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
-{
-	if(e.col != obj.getColIndex("PRODUCT_CHECK")){
-		obj.setColumn(e.row,"PRODUCT_CHECK",'1');
-	}
 };
 
 /* 2-8. 엑셀버튼 */
@@ -474,7 +330,9 @@ this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEve
 };
 
 
-///////////* 3. 함수 *///////////
+/****************************************************/  
+/* 					3. 이벤트 함수					*/
+/****************************************************/
 /* 3-1. grid1 list 불러오기*/
 this.fnStockMenuList = function()
 {
@@ -612,16 +470,6 @@ this.fnUpdateStockOrder = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-10. gird 헤더 초기화*/
-this.resetAllHeaderTexts = function()
-{
-    var headerCount = this.Grid00.getCellCount("head");
-    for (var i = 0; i < headerCount; i++) {
-        var originalText = this.Grid00.getCellProperty("head", i, "text").replace(/ ▲| ▼/g, "");
-        this.Grid00.setCellProperty("head", i, "text", originalText);
-    }
-}
-
 /* 3-11. grid2 저장 버튼 -  재고 업데이트 */
 this.fnUpdateStockQuantity = function()
 {
@@ -670,13 +518,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 	}
 };
 
-
-this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	alert(this.Grid00.getFormatColCount());
-};
-
-//페이징 기능 
+/****************************************************/  
+/* 					4. 페이징 기능					*/
+/****************************************************/ 
 this.setPaging = function(ds,grid){
 	//pagecount 세팅 (전체 페이지)
 	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
@@ -687,7 +531,7 @@ this.setPaging = function(ds,grid){
 	this.paging.setColumn(0,"pagecount",Number(pagecount));
 	//div 만들어주기 
 	var div = new nexacro.Div();
-	div.init("pagediv",1,2,300,50); // left top width height
+	div.init("pagediv",1,2,400,50); // left top width height
 	grid.parent.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
@@ -701,10 +545,10 @@ this.setPaging = function(ds,grid){
 }
 this.makebtn = function(div,pagecount){
 	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 15)-25;
+	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
 	
 	var firstbtn = new nexacro.Button(); // << 버튼 만들기
-	firstbtn.init("firstbtn",0,0,20, 30); // left top width height
+	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
   	firstbtn.set_left((leftpos  + "px"));
  	firstbtn.set_text("<<");
 	firstbtn.set_cssclass("btn_num");	
@@ -712,9 +556,9 @@ this.makebtn = function(div,pagecount){
  	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
  	firstbtn.show();
 	
-	leftpos += 25;
+	leftpos += 35;
 	var prevbtn = new nexacro.Button(); // <버튼 만들기
-	prevbtn.init("prevbtn",0,0,10, 30); // left top width height
+	prevbtn.init("prevbtn",0,0,30, 30); // left top width height
   	prevbtn.set_left((leftpos  + "px"));
  	prevbtn.set_text("<");
 	prevbtn.set_cssclass("btn_num");	
@@ -724,8 +568,8 @@ this.makebtn = function(div,pagecount){
  		
  	for(var i =1; i<=pagecount; i++){
  		var btn = new nexacro.Button(); // 숫자 버튼 만들기
- 		btn.init("pagebtn"+i,0,0,10, 30); // left top width height
-		leftpos += 15;
+ 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
+		leftpos += 35;
  		btn.set_left(leftpos + "px");
  		btn.set_text(i);
 		btn.set_cssclass("btn_num");
@@ -733,9 +577,9 @@ this.makebtn = function(div,pagecount){
  		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
  		btn.show();
  	}
-	leftpos += 15;
+	leftpos += 35;
 	var nextbtn = new nexacro.Button(); // > 버튼 만들기
-	nextbtn.init("nextbtn",0,0,10, 30); // left top width height
+	nextbtn.init("nextbtn",0,0,30, 30); // left top width height
   	nextbtn.set_left((leftpos  + "px"));
  	nextbtn.set_text(">");
 	nextbtn.set_cssclass("btn_num");
@@ -743,10 +587,10 @@ this.makebtn = function(div,pagecount){
  	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
  	nextbtn.show();
 	
-	leftpos += 15;
+	leftpos += 35;
 	
 	var endbtn = new nexacro.Button(); // >> 버튼 만들기
-	endbtn.init("endbtn",0,0,20, 30); // left top width height
+	endbtn.init("endbtn",0,0,30, 30); // left top width height
   	endbtn.set_left((leftpos  + "px"));
  	endbtn.set_text(">>");
 	endbtn.set_cssclass("btn_num");
@@ -824,16 +668,16 @@ this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventIn
 };
 ]]></Script>
     <Objects>
-      <Dataset id="stock_grid1" useclientlayout="true" oncolumnchanged="stock_grid1_oncolumnchanged">
+      <Dataset id="stock_grid1" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
-          <Column id="PRODUCT_CHECK" type="STRING" size="256" description="발주신청용체크"/>
+          <Column id="CHK" type="STRING" size="256" description="발주신청용체크"/>
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="stock_grid2" useclientlayout="true" oncolumnchanged="stock_grid2_oncolumnchanged">
+      <Dataset id="stock_grid2" useclientlayout="true">
         <ColumnInfo>
           <Column id="STOCK_ORDER_CODE" type="STRING" size="256" description="발주신청서 코드"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256" description="메뉴코드"/>
@@ -843,7 +687,7 @@ this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventIn
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256" description="발주수량"/>
           <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
-          <Column id="PRODUCT_CHECK" type="STRING" size="256" description="체크박스"/>
+          <Column id="CHK" type="STRING" size="256" description="체크박스"/>
           <Column id="STOCK_ORDER_STATUS_IN" type="STRING" size="256" description="입고완료 처리"/>
         </ColumnInfo>
       </Dataset>
@@ -936,7 +780,7 @@ this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventIn
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256" description="발주수량"/>
           <Column id="USER_CODE" type="STRING" size="256" description="관리자 코드"/>
           <Column id="STOCK_ORDER_STATUS" type="STRING" size="256" description="발주현황"/>
-          <Column id="PRODUCT_CHECK" type="STRING" size="256" description="체크박스"/>
+          <Column id="CHK" type="STRING" size="256" description="체크박스"/>
           <Column id="STOCK_ORDER_STATUS_IN" type="STRING" size="256" description="입고완료 처리"/>
         </ColumnInfo>
       </Dataset>

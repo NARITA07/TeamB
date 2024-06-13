@@ -452,7 +452,7 @@ this.setPaging = function(ds,grid){
 	this.paging.setColumn(0,"pagecount",Number(pagecount));
 	//div 만들어주기 
 	var div = new nexacro.Div();
-	div.init("pagediv",1,2,300,50); // left top width height
+	div.init("pagediv",1,2,700,50); // left top width height
 	this.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
@@ -466,10 +466,10 @@ this.setPaging = function(ds,grid){
 }
 this.makebtn = function(div,pagecount){
 	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 15)-25;
+	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
 	
 	var firstbtn = new nexacro.Button(); // << 버튼 만들기
-	firstbtn.init("firstbtn",0,0,20, 30); // left top width height
+	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
   	firstbtn.set_left((leftpos  + "px"));
  	firstbtn.set_text("<<");
 	firstbtn.set_cssclass("btn_num");	
@@ -477,9 +477,9 @@ this.makebtn = function(div,pagecount){
  	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
  	firstbtn.show();
 	
-	leftpos += 25;
+	leftpos += 35;
 	var prevbtn = new nexacro.Button(); // <버튼 만들기
-	prevbtn.init("prevbtn",0,0,10, 30); // left top width height
+	prevbtn.init("prevbtn",0,0,30, 30); // left top width height
   	prevbtn.set_left((leftpos  + "px"));
  	prevbtn.set_text("<");
 	prevbtn.set_cssclass("btn_num");	
@@ -489,8 +489,8 @@ this.makebtn = function(div,pagecount){
  		
  	for(var i =1; i<=pagecount; i++){
  		var btn = new nexacro.Button(); // 숫자 버튼 만들기
- 		btn.init("pagebtn"+i,0,0,10, 30); // left top width height
-		leftpos += 15;
+ 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
+		leftpos += 35;
  		btn.set_left(leftpos + "px");
  		btn.set_text(i);
 		btn.set_cssclass("btn_num");
@@ -498,9 +498,9 @@ this.makebtn = function(div,pagecount){
  		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
  		btn.show();
  	}
-	leftpos += 15;
+	leftpos += 35;
 	var nextbtn = new nexacro.Button(); // > 버튼 만들기
-	nextbtn.init("nextbtn",0,0,10, 30); // left top width height
+	nextbtn.init("nextbtn",0,0,30, 30); // left top width height
   	nextbtn.set_left((leftpos  + "px"));
  	nextbtn.set_text(">");
 	nextbtn.set_cssclass("btn_num");
@@ -508,10 +508,10 @@ this.makebtn = function(div,pagecount){
  	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
  	nextbtn.show();
 	
-	leftpos += 15;
+	leftpos += 35;
 	
 	var endbtn = new nexacro.Button(); // >> 버튼 만들기
-	endbtn.init("endbtn",0,0,20, 30); // left top width height
+	endbtn.init("endbtn",0,0,30, 30); // left top width height
   	endbtn.set_left((leftpos  + "px"));
  	endbtn.set_text(">>");
 	endbtn.set_cssclass("btn_num");

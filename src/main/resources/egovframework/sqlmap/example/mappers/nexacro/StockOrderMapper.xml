@@ -19,7 +19,7 @@
 		JOIN FOOD F ON SO.PRODUCT_CODE = F.PRODUCT_CODE
 		ORDER BY SO.STOCK_ORDER_STATUS, SO.STOCK_ORDER_DATE DESC;
 	</select>	
-	
+	 
 	
 	<!-- 중분류 combo -->
 	<select id="SOSecCombo" resultType="java.util.Map">

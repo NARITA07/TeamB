@@ -34,7 +34,7 @@ this.ds_grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCo
 this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	// 체크박스 셀 클릭(동작 잘됨)
-	if(e.cell == 0){
+	if(e.cell == 0 && obj.getCurEditType() == "checkbox"){
 		
 		var val = 'N';	// 체크박스 N상태를 변수에 저장
 		

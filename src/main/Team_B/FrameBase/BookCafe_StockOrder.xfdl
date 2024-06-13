@@ -174,7 +174,7 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 /* 2-3. grid1 발주신청 버튼 */
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-
+	
 	/* (1) 체크된 row갯수 count */
 	//조건식을 문자열로 작성하여 전달
     var condition = "PRODUCT_CHECK" + " == '1'";
@@ -254,7 +254,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
     var condition = "PRODUCT_CHECK" + " == '1'";
 	
     // getCaseCount 메서드 호출
-    var chkCnt = this.stock_grid2.getCaseCount(condition);
+    var chkCnt = this.view_dtl.getCaseCount(condition);
 		
 	/* (2) 체크된 행 카운트 */
     if (chkCnt > 0) {
@@ -269,13 +269,13 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 		if(adminCode != null){
 		
 		//체크된 항목 카운트
-		for(var i=0; i<this.stock_grid2.rowcount; i++){
-			if(this.stock_grid2.getColumn(i, "PRODUCT_CHECK") == "1"){
+		for(var i=0; i<this.view_dtl.rowcount; i++){
+			if(this.view_dtl.getColumn(i, "PRODUCT_CHECK") == "1"){
 				var row = this.stock_order_update.addRow();
 				
 				//dataset에 ADMIN_CODE 추가
 				this.stock_order_update.setColumn(row,"USER_CODE",adminCode);
-				this.stock_order_update.copyRow(row, this.stock_grid2, i);
+				this.stock_order_update.copyRow(row, this.view_dtl, i);
 				}
 			}
 		}
@@ -406,16 +406,16 @@ this.stock02_div_Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridCl
 			ds_grid2.set_enableevent(false);
 			
 			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid2.rowcount; i++){
-				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","0");
+			for( var i=0; i<ds_grid2.rowcount; i++){
+				ds_grid2.setColumn(i,"PRODUCT_CHECK","0");
 				
 			}ds_grid2.set_enableevent(true);	// 이벤트 다시 켜기
 		}else {
 			chkOrder = "1";
 			ds_grid2.set_enableevent(false);
 			obj.setCellProperty("head",0,"text",chkOrder);
-			for( var i=0; i<this.stock_grid2.rowcount; i++){
-				this.stock_grid2.setColumn(i,"PRODUCT_CHECK","1");
+			for( var i=0; i<ds_grid2.rowcount; i++){
+				ds_grid2.setColumn(i,"PRODUCT_CHECK","1");
 			}ds_grid2.set_enableevent(true);
 		}	
 	}
@@ -662,6 +662,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
          break;
 		case "grid2OrderList":
 		case "ViewStockOrder":
+			var div = this.components['pagediv'];
+			if(div != null)
+				div.destroy();
 			this.setPaging(this.stock_grid2,this.Grid01);
 		break;
 	}
@@ -763,7 +766,7 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	
+	this.Grid01.setCellProperty("head",0,"text",0);
 	if(ds.rowcount == 0){
 		this.paging.setColumn(0,"page",1);
 		return;

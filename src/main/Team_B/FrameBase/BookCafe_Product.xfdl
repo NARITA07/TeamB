@@ -243,13 +243,13 @@ this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
  	var num = 0;
- 	for(i = 0; i < this.view_code.rowcount; i++){
-		if(this.view_code.getColumn(i,"CHK") == "Y"){
+ 	for(i = 0; i < this.view_dtl.rowcount; i++){
+		if(this.view_dtl.getColumn(i,"CHK") == "Y"){
 		trace("꼽")
- 	var code =	this.view_code.getColumn(i,"PRODUCT_CODE")
- 	var name =	this.view_code.getColumn(i,"PRODUCT_NAME")
- 	var price = this.view_code.getColumn(i,"PRODUCT_PRICE")
-	var path = this.view_code.getColumn(i,"PRODUCT_PATH")
+ 	var code =	this.view_dtl.getColumn(i,"PRODUCT_CODE")
+ 	var name =	this.view_dtl.getColumn(i,"PRODUCT_NAME")
+ 	var price = this.view_dtl.getColumn(i,"PRODUCT_PRICE")
+	var path = this.view_dtl.getColumn(i,"PRODUCT_PATH")
  
  		
  		this.save_date.addRow();
@@ -265,7 +265,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
  	if(this.save_date.getRowCount() == 0){
  		alert("수정하실 내역이없습니다.")
-		this.view_code.reset();
+		this.view_dtl.reset();
  		return false
  	}
  	
@@ -292,15 +292,15 @@ var num = 0 ;
 	if(con == true){
 
 	//그리드의 전체 숫자만큼 반복 
-	for(i = 0; i < this.view_code.getRowCount(); i++){
+	for(i = 0; i < this.view_dtl.getRowCount(); i++){
 
 			// 걔 중 체크항목을 확인하고
-			if(this.view_code.getColumn(i,"CHK") == "Y"){ // 체크항목이 존재한다면
+			if(this.view_dtl.getColumn(i,"CHK") == "Y"){ // 체크항목이 존재한다면
 				
 				this.del_date.addRow()// 데이터셋에 공간을 만들고
 			
 				//삭제값만 dataset에 저장
-				var code = this.view_code.getColumn(i,"PRODUCT_CODE")//체크된 값의 코드를 가져옴
+				var code = this.view_dtl.getColumn(i,"PRODUCT_CODE")//체크된 값의 코드를 가져옴
 				this.del_date.setColumn(num,"PRODUCT_CODE",code)// 그리고 저장
 			num++;
 	
@@ -543,7 +543,7 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	
+	this.Grid00.setCellProperty("head",0,"text",0);
 	if(ds.rowcount == 0){
 		this.paging.setColumn(0,"page",1);
 		return;

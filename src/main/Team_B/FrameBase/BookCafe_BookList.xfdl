@@ -3,7 +3,7 @@
   <Form id="Book_List" width="1080" height="670" titletext="도서대여목록" onload="Book_List_onload" cssclass="grid_default">
     <Layouts>
       <Layout height="670" mobileorientation="landscape" width="1080">
-        <Grid id="Grid01" taborder="5" top="190" binddataset="book_sales_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="1.76%" right="1.76%" bottom="7.76%" onsize="Grid01_onsize">
+        <Grid id="Grid01" taborder="5" top="190" binddataset="view_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="1.76%" right="1.76%" bottom="7.76%" onsize="Grid01_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -117,6 +117,15 @@
           <Column id="nextpage" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="view_dtl">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="ORDER_CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="BOOK" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
     <Bind>
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
@@ -170,19 +179,20 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 this.Grid01_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	if(e.cell == 0){
+			var ds = obj.getBindDataset();
 			var chkYn = obj.getCellProperty("head",0,"text");
 			
 			if(chkYn == "Y") {
 				chkYn = "N";
 				obj.setCellProperty("head",0,"text",chkYn);
-				for( var i=0; i<this.book_sales_dtl.rowcount; i++){
-					this.book_sales_dtl.setColumn(i,"CHK","N");
+				for( var i=0; i<ds.rowcount; i++){
+					ds.setColumn(i,"CHK","N");
 				}
 			}else {
 				chkYn = "Y";
 				obj.setCellProperty("head",0,"text",chkYn);
-				for( var i=0; i<this.book_sales_dtl.rowcount; i++){
-					this.book_sales_dtl.setColumn(i,"CHK","Y");
+				for( var i=0; i<ds.rowcount; i++){
+					ds.setColumn(i,"CHK","Y");
 				}
 			}	
 		}
@@ -323,7 +333,7 @@ this.fnUpdateSelected = function ()
 {
   var strSvcId    = "updateSelected";
   var strSvcUrl   = "svc::updateSelected.do";
-  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
   var callBackFnc = "fnCallback";
@@ -337,7 +347,7 @@ this.fnInsertSelected = function ()
 {
   var strSvcId    = "insertSelected";
   var strSvcUrl   = "svc::insertSelected.do";
-  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
   var callBackFnc = "fnCallback";
@@ -521,13 +531,26 @@ this.setpagediv = function(grid){
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	ds.filter("");
-	for(var i =0; i<(page-1)*pagesize;i++){
-		ds.filterRow(0);
+	this.Grid01.setCellProperty("head",0,"text",0);
+	if(ds.rowcount == 0){
+		this.paging.setColumn(0,"page",1);
+		return;
 	}
-	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-		ds.filterRow(pagesize);
+	this.view_dtl.set_enableevent(false);
+	this.view_dtl.clearData();
+	if(page == this.paging.getColumn(0,"pagecount")){
+		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
+	}else{
+		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
+			var idx = this.view_dtl.addRow();
+			this.view_dtl.copyRow(idx,ds,i);
+		}
 	}
+	
+	this.view_dtl.set_enableevent(true);
 	this.paging.setColumn(0,"page",page);
 };
 

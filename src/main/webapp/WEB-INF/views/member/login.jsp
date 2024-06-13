@@ -81,6 +81,8 @@ $(function() {
 });
 </script>
 <style>
+
+
 body {
     font-size: 9pt;
     color: #333333;
@@ -182,7 +184,7 @@ button {
                 <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
             </div>
             <div class="button-container">
-                <button type="button" id="btn_submit" class="btn btn-primary" style="width:140px; height:56px; background-color: #AB8212;">로그인</button>
+                <button type="button" id="btn_submit" class="btn btn-primary" style="width:140px; height:56px; text-align: center; background-color: #4F4537;">로그인</button>
                 <div class="naver-login-btn">
                     <a id="naver_login_link" href="naverLogin.do">
                         <img id="btn_naver_login" alt="네이버 로그인" src="/images/NaverBtn.png" style="margin-top:13px; width:140px; height: 56px;">

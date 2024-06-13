@@ -28,7 +28,12 @@ public class MyBookDTO {
 	// SEC_CODE
 	private String sec_name;			//카테고리 이름
 	
+	// 대여/반납 상태출력
 	private String return_state;		//반납상태
+	
+	// 기간조회
+	private String startDate;
+	private String endDate;
 	
 	
 	
@@ -134,6 +139,18 @@ public class MyBookDTO {
 	public void setReturn_state(String return_state) {
 		this.return_state = return_state;
 	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	
 	@Override
 	public String toString() {
@@ -142,7 +159,8 @@ public class MyBookDTO {
 				+ ", book_publication_date=" + book_publication_date + ", book_path=" + book_path + ", book_category="
 				+ book_category + ", book_cnt=" + book_cnt + ", borrow_code=" + borrow_code + ", order_code="
 				+ order_code + ", cart_code=" + cart_code + ", order_state=" + order_state + ", payment_date="
-				+ payment_date + ", sec_name=" + sec_name + ", return_state=" + return_state + "]";
+				+ payment_date + ", sec_name=" + sec_name + ", return_state=" + return_state + ", startDate="
+				+ startDate + ", endDate=" + endDate + "]";
 	}
 	
 }

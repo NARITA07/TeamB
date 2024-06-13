@@ -7,7 +7,7 @@
         <Div id="Main" taborder="0" top="Static00:10" maxheight="328" maxwidth="580" minheight="" text="" cssclass="div_default" bottom="26.53%" left="Static00:-319" width="615">
           <Layouts>
             <Layout>
-              <Button id="Btn_Login" taborder="2" text="로그인" borderRadius="5px" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.56%" bottom="3.46%" height="8.07%" width="22.39%"/>
+              <Button id="Btn_Login" taborder="2" text="로그인" onclick="Main_Btn_Login_onclick" font="18px/normal &quot;Arial&quot;" cssclass="btn_dafault" right="38.56%" bottom="3.46%" height="8.07%" width="22.39%"/>
               <Static id="S_Find" taborder="3" text="아이디 및 비밀번호 찾기" top="194" height="32" textAlign="right" onclick="Main_S_Find_onclick" cursor="pointer" right="80" font="14px/normal &quot;Gulim&quot;" width="155" color="#888888"/>
               <Edit id="Ed_ID" taborder="0" left="150" top="84" height="32" border="0px none,0px none,1px solid #4f4537" right="80" background="none" font="16px/normal &quot;Gulim&quot;" onchanged="Main_Ed_ID_onchanged" onkeyup="Main_Ed_ID_onchanged"/>
               <Edit id="Ed_PASS" taborder="1" left="150" top="154" height="32" border="0px none,0px none,1px solid #4f4537" right="80" background="none" font="16px/normal &quot;Gulim&quot;" password="true" onkeyup="Main_Ed_PASS_onkeyup"/>

@@ -7,8 +7,11 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 public interface CodeManagementService {
 
-	//코드 검색 조회
+	//상코드 검색 조회
 	List<Map<String,Object>> searchfirgrid(String search);
+	
+	//하위코드 검색 조회
+	List<Map<String,Object>> searchsecgrid(String search2);
 	
 	//상위코드 그리드 조회
 	List<Map<String,Object>> selectfirgrid();
@@ -27,6 +30,8 @@ public interface CodeManagementService {
 
 	//코드 삭제
 	int codedel(List<Map<String, Object>> save);
+
+	
 
 	
 	

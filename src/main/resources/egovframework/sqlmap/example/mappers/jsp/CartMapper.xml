@@ -98,7 +98,7 @@
 	</select>
 	
 	<!-- 장바구니 항목삭제 -->
-	<delete id="deleteCart">
+	<delete id="deleteCart" >
   		DELETE FROM CART 
 		WHERE USER_CODE = #{user_code}
 		AND PRODUCT_CODE = #{product_code}
@@ -138,15 +138,30 @@
 		);
 	</update>
 	
+	<!-- 장바구니 수량 뽑기 -->
 	<select id="selectQuantitiy" parameterType="String" resultType="java.util.Map">
 		SELECT  PRODUCT_CODE , ORDER_QUANTITY 
 		  FROM CART 
 		 WHERE CART_CODE = #{cart_code};
 	</select>
+	
+	<!-- 장바구니 수량으로 재고 감소시키기  -->
 	<update id="updateQuantity2" >
 		UPDATE FOOD 
 		SET PRODUCT_QUANTITY = PRODUCT_QUANTITY - #{ORDER_QUANTITY}
    		WHERE PRODUCT_CODE  = #{PRODUCT_CODE}
+	</update>
+	
+	<!-- 책대여 권한 업데이트  -->
+	<update id="canReadBook">
+		UPDATE USER
+	    SET USER_LEADBOOK = 'Y'
+	    WHERE USER_CODE = (
+	        SELECT USER_CODE
+	        FROM CART
+	        WHERE CART_CODE = #{cart_code} AND PRODUCT_CODE = 'food_014'
+	    )
+	    AND USER_CODE = #{user_code};
 	</update>
 	
 	
@@ -257,4 +272,96 @@
 	    SET order_quantity = order_quantity - #{order_quantity, jdbcType=INTEGER}
 	    WHERE cart_code = #{cart_code} AND product_code = #{product_code}
 	</update>
+	
+	<!--  장바구니 숫자 조회 -->
+    <select id="getCurrentCartSize" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+		FROM (
+		    SELECT PRODUCT_CODE
+		    FROM CART
+		    WHERE USER_CODE = #{user_code}
+		    AND CART_CODE NOT IN (
+		        SELECT CART_CODE
+		        FROM ORDERS
+		        WHERE USER_CODE = #{user_code}
+		    )
+		    GROUP BY PRODUCT_CODE
+		) AS count
+    </select>
+	<!-- 카트에 똑같은 제품이 있나 확인 -->
+	<select id="selectCartItem" parameterType="map" resultType="bookcafe.cart.service.CartVO">
+	    SELECT * 
+	    FROM CART 
+	    WHERE USER_CODE = #{user_code} 
+	      AND PRODUCT_CODE = #{product_code} 
+	      AND CART_CODE = #{cart_code}
+	</select>
+	
+	<!-- 수량 업데이트 -->
+	<update id="updateCartItem" parameterType="bookcafe.cart.service.CartVO">
+	    UPDATE CART
+	    SET ORDER_QUANTITY = #{order_quantity}
+	    WHERE USER_CODE = #{user_code}
+	      AND PRODUCT_CODE = #{product_code}
+	      AND CART_CODE = #{cart_code}
+	</update>
+	
+	<!-- 영수증 뽑기 (메뉴정보) -->
+	<select id="selectReceiptOrder" parameterType="String" resultType="bookcafe.cart.service.ReceiptVO">
+		SELECT
+		    o.ORDER_CODE,
+		    f.PRODUCT_NAME,
+		    c.ORDER_QUANTITY,
+		    c.ORDER_QUANTITY * f.PRODUCT_PRICE AS PRODUCT_AMOUNT
+		FROM
+		    ORDERS o
+		JOIN
+		    CART c ON o.CART_CODE = c.CART_CODE
+		JOIN
+		    FOOD f ON c.PRODUCT_CODE = f.PRODUCT_CODE
+		WHERE
+		    o.ORDER_CODE = 	#{order_code}
+	</select>
+	<!-- 영수증 뽑기 (결제정보) -->
+	<select id="selectReceiptInfo" parameterType="String" resultType="bookcafe.cart.service.ReceiptVO">
+		SELECT
+		    o.TOTAL_PRICE,
+		    o.PAYMENT_DATE,
+		    SUM(f.PRODUCT_PRICE * c.ORDER_QUANTITY) AS TOTAL_AMOUNT
+		FROM
+		    ORDERS o
+		JOIN
+		    CART c ON o.CART_CODE = c.CART_CODE
+		JOIN
+		    FOOD f ON c.PRODUCT_CODE = f.PRODUCT_CODE
+		WHERE
+		    o.ORDER_CODE = #{order_code}  
+		GROUP BY
+		    o.TOTAL_PRICE, o.PAYMENT_DATE
+	</select>
+	<!-- 영수증 뽑기 (포인트) -->
+	<select id="selectReceiptPoint" parameterType="String" resultType="bookcafe.cart.service.ReceiptVO">
+		WITH POINTLOG_RANKED AS (
+		    SELECT
+		        P.*,
+		        ROW_NUMBER() OVER (PARTITION BY P.ORDER_CODE ORDER BY P.POINT_CODE DESC) AS RN
+		    FROM
+		        POINTLOG P
+		    WHERE
+		        P.ORDER_CODE = #{order_code}  
+		)
+		SELECT
+		    P1.POINT_CODE AS POINT_CODE1,
+		    P1.POINT_CHANGE AS POINT_CHANGE1,
+		    P2.POINT_CODE AS POINT_CODE2,
+		    P2.POINT_CHANGE AS POINT_CHANGE2
+		FROM
+		    ORDERS O
+		LEFT JOIN
+		    POINTLOG_RANKED P1 ON O.ORDER_CODE = P1.ORDER_CODE AND P1.RN = 1
+		LEFT JOIN
+		    POINTLOG_RANKED P2 ON O.ORDER_CODE = P2.ORDER_CODE AND P2.RN = 2
+		WHERE
+		    O.ORDER_CODE = #{order_code}
+	</select>
 </mapper>

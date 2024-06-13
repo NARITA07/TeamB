@@ -94,6 +94,33 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	public void img_path_food(String path) {
 		productmapper.img_path_food(path);
 		
+	}
+
+	@Override
+	public int businessclosure() {
+		int date = 0;
+		
+		//반납 책 확인 
+		if(productmapper.bookReturn() >0) {// 반납할 책이 1개라도 있으면 
+			System.out.println();
+			date = productmapper.bookReturn();
+			System.out.println("반납 책 " + date);
+			return date;
+			
+		}else{ //VIP 등급 변경
+			productmapper.updatevipstatus(); //승격
+			
+			productmapper.downdatevipstatus(); // 강등
+			
+			productmapper.updateuserleadbook();
+		}
+		
+		
+		
+		
+		//이후 마감 
+		System.out.println(date);
+		return date;
 	}	
 
 			

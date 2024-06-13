@@ -225,20 +225,13 @@
 	border-radius : 5px;	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
-}
+
 .Grid .body .row .cell.ExprBlue
 {
 	color : blue;
 }.Grid .body .row .cell.ExprRed
 {
 	color : red;
-}
-.Grid .body .row .cell.ExprBlue
-{
-   color : blue;
-}.Grid .body .row .cell.ExprRed
-{
-   color : red;
 }
 
 .Grid .body .row .cell.grid_nav[userstatus=selected]

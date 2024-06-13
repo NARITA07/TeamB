@@ -66,13 +66,17 @@
         <Static id="Static02" taborder="14" text="매출현황" left="1.85%" top="2.99%" width="128" height="38" cssclass="main_title"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
+this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();
 	this.combo_dtl.setColumn(0,"FIR_CODE","fir_002");
 	
 	this.fnselectSalesCombo();
+	
+	this.check_sort(this.Grid00);
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,15); 

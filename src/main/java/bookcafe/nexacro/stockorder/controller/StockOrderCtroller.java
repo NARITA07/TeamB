@@ -31,7 +31,7 @@ public class StockOrderCtroller {
 	@Resource(name = "stockorderService")
     private StockOrderService soservice;
 	
-    // grid1 list 불러오기
+    // grid1 list 불러오기 
     @RequestMapping(value = "/grid1MenuList.do")
     public NexacroResult grid1MenuList() {
     	

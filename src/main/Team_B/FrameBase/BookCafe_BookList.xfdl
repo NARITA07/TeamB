@@ -130,7 +130,9 @@
     <Bind>
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
+this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {	
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();
@@ -139,6 +141,9 @@
 	this.Combo00.set_index(0);
 	
 	this.fnselectSalesCombo();
+	
+	this.check_sort(this.Grid01);
+	
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,15); 
 };
@@ -174,28 +179,6 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		this.Button01_00_00.set_text("대여중으로 변경");
 		this.fnSelectBookSales();
 	}
-};
-
-this.Grid01_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-	if(e.cell == 0){
-			var ds = obj.getBindDataset();
-			var chkYn = obj.getCellProperty("head",0,"text");
-			
-			if(chkYn == "Y") {
-				chkYn = "N";
-				obj.setCellProperty("head",0,"text",chkYn);
-				for( var i=0; i<ds.rowcount; i++){
-					ds.setColumn(i,"CHK","N");
-				}
-			}else {
-				chkYn = "Y";
-				obj.setCellProperty("head",0,"text",chkYn);
-				for( var i=0; i<ds.rowcount; i++){
-					ds.setColumn(i,"CHK","Y");
-				}
-			}	
-		}
 };
 
 //중분류 함수

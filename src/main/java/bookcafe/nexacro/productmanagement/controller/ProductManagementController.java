@@ -181,6 +181,16 @@ public class ProductManagementController {
 			 
 		}
 		
+		
+		@RequestMapping("businessclosure.do")
+		public NexacroResult businessclosure(){
+			NexacroResult close = new NexacroResult();
+			
+			close.addVariable("businessclosure", productservice.businessclosure());
+			
+			return close;
+		}
+		
 }  
 	
 	

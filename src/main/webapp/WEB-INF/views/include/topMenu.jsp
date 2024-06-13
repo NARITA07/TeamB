@@ -43,12 +43,14 @@
 			<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutmodal">로그아웃</a></li>
 	      </ul>
 			<form class="d-flex ms-lg-3">
-                <button class="btn btn-outline-dark" type="button" onclick="goCart()">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                </button>
-            </form>
+			    <button class="btn btn-outline-dark" type="button" onclick="goCart()">
+			        <i class="bi-cart-fill me-1"></i>
+			        Cart
+			        <span id="cartSize" class="badge bg-dark text-white ms-1 rounded-pill">
+			            <c:out value="${cartSize}"/>
+			        </span>
+			    </button>
+			</form>
 				<%
 					}
 				%>

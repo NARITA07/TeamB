@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
+import bookcafe.cart.service.ReceiptVO;
 import bookcafe.member.service.MemberVO;
 import bookcafe.point.service.PointService;
 import bookcafe.point.service.PointVO;
@@ -32,7 +33,7 @@ import bookcafe.point.service.PointVO;
 	private PointService pointService;
 	
 	// 장바구니 담기 (비동기)
-	@RequestMapping("insertCart.do")
+	/*@RequestMapping("insertCart.do")
 	@ResponseBody
 	public String insertCart(@RequestParam("user_code") String user_code,
 	                             @RequestParam("product_code") String product_code, 
@@ -63,8 +64,46 @@ import bookcafe.point.service.PointVO;
 	        System.out.println("장바구니 담기 실패");
 	        return "fail";
 	    }
-	} 
-	
+	} */
+	@RequestMapping("insertCart.do")
+    @ResponseBody
+    public String insertCartAjax(@RequestParam("user_code") String user_code,
+                                 @RequestParam("product_code") String product_code, 
+                                 @RequestParam("order_quantity") int order_quantity, HttpSession session) {
+
+        String cart_code = cartService.selectMaxCartCode(user_code);
+        // 카트코드 부여
+        int isOrders = cartService.selectOrders(cart_code);
+        if (isOrders > 0) {
+            cart_code = null;
+        }
+        System.out.println("cart_code: " + cart_code);
+        // 카트에 user_code,product_code,cart_code 있는지 확인
+        CartVO existingCart = cartService.selectCartItem(user_code, product_code, cart_code);
+        
+        // 카트에 담겨있으면 수량 변경
+        if (existingCart != null) {
+            existingCart.setOrder_quantity(existingCart.getOrder_quantity() + order_quantity);
+            cartService.updateCartItem(existingCart);
+        } else { // 기존에 없으면 생성
+            CartVO cart = new CartVO();
+            cart.setUser_code(user_code);
+            cart.setProduct_code(product_code);
+            cart.setOrder_quantity(order_quantity);
+            cart.setCart_code(cart_code);
+
+            int result = cartService.insertCart(cart);
+            if (result != 1) {
+                return "{\"status\":\"fail\"}";
+            }
+        }
+
+        // 장바구니 숫자 업데이트
+        int cartSize = cartService.getCurrentCartSize(user_code);
+        session.setAttribute("cartSize", cartSize);
+
+        return "{\"status\":\"success\", \"cartSize\":" + cartSize + "}";
+    }
 	
 	// 장바구니 상품 갯수 수정 (비동기)
 	@RequestMapping("updateQuantity.do")
@@ -140,7 +179,8 @@ import bookcafe.point.service.PointVO;
 	@RequestMapping("deleteCart.do")
 	public String deleteCart(@RequestParam(name = "cart_code") String cart_code,
 							 @RequestParam(name = "product_code") String product_code,
-							 @RequestParam(name = "user_code") String user_code) {
+							 @RequestParam(name = "user_code") String user_code,
+							 HttpSession session) {
 		System.out.println("삭제컨트롤러" + user_code);
 		
 		CartVO cart = new CartVO();
@@ -149,6 +189,12 @@ import bookcafe.point.service.PointVO;
 		cart.setCart_code(cart_code);
 		
 		cartService.deleteCart(cart);
+		//* 추가  S*//
+				// 장바구니 수량 업데이트
+			    int cartSize = cartService.getCurrentCartSize(user_code);
+			    session.setAttribute("cartSize", cartSize);
+			    //* 추가  E* //
+
 		return "redirect:/cartList.do";
 	}
 	
@@ -157,13 +203,19 @@ import bookcafe.point.service.PointVO;
 	public String submitOrder(@ModelAttribute OrdersVO order, HttpSession session, CartVO cart, int total_price, int point_change) {
 		System.out.println("결제 컨트롤러 - 카트코드: " + order.getCart_code());
 		System.out.println("결제VO: " + order.toString());
-		cartService.insertOrder(order);
-		
-		// 재고 감소
-	    MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 	    String user_code = loginInfo.getUser_code();
 	    String cart_code =cartService.selectMaxCartCode(user_code);
-	    //cartService.updateQuantity(cart_code);
+	    
+	    
+		cartService.insertOrder(order);
+		
+		// 도서열람권 조회 및 업데이트
+		System.out.println("열람권 조회용 cart_code : " + cart_code);
+		cartService.canReadBook(user_code, cart_code);
+		
+		// 재고 감소
+		
 	    cartService.selectQuantitiy(cart_code);
 	    
 		String order_code = cartService.selectOrderCode(cart_code);
@@ -207,7 +259,7 @@ import bookcafe.point.service.PointVO;
 			System.out.println("포인트적립실패");
 		}
 		
-		return "redirect:/cartList.do";
+		return "redirect:/selectReceipt.do?order_code=" + order_code;
 	}
 	
 	
@@ -288,15 +340,36 @@ import bookcafe.point.service.PointVO;
 					System.out.println("loginInfo_point:" + loginInfo.getUser_point());
 				}
 				System.out.println("바로 주문 포인트적립까지 완료!");
+				
 			} else {
 				System.out.println("바로 주문 실패");
 			}
 		} else {
 			System.out.println("바로 장바구니 담기 실패");
 		}
-		
-		return "redirect:/foodList.do";
+		String order_code = cartService.selectOrderCode(cart_code);
+		return "redirect:/selectReceipt.do?order_code=" + order_code;
 	}
+	
+	// 영수증 화면
+	@RequestMapping("selectReceipt.do")
+	public String selectReceipt(Model model, String order_code, ReceiptVO receipt) {
+		System.out.println("영수증 컨트롤러");
+		System.out.println("주문번호 : "+order_code);
+		// 영수증 뽑기 (메뉴정보)
+	    List<ReceiptVO> receiptList = cartService.selectReceiptOrder(order_code);
+	    // 영수증 뽑기 (결제정보)
+	    ReceiptVO receiptInfo = cartService.selectReceiptInfo(order_code);
+	    // 영수증 뽑기 (포인트)
+	    ReceiptVO receiptPoint = cartService.selectReceiptPoint(order_code);
+	    
+	    // 조회 결과를 모델에 담아서 화면에 전달
+	    model.addAttribute("receiptList", receiptList);
+	    model.addAttribute("receiptInfo", receiptInfo);
+	    model.addAttribute("receiptPoint", receiptPoint);
+		return "/receipt/receipt";
+	}
+	
 	
 	
 }

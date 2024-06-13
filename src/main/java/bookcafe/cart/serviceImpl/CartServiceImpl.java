@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
+import bookcafe.cart.service.ReceiptVO;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -143,6 +144,43 @@ public class CartServiceImpl implements CartService{
 		for(Map<String,Object> cart : cartList){
 			cartMapper.updateQuantity2(cart);
 		}
+	}
+
+	@Override
+	public void canReadBook(String user_code, String cart_code) {
+		cartMapper.canReadBook(user_code, cart_code);
+	}
+	
+	@Override
+    public int getCurrentCartSize(String user_code) {
+        return cartMapper.getCurrentCartSize(user_code);
+    }
+	
+	@Transactional
+	@Override
+	public CartVO selectCartItem(String user_code, String product_code, String cart_code) {
+	    return cartMapper.selectCartItem(user_code, product_code, cart_code);
+	}
+
+	@Transactional
+	@Override
+	public void updateCartItem(CartVO cart) {
+	    cartMapper.updateCartItem(cart);
+	}
+
+	@Override
+	public List<ReceiptVO> selectReceiptOrder(String order_code) {
+		return cartMapper.selectReceiptOrder(order_code);
+	}
+
+	@Override
+	public ReceiptVO selectReceiptInfo(String order_code) {
+		return cartMapper.selectReceiptInfo(order_code);
+	}
+
+	@Override
+	public ReceiptVO selectReceiptPoint(String order_code) {
+		return cartMapper.selectReceiptPoint(order_code);
 	}
 
 

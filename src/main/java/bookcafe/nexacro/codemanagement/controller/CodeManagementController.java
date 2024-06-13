@@ -19,7 +19,7 @@ public class CodeManagementController {
 	@Autowired
 	CodeManagementService codemservice;
 	
-	//코드 검색 조회
+	//상위 코드 검색 조회
 	@RequestMapping("fir_grid_search.do")
 	public NexacroResult fir_grid_search(@ParamVariable(name = "search", required = false)String search) {
 		System.out.println(search);
@@ -30,6 +30,15 @@ public class CodeManagementController {
 		return result;
 	}
 	
+	@RequestMapping("sec_grid_search.do")
+	public NexacroResult sec_grid_search(@ParamVariable(name = "search2", required = false)String search2) {
+		System.out.println(search2);
+		NexacroResult result = new NexacroResult();
+
+		result.addDataSet("sec_code_grid", codemservice.searchsecgrid(search2));
+		
+		return result;
+	}
 	
 
 	//상위코드 그리드 조회

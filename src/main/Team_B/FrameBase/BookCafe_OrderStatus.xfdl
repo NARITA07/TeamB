@@ -182,11 +182,15 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
 this.Form_Work_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {//form 초기화
 	this.fnSelect_orders();
 	this.fnSelect_orders_end();
+	
+	this.check_sort(this.Grid00);
+	this.check_sort(this.Grid00_00);
 	//this.setTimer(1, 3000);
 };
 
@@ -267,22 +271,6 @@ this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSCo
 {
 
 	
-	var nRow = e.row;
-	var newVal = e.newvalue;
-	var orderstate = obj.getColumn(nRow,"ORDER_CODE");
-	
-	if(e.col != obj.getColIndex("CHK")){
-		obj.setColumn(e.row,"CHK",'Y');
-		newVal = 'Y';
-	}
-	
-	for(var i =0; i<obj.rowcount;i++){
-		if(obj.getColumn(i,"ORDER_CODE") == obj.getColumn(nRow,"ORDER_CODE")){
-			obj.setColumn(i,"CHK",newVal);
-			obj.setColumn(i,"ORDER_STATE",obj.getColumn(nRow,"ORDER_STATE"));
-			obj.setColumn(i,"PAYMENT_STATE",obj.getColumn(nRow,"PAYMENT_STATE"));
-		}
-	}
 };
 
 
@@ -300,21 +288,7 @@ this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	if(e.cell == 0){
-		var val = 'N';
-		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){
-			obj.setCellProperty("head",e.cell,"text",val);
-		}
-		else{
-			val = 'Y';
-			obj.setCellProperty("head",e.cell,"text",val);
-		}
-		
-		var dataset = obj.getBindDataset();
-		for(var i=0; i<dataset.rowcount; i++){
-			dataset.setColumn(i,"CHK",val);
-		}
-	}
+
 };
 ]]></Script>
   </Form>

@@ -233,6 +233,13 @@
 {
 	color : red;
 }
+.Grid .body .row .cell.ExprBlue
+{
+   color : blue;
+}.Grid .body .row .cell.ExprRed
+{
+   color : red;
+}
 
 .Grid .body .row .cell.grid_nav[userstatus=selected]
 {
@@ -305,5 +312,26 @@
 .Grid .body .row .cell.grid_nav .celltreeitem .treeitemtext[status=mouseover]
 {
 	font : normal bold 13pt/normal "Arial";
+}
+.Button.btn_fn
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #FFF8EE;	
+	color : #4F4537;
+	font : normal bold  10pt/normal "Arial";
+}
+
+
+.Button.btn_fn[status=mouseover],
+.Button.btn_fn[userstatus=pushed]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #FAEBD7;	
+	color : #000000;
+	font : normal bold  10pt/normal "Arial";
 }
 ]]></XCSS>

@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookcafe.nexacro.codemanagement.serviceImpl.CodeManagementMapper">
 
+	<!-- 코드 조회 검색 -->
+	<select id="searchfirgrid" resultType="java.util.Map">
+	<choose>
+	<when test="FIR_CODE.equals('fir_000')">
+	SELECT * FROM FIR_CODE ORDER BY FIR_CODE;
+	</when>
+	<otherwise>
+	SELECT * FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
+	</otherwise>
+	
+	</choose>
+	</select>
+
 	<!--  상위코드 조회 -->
 	<select id="selectfirgrid" resultType="java.util.Map">
 	SELECT
@@ -22,63 +35,123 @@
 	 		FIR_CODE = #{fir_category};
 	</select>
 	
-	
-	<!-- <select id="sec_category_select" resultType="java.util.Map">
-	<choose>
-	<when test="FIR_CODE.equals('fir_000')">
-		SELECT * FROM SEC_CODE ORDER BY FIR_CODE;
-	</when>
-	<otherwise>
-		SELECT * FROM SEC_CODE 
-		WHERE FIR_CODE =#{FIR_CODE}
-	</otherwise>
-	</choose>
+	<!-- 상위코드 최신값 -->
+	<select id="fircodenew" resultType="String">
+	SELECT fnCode('fir');
 	</select>
 	
-	<update id="C_sec_code_chx">
-	UPDATE SEC_CODE SET USE_STATUS = #{USE_STATUS} WHERE FIR_CODE = #{FIR_CODE}
+	<!-- 하위코드 최신값 -->
+	<select id="seccodenew" resultType="String">
+	SELECT fnCode('sec');
+	</select>
+	
+	<!-- 코드 존재 확인 -->
+	<select id="selectcodes" resultType="int">
+		<choose>
+			<when test="SEC_CODE == null">
+	
+				SELECT 
+						COUNT(FIR_CODE) 
+				FROM 
+						FIR_CODE 
+				WHERE 
+						FIR_CODE = #{FIR_CODE}	
+			</when>		
+			<when test="SEC_CODE != null">
+				SELECT 
+						COUNT(SEC_CODE) 
+				FROM 
+						SEC_CODE 
+				WHERE 
+						SEC_CODE = #{SEC_CODE}	
+			</when>
+		</choose>
+	</select>
+	
+	<!--  코드 업데이트 -->
+	<update id="updatecodes">
+		<choose>
+			<when test="SEC_CODE == null">
+				UPDATE 
+						FIR_CODE
+				SET
+						FIR_NAME = #{FIR_NAME},
+						USE_STATUS = #{USE_STATUS}
+				WHERE 	
+						FIR_CODE = #{FIR_CODE}
+			</when>
+			<when test="SEC_CODE != null">
+				UPDATE 
+						SEC_CODE
+				SET
+						SEC_NAME = #{SEC_NAME},
+						USE_STATUS = #{USE_STATUS}
+				WHERE 	
+						SEC_CODE = #{SEC_CODE}
+			</when>
+		</choose>
 	</update>
 	
-	<update id="C_fir_code_chx">
-	UPDATE FIR_CODE SET USE_STATUS = #{USE_STATUS}, FIR_NAME = #{FIR_NAME} WHERE FIR_CODE = #{FIR_CODE}
-	
-	</update>
-	
-	<insert id="add_fir_code">
-	insert into FIR_CODE(FIR_CODE, FIR_NAME) values(fnCode('fir'),#{FIR_NAME});
+	<!--코드 생성 -->
+	<insert id="insertcodes">
+		<choose>
+			<when test="SEC_CODE == null">
+				INSERT 
+				INTO 
+						FIR_CODE 
+				VALUES
+						(#{FIR_CODE}, #{FIR_NAME}, #{USE_STATUS})
+			</when>
+			<when test="SEC_CODE != null">
+				INSERT 
+				INTO 
+						SEC_CODE 
+				VALUES
+						(#{FIR_CODE}, #{SEC_CODE}, #{SEC_NAME}, #{USE_STATUS})
+			</when>
+		</choose>
 	</insert>
- 
- 	<delete id="C_del_date">
-	  DELETE FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
+	
+	<update id="updateseccode">
+	UPDATE 
+			SEC_CODE
+	SET
+			USE_STATUS = #{USE_STATUS}
+	WHERE 	
+			FIR_CODE = #{FIR_CODE}
+	</update>
+	
+	<delete id="codedel">
+	
+	<choose>
+	<when test="SEC_CODE == null">
+	DELETE 
+	FROM 
+			FIR_CODE
+	WHERE 
+			FIR_CODE = #{FIR_CODE}
+	</when>
+	<when test="SEC_CODE != null">
+	DELETE 
+	FROM 
+			SEC_CODE
+	WHERE 
+			SEC_CODE = #{SEC_CODE}
+	</when>
+	</choose>
+	
+	
 	</delete>
- 	
- 	<delete id="C_del_sec_date">
- 		DELETE FROM SEC_CODE WHERE FIR_CODE = #{FIR_CODE}
- 	</delete>
- 	
- 	
- 	<insert id="sec_code_add">
- 	insert into SEC_CODE(FIR_CODE,SEC_CODE, SEC_NAME) values(#{FIR_CODE},fnCode('sec'),#{SEC_NAME});
- 	</insert>
- 	
- 	<update id="sec_code_modi">
- 	UPDATE SEC_CODE SET USE_STATUS = #{USE_STATUS}, SEC_NAME = #{SEC_NAME} WHERE SEC_CODE = #{SEC_CODE}
- 	</update>
- 
- 	<delete id="del_date_sec">
- 	DELETE FROM SEC_CODE WHERE SEC_CODE = #{SEC_CODE}
- 	</delete>
- 	
- 	<select id="max_code" resultType="String">
- 	SELECT fnCode('fir');
- 	</select>
- 	
- 	<select id="select_mo_or_in" resultType="int">
- 	SELECT count(FIR_CODE) FROM FIR_CODE WHERE FIR_CODE = #{FIR_CODE}
- 	</select>
- 	
- 	<insert id="insert_fir_code">
- 	insert into FIR_CODE(FIR_CODE, FIR_NAME, USE_STATUS) VALUES(#{FIR_CODE}, #{FIR_NAME}, #{USE_STATUS});
- 	</insert> -->
- 	
+	
+	<delete id="codedel_sec">
+	
+	DELETE 
+	FROM 
+			SEC_CODE
+	WHERE 
+			FIR_CODE = #{FIR_CODE}
+	
+	</delete>
+	
+
 </mapper>

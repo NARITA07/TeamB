@@ -3,7 +3,7 @@
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
-        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="expand,all" treeasynctoggle="false" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none">
+        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,null" treeasynctoggle="false" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none">
           <Formats>
             <Format id="default">
               <Columns>
@@ -104,24 +104,35 @@
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
  {	
- 	this.Grid_val(this.Nav.getColumn(e.row,1)) //함수호출 
- 	//this.Nav.getColumn(e.row,1)) row값은 변하고 cell값은 고정
- 	//Grid안의 "주문" cell을 클릭하면 row가 0이므로 
- 	//dataset의 생성되어있는 Column의 row = 0, cell = 1인 url의 값을 반환
- 	
-// 	if(this.nav.getTreePath(e.row) == "제품수정"){//클릭한 로우의 로우가 제품관리라면
-// 			this.nav.setTreeStatus(e.row,true)// 제품관리 하위 트리 열기
-// 	}
-// 	else if(this.nav.getTreePath(e.row) == "제품수정.등록"){
-// 		this.Grid_val("FrameBase::BookCafe_ProductManagement.xfdl")
-// 	}else if(this.nav.getTreePath(e.row) == "제품관리.삭제"){
-// 	alert(this.Nav.getColumn(e.row,1))
-// 	}else{
-// 	this.nav.setTreeStatus(5,false) //제품관리 하위트리 닫기
-// 	
+ var m_row = "";
+ 
+	for(i = 0; i < this.Nav.rowcount; i++){
+		
+		if(this.Nav.getColumn(i,"title") == "관리"){
+		
+			m_row = i;
+		}
+	
+	}
+	
+	if(e.row != m_row){
+	this.Grid_val(this.Nav.getColumn(e.row,1)) 
+	}
+	
+ 	if(e.row == m_row){
+		this.nav.setTreeStatus(e.row,true)//하위 트리 생성
  	}
-// }
-
+		else{
+		
+			if(m_row > e.row){
+				
+				this.nav.setTreeStatus(m_row,false)
+	
+			}
+		
+	}
+	
+}
 
 this.Grid_val = function(url_change){
 	

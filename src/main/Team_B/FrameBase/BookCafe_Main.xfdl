@@ -3,18 +3,18 @@
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
       <Layout height="720" width="1280">
-        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,null" treeasynctoggle="false" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none">
+        <Grid id="nav" taborder="0" left="0" width="200" height="100%" binddataset="Nav" oncellclick="nav_oncellclick" treeusecheckbox="false" treeuseimage="false" treeuseline="true" treeusebutton="no" treeinitstatus="collapse,null" treeasynctoggle="false" cellclickbound="control" accessibilitydesclevel="all" top="0" border="1px solid black, 0px none" autofittype="col">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="199"/>
+                <Column size="202"/>
               </Columns>
               <Rows>
                 <Row size="98" band="head"/>
                 <Row size="50"/>
               </Rows>
               <Band id="head">
-                <Cell background="#ffffff" border="1px solid transparent"/>
+                <Cell background="#ffffff" border="1px solid transparent" cursor="auto"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" border="1px none" cursor="pointer" cssclass="grid_nav" treestate="bind:LEVEL"/>
@@ -24,6 +24,8 @@
         </Grid>
         <Div id="Main" taborder="1" text="Main" left="200" top="0" height="100.00%" formscrolltype="none" url="FrameBase::BookCafe_OrderStatus.xfdl" right="0" border="1px solid black"/>
         <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
+        <Edit id="Edit00" taborder="3" left="0" top="0" width="200" height="60" text="text" enable="false" background="#f7f7f7"/>
+        <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -54,7 +56,7 @@
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
-            <Col id="title">재고 관리</Col>
+            <Col id="title">재고관리</Col>
             <Col id="url">FrameBase::BookCafe_StockOrder.xfdl</Col>
             <Col id="LEVEL">1</Col>
           </Row>
@@ -75,29 +77,23 @@
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="Account">
+      <Dataset id="MENU">
         <ColumnInfo>
-          <Column id="name" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="Order_data">
-        <ColumnInfo>
-          <Column id="num" type="STRING" size="256" description="현재 주문수량"/>
-          <Column id="total_quantity" type="STRING" size="256" description="총 주문수량"/>
-          <Column id="total_price" type="STRING" size="256" description="총 금액"/>
-          <Column id="order_state" type="STRING" size="256" description="주문상태"/>
-          <Column id="payment_state" type="STRING" size="256" description="결제상태"/>
-          <Column id="product_name" type="STRING" size="256" description="음식이름"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="Menu">
-        <ColumnInfo>
-          <Column id="ADMIN_ID" type="STRING" size="256"/>
-          <Column id="LELVEL" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="LEVEL" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row>
-            <Col id="LELVEL">0</Col>
+            <Col id="LEVEL">0</Col>
+            <Col id="TITLE">_</Col>
+          </Row>
+          <Row>
+            <Col id="LEVEL">1</Col>
+            <Col id="TITLE">내정보</Col>
+          </Row>
+          <Row>
+            <Col id="LEVEL">1</Col>
+            <Col id="TITLE">로그아웃</Col>
           </Row>
         </Rows>
       </Dataset>
@@ -131,16 +127,26 @@
 			}
 		
 	}
-	
+
 }
 
 this.Grid_val = function(url_change){
 	
-	//div의 url값을 변경.
+	//div의 url값을 변경. 
 	this.Main.set_url(url_change)
 	
 
 }
+
+this.logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.getApplication().Session_login.clear(); // 세션데이터 초기화
+	this.go("FrameBase::BookCafe_Login.xfdl")
+	
+};
 ]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Edit00" propid="value" datasetid="Session_login" columnid="USER_NAME"/>
+    </Bind>
   </Form>
 </FDL>

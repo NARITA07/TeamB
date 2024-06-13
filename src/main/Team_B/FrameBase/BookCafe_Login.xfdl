@@ -67,29 +67,22 @@ this.login = function(id,code,message){
 		
     if(code == 0){//리턴 결과 
 	
-	
-		
-		if(this.Result_Data.getColumn(0,"ERROR") == "1"){//아이디가 틀릴 시
-		alert("아이디가 틀렸습니다")
-		
-		
-	}else if(this.Result_Data.getColumn(0,"ERROR") == "2"){// 비밀번호가 틀릴 시
-		alert("비밀번호가 틀렸습니다")
-	
-	}else{
-	nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사
-	
-		this.go("FrameBase::BookCafe_Main.xfdl")
-	
+		switch(id) {
+		case "login":
+					
+					if(this.Result_Data.getColCount() == 1){
+					alert(this.Result_Data.getColumn(0,"ERROR"))
+					}else{
+					
+					
+					nexacro.getApplication().Session_login.copyData(this.Result_Data)//결과값을 전역 데이터셋에 복사	
+					this.go("FrameBase::BookCafe_Main.xfdl")
+					break;
+			}
+		}
 	}
-			
-	
-	
-	}
-	
-
 }
-
+	
 //아이디 or 비밀번호 찾기
 this.Main_S_Find_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
 {

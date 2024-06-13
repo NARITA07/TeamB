@@ -225,7 +225,7 @@
 	border-radius : 5px;	
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
-}
+
 .Grid .body .row .cell.ExprBlue
 {
 	color : blue;
@@ -326,5 +326,32 @@
 	background : #FAEBD7;	
 	color : #000000;
 	font : normal bold  10pt/normal "Arial";
+}
+.Menu.btn_menu{
+	-nexa-border : ;
+	-nexa-edge : ;
+	-nexa-padding : ;
+	-nexa-rtl-edge-image : ;
+	border-radius : ;
+	box-shadow : ;
+	cursor : pointer;
+	font : ;
+	letter-spacing : ;
+	opacity : ;
+	word-spacing : ;
+	background : transparent;
+}
+.Menu .menuitem
+{
+}
+.Menu .menuitem[userstatus=selected]
+{
+	background : transparent;
+	
+
+}
+.Menu .menuitem[status=mouseover]
+{
+	background : transparent;
 }
 ]]></XCSS>

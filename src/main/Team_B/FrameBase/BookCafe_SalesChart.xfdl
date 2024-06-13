@@ -230,14 +230,10 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 
 	switch(svcID)
 	{
-		case "fnselectSalesCombo":
-			var row = this.ds_code.insertRow(0);
-			this.ds_code.setColumn(row, "NAME", "전체");
+		case "selectSalesCombo":
+			var row = this.combo_dtl.insertRow(0);
+			this.combo_dtl.setColumn(row, "SEC_NAME", "전체");
 			break;
-		case "selectReport":
-			if(this.ds_report.rowcount < 1)
-				this.alert("조회된 결과가 없습니다.");
-			break;  
 	}
 };]]></Script>
     <Bind>

@@ -515,12 +515,12 @@ this.setpagediv = function(grid){
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
 	this.Grid01.setCellProperty("head",0,"text",0);
+	this.view_dtl.clearData();
 	if(ds.rowcount == 0){
 		this.paging.setColumn(0,"page",1);
 		return;
 	}
 	this.view_dtl.set_enableevent(false);
-	this.view_dtl.clearData();
 	if(page == this.paging.getColumn(0,"pagecount")){
 		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
 			var idx = this.view_dtl.addRow();

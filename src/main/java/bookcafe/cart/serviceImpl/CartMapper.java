@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import bookcafe.cart.service.CartVO;
 import bookcafe.cart.service.OrdersVO;
 import bookcafe.cart.service.PointLogVO;
+import bookcafe.cart.service.ReceiptVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("cartMapper")
@@ -61,6 +62,20 @@ public interface CartMapper {
 	public List<Map<String,Object>> selectQuantitiy(String cart_code);
 	
 	public int updateQuantity2(Map<String,Object> cart);
+
+	public void canReadBook(@Param("user_code")String user_code,@Param("cart_code") String cart_code);
 	
+	int getCurrentCartSize(String user_code);
+	
+	public CartVO selectCartItem(@Param("user_code") String user_code, @Param("product_code") String product_code, @Param("cart_code") String cart_code);
+
+	public void updateCartItem(CartVO cart);
+
+	public List<ReceiptVO> selectReceiptOrder(String order_code);
+
+	public ReceiptVO selectReceiptInfo(String order_code);
+
+	public ReceiptVO selectReceiptPoint(String order_code);
+
 	
 }

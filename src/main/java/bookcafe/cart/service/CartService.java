@@ -43,5 +43,20 @@ public interface CartService {
 
 	public void selectQuantitiy(String cart_code);
 
+	public void canReadBook(String user_code, String cart_code);
+	
+	int getCurrentCartSize(String user_code);
+	
+	public CartVO selectCartItem(String user_code, String product_code, String cart_code);
+
+	public void updateCartItem(CartVO cart);
+
+	public List<ReceiptVO> selectReceiptOrder(String order_code);
+
+	public ReceiptVO selectReceiptInfo(String order_code);
+
+	public ReceiptVO selectReceiptPoint(String order_code);
+
+
 
 }

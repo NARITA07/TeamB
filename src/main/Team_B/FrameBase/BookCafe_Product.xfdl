@@ -5,7 +5,7 @@
       <Layout height="720" mobileorientation="landscape" width="1020">
         <Div id="Div00" taborder="7" left="1.76%" top="97" height="40" cssclass="main_nav" right="1.76%"/>
         <Static id="Static00" taborder="0" text="제품관리" left="1.86%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-        <ImageViewer id="ImageViewer00" taborder="9" left="40" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/chk_WF_Box.png')" stretch="fit"/>
+        <ImageViewer id="ImageViewer00" taborder="9" left="40" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="110" width="24" height="14"/>
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default"/>
         <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default"/>

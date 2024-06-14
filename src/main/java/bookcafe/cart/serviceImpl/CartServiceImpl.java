@@ -183,6 +183,12 @@ public class CartServiceImpl implements CartService{
 		return cartMapper.selectReceiptPoint(order_code);
 	}
 
+	@Override
+	public String selectReadBook(String user_code) {
+		System.out.println(user_code);
+		return cartMapper.selectReadBook(user_code);
+	}
+
 
 	
 }

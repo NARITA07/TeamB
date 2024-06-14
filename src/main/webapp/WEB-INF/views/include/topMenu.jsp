@@ -46,7 +46,7 @@
 			    <button class="btn btn-outline-dark" type="button" onclick="goCart()">
 			        <i class="bi-cart-fill me-1"></i>
 			        Cart
-			        <span id="cartSize" class="badge bg-dark text-white ms-1 rounded-pill">
+			        <span id="cartSize">
 			            <c:out value="${cartSize}"/>
 			        </span>
 			    </button>

@@ -77,5 +77,7 @@ public interface CartMapper {
 
 	public ReceiptVO selectReceiptPoint(String order_code);
 
+	public String selectReadBook(@Param("user_code")String user_code);
+
 	
 }

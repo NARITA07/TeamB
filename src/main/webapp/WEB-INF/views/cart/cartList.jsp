@@ -315,6 +315,12 @@
 	        var usePoints = parseInt(usePointsInput.value);
 	        var modalTotalPriceElement = document.getElementById('modalTotalPrice');
 	        var totalPrice = parseInt(modalTotalPriceElement.textContent.replace(/[^0-9]/g, ''));
+	        
+	     	// 입력 포인트가 음수이면 0으로 설정
+	        if (usePoints < 0) {
+	            usePointsInput.value = 0;
+	            usePoints = 0;
+	        }
 	
 	        if (usePoints > userPoints) {
 	            alert('잔여포인트보다 큽니다.');

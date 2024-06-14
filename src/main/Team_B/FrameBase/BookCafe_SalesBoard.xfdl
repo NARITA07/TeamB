@@ -28,12 +28,12 @@
                 <Cell col="5" text="주문일시" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center"/>
-                <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center"/>
-                <Cell col="2" text="bind:MENU" textAlign="center"/>
-                <Cell col="3" text="bind:QUANTITY" textAlign="center"/>
-                <Cell col="4" text="bind:SALES"/>
-                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss"/>
+                <Cell text="bind:ORDER_CODE" suppress="1" suppressalign="middle" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
+                <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
+                <Cell col="2" text="bind:MENU" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
+                <Cell col="3" text="bind:QUANTITY" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
+                <Cell col="4" text="expr:SALES==0 ? &quot;환불완료&quot;:SALES" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
+                <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
               </Band>
               <Band id="summary">
                 <Cell background="#FAEBD7"/>
@@ -358,6 +358,11 @@ this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {
 	this.setpagediv(obj);
 };
+
+//환불 처리건 폰트색상 변경
+this.ReturnCellFontColor = function(str) {
+	return str == 0 ? "ExprRed" : "";
+}
 ]]></Script>
     <Objects>
       <Dataset id="sales_dtl">

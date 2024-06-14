@@ -13,7 +13,7 @@
         <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="110" width="24" height="14"/>
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
         <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
-        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default">
+        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus">
           <Formats>
             <Format id="default">
               <Columns>
@@ -45,10 +45,10 @@
                 <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
                 <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
                 <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
-                <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text"/>
-                <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="text"/>
-                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="mask" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
-                <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="mask" maskeditformat="###,###"/>
+                <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
+                <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
+                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' || BOOK_PUBLICATION_DATE == '미상' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
           </Formats>
@@ -362,6 +362,7 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
+
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
 	if(e.cell == 4){
@@ -620,9 +621,7 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {
 	this.setpagediv(obj);
-	//ss = 23;
-	//this.paging.setColumn(0,"pagesize",ss);
-	//this.setds(obj.getBindDataset(),this.paging.getColumn(0,"page"));
+
 };
 
 
@@ -643,7 +642,7 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.exportObj = new ExcelExportObject("Export00", this);
 	
-	this.exportObj.set_exportfilename("ExcelExportFile");
+	this.exportObj.set_exportfilename("BOOKBREAD_PRODUCT");
 	this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
 	
 	this.Grid00.deleteContentsCol("body",0);
@@ -654,20 +653,20 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 	var intExportedItem = this.exportObj.exportData();
 	
-	trace("Number of Exported Item: " + intExportedItem);
-	
 
 
 };
 
 this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
 {
-trace("Export00_onsuccess");	
+trace("Export00_onsuccess");
+this.reload()
 }
 
 this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
 {
 	trace("Export00_onerror");
+	this.reload()
 }
 
 ]]></Script>

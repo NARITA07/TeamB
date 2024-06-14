@@ -109,9 +109,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 			return date;
 			
 		}else{ //VIP 등급 변경
-			productmapper.updatevipstatus(); //승격
-			
-			productmapper.downdatevipstatus(); // 강등
+			productmapper.updatevipstatus(); //vip 업뎃
 			
 			productmapper.updateuserleadbook();
 		}
@@ -128,24 +126,27 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	public int product_allsave(List<Map<String, Object>> trans) {
 		
 		int date = 0;
-		String sdate = "";
+		//String sdate = "";
 		
 		for(int i = 0; i < trans.size(); i++) {
 			
-			sdate = (String)trans.get(i).get("분류코드");
+			date = productmapper.product_allsavef(trans.get(i));
 			
-				if(sdate.substring(0,1).equals("b")){
-					date += productmapper.product_allsaveb(trans.get(i));
-				
-			}else if(sdate.substring(0,1).equals("f")) {
-				
-				date += productmapper.product_allsavef(trans.get(i));
+			
+//			sdate = (String)trans.get(i).get("분류코드");
+//			
+//				if(sdate.substring(0,1).equals("b")){
+//					date += productmapper.product_allsaveb(trans.get(i));
+//				
+//			}else if(sdate.substring(0,1).equals("f")) {
+//				
+//				date += productmapper.product_allsavef(trans.get(i));
 				
 			}
 			
 			
 			
-		}
+//		}
 
 		return date;
 	

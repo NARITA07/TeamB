@@ -63,6 +63,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	//제품 수정
 	@Override
 	public Map<String, Object> update_product(List<Map<String, Object>> save_date) {
+		System.out.println(save_date);
 		Map<String, Object>nums = new HashMap<>();
 		int num = 0;
 		
@@ -121,6 +122,33 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		//이후 마감 
 		System.out.println(date);
 		return date;
+	}
+
+	@Override
+	public int product_allsave(List<Map<String, Object>> trans) {
+		
+		int date = 0;
+		String sdate = "";
+		
+		for(int i = 0; i < trans.size(); i++) {
+			
+			sdate = (String)trans.get(i).get("분류코드");
+			
+				if(sdate.substring(0,1).equals("b")){
+					date += productmapper.product_allsaveb(trans.get(i));
+				
+			}else if(sdate.substring(0,1).equals("f")) {
+				
+				date += productmapper.product_allsavef(trans.get(i));
+				
+			}
+			
+			
+			
+		}
+
+		return date;
+	
 	}	
 
 			

@@ -53,7 +53,7 @@
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center"/>
-                <Cell col="3" displaytype="decoratetext" edittype="none" textAlign="center" text="expr:PRODUCT_QUANTITY &lt; 10 ? '&lt;fc v=\&quot;red\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;' : '&lt;fc v=\&quot;#666666\&quot;&gt;' + PRODUCT_QUANTITY + '&lt;/fc&gt;'"/>
+                <Cell col="3" displaytype="decoratetext" edittype="none" textAlign="center" text="bind:PRODUCT_QUANTITY" cssclass="expr:PRODUCT_QUANTITY &lt; 10 ? 'grid_quantity' : ''"/>
                 <Cell col="4" displaytype="normal" textAlign="center" editinputfilter="none,space,comma" editinputtype="number" rtl="false" text="bind:STOCK_ORDER_QUANTITY" editmaxlength="2" edittype="text"/>
               </Band>
             </Format>
@@ -154,6 +154,14 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	this.find_thir_combo.setColumn(0,"SEC_CODE",sec_code);
 	
 	this.fnCheck_Thir_Combo();
+	
+	/* 중분류가 선택되면 grid1의 내용을 바로바로 불러옴 */
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// grid1의 조회조건을 조회 버튼에 전달
+	this.fnViewList();
 };
 
 /* 2-2. 조회 버튼 */

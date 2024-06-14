@@ -84,9 +84,18 @@
 								<tr class="cartData">
 									<td id="product_name${count.count}">${cart.product_name}</td>
 									<td class="product_price"><fmt:formatNumber value="${cart.product_price}" type="number" groupingUsed="true"/>원</td>
-									<td id="order_quantity${count.count}">
-		                       			<input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()">
-		                   			</td>
+									<c:choose>
+									    <c:when test="${cart.product_code == 'food_014'}">
+									        <td id="order_quantity${count.count}">
+									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()" readonly="readonly">
+									        </td>
+									    </c:when>
+									    <c:otherwise>
+									        <td id="order_quantity${count.count}">
+									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()">
+									        </td>
+									    </c:otherwise>
+									</c:choose>
 									<td class="total_price">
 									<fmt:formatNumber value="${cart.product_price*cart.order_quantity}" type="number" groupingUsed="true"/>원
 									</td>
@@ -114,18 +123,23 @@
 	</section>
         
 	<!-- Button trigger modal -->
-	<div class="cart-item">
-		<c:choose>
-			<c:when test="${not empty total_price}">
-				<button type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"
-				data-bs-toggle="modal" data-bs-target="#exampleModal" ><!-- onclick="direct_buy()" -->
-					구매
-				</button>
-			</c:when>
-			<c:otherwise>
-			</c:otherwise>
-		</c:choose>
-	</div>
+	<c:if test="${empty cartList}">
+		<input type="button" class="btn btn-light buy_btn" value="메뉴" onclick="goFoodList()">
+	</c:if>
+	<c:if test="${not empty cartList}">
+		<div class="cart-item">
+			<c:choose>
+				<c:when test="${not empty total_price}">
+					<button type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"
+					data-bs-toggle="modal" data-bs-target="#exampleModal" ><!-- onclick="direct_buy()" -->
+						구매
+					</button>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</c:if>
 	<!-- End Button trigger modal -->
 	
 	<!-- Modal -->
@@ -315,6 +329,12 @@
 	        var usePoints = parseInt(usePointsInput.value);
 	        var modalTotalPriceElement = document.getElementById('modalTotalPrice');
 	        var totalPrice = parseInt(modalTotalPriceElement.textContent.replace(/[^0-9]/g, ''));
+	        
+	     	// 입력 포인트가 음수이면 0으로 설정
+	        if (usePoints < 0) {
+	            usePointsInput.value = 0;
+	            usePoints = 0;
+	        }
 	
 	        if (usePoints > userPoints) {
 	            alert('잔여포인트보다 큽니다.');
@@ -363,7 +383,10 @@
 	        console.log("결제금액"+paymentAmount)
 	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
 	    }
-		    
+		function goFoodList(){
+			 var url = 'foodList.do';
+	        window.location.href = url;
+		}
 	</script>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 </body>

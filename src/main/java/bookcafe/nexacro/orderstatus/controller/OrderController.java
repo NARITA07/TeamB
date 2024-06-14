@@ -17,6 +17,8 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import bookcafe.member.service.EmailService;
 import bookcafe.member.service.MemberService;
 import bookcafe.nexacro.orderstatus.service.OrderService;
+import bookcafe.point.service.PointService;
+import bookcafe.point.service.PointVO;
 
 @Controller
 @RequestMapping("/orders")
@@ -26,6 +28,8 @@ public class OrderController {
 	   
 		@Resource(name = "memberService")
 		public MemberService memberService;
+		@Autowired
+		public PointService pointService;
 	   
 		@Inject
 	    JavaMailSender mailSender;
@@ -59,6 +63,20 @@ public class OrderController {
 	    		if(Integer.valueOf(String.valueOf(orders.get(0).get("ORDER_STATE")))> 1) {
 	    			String to = memberService.selectMemberEmail(orders.get(0).get("USER_CODE"));
 //	    			emailService.sendMail(to, "주문하신 음식이 준비완료되었습니다.");
+	    		}
+	    		if(Integer.valueOf(String.valueOf(orders.get(0).get("PAYMENT_STATE")))>1) {
+	    			PointVO vo = new PointVO();
+	    			vo.setUser_code(orders.get(0).get("USER_CODE"));
+	    			vo.setOrder_code(orders.get(0).get("ORDER_CODE"));
+	    			
+	    			List<Map<String,Object>> pointLogs = pointService.selectOrderToPointLog(String.valueOf(orders.get(0).get("ORDER_CODE")));
+	    			for(Map<String,Object> log : pointLogs) {
+	    				int point = Integer.valueOf(String.valueOf(log.get("POINT_CHANGE")));
+	    				vo.setPoint_change(-1*point);
+	    				pointService.insertPointLog(vo);
+	    			}
+	    			
+	    			pointService.updateUserPoint(orders.get(0).get("USER_CODE"));
 	    		}
 	    	}else {// 에러
 	    		System.out.println("update Orders : 실패");

@@ -163,8 +163,12 @@
 	    )
 	    AND USER_CODE = #{user_code};
 	</update>
-	
-	
+	<!-- 책대여 권한 확인하기 -->
+	<select id="selectReadBook" parameterType="string" resultType="string">
+		SELECT USER_LEADBOOK
+		FROM USER
+		WHERE USER_CODE = #{user_code}
+	</select>
 	<!-- 최근 오더코드 조회 -->
 	<select id="getLastInsertOrderCode" parameterType="string" resultType="string">
 	    SELECT ORDER_CODE 

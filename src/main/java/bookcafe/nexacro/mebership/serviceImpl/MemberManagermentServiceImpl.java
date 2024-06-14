@@ -17,9 +17,9 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 	MemberManagermentMapper mmm;
 	
 	@Override
-	public List<Map<String, Object>> select_member() {
+	public List<Map<String, Object>> select_member(Map<String,String> search_dtl) {
 		
-		return mmm.select_member();
+		return mmm.select_member(search_dtl);
 	}
 
 	@Override
@@ -63,6 +63,11 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 	@Override
 	public void insertPointLog(Map<String, String> param) {
 		mmm.insertPointLog(param);
+	}
+
+	@Override
+	public void updateUserPoint(Map<String, String> param) {
+		mmm.updateUserPoint(param);
 	}
 	 
 

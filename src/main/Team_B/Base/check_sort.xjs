@@ -20,7 +20,14 @@ this.check_sort = function(obj:nexacro.Grid)
 	// 그리드의 row값 변경 시 체크박스가 체크되는 이벤트 데이터셋에 추가
 	ds_grid.addEventHandler("oncolumnchanged",this.ds_grid_oncolumnchanged, this);
 	
-}
+};
+// form에서 호출 시 onheadclick 이벤트 추가
+this.check_sort2 = function(obj:nexacro.Grid)
+{
+	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
+	var head = obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	
+};
 
 /* oncolumnchanged 이벤트 : 컬럼값이 바뀌면 자동으로 CHK가 체크 */
 this.ds_grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)

@@ -228,10 +228,10 @@ this.fnCallback_select = function(){
 this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {//수정버튼
 	this.Member_Selected.clearData();
-	for(var i =0; i<this.Member_Management.rowcount; i++){
-		if(this.Member_Management.getColumn(i,"CHK") == 'Y'){
+	for(var i =0; i<this.view_dtl.rowcount; i++){
+		if(this.view_dtl.getColumn(i,"CHK") == 'Y'){
 			var idx = this.Member_Selected.addRow();
-			this.Member_Selected.copyRow(idx,this.Member_Management,i);
+			this.Member_Selected.copyRow(idx,this.view_dtl,i);
 		}
 	}
 	this.fnUpdateMember();
@@ -240,10 +240,10 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {//삭제버튼
 	this.Member_Selected.clearData();
-	for(var i =0; i<this.Member_Management.rowcount; i++){
-		if(this.Member_Management.getColumn(i,"CHK") == 'Y'){
+	for(var i =0; i<this.view_dtl.rowcount; i++){
+		if(this.view_dtl.getColumn(i,"CHK") == 'Y'){
 			var idx = this.Member_Selected.addRow();
-			this.Member_Selected.copyRow(idx,this.Member_Management,i);
+			this.Member_Selected.copyRow(idx,this.view_dtl,i);
 		}
 	}
 	

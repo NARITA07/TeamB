@@ -3,7 +3,7 @@
   <Form id="Form_Work" width="1080" height="670" titletext="주문현황" oninit="Form_Work_oninit" ontimer="Form_Work_ontimer" visible="true">
     <Layouts>
       <Layout width="1080" height="670" screenid="Desktop_screen">
-        <Grid id="Grid00" taborder="1" left="1.76%" top="120" height="37.31%" binddataset="ds_orders" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" onheadclick="Grid00_onheadclick">
+        <Grid id="Grid00" taborder="1" left="1.76%" top="120" height="37.31%" binddataset="ds_orders" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" oncloseup="Grid00_oncloseup">
           <Formats>
             <Format id="default">
               <Columns>
@@ -47,7 +47,7 @@
           </Formats>
         </Grid>
         <Static id="Static00" taborder="0" text="회원주문관리" left="1.76%" cssclass="title_sub" height="24" enable="true" bottom="Grid00:5" width="128"/>
-        <Grid id="Grid00_00" taborder="2" left="1.76%" height="33.88%" binddataset="ds_orders_end" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%" onheadclick="Grid00_onheadclick">
+        <Grid id="Grid00_00" taborder="2" left="1.76%" height="33.88%" binddataset="ds_orders_end" autoupdatetype="none" autofittype="col" right="1.76%" border="1px solid #4F4537" bottom="2.99%" oncloseup="Grid00_oncloseup">
           <Formats>
             <Format id="default">
               <Columns>
@@ -152,7 +152,7 @@
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="ds_orders_updaterdy" cancolumnchange="ds_orders_cancolumnchange" oncolumnchanged="ds_orders_oncolumnchanged">
+      <Dataset id="ds_orders_updaterdy" oncolumnchanged="dataset_oncolumnchanged">
         <ColumnInfo>
           <Column id="USER_CODE" type="STRING" size="256"/>
           <Column id="USER_ID" type="STRING" size="256"/>
@@ -189,8 +189,8 @@ this.Form_Work_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	this.fnSelect_orders();
 	this.fnSelect_orders_end();
 	
-	this.check_sort(this.Grid00);
-	this.check_sort(this.Grid00_00);
+	this.check_sort2(this.Grid00);
+	this.check_sort2(this.Grid00_00);
 	//this.setTimer(1, 3000);
 };
 
@@ -269,8 +269,17 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 };
 this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
-
-	
+	if(e.col == obj.getColIndex("CHK")){
+		var ordercode = obj.getColumn(e.row,"ORDER_CODE");
+		
+		for(i=0; i<obj.rowcount; i++){
+			if(obj.getColumn(i,"ORDER_CODE") == ordercode){
+				obj.setColumn(i,"CHK",e.newvalue);
+			}
+		}
+	}else{
+		obj.setColumn(e.row,"CHK",'Y');
+	}
 };
 
 
@@ -286,9 +295,23 @@ this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.fnUpdate_orders();
 };
 
-this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 {
-
+	var ds = obj.getBindDataset();
+	var ordercode = ds.getColumn(e.row,"ORDER_CODE");
+	var nCol = e.col;
+	var strCol ="";
+	if( nCol == 8){
+		strCol = "ORDER_STATE";
+	}else if(nCol == 6){
+		strCol = "PAYMENT_STATE";
+	}
+	for(i=0; i<ds.rowcount; i++){
+		if(ds.getColumn(i,"ORDER_CODE") == ordercode){
+			ds.setColumn(i,strCol,Number(e.value));
+		}
+	}
+	obj.updateToDataset();
 };
 ]]></Script>
   </Form>

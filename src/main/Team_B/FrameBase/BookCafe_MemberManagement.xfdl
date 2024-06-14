@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="view_dtl" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick" oncellclick="user_table_oncellclick">
+        <Grid id="user_table" taborder="0" left="1.76%" top="160" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="10.00%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -32,7 +32,7 @@
                 <Cell col="7" text="주소" background="#FFF8EE"/>
                 <Cell col="8" text="포인트" background="#FFF8EE"/>
               </Band>
-              <Band id="body">
+               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="2" text="bind:USER_JOINDATE" displaytype="date" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" calendardateformat="yyyy-MM-dd " textAlign="center"/>
@@ -47,8 +47,19 @@
           </Formats>
         </Grid>
         <Static id="Static00" taborder="1" text="회원관리" left="1.85%" width="128" height="37" top="2.78%" cssclass="main_title"/>
-        <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="user_table:5" right="1.76%"/>
-        <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:5" bottom="user_table:5"/>
+        <Div id="Div00" taborder="4" left="1.76%" top="107" text="" cssclass="main_nav" right="1.76%" height="40">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="ImageViewer00_00" taborder="1" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
+              <Combo id="Combo00" taborder="0" left="55" top="5" width="130" height="30" cssclass="combo_default" innerdataset="search" datacolumn="txt" codecolumn="search" onitemchanged="Combo00_onitemchanged"/>
+              <Edit id="Edit00" taborder="2" left="Combo00:5" top="5" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
+              <Static id="Static08" taborder="3" text="검색" left="ImageViewer00_00:5" top="13" height="14" onclick="Static08_onclick" right="Combo00:-8"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="Div00:5" right="1.76%"/>
+        <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:6" bottom="Div00:5"/>
+        <Button id="Button00_01_00" taborder="5" text="조회" width="70" cssclass="btn_view" height="30" bottom="Div00:5" right="Button00_00:5" onclick="Button00_01_00_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -111,25 +122,59 @@
           <Column id="USER_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="search">
+        <ColumnInfo>
+          <Column id="search" type="STRING" size="256"/>
+          <Column id="txt" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="search">0</Col>
+            <Col id="txt">전체</Col>
+          </Row>
+          <Row>
+            <Col id="search">1</Col>
+            <Col id="txt">이름</Col>
+          </Row>
+          <Row>
+            <Col id="search">2</Col>
+            <Col id="txt">아이디</Col>
+          </Row>
+          <Row>
+            <Col id="search">3</Col>
+            <Col id="txt">전화번호</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="search_dtl">
+        <ColumnInfo>
+          <Column id="search_code" type="STRING" size="256"/>
+          <Column id="search_input" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 
 //폼이 시작되면
 this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
+	this.search_dtl.clearData();
+	var idx = this.search_dtl.addRow();
 	this.fnSelect_Members();
 	this.fnGetCombo(); //수정
 
 	this.pageinit(1,15); //페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	
 	this.check_sort(this.user_table);
+	
+	this.Div00.form.Combo00.set_index(0);
 }; 
 
 //트랜잭션
 this.fnSelect_Members = function(){ //멤버 받아오기 (검색 조건 추가해야됨)
 	var id = "membermanagement"
 	var url = "svc::membermanagement.do"
-	var indata = "";
+	var indata = "search_dtl=search_dtl";
 	var outdata = "Member_Management=Member_Management";
 	var callback ="fnCallback_Member";
 	
@@ -304,13 +349,13 @@ this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만
 // 	}
 // 	this.paging.setColumn(0,"page",page);
 	var pagesize = this.paging.getColumn(0,"pagesize");
-	
+	this.view_dtl.clearData();
 	if(ds.rowcount == 0){
 		this.paging.setColumn(0,"page",1);
 		return;
 	}
 	this.view_dtl.set_enableevent(false);
-	this.view_dtl.clearData();
+
 	if(page == this.paging.getColumn(0,"pagecount")){
 		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
 			var idx = this.view_dtl.addRow();
@@ -367,13 +412,10 @@ this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 // 데이터 더블클릭시 팝업호출
 this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-	if(e.cell == 8){
-
 	var objParam = {USER_CODE:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_CODE"),
 					USER_NAME:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_NAME")};
 				  
 	this.showPopup(objParam);
-	}
 };
 
 // 팝업호출
@@ -393,6 +435,7 @@ this.showPopup = function (objParam)
 	popup.form.style.set_border("1 solid #4c5a6f");
 	
 }
+
 // 팝업콜백 함수
 this.fn_popupCallback = function(strPopupID, strReturn)
 {
@@ -404,6 +447,17 @@ this.fn_popupCallback = function(strPopupID, strReturn)
 		this.fnSelect_Members();
     }
 };
+this.Button00_01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.search_dtl.clearData();
+	var idx = this.search_dtl.addRow();
+	var search_code = this.search.getColumn(this.Div00.form.Combo00.index,"search");
+	this.search_dtl.setColumn(idx,"search_code",search_code);
+	this.search_dtl.setColumn(idx,"search_input",this.Div00.form.Edit00.value);
+	
+	this.fnSelect_Members();
+};
 ]]></Script>
   </Form>
 </FDL>
+

@@ -17,6 +17,18 @@
 		    a.USER_AUTHORITY
 		FROM 
 		    USER a
+		WHERE 1=1
+		<choose>
+			<when test="search_code == 1">
+				AND a.USER_NAME LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+			<when test ="search_code == 2">
+				AND a.USER_ID LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+			<when test ="search_code == 3">
+				AND a.USER_TEL LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+		</choose>
 		ORDER BY USER_AUTHORITY ASC;
 			</select>
 			<select id="select_User_Authority" resultType="java.util.Map">

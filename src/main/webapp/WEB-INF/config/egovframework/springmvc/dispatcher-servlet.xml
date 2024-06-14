@@ -21,7 +21,16 @@
     	<property name="suffix" value=".jsp" />
 	</bean>
 
-
+	<bean id="BookCafeInterceptors" class="bookcafe.member.interceptors.BookCafeInterceptors"></bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/myPage/**"/>
+			<mvc:mapping path="/cartList.do/**"/>
+			<ref bean="BookCafeInterceptors"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 <!--     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> -->
 <!--     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"> -->
 <!--         <property name="interceptors"> -->

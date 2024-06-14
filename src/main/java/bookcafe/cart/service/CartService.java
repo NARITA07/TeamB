@@ -57,6 +57,8 @@ public interface CartService {
 
 	public ReceiptVO selectReceiptPoint(String order_code);
 
+	public String selectReadBook(String user_code);
+
 
 
 }

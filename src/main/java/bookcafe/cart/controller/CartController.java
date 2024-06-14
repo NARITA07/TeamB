@@ -213,6 +213,12 @@ import bookcafe.point.service.PointVO;
 		// 도서열람권 조회 및 업데이트
 		System.out.println("열람권 조회용 cart_code : " + cart_code);
 		cartService.canReadBook(user_code, cart_code);
+		System.out.println("열람권 조회용 cart_code : " + user_code);
+		String readBook = cartService.selectReadBook(user_code);
+		System.out.println("책 권한 조회 "+ readBook);
+		// 세션에 업데이트된 권한 넘기기
+		session.setAttribute("user_leadbook", readBook);
+		System.out.println("세션  권한 조회 "+ session.getAttribute("user_leadbook"));
 		
 		// 재고 감소
 		
@@ -299,6 +305,17 @@ import bookcafe.point.service.PointVO;
 			orders.setTotal_price(total_price);
 			orders.setUser_code(user_code);
 			int messege =cartService.directInsertOrders(orders);
+			
+			// 도서열람권 조회 및 업데이트
+			System.out.println("열람권 조회용 cart_code : " + cart_code);
+			cartService.canReadBook(user_code, cart_code);
+			System.out.println("열람권 조회용 cart_code : " + user_code);
+			String readBook = cartService.selectReadBook(user_code);
+			System.out.println("책 권한 조회 "+ readBook);
+			// 세션에 업데이트된 권한 넘기기
+			session.setAttribute("user_leadbook", readBook);
+			System.out.println("세션  권한 조회 "+ session.getAttribute("user_leadbook"));
+			
 			if (messege >= 1) {
 				System.out.println("바로 주문 성공");
 				System.out.println("결제 이후 OrdersVO:" + orders);
@@ -318,6 +335,7 @@ import bookcafe.point.service.PointVO;
 					pointService.insertPointLog(pointLog);
 					System.out.println("test3");
 				}
+				
 				
 				// 포인트 적립
 				
@@ -353,7 +371,7 @@ import bookcafe.point.service.PointVO;
 	
 	// 영수증 화면
 	@RequestMapping("selectReceipt.do")
-	public String selectReceipt(Model model, String order_code, ReceiptVO receipt) {
+	public String selectReceipt(Model model, String order_code, ReceiptVO receipt, String user_code,HttpSession session) {
 		System.out.println("영수증 컨트롤러");
 		System.out.println("주문번호 : "+order_code);
 		// 영수증 뽑기 (메뉴정보)
@@ -367,6 +385,10 @@ import bookcafe.point.service.PointVO;
 	    model.addAttribute("receiptList", receiptList);
 	    model.addAttribute("receiptInfo", receiptInfo);
 	    model.addAttribute("receiptPoint", receiptPoint);
+	    
+	    int cartSize = cartService.getCurrentCartSize(user_code);
+	    session.setAttribute("cartSize", cartSize);
+	    
 		return "/receipt/receipt";
 	}
 	

@@ -8,7 +8,7 @@
             <Layout>
               <ImageViewer id="ImageViewer00" taborder="6" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static02" taborder="0" text="발주상태" left="ImageViewer00:5" top="13" width="48" height="14"/>
-              <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="110" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default"/>
+              <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="130" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default" onitemchanged="Div01.form.Combo00_onitemchanged" displaynulltext="대기/완료/취소"/>
               <ImageViewer id="ImageViewer00_00" taborder="7" left="Combo00:30" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static00_00" taborder="1" text="기간" left="ImageViewer00_00:5" top="13" width="24" height="14"/>
               <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default"/>
@@ -22,7 +22,7 @@
           <Layouts>
             <Layout>
               <Combo id="Combo00" taborder="1" left="55" top="5" width="130" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵/샐러드"/>
-              <Combo id="Combo03" taborder="0" left="Combo00:3" top="5" width="227" height="30" value="" index="-1" onitemchanged="stock01_div_Div00_Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
+              <Combo id="Combo03" taborder="0" left="Combo00:3" top="5" width="227" height="30" value="" index="-1" onitemchanged="Div00.form.Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
               <ImageViewer id="ImageViewer00_00" taborder="3" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static03" taborder="2" text="분류" left="ImageViewer00_00:5" top="13" width="24" height="14"/>
             </Layout>
@@ -78,7 +78,7 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
                 <Cell col="1" text="발주상태" background="#FFF8EE"/>
                 <Cell col="2" text="메뉴명" background="#FFF8EE"/>
                 <Cell col="3" text="발주수량" background="#FFF8EE"/>
@@ -86,7 +86,7 @@
                 <Cell col="5" text="신청자" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" text="bind:PRODUCT_CHECK" checkboxfalsevalue="0" checkboxtruevalue="1" edittype="checkbox"/>
+                <Cell displaytype="checkboxcontrol" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
                 <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
@@ -100,6 +100,7 @@
         <Static id="Static01_00" taborder="9" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="1.76%" top="95.69%" width="316" height="14" cssclass="warning_txt"/>
         <Button id="Button01_00" taborder="11" text="저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
         <Button id="Button00_00" taborder="10" text="엑셀" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" top="471"/>
+        <Button id="Button02" taborder="12" text="Button02" left="461" top="24" width="120" height="50" onclick="Button02_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
@@ -120,7 +121,7 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	// grid1 list 불러오기
 	this.fnStockMenuList();
 	// grid2 list 불러오기
-	this.fnStocksOrderList();
+/*	this.fnStocksOrderList();*/
 	
 	// 메뉴 combo
 	this.fnFind_Sec_Combo();
@@ -140,7 +141,7 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 /* 					2. 이벤트 정의					*/
 /****************************************************/
 
-/* 2-1. 중분류 선택 시 소분류 변화 */ 
+/* 2-1. 중분류 선택 시 소분류 변화/자동 조회 */ 
 this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
 	// 현재 사용자가 선택한 중분류코드 변수에 저장
@@ -157,12 +158,70 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 	
 	/* 중분류가 선택되면 grid1의 내용을 바로바로 불러옴 */
 	// 새로운 행 추가
+	this.search_so_grid.clearData();
 	this.search_so_grid.addRow();
 	// 중분류
 	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// grid1의 조회조건을 전달
+	this.fnViewList();
+	
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();
+};
+
+/* 소분류 선택 시 grid1 자동 조회 */
+this.Div00.form.Combo03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.search_so_grid.clearData();
+	
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
 	// grid1의 조회조건을 조회 버튼에 전달
 	this.fnViewList();
+	
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();
 };
+
+/* grid2 발주상태 변경시 자동조회*/
+this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
+
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();
+};
+
 
 /* 2-2. 조회 버튼 */
 this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -503,6 +562,9 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
    {
       this.alert("이상해!");
       return;
+   }else if(errorCode == -2)
+   {
+	this.stock_grid2.clearData();
    }
    // 분기문
    switch(svcID)
@@ -673,9 +735,17 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 //버튼 이벤트
 	this.setds(this.stock_grid2,obj.text); //수정
 };
-this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
-{
+this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo){
 	this.setpagediv(obj);//수정
+};
+
+
+
+/* 테스트 버튼 */
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("초기화");
+	this.stock_grid2.clearData();
 };
 ]]></Script>
     <Objects>

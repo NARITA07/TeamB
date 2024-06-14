@@ -574,6 +574,7 @@ this.Main_fir_search_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemCh
 		this.Main.form.sec_search.set_enable(true)
 	}
 };
+
 ]]></Script>
   </Form>
 </FDL>

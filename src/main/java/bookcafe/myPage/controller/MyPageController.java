@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
@@ -261,13 +262,17 @@ public class MyPageController {
 	}
 	
 	// 구매상세정보
-	@PostMapping(value = "/getOrderInfo", produces = "application/json")
+	@PostMapping(value="/getOrderInfo", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public List<MyOrderDTO> getOrderInfo(@RequestParam String order_code) {
+	public String getOrderInfo(@RequestParam String order_code) {
 	    System.out.println("getOrderCode: " + order_code);
 	    List<MyOrderDTO> orderInfo = myPageService.getOrderInfo(order_code);
 	    System.out.println("orderInfo:" + orderInfo);
-	    return orderInfo;
+	    
+	    // gson 변환
+	    String g_orderInfo = (new Gson()).toJson(orderInfo);
+	    
+	    return g_orderInfo;
 	}
 		
 }

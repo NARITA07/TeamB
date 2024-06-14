@@ -72,7 +72,7 @@
     	<div class="container px-4 px-lg-5 mt-5">
 	
         	<!-- 도서열람 섹션 -->
-	        <h1 id="sec_010" style="text-align:center; margin-bottom:50px;">도서열람</h1>
+	        <h1 id="sec_010" style="text-align:center; margin-bottom:50px;">도서열람권</h1>
 	        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 	            <c:forEach items="${foodess}" var="food">
 	                <c:if test="${food.product_category == 'sec_010'}">
@@ -84,21 +84,23 @@
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${food.product_name}</h5>
+	                                    <h5 class="fw-bolder" style="margin-bottom: 20px;">${food.product_name}</h5>
+							       		<h5><fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" /> 원</h5>
 	                                </div>
-	                                <div class="cart_btn_box">
-	                                    <div>
-	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" max="1">
-	                                    </div>
-	                                    <div class="count_price">
-	                                    	<span class="total-price-span" id="total_price_${food.product_code}">
-										    <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" />원
+	                            </div>
+	                            <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                               	    <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                               	    	수량 :<input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
+                                   	  		   	   oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;" readonly>
+							    	</div>
+								    <div>
+                                    	금액 : <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
+									    	<fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
 										</span>
-	                                    </div>
-	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니 담기</button>
-	                                </div>
-	                                <div class="direct_buy">
-	                                	<button type="button" class="btn btn-light" 
+								    </div>
+	                                <div style="display: flex; justify-content: center; align-items: center; padding:10px;">
+	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니</button>
+	                                	<button type="button" class="btn btn-light" style="margin-left: 10px;"
 	                                	onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)"
 	                                	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
 	                                </div>
@@ -129,21 +131,23 @@
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${food.product_name}</h5>
+	                                    <h5 class="fw-bolder" style="margin-bottom: 20px;">${food.product_name}</h5>
+							       		<h5><fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" /> 원</h5>
 	                                </div>
-	                                <div class="cart_btn_box">
-	                                    <div>
-	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
-	                                    </div>
-	                                    <div class="count_price">
-	                                    	<span class="total-price-span" id="total_price_${food.product_code}">
-										    <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" />원
+	                            </div>
+	                            <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                               	    <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                               	    	수량 :<input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
+                                   	  		   	   oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;">
+							    	</div>
+								    <div>
+                                    	금액 : <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
+									    	<fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
 										</span>
-	                                    </div>
-	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니 담기</button>
-	                                </div>
-	                                <div class="direct_buy">
-	                                	<button type="button" class="btn btn-light" 
+								    </div>
+	                                <div style="display: flex; justify-content: center; align-items: center; padding:10px;">
+	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니</button>
+	                                	<button type="button" class="btn btn-light" style="margin-left: 10px;"
 	                                	onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)"
 	                                	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
 	                                </div>
@@ -170,21 +174,23 @@
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${food.product_name}</h5>
+	                                    <h5 class="fw-bolder" style="margin-bottom: 20px;">${food.product_name}</h5>
+							       		<h5><fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" /> 원</h5>
 	                                </div>
-	                                <div class="cart_btn_box">
-	                                    <div>
-	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
-	                                    </div>
-	                                    <div class="count_price">
-	                                    	<span class="total-price-span" id="total_price_${food.product_code}">
-										    <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" />원
+	                            </div>
+	                            <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                               	    <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                               	    	수량 :<input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
+                                   	  		   	   oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;">
+							    	</div>
+								    <div>
+                                    	금액 : <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
+									    	<fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
 										</span>
-	                                    </div>
-	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니 담기</button>
-	                                </div>
-	                                <div class="direct_buy">
-	                                	<button type="button" class="btn btn-light" 
+								    </div>
+	                                <div style="display: flex; justify-content: center; align-items: center; padding:10px;">
+	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니</button>
+	                                	<button type="button" class="btn btn-light" style="margin-left: 10px;"
 	                                	onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)"
 	                                	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
 	                                </div>
@@ -211,21 +217,23 @@
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${food.product_name}</h5>
+	                                    <h5 class="fw-bolder" style="margin-bottom: 20px;">${food.product_name}</h5>
+							       		<h5><fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" /> 원</h5>
 	                                </div>
-	                                <div class="cart_btn_box">
-	                                    <div>
-	                                        <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1">
-	                                    </div>
-	                                    <div class="count_price">
-	                                    	<span class="total-price-span" id="total_price_${food.product_code}">
-										    <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true" />원
+	                            </div>
+	                            <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                               	    <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                               	    	수량 :<input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
+                                   	  		   	   oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;">
+							    	</div>
+								    <div>
+                                    	금액 : <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
+									    	<fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
 										</span>
-	                                    </div>
-	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니 담기</button>
-	                                </div>
-	                                <div class="direct_buy">
-	                                	<button type="button" class="btn btn-light" 
+								    </div>
+	                                <div style="display: flex; justify-content: center; align-items: center; padding:10px;">
+	                                    <button type="button" class="btn btn-light push_cart" onclick="isLogin('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)">장바구니</button>
+	                                	<button type="button" class="btn btn-light" style="margin-left: 10px;"
 	                                	onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', document.getElementById('order_quantity-${food.product_code}').value)"
 	                                	data-bs-toggle="modal" data-bs-target="#exampleModal">바로구매</button>
 	                                </div>
@@ -285,6 +293,16 @@
 	  </div>
 	</div>
     <script>
+    	// 이미지 사이즈 조정
+	    function adjustImageSize() {
+	        var images = document.querySelectorAll('.card-img-top');
+	        images.forEach(function(image) {
+	            image.style.height = '250px'; // 원하는 높이 설정
+	            image.style.objectFit = 'cover'; // 이미지 비율 유지하며 자르기
+	        });
+	    }
+	    window.addEventListener('load', adjustImageSize);
+    
 	    function showSection(sectionId) {
 	        // 모든 섹션 보이게 하기
 	        var sections = document.querySelectorAll('.food_section');
@@ -311,8 +329,6 @@
 	        });
 	    }
 	    
-	 	
-	    
 	 	// 페이지 로드 시 실행되는 함수
 	    window.onload = function() {
 	        // 사용 포인트 입력란
@@ -332,10 +348,13 @@
 		// 장바구니 담기
         /* function isLogin(user_code, product_code, order_quantity) {
 		    console.log("isLogin function called with sUID:", sUID);
-		    if (sUID == "null") {
+		    if (sUID == null) {
 		        alert('로그인 후 이용해 하세요.');
 		        var url = 'login.do';
 		        window.location.href = url;
+		    } else if("${loginInfo.user_leadbook}" == 'Y') {
+        		alert("이미 구매한 도서열람권이 있습니다.");
+        		return;
 		    } else {
 		        $.ajax({
 		            type: "POST",
@@ -394,7 +413,7 @@
         function calculateTotalPrice(price, productCode){
             var quantity = document.getElementById('order_quantity-' + productCode).value;
             var totalPrice = parseInt(price) * parseInt(quantity);
-            document.getElementById('total_price_' + productCode).textContent = totalPrice.toLocaleString() + '원';
+            document.getElementById('total_price_' + productCode).textContent = totalPrice.toLocaleString() + ' 원';
         }
         
 	    // 바로구매 모달창 열기
@@ -403,6 +422,9 @@
                 alert('로그인 후 이용해 하세요.');
                 var url = 'login.do';
                 window.location.href = url;
+        	} else if("${loginInfo.user_leadbook}" == 'Y') {
+        		alert("이미 구매한 도서열람권이 있습니다.");
+        		return;
             } else {
             	var totalPriceElement = document.getElementById('total_price_' + product_code);
                 var modalTotalPrice = document.getElementById('modalTotalPrice');
@@ -432,6 +454,10 @@
              	// point_change 값도 함께 전송
              	console.log('사용포인트'+usePoints);
                 document.getElementById('pointChangeInput').value = usePoints;
+                
+//              	// 모달 열기
+//                 var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+//                 modal.show();
             }
 		}
 	    
@@ -505,7 +531,7 @@
                 usePoints = 0;
             }
             var paymentAmount = totalPrice - usePoints;
-            document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
+            document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + ' 원';
         }
         
     </script>

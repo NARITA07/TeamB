@@ -67,6 +67,12 @@
         .orderDate{
         	margin-bottom: 20px;
         }
+        .productName{
+        	width: 215px;
+        }
+        .orderQuantity{
+        	width: 38px;
+        }
         .printBtn{
         	margin-bottom: 20px;
         }
@@ -95,22 +101,39 @@
 	            margin-top: 50px;
 	            font-size: 25pt;
 	        }
-        
+        	.printBtn{
+        		display: none;
+        	}
+        	.productName{
+	        	width: 315px;
+	        }
+	        .orderQuantity{
+	        	width: 68px;
+	        }
+        	.top{
+        		display: none;
+        	}
+        	.bottom{
+        		display: none;
+        	}
         }
     </style>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+	<div class="top">
+		<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
+	</div>
+	
 	<div class="container">
 	    <div class="receipt-container">
 	        <div id="receipt">
 	            <h1>영수증</h1>
 	            <c:forEach items="${receiptList}" var="receipt">
 		            <div class="orderInfo">
-		            	<div>
+		            	<div class="productName">
 	                        <span>${receipt.product_name}</span>
 	                    </div>
-	                    <div>
+	                    <div class="orderQuantity">
 	                        <span>${receipt.order_quantity}개</span>
 	                    </div>
 	                    <div>
@@ -185,6 +208,8 @@
 	        return formattedDate;
 	    }
 	</script>
-	<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+	<div class="bottom">
+		<%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
+	</div>
 </body>
 </html>

@@ -81,26 +81,6 @@
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="MENU">
-        <ColumnInfo>
-          <Column id="TITLE" type="STRING" size="256"/>
-          <Column id="LEVEL" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="LEVEL">0</Col>
-            <Col id="TITLE">_</Col>
-          </Row>
-          <Row>
-            <Col id="LEVEL">1</Col>
-            <Col id="TITLE">내정보</Col>
-          </Row>
-          <Row>
-            <Col id="LEVEL">1</Col>
-            <Col id="TITLE">로그아웃</Col>
-          </Row>
-        </Rows>
-      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.businessclosure = 0;
 

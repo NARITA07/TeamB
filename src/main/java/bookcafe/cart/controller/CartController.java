@@ -392,7 +392,6 @@ import bookcafe.point.service.PointVO;
 	    session.setAttribute("cartSize", cartSize);
 	    //* 추가  E* //
 	    
-	    
 		return "/receipt/receipt";
 	}
 	

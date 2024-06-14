@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="stock_order_popup" width="820" height="450" titletext="다건추가" oninit="stock_order_popup_oninit">
+    <Layouts>
+      <Layout height="450" mobileorientation="landscape" width="820">
+        <Grid id="Grid00" taborder="0" left="20" top="100" bottom="20" right="20" binddataset="trans" autofittype="col" cssclass="grid_default">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="40"/>
+                <Column size="110"/>
+                <Column size="160"/>
+                <Column size="30"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="분류코드" background="#FFF8EE"/>
+                <Cell col="1" text="분류명" background="#FFF8EE"/>
+                <Cell col="2" text="제품명" background="#FFF8EE"/>
+                <Cell col="3" text="이미지" background="#FFF8EE"/>
+                <Cell col="4" text="가격" background="#FFF8EE"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:분류코드" textAlign="center"/>
+                <Cell col="1" text="bind:분류명" textAlign="center"/>
+                <Cell col="2" text="bind:제품명" textAlign="center" edittype="text"/>
+                <Cell col="3" text="bind:이미지" textAlign="center" edittype="text"/>
+                <Cell col="4" text="bind:가격" textAlign="right" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="save" taborder="1" text="저장" left="712" top="61" width="88" height="33" onclick="save_onclick"/>
+        <Button id="upload" taborder="2" text="업로드" left="606" top="61" width="94" height="35" onclick="Button00_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="trans">
+        <ColumnInfo>
+          <Column id="분류코드" type="STRING" size="256"/>
+          <Column id="분류명" type="STRING" size="256"/>
+          <Column id="제품명" type="STRING" size="256"/>
+          <Column id="이미지" type="STRING" size="256"/>
+          <Column id="가격" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	this.importObj = new ExcelImportObject("Import00", this);
+	
+	this.importObj.set_importtype(nexacro.ImportTypes.EXCEL);
+	this.importObj.set_importurl("http://demo.nexacro.com/developer_guide/XImport");
+	
+	this.importObj.addEventHandler("onsuccess", this.Import00_onsuccess, this);
+	this.importObj.addEventHandler("onerror", this.Import00_onerror, this);
+	
+	this.importObj.importData("", "Sheet1!A1:", "trans");
+	
+	
+};
+
+this.Import00_onsuccess = function(){
+	trace("성공")
+}
+
+this.Import00_onerror = function(){
+	trace("실패")
+}
+
+
+
+this.save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var id = "all_case_save"
+	var url = "svc::all_case_save.do";
+	var set = "trans = trans"; 
+	var get = "";
+	var arg = "";
+	var callback = "fn_all_case_save";
+	
+	this.transaction(id, url, set, get, arg, callback);
+};
+
+this.fn_all_case_save = function(id, code, message){
+
+	if(code == 0){//성공
+	
+	switch(id) {
+	case "all_case_save":
+		break;
+	}
+	
+	
+	}else if(acode < 0){//실패
+	
+	}
+
+}
+]]></Script>
+  </Form>
+</FDL>

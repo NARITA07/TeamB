@@ -104,6 +104,7 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
            }
        }
        System.out.println(message);
+       System.out.println(memberVO.getUser_id());
        return message;
    }
    
@@ -257,15 +258,15 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         memberVO.setUser_address(userAddress);
         memberVO.setUser_authority("1");
         
-        boolean checkTelExists = memberService.checkTelExists(userTel);
-        if (checkTelExists == true) {
-           redirectAttributes.addFlashAttribute("errorMessage", "이미 가입한 회원입니다.");
-            return new RedirectView("login.do");
-        }
-        
         int userExists = memberService.selectSnsIdChk(userId);
         if (userExists == 0) {
+        	boolean checkTelExists = memberService.checkTelExists(userTel);
+        	if (checkTelExists == true) {
+                redirectAttributes.addFlashAttribute("errorMessage", "이미 가입한 회원입니다.");
+                return new RedirectView("login.do");
+        	} else{
             memberService.insertNaverMember(memberVO);
+        	}
         }
 
         session.setAttribute("sessionId", userId);

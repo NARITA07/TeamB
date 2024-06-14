@@ -73,4 +73,14 @@
 	    VALUES (
 	    	fnCode('pointlog'), #{USER_CODE},"포인트 증정", #{POINT_PM}, date_format(now(),'%Y%m%d%H%i%s') )
 	</insert>
+	<!-- 회원 포인트 업데이트 -->
+	<update id="updateUserPoint">
+		UPDATE USER 
+		SET USER_POINT  = (
+		    SELECT SUM(POINT_CHANGE) 
+		    FROM POINTLOG 
+		    WHERE USER_CODE = #{USER_CODE}
+		) 
+		WHERE USER_CODE = #{USER_CODE}
+	</update>
 </mapper>

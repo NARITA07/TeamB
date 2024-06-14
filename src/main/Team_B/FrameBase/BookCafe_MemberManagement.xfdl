@@ -7,15 +7,15 @@
           <Formats>
             <Format id="default">
               <Columns>
+                <Column size="30"/>
+                <Column size="50"/>
+                <Column size="60"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="120"/>
+                <Column size="60"/>
+                <Column size="130"/>
                 <Column size="35"/>
-                <Column size="50"/>
-                <Column size="60"/>
-                <Column size="80"/>
-                <Column size="60"/>
-                <Column size="131"/>
-                <Column size="60"/>
-                <Column size="80"/>
-                <Column size="50"/>
               </Columns>
               <Rows>
                 <Row size="40" band="head"/>
@@ -35,13 +35,13 @@
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="2" text="bind:USER_JOINDATE" displaytype="mask" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="4" text="bind:USER_NAME" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="2" text="bind:USER_JOINDATE" displaytype="date" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" calendardateformat="yyyy-MM-dd " textAlign="center"/>
+                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="4" text="bind:USER_NAME" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
                 <Cell col="6" text="bind:USER_TEL" textAlign="center" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="8" text="bind:USER_POINT" edittype="none" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="8" text="bind:USER_POINT" edittype="none" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="right"/>
               </Band>
             </Format>
           </Formats>
@@ -393,7 +393,17 @@ this.showPopup = function (objParam)
 	popup.form.style.set_border("1 solid #4c5a6f");
 	
 }
-
+// 팝업콜백 함수
+this.fn_popupCallback = function(strPopupID, strReturn)
+{
+    if(strPopupID == undefined){
+        return;
+    }
+	
+    if(strPopupID == "popupWork"){
+		this.fnSelect_Members();
+    }
+};
 ]]></Script>
   </Form>
 </FDL>

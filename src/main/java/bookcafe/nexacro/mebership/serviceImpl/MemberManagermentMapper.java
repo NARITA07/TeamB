@@ -22,5 +22,9 @@ public interface MemberManagermentMapper {
 
 	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
 
+	//포인트로그 insert
 	public void insertPointLog(Map<String, String> param);
+
+	//유저 포인트 update
+	public void updateUserPoint(Map<String, String> param);
 }

@@ -53,6 +53,33 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/food.css" rel="stylesheet" />
+	<script>
+       function showSection(sectionId) {
+           // 모든 섹션 보이게 하기
+           var sections = document.querySelectorAll('.food_section');
+           sections.forEach(function(section) {
+               section.style.display = 'block';
+           });
+           
+           // 선택한 섹션만 표시
+           var selectedSection = document.getElementById(sectionId);
+           if (selectedSection) {
+               sections.forEach(function(section) {
+                   if (section.id !== sectionId) {
+                       section.style.display = 'none';
+                   }
+               });
+           }
+       }
+       
+       function showAllSections() {
+           // 모든 섹션 보이게 하기
+           var sections = document.querySelectorAll('.food_section');
+           sections.forEach(function(section) {
+               section.style.display = 'block';
+           });
+       }
+    </script>
 </head>
 	<body>
     

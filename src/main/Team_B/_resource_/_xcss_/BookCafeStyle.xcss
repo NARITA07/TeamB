@@ -354,4 +354,8 @@
 {
 	background : transparent;
 }
-]]></XCSS>
+
+.Grid .body .row .cell.grid_quantity
+{
+	color : red;
+}]]></XCSS>

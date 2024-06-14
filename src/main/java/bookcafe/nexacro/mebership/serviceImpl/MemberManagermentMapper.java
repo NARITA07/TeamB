@@ -8,7 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper
 public interface MemberManagermentMapper {
 
-	public List<Map<String, Object>> select_member();
+	public List<Map<String, Object>> select_member(Map<String, String> search_dtl);
 
 	public Map<String, Object> select_non(String nonmember);
 

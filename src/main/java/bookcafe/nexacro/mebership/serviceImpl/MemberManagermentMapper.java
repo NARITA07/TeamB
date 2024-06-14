@@ -21,4 +21,6 @@ public interface MemberManagermentMapper {
 	public int delete_Member(Map<String,String> member);
 
 	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
+
+	public void insertPointLog(Map<String, String> param);
 }

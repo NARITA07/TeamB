@@ -18,4 +18,6 @@ public interface MemberManagermentService {
 	public int delete_Member(List<Map<String,String>> members);
 
 	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
+
+	public void insertPointLog(Map<String, String> param);
 }

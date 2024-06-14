@@ -83,14 +83,27 @@
 	
 	<update id="updatevipstatus">
 	UPDATE USER u
-	JOIN (
-	SELECT USER_CODE
-	FROM ORDERS
-	WHERE PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
-	GROUP BY USER_CODE
-	HAVING SUM(TOTAL_PRICE) >= 100000
-	) o ON u.USER_CODE = o.USER_CODE
-	SET u.USER_AUTHORITY = '2';
+SET u.USER_AUTHORITY = 
+    CASE 
+        WHEN u.USER_AUTHORITY = '1' AND 
+             (SELECT COALESCE(SUM(o.TOTAL_PRICE), 0) 
+              FROM ORDERS o 
+              WHERE o.USER_CODE = u.USER_CODE 
+                AND o.PAYMENT_DATE &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)) >= 100000 
+             THEN '2'
+        WHEN u.USER_AUTHORITY = '2' AND 
+             (SELECT COALESCE(SUM(o.TOTAL_PRICE), 0) 
+              FROM ORDERS o 
+              WHERE o.USER_CODE = u.USER_CODE 
+                AND o.PAYMENT_DATE &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)) &lt; 100000 
+             THEN '1'
+        ELSE u.USER_AUTHORITY
+    END
+WHERE EXISTS (
+    SELECT 1 
+    FROM ORDERS o 
+    WHERE o.USER_CODE = u.USER_CODE 
+      AND o.PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
 </update>
 
 	
@@ -98,22 +111,8 @@
 	UPDATE USER SET USER_LEADBOOK = "N";
 	</update>
 	
-<update id="downdatevipstatus">
-UPDATE USER u
-        JOIN (
-            SELECT USER_CODE 
-            FROM ORDERS o
-            WHERE PAYMENT_DATE &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
-            GROUP BY USER_CODE
-            HAVING SUM(TOTAL_PRICE) &lt; 100000
-        ) de
-        ON u.USER_CODE = de.USER_CODE
-        SET u.USER_AUTHORITY = '1'
-        WHERE u.USER_AUTHORITY = '2';
-    </update>
-    
     <insert id="product_allsavef">
-	 insert into sec_code
+	 insert into BOOK(BOOK_NAME, BOOK_QUANTITY, BOOK_CATEGORY,BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_PATH,BOOK_PRICE) VALUES(#{제품명},'Y',#{분류명},#{저자}, #{출판일}, #{이미지}, '0')
     </insert>
     
     <insert id="product_allsaveb">

@@ -7,29 +7,35 @@
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="30"/>
-                <Column size="40"/>
-                <Column size="110"/>
-                <Column size="160"/>
-                <Column size="30"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
               </Columns>
               <Rows>
                 <Row size="24" band="head"/>
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="분류코드" background="#FFF8EE"/>
-                <Cell col="1" text="분류명" background="#FFF8EE"/>
-                <Cell col="2" text="제품명" background="#FFF8EE"/>
-                <Cell col="3" text="이미지" background="#FFF8EE"/>
-                <Cell col="4" text="가격" background="#FFF8EE"/>
+                <Cell text="분류코드"/>
+                <Cell col="1" text="분류명"/>
+                <Cell col="2" text="제품명"/>
+                <Cell col="3" text="이미지"/>
+                <Cell col="4" text="저자"/>
+                <Cell col="5" text="출판일"/>
+                <Cell col="6" text="가격"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:분류코드" textAlign="center"/>
-                <Cell col="1" text="bind:분류명" textAlign="center"/>
-                <Cell col="2" text="bind:제품명" textAlign="center" edittype="text"/>
-                <Cell col="3" text="bind:이미지" textAlign="center" edittype="text"/>
-                <Cell col="4" text="bind:가격" textAlign="right" edittype="text"/>
+                <Cell text="bind:분류코드" edittype="text"/>
+                <Cell col="1" text="bind:분류명" edittype="text"/>
+                <Cell col="2" text="bind:제품명" edittype="text"/>
+                <Cell col="3" text="bind:이미지" edittype="text"/>
+                <Cell col="4" text="bind:저자" edittype="text"/>
+                <Cell col="5" text="bind:출판일" edittype="text"/>
+                <Cell col="6" text="bind:가격"/>
               </Band>
             </Format>
           </Formats>
@@ -45,6 +51,8 @@
           <Column id="분류명" type="STRING" size="256"/>
           <Column id="제품명" type="STRING" size="256"/>
           <Column id="이미지" type="STRING" size="256"/>
+          <Column id="저자" type="STRING" size="256"/>
+          <Column id="출판일" type="STRING" size="256"/>
           <Column id="가격" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
@@ -68,6 +76,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 this.Import00_onsuccess = function(){
 	trace("성공")
+
 }
 
 this.Import00_onerror = function(){
@@ -98,7 +107,7 @@ this.fn_all_case_save = function(id, code, message){
 	}
 	
 	
-	}else if(acode < 0){//실패
+	}else if(code < 0){//실패
 	
 	}
 

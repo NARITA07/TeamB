@@ -67,5 +67,10 @@
             </if>
 		ORDER BY POINT_JOINDATE DESC;
 	</select>
-	
+	<insert id="insertPointLog" parameterType="java.util.Map">
+		INSERT INTO POINTLOG (
+			POINT_CODE, USER_CODE, ORDER_CODE,POINT_CHANGE, POINT_JOINDATE)
+	    VALUES (
+	    	fnCode('pointlog'), #{USER_CODE},"포인트 증정", #{POINT_PM}, date_format(now(),'%Y%m%d%H%i%s') )
+	</insert>
 </mapper>

@@ -105,8 +105,6 @@ public class StockOrderServiceImpl extends EgovAbstractServiceImpl implements St
 		return somapper.ViewStockOrder(search_so_grid);
 	}
 
-
-
 }
 	
 // 서비스에서는 연산과 가공

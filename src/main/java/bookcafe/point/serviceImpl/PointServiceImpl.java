@@ -1,6 +1,7 @@
 package bookcafe.point.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,12 @@ public class PointServiceImpl implements PointService {
 	public int selectTotalPoint(String user_code) {
 		Integer totalPoint = pointMapper.selectTotalPoint(user_code);
         return totalPoint != null ? totalPoint : 0;
+	}
+
+	// 주문코드를 통해 포인트 내역 조회
+	@Override
+	public List<Map<String, Object>> selectOrderToPointLog(String order_code) {
+		return pointMapper.selectOrderToPointLog(order_code);
 	}
 
 }

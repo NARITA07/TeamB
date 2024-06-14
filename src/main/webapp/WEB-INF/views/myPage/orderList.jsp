@@ -57,13 +57,13 @@ function orderHistory() {
 }
 
 // 날짜 형식 변환
-function formattedDate(point_use_date) {
-	if (!point_use_date) {
+function formattedDate(payment_date) {
+	if (!payment_date) {
         return "";
     }
 	
 	// 대상 문자열
-	 var dateStr = point_use_date;
+	 var dateStr = payment_date;
 	 
 	// 연도, 월, 일 추출
      var year = dateStr.substring(0, 4);

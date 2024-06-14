@@ -25,16 +25,6 @@ public class AdminController {
 	@Autowired
 	AdminService nex_service;
 	
-	//회원가입(관리자)
-	@RequestMapping(value = "/membership.do")
-    public NexacroResult Admin_membership(@ParamDataSet(name = "Membership", required = false) Map<String,String> Membership) {   
-		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
-		
-	    result.addDataSet("Login_Result", nex_service.insert_admin(Membership)); // result의 dataset에 "log"의 오브젝트를 만들고 선언된 값은 key : value의 형태로 초기화
-	    
-	    return result; // 값을 반환
-    }
-	
 	//로그인(관리자)
 	@RequestMapping("admin_login.do")
 	public NexacroResult Admin_Login(@ParamDataSet(name = "Admin_Login", required = false) Map<String,String> Admin_Login) { 

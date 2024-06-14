@@ -14,6 +14,8 @@ public interface ProductManagementService {
 	void img_path_food(String path);
 
 	void img_path_book(String path);
+
+	int businessclosure();
 	
 
 

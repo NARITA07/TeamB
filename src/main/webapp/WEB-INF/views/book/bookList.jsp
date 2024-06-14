@@ -452,7 +452,7 @@ $(document).ready(function() {
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-3 col-md-10 sidebar">
+        <div class="col-lg-3 col-md-12 sidebar">
            <h2>담긴도서</h2>
             <div class="half-height" style="height: 90%">
                 <div id="cartTableBody">

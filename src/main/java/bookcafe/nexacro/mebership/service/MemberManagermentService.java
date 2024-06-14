@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface MemberManagermentService {
 
-	public List<Map<String, Object>> select_member();
+	public List<Map<String, Object>> select_member(Map<String,String> search_dtl);
 
 	public Map<String, Object> select_non(String nonmember);
 

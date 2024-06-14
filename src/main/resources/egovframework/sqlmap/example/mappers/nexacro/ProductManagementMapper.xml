@@ -70,7 +70,9 @@
 	SET 
 			BOOK_NAME = #{PRODUCT_NAME}, 
 			BOOK_PRICE = #{PRODUCT_PRICE},
-			BOOK_PATH = #{PRODUCT_PATH}
+			BOOK_PATH = #{PRODUCT_PATH},
+			BOOK_WRITER = #{BOOK_WRITER},
+			BOOK_PUBLICATION_DATE = #{BOOK_PUBLICATION_DATE}
 	WHERE 
 			BOOK_CODE = #{PRODUCT_CODE}
 	</update>
@@ -109,5 +111,13 @@ UPDATE USER u
         SET u.USER_AUTHORITY = '1'
         WHERE u.USER_AUTHORITY = '2';
     </update>
+    
+    <insert id="product_allsavef">
+	 insert into sec_code
+    </insert>
+    
+    <insert id="product_allsaveb">
+	 insert into sec_code
+    </insert>
 
 </mapper>

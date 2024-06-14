@@ -49,10 +49,20 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		
 		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 OFF
 		
-
-		for(var i=0; i<dataset.rowcount; i++){
- 					dataset.setColumn(i,"CHK",val);
+		//if 컬럼이 checkbox 면 수정하게
+// 			for(var i=0; i<dataset.rowcount; i++){
+// 			trace(obj.getCellProperty("body",i,"edittype"))
+// 				if(obj.getCellProperty("body",i,"edittype") == "checkbox" ){
+// 					dataset.setColumn(i,"CHK",val);
+// 				}
+// 			}
+			for(var i =0; i< dataset.rowcount;i++){
+				if(dataset.getColumn(i,"STOCK_ORDER_STATUS_IN") != 'Y'&&
+				dataset.getColumn(i,"STOCK_ORDER_STATUS_IN") != 'N'){
+					dataset.setColumn(i,"CHK",val);
 				}
+			}
+		
 			dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
 		
 		// 정렬이 필요한 셀 클릭

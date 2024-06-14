@@ -143,6 +143,7 @@ var row_category = 0; //하위코드 갯수
 
 this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
+	this.Main.form.sec_search.set_enable(false)
 	this.check_sort(this.Main.form.Fir_code);
 	this.check_sort(this.Main.form.Sec_code);
 	
@@ -166,7 +167,8 @@ this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventI
 
 this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-
+	this.Main.form.sec_search.set_enable(true)
+	
 	var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
 
 	if(e.cell == 0){
@@ -201,7 +203,7 @@ this.Main_btn_fir_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 /***************************************************************************************/
 this.Main_btn_Sec_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	if(this.Main.form.fir_category.value == null){
+	if(this.Main.form.fir_search.value == null || this.Main.form.sec_search.enable == false){
 	return alert("카테고리를 선택해주세요");
 	}
 	
@@ -413,10 +415,28 @@ this.fn_sec_code_new = function(){
 /***************************************************************************************/
 this.codemanagement = function(id, code, message){
 	
-	if(code < 0){
-		alert("빈칸에 값을 넣어주세요");
-		this.reload();
+	if(code < 0){//에러 발생
+	
+	
+	switch(id) {
+		case "fn_sec_code_new":
+			alert("추가가 불가능한 상태입니다.")
+			break;
+		
+		case "grid_modi":
+			alert("제품명을 입력해주세요")
+			this.reload();
+			break;
+			
+	default:
+		 alert("알수없는 ERROR 발생")
+
 		}
+	
+	
+		
+
+	}	
 	
 	if(code == 0){
 	switch(id) {
@@ -542,6 +562,19 @@ this.Main_sec_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.ComboClose
 	
 	this.transaction(id, url, set, get, arg, callback)
 };
+
+this.Main_fir_search_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
+
+	if(this.Main.form.fir_search.value == 'fir_000'){
+	
+		this.Main.form.sec_search.set_enable(false)
+	}else{
+		this.Main.form.sec_search.set_enable(true)
+	}
+};
+
 ]]></Script>
   </Form>
 </FDL>

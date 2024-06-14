@@ -3,7 +3,7 @@
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="view_dtl" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick" oncellclick="user_table_oncellclick">
+        <Grid id="user_table" taborder="0" left="1.85%" top="104" binddataset="view_dtl" autofittype="col" right="1.85%" bottom="10%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -41,7 +41,7 @@
                 <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="6" text="bind:USER_TEL" textAlign="center" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="8" text="bind:USER_POINT" edittype="none" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="8" text="bind:USER_POINT" edittype="normal" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
               </Band>
             </Format>
           </Formats>
@@ -367,13 +367,10 @@ this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 // 데이터 더블클릭시 팝업호출
 this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-	if(e.cell == 8){
-
 	var objParam = {USER_CODE:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_CODE"),
 					USER_NAME:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_NAME")};
 				  
 	this.showPopup(objParam);
-	}
 };
 
 // 팝업호출
@@ -392,8 +389,6 @@ this.showPopup = function (objParam)
 	popup.style.set_overlaycolor("#6666664C");
 	popup.form.style.set_border("1 solid #4c5a6f");
 	
-}
-
-]]></Script>
+}]]></Script>
   </Form>
 </FDL>

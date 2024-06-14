@@ -62,5 +62,10 @@
 	    FROM POINTLOG 
 	    WHERE USER_CODE = #{user_code}
 	</select>
-	
+	<!-- 주문코드를 통해 포인트 내역 조회 -->
+	<select id="selectOrderToPointLog" resultType="java.util.Map">
+		SELECT POINT_CHANGE
+		  FROM POINTLOG
+		 WHERE ORDER_CODE = #{order_code}
+	</select>
 </mapper>

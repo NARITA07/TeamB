@@ -117,6 +117,7 @@ public class MemberManagermentCtroller {
 		        if (Member_Selected != null) {
 		            for (Map<String, String> param : Member_Selected) {
 		                mms.insertPointLog(param);
+		                mms.updateUserPoint(param);
 		            }
 		        }
 		        transactionManager.commit(txStatus);

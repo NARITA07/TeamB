@@ -64,6 +64,11 @@ public class MemberManagermentServiceImpl extends EgovAbstractServiceImpl implem
 	public void insertPointLog(Map<String, String> param) {
 		mmm.insertPointLog(param);
 	}
+
+	@Override
+	public void updateUserPoint(Map<String, String> param) {
+		mmm.updateUserPoint(param);
+	}
 	 
 
 

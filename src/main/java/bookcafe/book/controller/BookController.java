@@ -45,6 +45,11 @@ public class BookController {
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "10") int size,
                                Model model, HttpSession session) {
+        String sessionId = (String) session.getAttribute("sessionId");
+        MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
+        session.setAttribute("loginInfo", loginInfo);
+    	
+    	
         PagingRequestVO pagingRequest = new PagingRequestVO(page, size);
         List<BookVO> books;
         if (searchQuery != null && !searchQuery.isEmpty()) {

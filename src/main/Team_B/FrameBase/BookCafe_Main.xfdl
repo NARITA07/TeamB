@@ -60,23 +60,23 @@
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
-            <Col id="title">재고관리</Col>
-            <Col id="url">FrameBase::BookCafe_StockOrder.xfdl</Col>
-            <Col id="LEVEL">1</Col>
-          </Row>
-          <Row>
-            <Col id="title">공통코드관리</Col>
-            <Col id="url">FrameBase::BookCafe_CodeManagement.xfdl</Col>
-            <Col id="LEVEL">1</Col>
-          </Row>
-          <Row>
             <Col id="title">제품관리</Col>
             <Col id="url">FrameBase::BookCafe_Product.xfdl</Col>
             <Col id="LEVEL">1</Col>
           </Row>
           <Row>
+            <Col id="title">재고관리</Col>
+            <Col id="url">FrameBase::BookCafe_StockOrder.xfdl</Col>
+            <Col id="LEVEL">1</Col>
+          </Row>
+          <Row>
             <Col id="title">회원관리</Col>
             <Col id="url">FrameBase::BookCafe_MemberManagement.xfdl</Col>
+            <Col id="LEVEL">1</Col>
+          </Row>
+          <Row>
+            <Col id="title">공통코드관리</Col>
+            <Col id="url">FrameBase::BookCafe_CodeManagement.xfdl</Col>
             <Col id="LEVEL">1</Col>
           </Row>
         </Rows>

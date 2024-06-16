@@ -371,7 +371,7 @@ import bookcafe.point.service.PointVO;
 	
 	// 영수증 화면
 	@RequestMapping("selectReceipt.do")
-	public String selectReceipt(Model model, String order_code, ReceiptVO receipt, String user_code,HttpSession session) {
+	public String selectReceipt(Model model, String order_code,String user_code, ReceiptVO receipt,HttpSession session) {
 		System.out.println("영수증 컨트롤러");
 		System.out.println("주문번호 : "+order_code);
 		// 영수증 뽑기 (메뉴정보)
@@ -386,8 +386,11 @@ import bookcafe.point.service.PointVO;
 	    model.addAttribute("receiptInfo", receiptInfo);
 	    model.addAttribute("receiptPoint", receiptPoint);
 	    
+	  //* 추가  S*//
+		// 장바구니 수량 업데이트
 	    int cartSize = cartService.getCurrentCartSize(user_code);
 	    session.setAttribute("cartSize", cartSize);
+	    //* 추가  E* //
 	    
 		return "/receipt/receipt";
 	}

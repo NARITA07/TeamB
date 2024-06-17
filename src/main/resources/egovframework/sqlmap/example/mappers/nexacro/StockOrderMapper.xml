@@ -100,7 +100,7 @@
 	<!-- 시퀀스 -->
 	<insert id="saveStockOrder" >
 	  INSERT INTO STOCKORDER (USER_CODE, STOCK_ORDER_CODE, PRODUCT_CODE, STOCK_ORDER_QUANTITY, STOCK_ORDER_DATE, STOCK_ORDER_STATUS) 
-	  VALUES (#{USER_CODE},NEXTVAL(stockorder_seq),#{PRODUCT_CODE},#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%m%s'),0)
+	  VALUES (#{USER_CODE},NEXTVAL(stockorder_seq),#{PRODUCT_CODE},#{STOCK_ORDER_QUANTITY},DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'),0)
 	</insert>
 	
 	<!-- 발주수량 + 현재수량 -->

@@ -460,6 +460,7 @@ this.Button00_01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 	this.search_dtl.setColumn(idx,"search_input",this.Div00.form.Edit00.value);
 	
 	this.fnSelect_Members();
+	
 };
 ]]></Script>
   </Form>

@@ -17,7 +17,8 @@ this.setPaging = function(grid){
 	this.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
-	div.set_left(( (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+	var leftpos = (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2;
+	div.set_left(leftpos+"px");
 	div.set_text("PAGEDIV");
 	div.show();
 	
@@ -80,7 +81,7 @@ this.makebtn = function(div,pagecount){
  	div.addChild("endbtn",endbtn); // div에  버튼 추가
  	endbtn.show();
 };
-
+//페이징 초기화
 this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세팅
 	this.paging = new Dataset("paging");
 	this.paging.addColumn("page");
@@ -102,10 +103,13 @@ this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세�
 	this.view_dtl.copyData(this[datasetname]);
 	var grid = this[gridname];
 	grid.setBindDataset(this.view_dtl);
+	grid.addEventHandler("onsize",this.grid_onsize,this);
+	
 };
 this.setpagediv = function(grid){
 	var div = this.components['pagediv'];
-	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
+	var leftpos=(grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2;
+	div.set_left( leftpos+"px");
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 

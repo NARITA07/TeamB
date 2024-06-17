@@ -438,10 +438,7 @@ this.fn_category = function(id, code, message){
 				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
 					this.sec_code.deleteRow(0)
 				}
-				var div = this.components['pagediv'];
-				if(div != null)
-					div.destroy();
-				this.setPaging(this.view_code,this.Grid00);
+				this.reset_paging();
 				break;
 				
 				case "modi":

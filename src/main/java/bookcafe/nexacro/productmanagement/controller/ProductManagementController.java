@@ -31,25 +31,14 @@ public class ProductManagementController {
 	@Autowired
 	ProductManagementService productservice;
 	
-	//단건 추가
+	//제품 추가
 	@RequestMapping("save_date.do")
 	public NexacroResult savedate(@ParamDataSet(name ="save_date")Map<String, Object>save_date) {
-	System.out.println(save_date);
+	
 		NexacroResult product_save = new NexacroResult();
 		
 		product_save.addVariable("message", productservice.product_save(save_date));
 		return product_save;
-		
-	} 
-	//다건 추가
-	@RequestMapping("all_case_save.do")
-	public NexacroResult allcasesave(@ParamDataSet(name ="trans")List<Map<String, Object>>trans) {
-	System.out.println(trans);
-		NexacroResult product_all_save = new NexacroResult();
-		
-		product_all_save.addVariable("message", productservice.product_allsave(trans));
-		
-		return product_all_save;
 		
 	} 
 	

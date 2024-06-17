@@ -80,7 +80,7 @@ this.makebtn = function(div,pagecount){
  	div.addChild("endbtn",endbtn); // div에  버튼 추가
  	endbtn.show();
 };
-
+//페이징 초기화
 this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세팅
 	this.paging = new Dataset("paging");
 	this.paging.addColumn("page");
@@ -102,6 +102,8 @@ this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세�
 	this.view_dtl.copyData(this[datasetname]);
 	var grid = this[gridname];
 	grid.setBindDataset(this.view_dtl);
+	grid.addEventHandler("onsize",this.grid_onsize,this);
+	
 };
 this.setpagediv = function(grid){
 	var div = this.components['pagediv'];

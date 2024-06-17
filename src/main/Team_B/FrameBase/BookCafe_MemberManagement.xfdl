@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="user_table" taborder="0" left="1.76%" top="160" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="10.00%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
+        <Grid id="user_table" taborder="0" left="1.76%" top="160" autofittype="col" right="1.76%" bottom="10.00%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -98,30 +98,6 @@
           <Column id="USER_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="paging">
-        <ColumnInfo>
-          <Column id="page" type="INT" size="256"/>
-          <Column id="start" type="INT" size="256"/>
-          <Column id="end" type="INT" size="256"/>
-          <Column id="pagecount" type="INT" size="256"/>
-          <Column id="pagesize" type="INT" size="256"/>
-          <Column id="nextpage" type="INT" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="view_dtl">
-        <ColumnInfo>
-          <Column id="USER_ID" type="STRING" size="256"/>
-          <Column id="USER_NAME" type="STRING" size="256"/>
-          <Column id="USER_EMAIL" type="STRING" size="256"/>
-          <Column id="USER_TEL" type="STRING" size="256"/>
-          <Column id="USER_ADDRESS" type="STRING" size="256"/>
-          <Column id="USER_POINT" type="STRING" size="256"/>
-          <Column id="USER_JOINDATE" type="STRING" size="256"/>
-          <Column id="USER_AUTHORITY" type="STRING" size="256"/>
-          <Column id="CHK" type="STRING" size="256"/>
-          <Column id="USER_CODE" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
       <Dataset id="search">
         <ColumnInfo>
           <Column id="search" type="STRING" size="256"/>
@@ -154,17 +130,19 @@
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
-
+include "Base::paging.xjs";
 //폼이 시작되면
 this.BookCafe_ReciptProcessing_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
-{	
+{
+
+	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
+	this.pageinit(1,15,"user_table","Member_Management"); 
+	
 	this.search_dtl.clearData();
 	var idx = this.search_dtl.addRow();
 	this.fnSelect_Members();
 	this.fnGetCombo(); //수정
 
-	this.pageinit(1,15); //페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	
 	this.check_sort(this.user_table);
 	
 	this.Div00.form.Combo00.set_index(0);
@@ -181,11 +159,7 @@ this.fnSelect_Members = function(){ //멤버 받아오기 (검색 조건 추가�
 	this.transaction(id, url, indata, outdata,"", callback);
 }
 this.fnCallback_Member = function(){
-		var div = this.components['pagediv'];
-		if(div != null)
-			div.destroy();
-
-		this.setPaging(this.Member_Management,this.user_table);//수정
+	this.reset_paging();
 }
 this.fnGetCombo = function(){//멤버 권한 리스트 받아오기
 	var strSvcId = "getcombo";
@@ -251,165 +225,6 @@ this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		this.fnDeleteMember();
 	}
 	
-};
-
-
-//페이징 기능 
-this.setPaging = function(ds,grid){
-	//pagecount 세팅 (전체 페이지)
-	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
-	
-	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
-		pagecount+=1;
-	}
-	this.paging.setColumn(0,"pagecount",Number(pagecount));
-	//div 만들어주기 
-	var div = new nexacro.Div();
-	div.init("pagediv",1,2,400,50); // left top width height
-	this.addChild("pagediv",div);
-	
-	div.set_top(grid.id+":10px");
-	div.set_left(( (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
-	div.set_text("PAGEDIV");
-	div.show();
-	
-	this.makebtn(div,pagecount);
-
-	this.setds(ds,1);
-}
-this.makebtn = function(div,pagecount){
-	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
-	
-	var firstbtn = new nexacro.Button(); // << 버튼 만들기
-	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
-  	firstbtn.set_left((leftpos  + "px"));
- 	firstbtn.set_text("<<");
-	firstbtn.set_cssclass("btn_num");	
-	firstbtn.addEventHandler("onclick",this.onclick_firstbtn,this);
- 	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
- 	firstbtn.show();
-	
-	leftpos += 35;
-	var prevbtn = new nexacro.Button(); // <버튼 만들기
-	prevbtn.init("prevbtn",0,0,30, 30); // left top width height
-  	prevbtn.set_left((leftpos  + "px"));
- 	prevbtn.set_text("<");
-	prevbtn.set_cssclass("btn_num");	
-	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
- 	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
- 	prevbtn.show();
- 		
- 	for(var i =1; i<=pagecount; i++){
- 		var btn = new nexacro.Button(); // 숫자 버튼 만들기
- 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
-		leftpos += 35;
- 		btn.set_left(leftpos + "px");
- 		btn.set_text(i);
-		btn.set_cssclass("btn_num");
-		btn.addEventHandler("onclick",this.onclick_pagebtn,this);
- 		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
- 		btn.show();
- 	}
-	leftpos += 35;
-	var nextbtn = new nexacro.Button(); // > 버튼 만들기
-	nextbtn.init("nextbtn",0,0,30, 30); // left top width height
-  	nextbtn.set_left((leftpos  + "px"));
- 	nextbtn.set_text(">");
-	nextbtn.set_cssclass("btn_num");
-	nextbtn.addEventHandler("onclick",this.onclick_nextbtn,this);
- 	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
- 	nextbtn.show();
-	
-	leftpos += 35;
-	
-	var endbtn = new nexacro.Button(); // >> 버튼 만들기
-	endbtn.init("endbtn",0,0,30, 30); // left top width height
-  	endbtn.set_left((leftpos  + "px"));
- 	endbtn.set_text(">>");
-	endbtn.set_cssclass("btn_num");
-	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
- 	div.addChild("endbtn",endbtn); // div에  버튼 추가
- 	endbtn.show();
-};
-
-this.pageinit = function(page, pagesize){ // 페이징 세팅
-	this.paging.addRow();
-	this.paging.setColumn(0,"page",page); //현재 페이지
-	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
-}
-this.setpagediv = function(grid){
-	var div = this.components['pagediv'];
-	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
-};
-this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
-// 	var pagesize = this.paging.getColumn(0,"pagesize");
-// 	ds.filter("");
-// 	for(var i =0; i<(page-1)*pagesize;i++){
-// 		ds.filterRow(0);
-// 	}
-// 	for(var i = pagesize; pagesize !=  ds.rowcount && ds.rowcount>pagesize  ; i++){
-// 		ds.filterRow(pagesize);
-// 	}
-// 	this.paging.setColumn(0,"page",page);
-	var pagesize = this.paging.getColumn(0,"pagesize");
-	this.view_dtl.clearData();
-	if(ds.rowcount == 0){
-		this.paging.setColumn(0,"page",1);
-		return;
-	}
-	this.view_dtl.set_enableevent(false);
-
-	if(page == this.paging.getColumn(0,"pagecount")){
-		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
-			var idx = this.view_dtl.addRow();
-			this.view_dtl.copyRow(idx,ds,i);
-		}
-	}else{
-		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
-			var idx = this.view_dtl.addRow();
-			this.view_dtl.copyRow(idx,ds,i);
-		}
-	}
-	
-	this.view_dtl.set_enableevent(true);
-	this.paging.setColumn(0,"page",page);
-};
-
-//버튼 클릭 이벤트
-this.onclick_firstbtn = function(obj:nexacro.Button){
-	var ds = this.Member_Management; //수정
-	this.setds(ds,1);
-};
-this.onclick_prevbtn = function(obj:nexacro.Button){
-	var ds = this.Member_Management; //수정
-	var prevpage = this.paging.getColumn(0,"page")-1;
-	if(prevpage <= 1)
-		this.setds(ds,1);
-	else
-		this.setds(ds,prevpage);
-};
-this.onclick_nextbtn = function(obj:nexacro.Button){
-	var ds = this.Member_Management; //수정
-	var nextpage = this.paging.getColumn(0,"page")+1;
-	if(nextpage >= this.paging.getColumn(0,"pagecount"))
-		this.setds(ds,this.paging.getColumn(0,"pagecount"));
-	else
-		this.setds(ds,nextpage);
-};
-this.onclick_endbtn = function(obj:nexacro.Button){
-	var ds = this.Member_Management; //수정
-	this.setds(ds,this.paging.getColumn(0,"pagecount"));
-};
-this.onclick_pagebtn = function(obj:nexacro.Button){
-//버튼 이벤트
-	this.setds(this.Member_Management,obj.text); //수정
-};
-
-
-this.user_table_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
-{//그리드 사이즈 변화 이벤트
-	this.setpagediv(obj);//수정
 };
 
 

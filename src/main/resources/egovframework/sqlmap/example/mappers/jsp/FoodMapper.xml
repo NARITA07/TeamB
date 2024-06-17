@@ -4,8 +4,10 @@
     
     <!-- 음식 목록 조회 (커피, 푸드 통합) -->
     <select id="selectFoodessList" resultType="bookcafe.food.service.FoodVO">
-        SELECT * FROM FOOD
-        WHERE PRODUCT_CODE LIKE 'f_%'
+        SELECT F.*, SC.FIR_CODE , SC.SEC_NAME , SC.USE_STATUS  
+		FROM FOOD F
+		JOIN SEC_CODE SC ON F.PRODUCT_CATEGORY = SC.SEC_CODE
+		WHERE SC.USE_STATUS = 'Y';
     </select>
     
     <!-- 음식 카테고리 -->

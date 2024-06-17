@@ -17,6 +17,18 @@
 		    a.USER_AUTHORITY
 		FROM 
 		    USER a
+		WHERE 1=1
+		<choose>
+			<when test="search_code == 1">
+				AND a.USER_NAME LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+			<when test ="search_code == 2">
+				AND a.USER_ID LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+			<when test ="search_code == 3">
+				AND a.USER_TEL LIKE CONCAT('%', #{search_input}, '%')
+			</when>
+		</choose>
 		ORDER BY USER_AUTHORITY ASC;
 			</select>
 			<select id="select_User_Authority" resultType="java.util.Map">
@@ -39,7 +51,10 @@
 
 	<select id="selectPointlog" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			ORDER_CODE,
+			CASE 
+		        WHEN ORDER_CODE IS NULL THEN '포인트증정'
+		        ELSE ORDER_CODE
+		    END AS ORDER_CODE,
 			POINT_CHANGE,
 			POINT_JOINDATE
 		FROM
@@ -71,6 +86,16 @@
 		INSERT INTO POINTLOG (
 			POINT_CODE, USER_CODE, ORDER_CODE,POINT_CHANGE, POINT_JOINDATE)
 	    VALUES (
-	    	fnCode('pointlog'), #{USER_CODE},"포인트 증정", #{POINT_PM}, date_format(now(),'%Y%m%d%H%i%s') )
+	    	fnCode('pointlog'), #{USER_CODE}, null, #{POINT_PM}, date_format(now(),'%Y%m%d%H%i%s') )
 	</insert>
+	<!-- 회원 포인트 업데이트 -->
+	<update id="updateUserPoint">
+		UPDATE USER 
+		SET USER_POINT  = (
+		    SELECT SUM(POINT_CHANGE) 
+		    FROM POINTLOG 
+		    WHERE USER_CODE = #{USER_CODE}
+		) 
+		WHERE USER_CODE = #{USER_CODE}
+	</update>
 </mapper>

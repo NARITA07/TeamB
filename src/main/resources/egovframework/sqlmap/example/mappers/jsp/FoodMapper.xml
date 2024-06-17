@@ -8,5 +8,20 @@
         WHERE PRODUCT_CODE LIKE 'f_%'
     </select>
     
+<<<<<<< HEAD
+    <!-- 음식 카테고리 -->
+    <select id="getFoodCategory" resultType="bookcafe.food.service.FoodVO">
+		SELECT *
+		FROM SEC_CODE
+		WHERE FIR_CODE = 'FIR_002'
+		  AND USE_STATUS = 'Y'
+		ORDER BY
+		  CASE
+		    WHEN SEC_NAME = '도서열람권' THEN 1
+		    ELSE 2
+		  END, SEC_CODE;
+    </select>
+=======
+>>>>>>> branch 'choi' of https://github.com/NARITA07/TeamB.git
     
 </mapper>

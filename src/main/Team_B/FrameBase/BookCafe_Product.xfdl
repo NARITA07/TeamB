@@ -358,7 +358,7 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	this.view_code.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
+	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
 	if(e.cell == 4){
 

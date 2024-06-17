@@ -102,7 +102,6 @@
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort_Stock_Order.xjs";
-
 /*
 1. 화면 초기화
 2. 이벤트
@@ -711,8 +710,6 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo){
 	this.setpagediv(obj);//수정
 };
-
-
 
 
 ]]></Script>

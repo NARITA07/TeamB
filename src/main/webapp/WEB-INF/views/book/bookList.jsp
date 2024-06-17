@@ -235,7 +235,7 @@ $(document).ready(function() {
                 data: { bookCode: bookCode, bookName: bookName },
                 success: function(response) {
                     updateCart(response);
-                    button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('담기');
+                    button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('이미 담겼습니다');
                 },
                 error: function(xhr, status, error) {
                     alert("카트에 담기를 실패하였습니다.");

@@ -225,7 +225,7 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
 					          	<c:if test="${not empty myOrder}">
-						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
+						          	<div class="row">
 						          		<c:forEach var="myOrder" items="${myOrder}">
 											<div class="orderDiv col-md-4" onclick="getOrderInfo('${myOrder.order_code}')" style="padding: 20px;">
 												<div class="card h-100">
@@ -275,9 +275,9 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 대여중인 도서가 있는 경우 --%>
 					          	<c:if test="${not empty myBook}">
-						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
+						          	<div class="row">
 						          		<c:forEach var="myBook" items="${myBook}">
-											<div class="bookDiv col-md-4" style="padding: 20px;">
+											<div class="orderDiv col-md-4" style="padding: 20px;">
 												<div class="card">
 													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;

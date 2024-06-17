@@ -10,7 +10,6 @@ public class CartVO {
 	private String product_name;
 	private int product_price;
 	private String sequence_number;
-	private String product_quantity;
 	
 	public String getUser_code() {
 		return user_code;
@@ -66,18 +65,13 @@ public class CartVO {
 	public void setSequence_number(String sequence_number) {
 		this.sequence_number = sequence_number;
 	}
-	public String getProduct_quantity() {
-		return product_quantity;
-	}
-	public void setProduct_quantity(String product_quantity) {
-		this.product_quantity = product_quantity;
-	}
+	
 	@Override
 	public String toString() {
 		return "CartVO [user_code=" + user_code + ", product_code=" + product_code + ", cart_code=" + cart_code
 				+ ", order_quantity=" + order_quantity + ", count_cart=" + count_cart + ", user_id=" + user_id
 				+ ", product_name=" + product_name + ", product_price=" + product_price + ", sequence_number="
-				+ sequence_number + ", product_quantity=" + product_quantity + "]";
+				+ sequence_number + "]";
 	}
 	
 }

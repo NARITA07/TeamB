@@ -229,7 +229,7 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
         var objChildFrame = new ChildFrame();
 						// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
-        objChildFrame.init("ProductAdd_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddProduct_popup.xfdl");
+        objChildFrame.init("Product_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddProduct_popup.xfdl");
         objChildFrame.set_dragmovetype("all"); // 마우스 드래그
         objChildFrame.set_openalign("center middle"); // 화면 위치 
 		objChildFrame.set_resizable(false); // 화면 크기 조절
@@ -262,12 +262,12 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  	var num = 0;
  	for(i = 0; i < this.view_dtl.rowcount; i++){
 		if(this.view_dtl.getColumn(i,"CHK") == "Y"){
+		trace("꼽")
  	var code =	this.view_dtl.getColumn(i,"PRODUCT_CODE")
  	var name =	this.view_dtl.getColumn(i,"PRODUCT_NAME")
  	var price = this.view_dtl.getColumn(i,"PRODUCT_PRICE")
 	var path = this.view_dtl.getColumn(i,"PRODUCT_PATH")
-	var writer = this.view_dtl.getColumn(i,"BOOK_WRITER")
-	var publication =this.view_dtl.getColumn(i,"BOOK_PUBLICATION_DATE")
+ 
  		
  		this.save_date.addRow();
  		
@@ -275,17 +275,15 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  		this.save_date.setColumn(num,"PRODUCT_NAME",name)
  		this.save_date.setColumn(num,"PRODUCT_PRICE",price)
 		this.save_date.setColumn(num,"PRODUCT_PATH", path)
-		this.save_date.setColumn(num,"BOOK_WRITER", writer)
-		this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", publication)
  		num++;
-
+		trace(num)
  	}; 
  	}; // for 끝
 	
  	if(this.save_date.getRowCount() == 0){
- 		
+ 		alert("수정하실 내역이없습니다.")
 		this.view_dtl.reset();
- 		return alert("수정하실 내역이없습니다.")
+ 		return false
  	}
  	
  	var id = "modi"
@@ -360,7 +358,6 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
 	if(e.cell == 4){
@@ -398,7 +395,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
 	img_name = e.virtualfiles[0].filename // 파일이름
 	img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
-	this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
+	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
 	
 	
 	}else{//새로운 이미지이면
@@ -420,7 +417,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 
 	this.FileUpTransfer00.addFile("images/"+full_date, e.virtualfiles[0])
 
-	this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
+	this.view_code.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
 	
 	}
 
@@ -619,22 +616,11 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {
 	this.setpagediv(obj);
-
+	//ss = 23;
+	//this.paging.setColumn(0,"pagesize",ss);
+	//this.setds(obj.getBindDataset(),this.paging.getColumn(0,"page"));
 };
 
-
-
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var objChildFrame = new ChildFrame();
-						// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
-        objChildFrame.init("ProductAddAll_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddAllProduct_popup.xfdl");
-        objChildFrame.set_dragmovetype("all"); // 마우스 드래그
-        objChildFrame.set_openalign("center middle"); // 화면 위치 
-		objChildFrame.set_resizable(false); // 화면 크기 조절
-		
-        objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
-};
 
 this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {

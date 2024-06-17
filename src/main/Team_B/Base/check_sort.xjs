@@ -46,6 +46,7 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		var val = 'N';	// 체크박스 N상태를 변수에 저장
 		
 		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){	// 이벤트가 발생한 컬럼값을 가져와서 Y와 비교.
+			
 			obj.setCellProperty("head",e.cell,"text",val);	// 컬럼값이 Y일 시 N으로 변환
 		}else{
 			val = 'Y';
@@ -56,14 +57,13 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		
 		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 OFF
 		
-
 		for(var i=0; i<dataset.rowcount; i++){
- 					dataset.setColumn(i,"CHK",val);
-				}
-			dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
+			dataset.setColumn(i,"CHK",val);
+		}
+		dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
 		
-		// 정렬이 필요한 셀 클릭
-		}else {
+	// 정렬이 필요한 셀 클릭
+	}else {
 	
 		this.resetAllHeaderTexts(obj);	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해
 		

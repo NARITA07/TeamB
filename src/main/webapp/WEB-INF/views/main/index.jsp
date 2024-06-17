@@ -15,6 +15,7 @@
 <!--         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" /> -->
 <!--         Core theme CSS (includes Bootstrap) -->
 <!--         <link href="css/style.css" rel="stylesheet" /> -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4c13233a02c1acd074c855827b1d3fce"></script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
@@ -27,7 +28,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
     	<h1 style="text-align:center; margin-bottom:50px;">도서대여 Top3</h1>
-			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="margin-bottom:100px;">
     			<c:forEach items="${books}" var="book">
 					<div class="col mb-5">
     					<div class="card h-100">
@@ -42,8 +43,29 @@
 					</div>
 				</c:forEach>
 			</div>
+		<div>
+			<h1 style="text-align:center; margin-bottom:50px; font-family:fantasy;">찾아오시는 길</h1>
+			<div id="map" style="width:500px;height:400px;margin:auto;"></div>
+		</div>
 	</div>
 </section>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %> 
+<script>
+   var container = document.getElementById('map');
+   var options = {
+      center: new kakao.maps.LatLng(35.56414701479786, 129.32178060449868),
+      level: 3
+   };
+   var map = new kakao.maps.Map(container, options);
+   
+   // 마커가 표시될 위치입니다 
+   var markerPosition  = new kakao.maps.LatLng(35.56414701479786, 129.32178060449868);
+   // 마커를 생성합니다
+   var marker = new kakao.maps.Marker({
+       position: markerPosition
+   });
+   // 마커가 지도 위에 표시되도록 설정합니다
+   marker.setMap(map);
+</script>
 </body>
 </html>

@@ -10,11 +10,6 @@ public class FoodVO {
 	private String user_id;
 	private String product_category;
 	
-	private String fir_code;
-	private String sec_code;
-	private String sec_name;
-	private String use_status;
-	
 	
 	public String getProduct_category() {
 		return product_category;
@@ -64,29 +59,8 @@ public class FoodVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public String getFir_code() {
-		return fir_code;
-	}
-	public void setFir_code(String fir_code) {
-		this.fir_code = fir_code;
-	}
-	public String getSec_code() {
-		return sec_code;
-	}
-	public void setSec_code(String sec_code) {
-		this.sec_code = sec_code;
-	}
-	public String getSec_name() {
-		return sec_name;
-	}
-	public void setSec_name(String sec_name) {
-		this.sec_name = sec_name;
-	}
-	public String getUse_status() {
-		return use_status;
-	}
-	public void setUse_status(String use_status) {
-		this.use_status = use_status;
-	}
+	
+	
+	
 	
 }

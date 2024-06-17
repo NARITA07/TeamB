@@ -47,7 +47,7 @@
                 <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
                 <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
                 <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
-                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' || BOOK_PUBLICATION_DATE == '미상' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
                 <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>

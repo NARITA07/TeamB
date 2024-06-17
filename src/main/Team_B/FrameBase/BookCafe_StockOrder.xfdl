@@ -101,7 +101,7 @@
         <Button id="Button00_00" taborder="9" text="엑셀" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort_Stock_Order.xjs";
 /*
 1. 화면 초기화
 2. 이벤트

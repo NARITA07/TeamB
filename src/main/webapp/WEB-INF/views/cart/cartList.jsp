@@ -87,7 +87,7 @@
 									<c:choose>
 									    <c:when test="${cart.product_code == 'food_014'}">
 									        <td id="order_quantity${count.count}">
-									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()" readonly="readonly">
+									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()" readonly>
 									        </td>
 									    </c:when>
 									    <c:otherwise>
@@ -307,17 +307,23 @@
 		        $('.cartData').each(function() {
 		            var orderQuantity = parseInt($(this).find('.order_quantity').val());
 		            var productQuantity = parseInt($(this).find('.productQuantity').val());
+		            var product_code = ($(this).find('.productCode').val());
 		            
-		            if (productQuantity <= 0) {
-		                var productName = $(this).find('td:first').text();
-		                alert(productName + "의 재고가 부족합니다.");
-		                isStockValid = false;
-		                return false; // 반복문 탈출
-		            } else if (orderQuantity > productQuantity) {
-		            	var productName = $(this).find('td:first').text();
-		                alert(productName + "의 주문가능 수량은 " + productQuantity + "개 입니다.");
-		                isStockValid = false;
-		                return false; // 반복문 탈출
+		            if (product_code == 'food_014') {
+		            	isStockValid = true;
+		            	return true;
+		            } else {
+			            if (productQuantity <= 0) {
+			                var productName = $(this).find('td:first').text();
+			                alert(productName + "의 재고가 부족합니다.");
+			                isStockValid = false;
+			                return false; // 반복문 탈출
+			            } else if (orderQuantity > productQuantity) {
+			            	var productName = $(this).find('td:first').text();
+			                alert(productName + "의 주문가능 수량은 " + productQuantity + "개 입니다.");
+			                isStockValid = false;
+			                return false; // 반복문 탈출
+			            }
 		            }
 		        });
 

@@ -53,6 +53,33 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/food.css" rel="stylesheet" />
+    <script>
+	    function showSection(sectionId) {
+	        // 모든 섹션 보이게 하기
+	        var sections = document.querySelectorAll('.food_section');
+	        sections.forEach(function(section) {
+	            section.style.display = 'block';
+	        });
+	        
+	        // 선택한 섹션만 표시
+	        var selectedSection = document.getElementById(sectionId);
+	        if (selectedSection) {
+	            sections.forEach(function(section) {
+	                if (section.id !== sectionId) {
+	                    section.style.display = 'none';
+	                }
+	            });
+	        }
+	    }
+	    
+	    function showAllSections() {
+	        // 모든 섹션 보이게 하기
+	        var sections = document.querySelectorAll('.food_section');
+	        sections.forEach(function(section) {
+	            section.style.display = 'block';
+	        });
+	    }
+    </script>
 </head>
 	<body>
     
@@ -303,31 +330,7 @@
 	    }
 	    window.addEventListener('load', adjustImageSize);
     
-	    function showSection(sectionId) {
-	        // 모든 섹션 보이게 하기
-	        var sections = document.querySelectorAll('.food_section');
-	        sections.forEach(function(section) {
-	            section.style.display = 'block';
-	        });
-	        
-	        // 선택한 섹션만 표시
-	        var selectedSection = document.getElementById(sectionId);
-	        if (selectedSection) {
-	            sections.forEach(function(section) {
-	                if (section.id !== sectionId) {
-	                    section.style.display = 'none';
-	                }
-	            });
-	        }
-	    }
 	    
-	    function showAllSections() {
-	        // 모든 섹션 보이게 하기
-	        var sections = document.querySelectorAll('.food_section');
-	        sections.forEach(function(section) {
-	            section.style.display = 'block';
-	        });
-	    }
 	    
 	 	// 페이지 로드 시 실행되는 함수
 	    window.onload = function() {
@@ -418,6 +421,7 @@
         
 	    // 바로구매 모달창 열기
         function direct_buy(user_code, product_code, order_quantity){
+        	console.log("isLogin function called with sUID:", sUID);
         	if(sUID == "null"){
                 alert('로그인 후 이용해 하세요.');
                 var url = 'login.do';

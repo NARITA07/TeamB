@@ -3,21 +3,27 @@
   <Form id="BookCafe_ProductManagemnet_Modify" width="1080" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1020">
-        <Div id="Div00" taborder="7" left="1.76%" top="97" height="40" cssclass="main_nav" right="1.76%"/>
+        <Div id="Div00" taborder="7" left="1.76%" top="97" height="40" cssclass="main_nav" right="1.76%" text="">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
         <Static id="Static00" taborder="0" text="제품관리" left="1.86%" height="38" top="2.78%" width="128" cssclass="main_title"/>
         <ImageViewer id="ImageViewer00" taborder="9" left="40" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="110" width="24" height="14"/>
-        <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default"/>
-        <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default"/>
-        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize">
+        <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
+        <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
+        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="20"/>
-                <Column size="52"/>
-                <Column size="70"/>
+                <Column size="40"/>
+                <Column size="40"/>
                 <Column size="100"/>
-                <Column size="160"/>
+                <Column size="140"/>
+                <Column size="60"/>
+                <Column size="50"/>
                 <Column size="30"/>
               </Columns>
               <Rows>
@@ -25,20 +31,24 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" cursor="auto"/>
-                <Cell col="1" text="제품코드" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="2" text="분류" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="3" text="제품명" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
-                <Cell col="4" text="이미지경로" background="#FFF8EE"/>
-                <Cell col="5" text="가격" background="#FFF8EE" textAlign="center" cursor="auto" verticalAlign="middle"/>
+                <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
+                <Cell col="1" text="분류코드" background="#FFF8EE"/>
+                <Cell col="2" text="분류명" background="#FFF8EE"/>
+                <Cell col="3" text="제품명" background="#FFF8EE"/>
+                <Cell col="4" text="이미지" background="#FFF8EE"/>
+                <Cell col="5" text="저자" background="#FFF8EE"/>
+                <Cell col="6" text="출판일" background="#FFF8EE"/>
+                <Cell col="7" text="가격" textAlign="right" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" textAlign="center" checkboxtruevalue="Y" checkboxfalsevalue="N" text="bind:CHK"/>
-                <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" verticalAlign="middle"/>
-                <Cell col="2" text="bind:SEC_NAME" textAlign="center" verticalAlign="middle"/>
-                <Cell col="3" text="bind:PRODUCT_NAME" edittype="text" tooltiptext="더블클릭 시 수정이 가능합니다." textAlign="center" verticalAlign="middle"/>
-                <Cell col="4" text="bind:PRODUCT_PATH" edittype="text" textAlign="center"/>
-                <Cell col="5" text="bind:PRODUCT_PRICE" edittype="text" displaytype="mask" maskeditformat="###,###,###0" textAlign="right" maskeditmaskchar="," maskeditautoselect="false" maskeditlimitbymask="none" maskedittype="number" tooltiptext="더블클릭 시 수정이 가능합니다." verticalAlign="middle"/>
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
+                <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
+                <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
+                <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
+                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
           </Formats>
@@ -65,6 +75,8 @@
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="CHK" type="STRING" size="256"/>
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="BOOK_WRITER" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="fir_category_select" useclientlayout="true">
@@ -100,6 +112,8 @@
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_PRICE" type="STRING" size="256"/>
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="BOOK_WRITER" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="message" useclientlayout="true">
@@ -122,7 +136,7 @@
           <Column id="nextpage" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="view_dtl" useclientlayout="true">
+      <Dataset id="view_dtl" useclientlayout="true" onrowposchanged="view_dtl_onrowposchanged">
         <ColumnInfo>
           <Column id="SEC_CODE" type="STRING" size="256"/>
           <Column id="SEC_NAME" type="STRING" size="256"/>
@@ -131,6 +145,8 @@
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="CHK" type="STRING" size="256"/>
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
+          <Column id="BOOK_WRITER" type="STRING" size="256"/>
+          <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -342,7 +358,7 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	this.view_code.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
+	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
 	if(e.cell == 4){
 

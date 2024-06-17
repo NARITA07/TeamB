@@ -168,11 +168,7 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	} else {
 		alert("포인트를 입력해주세요");
 	}
-	
-	
-	
-	
-	
+
 };
 
 ]]></Script>

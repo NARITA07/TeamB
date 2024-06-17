@@ -108,33 +108,33 @@
 	<!-- 총 금액 계산하기(카트리스트) -->
 	<select id="selectTotalPrice" parameterType="string" resultType="Integer">
 	    SELECT 
-		    SUM(f.product_price * c.order_quantity) AS total_price
+		    SUM(f.PRODUCT_PRICE * c.ORDER_QUANTITY) AS TOTAL_PRICE
 		FROM 
 		    CART c
 		JOIN 
 		    FOOD f 
 		ON 
-		    c.product_code = f.product_code
+		    c.PRODUCT_CODE = f.PRODUCT_CODE
 		JOIN
 		    USER u
 		ON
-		    c.user_code = u.user_code
+		    c.USER_CODE = u.USER_CODE
 		WHERE 
-		    c.cart_code = #{cart_code}
+		    c.CART_CODE = #{cart_code}
 	</select>
 	
 	<!-- 재고 업데이트 -->
 	<update id="updateQuantity" parameterType="String">
 		UPDATE FOOD
-		SET product_quantity = product_quantity - (
-		    SELECT SUM(order_quantity)
+		SET PRODUCT_QUANTITY = PRODUCT_QUANTITY - (
+		    SELECT SUM(ORDER_QUANTITY)
 		    FROM CART
-		    WHERE CART.cart_code = #{cart_code}
+		    WHERE CART.CART_CODE = #{cart_code}
 		)
-		WHERE product_code IN (
-		    SELECT product_code
+		WHERE PRODUCT_CODE IN (
+		    SELECT PRODUCT_CODE
 		    FROM CART
-		    WHERE CART.cart_code = #{cart_code}
+		    WHERE CART.CART_CODE = #{cart_code}
 		);
 	</update>
 	
@@ -198,9 +198,9 @@
 	
 	<!-- 총금액 계산(오더리스트) -->
 	<select id="getTotalPrice" parameterType="string" resultType="Integer">
-	    SELECT total_price 
+	    SELECT TOTAL_PRICE 
 	    FROM ORDERS 
-	    WHERE order_code = #{order_code}
+	    WHERE ORDER_CODE = #{order_code}
 	</select>
 	
 	<!-- 유저포인트 업데이트 -->
@@ -267,14 +267,14 @@
 	
 	<update id="updateQuantity1" parameterType="map">
 	    UPDATE CART
-	    SET order_quantity = #{order_quantity, jdbcType=INTEGER}
-	    WHERE cart_code = #{cart_code} AND product_code = #{product_code}
+	    SET ORDER_QUANTITY = #{order_quantity, jdbcType=INTEGER}
+	    WHERE CART_CODE = #{cart_code} AND PRODUCT_CODE = #{product_code}
 	</update>
 	
 	<update id="minusQuantity" parameterType="map">
 	    UPDATE CART
-	    SET order_quantity = order_quantity - #{order_quantity, jdbcType=INTEGER}
-	    WHERE cart_code = #{cart_code} AND product_code = #{product_code}
+	    SET ORDER_QUANTITY = ORDER_QUANTITY - #{order_quantity, jdbcType=INTEGER}
+	    WHERE CART_CODE = #{cart_code} AND PRODUCT_CODE = #{product_code}
 	</update>
 	
 	<!--  장바구니 숫자 조회 -->

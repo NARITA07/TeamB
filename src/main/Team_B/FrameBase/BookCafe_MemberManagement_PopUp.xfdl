@@ -81,7 +81,7 @@
 
 this.BookCafe_MemberManagement_PopUp_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.pageinit(1,10,"Grid00","pointlog_dtl");
+	this.pageinit(1,9,"Grid00","pointlog_dtl");
 	
 	this.Member_Selected.clearData();
 	this.Member_Selected.addRow();

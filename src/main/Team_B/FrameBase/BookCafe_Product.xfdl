@@ -55,9 +55,7 @@
         </Grid>
         <Button id="btn_del" taborder="5" text="삭제" height="30" right="1.85%" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick" width="70"/>
         <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:5" bottom="Div00:5" cssclass="btn_save" onclick="btn_save_onclick"/>
-        <Button id="btn_add" taborder="3" text="단건추가" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_view"/>
-        <Button id="Button00_00" taborder="11" text="엑셀다운로드" top="62" height="30" cssclass="btn_view" right="btn_add:10" width="80" onclick="Button00_00_onclick"/>
-        <Button id="Button00" taborder="10" text="다건추가" top="62" height="30" onclick="Button00_onclick" cssclass="btn_view" right="Button00_00:10" width="70"/>
+        <Button id="btn_add" taborder="3" text="추가" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_save"/>
       </Layout>
     </Layouts>
     <Objects>

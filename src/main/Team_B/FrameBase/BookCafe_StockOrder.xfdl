@@ -3,7 +3,7 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="Grid01" taborder="7" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" top="445" onsize="stock02_div_Grid00_onsize">
+        <Grid id="Grid01" taborder="7" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="6.94%" cssclass="grid_default" top="445" onsize="stock02_div_Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>

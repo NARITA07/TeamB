@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,10 @@ public class MemberController {
 
 @Resource(name = "memberService")
 public MemberService memberService;
+
+@Autowired
+private SessionRegistry sessionRegistry;
+
 
 private final String clientId = "KFlxuf0Rhy_fUBNEU_1e";
 private final String clientSecret = "3eFou5WWJ5";
@@ -93,6 +98,12 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
        } else {
            int loginResult = memberService.loginProc(memberVO);
            if (loginResult == 1) {
+               // 기존 세션 무효화
+               sessionRegistry.invalidateSession(memberVO.getUser_id());
+               
+               // 새로운 세션 등록
+               sessionRegistry.registerSession(memberVO.getUser_id(), session);
+
                MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
                session.setAttribute("sessionId", memberVO.getUser_id());
                session.setAttribute("loginInfo", loginInfo);
@@ -106,7 +117,7 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
        System.out.println(message);
        System.out.println(memberVO.getUser_id());
        return message;
-   }
+   } 
    
    /* 로그아웃 */
    @RequestMapping("logout.do")

@@ -46,8 +46,11 @@ public class BookController {
                                @RequestParam(value = "size", defaultValue = "10") int size,
                                Model model, HttpSession session) {
         String sessionId = (String) session.getAttribute("sessionId");
-        MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-        session.setAttribute("loginInfo", loginInfo);
+        
+        if(sessionId != null) {
+        	MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
+        	session.setAttribute("loginInfo", loginInfo);
+        }
     	
     	
         PagingRequestVO pagingRequest = new PagingRequestVO(page, size);

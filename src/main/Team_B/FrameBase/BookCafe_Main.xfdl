@@ -21,7 +21,7 @@
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" border="1px none" cursor="pointer" cssclass="grid_nav" treestate="bind:LEVEL"/>
               </Band>
               <Band id="summary">
-                <Cell displaytype="buttoncontrol" edittype="button" text="마감" cssclass="grid_nav_summary"/>
+                <Cell displaytype="buttoncontrol" edittype="button" text="마감"/>
               </Band>
             </Format>
           </Formats>

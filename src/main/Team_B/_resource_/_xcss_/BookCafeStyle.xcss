@@ -306,8 +306,7 @@
 {
 	font : normal bold 13pt/normal "Arial";
 }
-.Button.btn_fn,
-.Button.btn_fn[status=focused]
+.Button.btn_fn
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
@@ -319,8 +318,7 @@
 
 
 .Button.btn_fn[status=mouseover],
-.Button.btn_fn[userstatus=pushed],
-.Button.btn_fn[userstatus=selected]
+.Button.btn_fn[userstatus=pushed]
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;

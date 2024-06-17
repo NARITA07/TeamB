@@ -144,7 +144,12 @@ public class StockOrderCtroller {
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
-
+	    
+	    if(dataList.isEmpty()) {
+	    	result.setErrorCode(-2);
+	    	result.setErrorMsg("해당하는 발주신청서가 없습니다.");
+	    }
+	    
 	    System.out.println("가는거 : "+ dataList);
 	
 	    return result;

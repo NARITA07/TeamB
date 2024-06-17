@@ -36,6 +36,12 @@
 	#tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
 		width: 10%;
 	}
+	
+	.btn-primary, .li.page-item.active {
+		background-color: #766650 !important;
+	    color: white !important;
+	    border: none !important;
+	}
 </style>
 </head>
 <body>

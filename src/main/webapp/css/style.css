@@ -10,6 +10,17 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ <!-- 차쌤폰트 -->
+@font-face {
+    font-family: 'KCCChassam';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 전체 텍스트 요소에 폰트 적용 */
+body {
+    font-family: 'KCCChassam', sans-serif;
+}
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

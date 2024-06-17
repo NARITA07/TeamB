@@ -12,20 +12,20 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<style>
 	.btn.btn-light.push_cart,.btn.btn-light{
-		background-color: #AB8212;
+		background-color: #766650;
 	    color: white;
 	    margin-bottom: 5px;
 	}
 	.category_btn{
 		display: flex;
 		justify-content: center;
-		gap: 50px;
-		margin-top: 50px;
-		margin-bottom: 150px;
+		gap: 30px;
+		margin-bottom: 100px;
 	}
 	.category_btn .btn {
-		padding: 15px 30px;
-		font-size: 25px;
+		padding: 15px 20px;
+		font-size: 20px;
+		font-weight: bold;
 	}
 	button.btn.btn-light.drink,
 	button.btn.btn-light.dessert,
@@ -66,21 +66,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/style.css" rel="stylesheet" />
-    <link href="css/food.css" rel="stylesheet" />
+<!--     <link href="css/food.css" rel="stylesheet" /> -->
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 	
-	<div class="food_list">
-	    <img alt="mainimg" src="images/food_main4.jpg" class="header-image">
-	    <img alt="mainimg" src="images/food_main5.jpg" class="header-image">
-	</div>
+<!-- 	<div class="food_list h-100"> -->
+<!-- 	    <img alt="mainimg" src="images/food_main4.jpg" class="header-image"> -->
+<!-- 	    <img alt="mainimg" src="images/food_main5.jpg" class="header-image"> -->
+<!-- 	</div> -->
 	
 	<section class="py-5">
-		<div class="container px-4 px-lg-5 mt-5">
+		<div class="container px-5 px-lg-5">
 		
 			<!-- 카테고리 -->
-			<h1 style="text-align:center; margin-bottom:50px;">*Menu*</h1>
+			<h1 style="text-align:center; margin-bottom:50px;">MENU</h1>
 			<div class="category_btn">
 				<button class="btn btn-light" type="button" onclick="showSection('all')">전체</button>
 				<c:forEach items="${category}" var="category">

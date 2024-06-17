@@ -153,11 +153,11 @@
 	                            <tr>
 	                                <th><label for="userPoints">유저 포인트</label></th>
 	                                <td>
-	                                    <fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/>원
+	                                    <fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/> 원
 	                                </td>
 	                            </tr>
 	                            <tr>
-	                                <th><label for="usePoints">사용 포인트</label></th>
+	                                <th style="padding-top: 15px"><label for="usePoints">사용 포인트</label></th>
 	                                <td>
 	                                    <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value="" oninput="validatePoints(${loginInfo.user_point})"> 원
 	                                </td>

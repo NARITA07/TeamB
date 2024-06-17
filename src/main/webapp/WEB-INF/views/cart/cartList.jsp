@@ -44,6 +44,20 @@
 	    	width: 75px;
 	    	display:inline-block;
 		}
+		.cartAmountTable {
+	    	width: 100%;
+	    	border-collapse: collapse;
+	    }
+	
+	    .cartAmountTable th, .cartAmountTable td {
+	        border: 1px solid #dee2e6;
+	        padding: 8px;
+	        text-align: left;
+	    }
+	
+	    .cartAmountTable th {
+	        background-color: white;
+	    }
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
@@ -106,6 +120,9 @@
 									<td>
 										<input type="hidden" name="product_code" class="productCode" value="${cart.product_code}">
 									</td>
+									<td>
+										<input type="hidden" name="product_quantity" class="productQuantity" value="${cart.product_quantity}">
+									</td>
 								</tr>
 							</c:forEach>
 						</c:if>
@@ -130,8 +147,7 @@
 		<div class="cart-item">
 			<c:choose>
 				<c:when test="${not empty total_price}">
-					<button type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"
-					data-bs-toggle="modal" data-bs-target="#exampleModal" ><!-- onclick="direct_buy()" -->
+					<button id="btnBuy" type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"><!-- onclick="direct_buy()" -->
 						구매
 					</button>
 				</c:when>
@@ -144,37 +160,47 @@
 	
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
+	  <div class="modal-dialog modal-sm modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel">장바구니 구매하기</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      <div class="modal-body">
+	      <div class="modal-body" style="margin-bottom: 16px">
 	      	 <form id="orderForm" action="/submitOrder" method="post">
-	             <div class="form-group">
-	                <label for="totalPrice">총 금액 : </label>
-	                <span id="modalTotalPrice"></span>
-                </div>
-                <div class="form-group">
-	               	<label for="userPoints">유저 포인트 : </label>
-             		<fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/>원
-                </div>
-                 <div class="form-group">
-                     <label for="usePoints">사용 포인트 입력</label>
-                     <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
-                      oninput="validatePoints(${loginInfo.user_point})">  원
-                 </div>
-                 <div class="form-group">
-                     <label for="amountOfPayment">결제 금액 : </label>
-                     <span id="paymentAmount"></span>
-                     <input type="hidden" name="total_price" id="totalPriceInput">
-                 </div>
-                	<input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
-                    <input type="hidden" name="product_code" id="productCodeInput" value="">
-                    <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
-                    <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
-                    <input type="hidden" name="point_change" id="pointChangeInput">
+		      	 <table>
+		      	 	 <tbody class="cartAmountTable">
+			      	 	<tr>
+			      	 		<th><label for="totalPrice">총 금액</label></th>
+			      	 		<td><span id="modalTotalPrice"></span></td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="userPoints">유저 포인트</label></th>
+			      	 		<td>
+			      	 			<fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/> 원
+		      	 			</td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="usePoints">사용 포인트</label></th>
+			      	 		<td>
+			      	 			<input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
+			      	 			oninput="validatePoints(${loginInfo.user_point})"> 원
+                     		</td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="amountOfPayment">결제 금액</label></th>
+			      	 		<td>
+			      	 			<span id="paymentAmount"></span>
+		                     	<input type="hidden" name="total_price" id="totalPriceInput">
+		                    </td>		      	 		
+			      	 	</tr>
+			      	 </tbody>
+	      	 	</table>
+               	<input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
+                <input type="hidden" name="product_code" id="productCodeInput" value="">
+                <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
+                <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
+                <input type="hidden" name="point_change" id="pointChangeInput">
 	           </form>
 	      </div>
 	      <div class="modal-footer">
@@ -188,7 +214,7 @@
 	</div>
 	<!-- End Modal -->
 	<script>
-	calculateTotalPrice();
+		calculateTotalPrice();
 		// 주문 수량과 가격을 곱한 값을 계산하고 총 금액을 업데이트하는 함수
 	    function calculateTotalPrice() {
 	        var totalPrice = 0;
@@ -204,14 +230,15 @@
 	        	document.getElementById('orderQuantityInput').value=orderQuantity;
 	            var price = parseInt(priceElements[i].textContent.replace(/[^0-9]/g, ''));
 	            var total_price = orderQuantity * price;
-	            total_price_elements[i].innerHTML = new Intl.NumberFormat('ko-KR').format(total_price) + '원';
+	            total_price_elements[i].innerHTML = new Intl.NumberFormat('ko-KR').format(total_price) + ' 원';
 	            totalPrice += total_price;
 	        }
 	        
 	        // 총 금액을 화면에 표시
-	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + '원';
+	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + ' 원';
 	        
 	    }
+		
 	    /* 삭제 함수 */
 	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
 			console.log("카트코드 확인 "+ cart_code)
@@ -293,6 +320,58 @@
 		                alert('서버와의 통신 중 오류가 발생했습니다.');
 		            }
 		        });
+		    });
+		    
+		    // 구매버튼 클릭시 재고수량 확인
+		    $('#btnBuy').on('click', function(e) {
+		    	e.preventDefault();
+		    	
+		        // 각 상품의 재고를 확인하여 0 이하인 경우 경고창 표시
+		        var isStockValid = true;
+		        $('.cartData').each(function() {
+		            var orderQuantity = parseInt($(this).find('.order_quantity').val());
+		            var productQuantity = parseInt($(this).find('.productQuantity').val());
+		            
+		            if (productQuantity <= 0) {
+		                var productName = $(this).find('td:first').text();
+		                alert(productName + "의 재고가 부족합니다.");
+		                isStockValid = false;
+		                return false; // 반복문 탈출
+		            } else if (orderQuantity > productQuantity) {
+		            	var productName = $(this).find('td:first').text();
+		                alert(productName + "의 주문가능 수량은 " + productQuantity + "개 입니다.");
+		                isStockValid = false;
+		                return false; // 반복문 탈출
+		            }
+		        });
+
+		        // 모든 상품의 재고가 유효하면 구매 모달 열기
+		        if (isStockValid) {
+		        	$('#modalTotalPrice').text($('#totalPriceValue').text());
+		    	    calculatePaymentAmount();
+		        	
+		    	 	// 사용 포인트 입력값 가져오기
+		    	    var usePoints = $('#usePoints').val();
+		    	 	
+		    	 	// 빈 문자열을 0으로 변환
+		    	    if (usePoints == "") {
+		    	        usePoints = "0";
+		    	    }
+		    	    $('#pointChangeInput').val(usePoints); // 사용 포인트를 point_change에 설정
+		        	
+		    	 	// 결제 금액을 hidden input에 설정하여 폼으로 전송
+		    	    var paymentAmountText = $('#paymentAmount').text();
+		    	    var paymentAmount = parseInt(paymentAmountText.replace(/[^0-9]/g, '')); // 숫자만 추출
+		    	    console.log('총금액: '+ paymentAmount);
+		    	    $('#totalPriceInput').val(paymentAmount);
+		    	    
+		    	 	// point_change 값도 함께 전송
+		    	 	console.log('사용포인트: '+usePoints);
+		    	 	$('#pointChangeInput').val(usePoints);
+		    	    
+		    	 	// 모달 열기
+		    	    $("#exampleModal").modal("show");
+		        }
 		    });
 		});
 	
@@ -381,7 +460,7 @@
 	        }
 	        var paymentAmount = totalPrice - usePoints;
 	        console.log("결제금액"+paymentAmount)
-	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
+	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + ' 원';
 	    }
 		function goFoodList(){
 			 var url = 'foodList.do';

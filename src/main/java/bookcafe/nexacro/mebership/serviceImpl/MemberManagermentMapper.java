@@ -8,7 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper
 public interface MemberManagermentMapper {
 
-	public List<Map<String, Object>> select_member();
+	public List<Map<String, Object>> select_member(Map<String, String> search_dtl);
 
 	public Map<String, Object> select_non(String nonmember);
 
@@ -21,4 +21,10 @@ public interface MemberManagermentMapper {
 	public int delete_Member(Map<String,String> member);
 
 	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
+
+	//포인트로그 insert
+	public void insertPointLog(Map<String, String> param);
+
+	//유저 포인트 update
+	public void updateUserPoint(Map<String, String> param);
 }

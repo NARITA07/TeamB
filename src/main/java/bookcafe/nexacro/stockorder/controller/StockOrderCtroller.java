@@ -144,11 +144,11 @@ public class StockOrderCtroller {
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
+
+	    System.out.println("가는거 : "+ dataList);
 	
 	    return result;
-    	
     }    
-    
 }
 
 // 어떤 뷰로 갈지, 어떤 서비스로 갈지

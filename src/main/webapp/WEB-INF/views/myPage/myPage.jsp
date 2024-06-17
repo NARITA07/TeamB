@@ -11,12 +11,62 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link href="/css/style.css" rel="stylesheet" />
+	<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+    }
+    
+  	.card-body-food {
+  	    height: 100%;
+	    object-fit: cover; /* 이미지 비율 유지하며 자르기 */
+	    width: 100%;
+    }
+	</style>
 </head>
 <body>
 <script>
-//금액 자릿수 표시하기(콤마)
-function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//날짜 형식 변환
+function formattedDate(payment_date) {
+	if (!payment_date) {
+        return "";
+    }
+	
+	// 대상 문자열
+	 var dateStr = payment_date;
+	 
+	// 연도, 월, 일 추출
+     var year = dateStr.substring(0, 4);
+     var month = dateStr.substring(4, 6);
+     var day = dateStr.substring(6, 8);
+     var hour = dateStr.substring(8, 10);
+     var minute = dateStr.substring(10, 12);
+
+     var formattedDate = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+     
+     return formattedDate;
+}
+
+//주문상태코드 변환
+function getOrderState(order_state) {
+    switch (order_state) {
+        case 1:
+            return "주문확인중";
+        case 2:
+            return "준비중";
+        case 3:
+            return "준비완료";
+    }
 }
 
 //구매내역 모달창 내용
@@ -24,46 +74,62 @@ function getOrderInfo(order_code) {
 	$.ajax({
 	    url: '/myPage/getOrderInfo',
 	    method: 'POST',
-	    dataType: 'json',
 	    data: { order_code: order_code },
 	    success: function (data) {
 	    	console.log('Success:', data);
 			var modalBody = $("#orderModalBody");
 			modalBody.empty();
 			
-	     	if (data == "") {
+	     	if (data.length == 0) {
 	     		modalBody.text("구매건 정보없음");
 	      	} else {
-	    		$.each(data, function(index, order) {
-// 	    			var rental_date = formattedDate(order.res_rental_date);
-// 	    			var return_date = formattedDate(order.res_return_date);
-// 	    			var totalPay = formatNumberWithCommas(order.res_totalpay);
-// 	    			var op_carseat = order.op_carseat == 'Y' ? 'O' : 'X';
-// 	    			var op_navi = order.op_navi == 'Y' ? 'O' : 'X';
-// 	    			var op_bt = order.op_bt == 'Y' ? 'O' : 'X';
-// 	    			var op_cam = order.op_cam == 'Y' ? 'O' : 'X';
-	    			
-	   	  			var row = $("<ul style='color: black;'>");
-	    	  		row.append($("<li>").text("주문번호: "));
-// 	    	  		row.append($("<li>").text("주문번호: " + order.order_code));
-// 	    	  		row.append($("<li>").text("대여시작일: " + rental_date));
-// 	    	  		row.append($("<li>").text("대여종료일: " + return_date));
-// 	    	  		row.append($("<li>").text("차종: " + resInfo.car_company + "-" + resInfo.car_name + "(" + resInfo.car_fuel + ")"));
-// 	    	  		row.append($("<li>").html("옵션 <br>	-카시트: " + op_carseat + 
-// 	    	  								  "<br> -내비게이션: " + op_navi + 
-// 	    	  								  "<br> -블루투스: " + op_bt + 
-// 	    	  								  "<br> -후방카메라: " + op_cam));
-// 	    	  		row.append($("<li>").text("금액: " + totalPay + " P"));
-// 	    	  		if (resInfo.pay_status == null) {
-// 		    	  		row.append($("<li>").text("예약상태: " + resInfo.res_status + "(결제 전)"));
-// 	    	  		} else {
-// 		    	  		row.append($("<li>").text("예약상태: " + resInfo.res_status));
-// 	    	  		}
-	    	  		row.append($("</ul>"));
-	    	  		
-	    	  		modalBody.append(row);
-	            });
-	
+	      		$("#myModalLabel").text("주문번호: " + order_code);
+	      		
+	      		var payment_date = formattedDate(data[0].payment_date);
+	      		var order_state = getOrderState(data[0].order_state); 
+	      		var usePoint = data[0].point_change2;
+	      		var total_price = data[0].total_price;
+	      		
+   	  			var table = $("<table class='table'>");
+   	  			var tbody = $("<tbody>");
+   	  			
+                // Row 1: 주문상태
+                var row1 = $("<tr>");
+                row1.append($("<th scope='row'>").text("주문상태"));
+                row1.append($("<td>").text(order_state));
+                tbody.append(row1);
+
+                // Row 2: 결제금액
+                var row2 = $("<tr>");
+                row2.append($("<th scope='row'>").text("결제금액"));
+                row2.append($("<td>").text(total_price + " 원 ( " + usePoint + " P 사용 )"));
+                tbody.append(row2);
+
+                // Row 3: 결제시각
+                var row3 = $("<tr>");
+                row3.append($("<th scope='row'>").text("결제시각"));
+                row3.append($("<td>").text(payment_date));
+                tbody.append(row3);
+    	  		
+    			// Row 4: 주문 메뉴
+				$.each(data, function(index, order) {
+				    var row4 = $("<tr>");
+				    
+				    if (index == 0) {
+				        var th = $("<th scope='row'>").text("주문메뉴");
+				        th.attr("rowspan", data.length);
+				        row4.append(th);
+				    }
+				    
+				    var product_name = order.product_name;
+				    var order_quantity = order.order_quantity;
+				    var td = $("<td>").text(product_name + " " + order_quantity + "개");
+				    row4.append(td);
+				    tbody.append(row4);
+				});
+                
+    	  		table.append(tbody);
+    	  		modalBody.append(table);
 	            $("#orderModal").modal("show");
 	         }
       },
@@ -74,11 +140,6 @@ function getOrderInfo(order_code) {
 }
 
 $(document).ready(function() {
-	
-// 	var myPoint = $("#myPoint").text();
-// 	if (myPoint.length > 0) {
-// 		$("#myPoint").text(formatNumberWithCommas(myPoint));
-// 	}
 	
     // vip 등급설명 모달
     $(".fa-info-circle").click(function() {
@@ -160,10 +221,10 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
 					          	<c:if test="${not empty myOrder}">
-						          	<div class="row">
+						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
 						          		<c:forEach var="myOrder" items="${myOrder}">
 											<div class="orderDiv col-md-4" onclick="getOrderInfo('${myOrder.order_code}')" style="padding: 20px;">
-												<div class="card">
+												<div class="card h-100">
 													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
@@ -173,7 +234,7 @@ $(document).ready(function() {
 								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
 								                        </c:choose>
 													</h6>
-													<img class="card-body-img" src="${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
+													<img class="card-body-food" src="/${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -210,16 +271,16 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 대여중인 도서가 있는 경우 --%>
 					          	<c:if test="${not empty myBook}">
-						          	<div class="row">
+						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
 						          		<c:forEach var="myBook" items="${myBook}">
-											<div class="orderDiv col-md-4" onclick="getResInfo(${myBook.order_code})" style="padding: 20px;">
+											<div class="bookDiv col-md-4" style="padding: 20px;">
 												<div class="card">
 													<h6 class="card-header" style="background-color: #324554; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 													${myBook.return_state}
 													</h6>
-													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
+													<img class="card-body-img" src="/${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image1.jpg'"/>
 													<div class="card-footer" style="background-color: #324554;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -261,7 +322,7 @@ $(document).ready(function() {
 	                	</c:if>
 	                	현재 ${loginInfo.user_name}님의 3개월 구매금액은
 	                	<a id="purchaseAmount"><fmt:formatNumber value="${purchaseAmount}" type="number" groupingUsed="true"/></a>
-	                	원 입니다. (등급조건 충족시 익일 등급반영)</p>
+	                	원 입니다. <br>(등급조건 충족시 익일 등급반영)</p>
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -272,10 +333,10 @@ $(document).ready(function() {
 	
 	<!-- 구매내역 모달창 -->
 	<div class="modal fade" id="orderModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-header" style="background-color: #AB8212;">
-					<h5 class="modal-title" id="myModalLabel" style="color: #fff;">구매 정보</h5>
+		<div class="modal-dialog modal-dialog-centered" role="document" >
+			<div class="modal-content" style="text-align: center;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myModalLabel"></h5>
 					<button type="button" class="close" data-bs-dismiss="modal">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -284,7 +345,7 @@ $(document).ready(function() {
 				
 				</div>
 				<div class="modal-footer" style="justify-content: center;">
-					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>

@@ -143,6 +143,7 @@ var row_category = 0; //하위코드 갯수
 
 this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {
+	this.Main.form.sec_search.set_enable(false)
 	this.check_sort(this.Main.form.Fir_code);
 	this.check_sort(this.Main.form.Sec_code);
 	
@@ -166,9 +167,10 @@ this.BookCafe_CodeManagement_oninit = function(obj:nexacro.Form,e:nexacro.EventI
 
 this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-
+	this.Main.form.sec_search.set_enable(true)
+	
 	var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
-
+	this.Main.form.fir_search.set_value(search)
 	if(e.cell == 0){
 	return false;
 	
@@ -201,7 +203,7 @@ this.Main_btn_fir_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 /***************************************************************************************/
 this.Main_btn_Sec_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	if(this.Main.form.fir_category.value == null){
+	if(this.Main.form.fir_search.value == null || this.Main.form.sec_search.enable == false){
 	return alert("카테고리를 선택해주세요");
 	}
 	
@@ -299,6 +301,7 @@ this.Main_btn_all_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEven
 this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.save.reset();
+	
 
 	var fir_chx = 0; // 상위 선택 확인용
 	var sec_chx = 0;
@@ -331,7 +334,7 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 	}
 	
 	if(fir_chx> 0){ // 상위 선택이 있음.
-		
+
 		 row_category = this.sec_code_grid.getRowCount()
 		
 			if(row_category > 0){
@@ -347,16 +350,25 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 							var callback ="codemanagement";
 	
 							this.transaction(id, url, set, get, arg, callback)
-					}
+				}
 					else{
-					alert("취소되었습니다")
-					this.reload();
-	
-			}
-
-	}
-			}
-}
+						alert("취소되었습니다")
+						this.reload();
+						
+					}
+					
+				}else{
+						var id = "del_code";
+						var url = "svc::del_code.do";
+						var set = "save = save:u";
+						var get = "message_count = message_count ";
+						var arg = "";
+						var callback ="codemanagement";
+						
+						this.transaction(id, url, set, get, arg, callback)
+					}
+				}
+				}
 /***************************************************************************************/
 								//상위코드 그리드 더블 클릭 시
 /***************************************************************************************/
@@ -413,10 +425,28 @@ this.fn_sec_code_new = function(){
 /***************************************************************************************/
 this.codemanagement = function(id, code, message){
 	
-	if(code < 0){
-		alert("빈칸에 값을 넣어주세요");
-		this.reload();
+	if(code < 0){//에러 발생
+	
+	
+	switch(id) {
+		case "fn_sec_code_new":
+			alert("추가가 불가능한 상태입니다.")
+			break;
+		
+		case "grid_modi":
+			alert("제품명을 입력해주세요")
+			this.reload();
+			break;
+			
+	default:
+		 alert("알수없는 ERROR 발생")
+
 		}
+	
+	
+		
+
+	}	
 	
 	if(code == 0){
 	switch(id) {
@@ -469,7 +499,7 @@ this.codemanagement = function(id, code, message){
 	this.sec_code_grid.setColumn(row,"CHK","Y")//체크
 	this.sec_code_grid.setColumn(row,"SEC_CODE",this.sec_code_new)//체크
 	this.sec_code_grid.setColumn(row,"USE_STATUS","Y")//사용여부 기본 Y 추가
-	this.sec_code_grid.setColumn(row,"FIR_CODE",this.Main.form.fir_category.value)
+	this.sec_code_grid.setColumn(row,"FIR_CODE",this.Main.form.fir_search.value)
 		
 		break;
 		
@@ -542,6 +572,19 @@ this.Main_sec_search_oncloseup = function(obj:nexacro.Combo,e:nexacro.ComboClose
 	
 	this.transaction(id, url, set, get, arg, callback)
 };
+
+this.Main_fir_search_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
+
+	if(this.Main.form.fir_search.value == 'fir_000'){
+	
+		this.Main.form.sec_search.set_enable(false)
+	}else{
+		this.Main.form.sec_search.set_enable(true)
+	}
+};
+
 ]]></Script>
   </Form>
 </FDL>

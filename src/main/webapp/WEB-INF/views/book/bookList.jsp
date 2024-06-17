@@ -228,7 +228,7 @@ $(document).ready(function() {
                 data: { bookCode: bookCode, bookName: bookName },
                 success: function(response) {
                     updateCart(response);
-                    button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('이미 담겼습니다');
+                    button.prop('disabled', true).removeClass('btn-success').addClass('btn-secondary').css('background-color', '#212529').text('담기');
                 },
                 error: function(xhr, status, error) {
                     alert("카트에 담기를 실패하였습니다.");
@@ -398,7 +398,7 @@ $(document).ready(function() {
                                 <td>${book.sec_name}</td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${loginInfo != null && loginInfo.user_leadbook == 'Y' && book.book_quantity == 'Y'}">
+                                        <c:when test="${book.book_quantity == 'Y'}">
                                             <%-- <button class="btn-primary btn rent-book" data-book-code="${book.book_code}" style="background-color: #AB8212; font-weight: bold !important; font-size: 18px !important;">대여하기</button> --%>
                                             <span>대여가능</span>
                                         </c:when>
@@ -413,7 +413,7 @@ $(document).ready(function() {
                                         <c:when test="${loginInfo != null && loginInfo.user_leadbook == 'Y' && book.book_quantity == 'Y'}">
                                             <c:choose>
                                                 <c:when test="${cart[book.book_code] != null}">
-                                                    <button disabled class="btn btn-secondary" style="background-color: #212529; font-weight: bold !important; font-size: 18px !important;">이미 담겼습니다</button>
+                                                    <button disabled class="btn btn-secondary" style="background-color: #212529; font-weight: bold !important; font-size: 18px !important;">담기</button>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <button class="btn btn-success add-to-cart" data-book-code="${book.book_code}" data-book-name="${book.book_name}" style="background-color: #AB8212; font-weight: bold !important; font-size: 18px !important;">담기</button>
@@ -452,7 +452,7 @@ $(document).ready(function() {
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-3 col-md-10 sidebar">
+        <div class="col-lg-3 col-md-12 sidebar">
            <h2>담긴도서</h2>
             <div class="half-height" style="height: 90%">
                 <div id="cartTableBody">

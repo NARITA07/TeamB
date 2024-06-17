@@ -20,7 +20,14 @@ this.check_sort = function(obj:nexacro.Grid)
 	// 그리드의 row값 변경 시 체크박스가 체크되는 이벤트 데이터셋에 추가
 	ds_grid.addEventHandler("oncolumnchanged",this.ds_grid_oncolumnchanged, this);
 	
-}
+};
+// form에서 호출 시 onheadclick 이벤트 추가
+this.check_sort2 = function(obj:nexacro.Grid)
+{
+	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
+	var head = obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	
+};
 
 /* oncolumnchanged 이벤트 : 컬럼값이 바뀌면 자동으로 CHK가 체크 */
 this.ds_grid_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
@@ -39,7 +46,6 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		var val = 'N';	// 체크박스 N상태를 변수에 저장
 		
 		if(obj.getCellProperty("head",e.cell,"text") == 'Y'){	// 이벤트가 발생한 컬럼값을 가져와서 Y와 비교.
-			
 			obj.setCellProperty("head",e.cell,"text",val);	// 컬럼값이 Y일 시 N으로 변환
 		}else{
 			val = 'Y';
@@ -50,13 +56,14 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		
 		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 OFF
 		
+
 		for(var i=0; i<dataset.rowcount; i++){
-			dataset.setColumn(i,"CHK",val);
-		}
-		dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
+ 					dataset.setColumn(i,"CHK",val);
+				}
+			dataset.set_enableevent(true);	// 바인딩된 데이터셋의 이벤트 다시 ON
 		
-	// 정렬이 필요한 셀 클릭
-	}else {
+		// 정렬이 필요한 셀 클릭
+		}else {
 	
 		this.resetAllHeaderTexts(obj);	// 다른 컬럼의 헤드에 있는 마크를 지우기 위해
 		

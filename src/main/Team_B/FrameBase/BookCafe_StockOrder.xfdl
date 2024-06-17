@@ -45,9 +45,9 @@
               <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="130" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default" onitemchanged="Div01.form.Combo00_onitemchanged" displaynulltext="대기/완료/취소"/>
               <ImageViewer id="ImageViewer00_00" taborder="7" left="Combo00:30" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static00_00" taborder="1" text="기간" left="ImageViewer00_00:5" top="13" width="24" height="14"/>
-              <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default"/>
+              <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default" onchanged="Div01.form.Combo00_onitemchanged"/>
               <Static id="Static01" taborder="4" text="~" left="Calendar00:3" top="13" width="9" height="14"/>
-              <Calendar id="Calendar01" taborder="3" left="Static01:3" top="5" width="110" height="30" cssclass="cal_default"/>
+              <Calendar id="Calendar01" taborder="3" left="Static01:3" top="5" width="110" height="30" cssclass="cal_default" onchanged="Div01.form.Combo00_onitemchanged"/>
             </Layout>
           </Layouts>
         </Div>
@@ -62,7 +62,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" cssclass="grid_default" height="195" top="Div00:40">
+        <Grid id="Grid00" taborder="0" left="1.76%" autofittype="col" binddataset="stock_grid1" right="1.67%" cssclass="grid_default" height="143" top="Div00:40">
           <Formats>
             <Format id="default">
               <Columns>
@@ -94,58 +94,20 @@
           </Formats>
         </Grid>
         <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_fn" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
-        <Button id="Button01" taborder="4" text="조회" height="30" cssclass="btn_view" bottom="Div00:5" right="1.76%" width="70" onclick="Button01_onclick"/>
-        <Static id="Static01" taborder="5" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
-        <Grid id="Grid01" taborder="8" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" top="506" onsize="stock02_div_Grid00_onsize">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="30"/>
-                <Column size="50"/>
-                <Column size="102"/>
-                <Column size="49"/>
-                <Column size="71"/>
-                <Column size="70"/>
-              </Columns>
-              <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-              </Rows>
-              <Band id="head">
-                <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
-                <Cell col="1" text="발주상태" background="#FFF8EE"/>
-                <Cell col="2" text="메뉴명" background="#FFF8EE"/>
-                <Cell col="3" text="발주수량" background="#FFF8EE"/>
-                <Cell col="4" text="발주일시" background="#FFF8EE"/>
-                <Cell col="5" text="신청자" background="#FFF8EE"/>
-              </Band>
-              <Band id="body">
-                <Cell displaytype="checkboxcontrol" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
-                <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
-                <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
-                <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
-                <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
-                <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Static id="Static00_00" taborder="7" text="입고 관리" left="1.76%" width="153" height="24" cssclass="title_sub" bottom="Grid01:5"/>
-        <Static id="Static01_00" taborder="9" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="1.76%" top="95.69%" width="316" height="14" cssclass="warning_txt"/>
-        <Button id="Button01_00" taborder="11" text="저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
-        <Button id="Button00_00" taborder="10" text="엑셀" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" top="471"/>
-        <Button id="Button02" taborder="12" text="Button02" left="461" top="24" width="120" height="50" onclick="Button02_onclick"/>
+        <Static id="Static01" taborder="4" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
+        <Static id="Static00_00" taborder="6" text="입고 관리" left="1.76%" width="153" height="24" cssclass="title_sub" bottom="Grid01:5"/>
+        <Static id="Static01_00" taborder="8" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="1.76%" top="95.69%" width="316" height="14" cssclass="warning_txt"/>
+        <Button id="Button01_00" taborder="10" text="저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
+        <Button id="Button00_00" taborder="9" text="엑셀" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
-
 /*
 1. 화면 초기화
 2. 이벤트
 3. 함수
 4. 페이징
 */
-
 
 /****************************************************/  
 /* 					1. 화면 초기화					*/
@@ -167,9 +129,8 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 
 	//페이징 세팅
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,5);
+	this.pageinit(1,9);
 };
-
 
 /****************************************************/  
 /* 					2. 이벤트 정의					*/
@@ -235,7 +196,7 @@ this.Div00.form.Combo03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	this.fnViewStockOrder();
 };
 
-/* grid2 발주상태 변경시 자동조회*/
+/* grid2 조회조건 변경시 자동조회*/
 this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
 	// 새로운 행 추가
@@ -256,31 +217,6 @@ this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	this.fnViewStockOrder();
 };
 
-
-/* 2-2. 조회 버튼 */
-this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{	
-	// 새로운 행 추가
-	this.search_so_grid.addRow();
-	// 중분류
-	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
-	// 소분류
-	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
-	// grid1의 조회조건을 조회 버튼에 전달
-	this.fnViewList();
-
-	//////////////////// grid2 ////////////////////
-	
-	// 발주상태
-	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
-	//주간별
-	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
-	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
-	// grid2의 조회조건을 조회버튼에 전달
-	this.fnViewStockOrder();
-	
-};
-
 /* 2-3. grid1 발주신청 버튼 */
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
@@ -298,7 +234,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
 		// 세션에서 ADMIN_CODE 가져오기
 		var sessionLogin = nexacro.getApplication().Session_login;
-		var adminCode = sessionLogin.getColumn(0, "ADMIN_CODE");
+		var adminCode = sessionLogin.getColumn(0, "USER_CODE");
 		
 		/* (3) 로그인 분기문 */
 		if(adminCode != null){
@@ -373,7 +309,7 @@ this.stock02_div_Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 		
 		// 세션에서 ADMIN_CODE 가져오기
 		var sessionLogin = nexacro.getApplication().Session_login;
-		var adminCode = sessionLogin.getColumn(0, "ADMIN_CODE");
+		var adminCode = sessionLogin.getColumn(0, "USER_CODE");
 		
 		//로그인 분기문
 		if(adminCode != null){
@@ -599,6 +535,7 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
    }else if(errorCode == -2)
    {
 	this.stock_grid2.clearData();
+	this.view_dtl.clearData();
    }
    // 분기문
    switch(svcID)
@@ -718,12 +655,13 @@ this.setpagediv = function(grid){
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
 	var pagesize = this.paging.getColumn(0,"pagesize");
 	this.Grid01.setCellProperty("head",0,"text",0);
+	this.view_dtl.clearData();	//ds 비워주기
 	if(ds.rowcount == 0){
 		this.paging.setColumn(0,"page",1);
 		return;
 	}
 	this.view_dtl.set_enableevent(false);
-	this.view_dtl.clearData();
+
 	if(page == this.paging.getColumn(0,"pagecount")){
 		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
 			var idx = this.view_dtl.addRow();
@@ -774,13 +712,6 @@ this.stock02_div_Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventIn
 };
 
 
-
-/* 테스트 버튼 */
-this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	alert("초기화");
-	this.stock_grid2.clearData();
-};
 ]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true">

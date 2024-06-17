@@ -70,7 +70,9 @@
 	SET 
 			BOOK_NAME = #{PRODUCT_NAME}, 
 			BOOK_PRICE = #{PRODUCT_PRICE},
-			BOOK_PATH = #{PRODUCT_PATH}
+			BOOK_PATH = #{PRODUCT_PATH},
+			BOOK_WRITER = #{BOOK_WRITER},
+			BOOK_PUBLICATION_DATE = #{BOOK_PUBLICATION_DATE}
 	WHERE 
 			BOOK_CODE = #{PRODUCT_CODE}
 	</update>
@@ -80,7 +82,7 @@
 	</select>
 	
 	<update id="updatevipstatus">
- <![CDATA[
+	  <![CDATA[
         UPDATE USER u
         SET u.USER_AUTHORITY = 
             CASE 
@@ -112,18 +114,13 @@
 	UPDATE USER SET USER_LEADBOOK = "N";
 	</update>
 	
-<update id="downdatevipstatus">
-UPDATE USER u
-        JOIN (
-            SELECT USER_CODE 
-            FROM ORDERS o
-            WHERE PAYMENT_DATE &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
-            GROUP BY USER_CODE
-            HAVING SUM(TOTAL_PRICE) &lt; 100000
-        ) de
-        ON u.USER_CODE = de.USER_CODE
-        SET u.USER_AUTHORITY = '1'
-        WHERE u.USER_AUTHORITY = '2';
-    </update>
+    <insert id="product_allsavef">
+	 insert into BOOK(BOOK_NAME, BOOK_QUANTITY, BOOK_CATEGORY,BOOK_WRITER,BOOK_PUBLICATION_DATE,BOOK_PATH,BOOK_PRICE) VALUES(#{제품명},'Y',#{분류명},#{저자}, #{출판일}, #{이미지}, '0')
+    </insert>
+    
+    <insert id="product_allsaveb">
+	 insert into sec_code
+    </insert>
 
 </mapper>
+

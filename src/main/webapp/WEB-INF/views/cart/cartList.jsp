@@ -87,7 +87,7 @@
 									<c:choose>
 									    <c:when test="${cart.product_code == 'food_014'}">
 									        <td id="order_quantity${count.count}">
-									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()" readonly="readonly">
+									            <input class="order_quantity" name="order_quantity" type="number" id="orderQuantity-${cart.product_code}" value="${cart.order_quantity}" min="1" onchange="calculateTotalPrice()" readonly>
 									        </td>
 									    </c:when>
 									    <c:otherwise>
@@ -105,6 +105,9 @@
 									</td>
 									<td>
 										<input type="hidden" name="product_code" class="productCode" value="${cart.product_code}">
+									</td>
+									<td>
+										<input type="hidden" name="product_quantity" class="productQuantity" value="${cart.product_quantity}">
 									</td>
 								</tr>
 							</c:forEach>
@@ -130,8 +133,7 @@
 		<div class="cart-item">
 			<c:choose>
 				<c:when test="${not empty total_price}">
-					<button type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"
-					data-bs-toggle="modal" data-bs-target="#exampleModal" ><!-- onclick="direct_buy()" -->
+					<button id="btnBuy" type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"><!-- onclick="direct_buy()" -->
 						구매
 					</button>
 				</c:when>
@@ -188,7 +190,7 @@
 	</div>
 	<!-- End Modal -->
 	<script>
-	calculateTotalPrice();
+		calculateTotalPrice();
 		// 주문 수량과 가격을 곱한 값을 계산하고 총 금액을 업데이트하는 함수
 	    function calculateTotalPrice() {
 	        var totalPrice = 0;
@@ -212,6 +214,7 @@
 	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + '원';
 	        
 	    }
+		
 	    /* 삭제 함수 */
 	    function deleteCart(cart_code, product_code, user_code, order_quantity) {
 			console.log("카트코드 확인 "+ cart_code)
@@ -293,6 +296,64 @@
 		                alert('서버와의 통신 중 오류가 발생했습니다.');
 		            }
 		        });
+		    });
+		    
+		    // 구매버튼 클릭시 재고수량 확인
+		    $('#btnBuy').on('click', function(e) {
+		    	e.preventDefault();
+		    	
+		        // 각 상품의 재고를 확인하여 0 이하인 경우 경고창 표시
+		        var isStockValid = true;
+		        $('.cartData').each(function() {
+		            var orderQuantity = parseInt($(this).find('.order_quantity').val());
+		            var productQuantity = parseInt($(this).find('.productQuantity').val());
+		            var product_code = ($(this).find('.productCode').val());
+		            
+		            if (product_code == 'food_014') {
+		            	isStockValid = true;
+		            	return true;
+		            } else {
+			            if (productQuantity <= 0) {
+			                var productName = $(this).find('td:first').text();
+			                alert(productName + "의 재고가 부족합니다.");
+			                isStockValid = false;
+			                return false; // 반복문 탈출
+			            } else if (orderQuantity > productQuantity) {
+			            	var productName = $(this).find('td:first').text();
+			                alert(productName + "의 주문가능 수량은 " + productQuantity + "개 입니다.");
+			                isStockValid = false;
+			                return false; // 반복문 탈출
+			            }
+		            }
+		        });
+
+		        // 모든 상품의 재고가 유효하면 구매 모달 열기
+		        if (isStockValid) {
+		        	$('#modalTotalPrice').text($('#totalPriceValue').text());
+		    	    calculatePaymentAmount();
+		        	
+		    	 	// 사용 포인트 입력값 가져오기
+		    	    var usePoints = $('#usePoints').val();
+		    	 	
+		    	 	// 빈 문자열을 0으로 변환
+		    	    if (usePoints == "") {
+		    	        usePoints = "0";
+		    	    }
+		    	    $('#pointChangeInput').val(usePoints); // 사용 포인트를 point_change에 설정
+		        	
+		    	 	// 결제 금액을 hidden input에 설정하여 폼으로 전송
+		    	    var paymentAmountText = $('#paymentAmount').text();
+		    	    var paymentAmount = parseInt(paymentAmountText.replace(/[^0-9]/g, '')); // 숫자만 추출
+		    	    console.log('총금액: '+ paymentAmount);
+		    	    $('#totalPriceInput').val(paymentAmount);
+		    	    
+		    	 	// point_change 값도 함께 전송
+		    	 	console.log('사용포인트: '+usePoints);
+		    	 	$('#pointChangeInput').val(usePoints);
+		    	    
+		    	 	// 모달 열기
+		    	    $("#exampleModal").modal("show");
+		        }
 		    });
 		});
 	

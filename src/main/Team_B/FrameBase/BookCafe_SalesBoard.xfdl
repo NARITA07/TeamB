@@ -22,7 +22,7 @@
               <Band id="head">
                 <Cell text="주문번호" background="#FFF8EE"/>
                 <Cell col="1" text="이름" background="#FFF8EE"/>
-                <Cell col="2" text="메뉴명" background="#FFF8EE"/>
+                <Cell col="2" text="제품명" background="#FFF8EE"/>
                 <Cell col="3" text="수량" background="#FFF8EE"/>
                 <Cell col="4" text="매출액" background="#FFF8EE"/>
                 <Cell col="5" text="주문일시" background="#FFF8EE"/>

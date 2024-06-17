@@ -3,7 +3,41 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Div id="Div01" taborder="6" text="Div01" left="1.76%" top="425" height="40" right="1.76%" cssclass="main_nav">
+        <Grid id="Grid01" taborder="7" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="5.56%" cssclass="grid_default" top="445" onsize="stock02_div_Grid00_onsize">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="50"/>
+                <Column size="102"/>
+                <Column size="49"/>
+                <Column size="71"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
+                <Cell col="1" text="발주상태" background="#FFF8EE"/>
+                <Cell col="2" text="제품명" background="#FFF8EE"/>
+                <Cell col="3" text="발주수량" background="#FFF8EE"/>
+                <Cell col="4" text="발주일시" background="#FFF8EE"/>
+                <Cell col="5" text="신청자" background="#FFF8EE"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkboxcontrol" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'checkbox'"/>
+                <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'combo'" text="bind:STOCK_ORDER_STATUS"/>
+                <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
+                <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
+                <Cell col="4" text="bind:STOCK_ORDER_DATE" textAlign="center" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" displaytype="date"/>
+                <Cell col="5" text="bind:USER_CODE" textAlign="center"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="Div01" taborder="5" text="Div01" left="1.76%" height="40" right="1.76%" cssclass="main_nav" bottom="Grid01:40">
           <Layouts>
             <Layout>
               <ImageViewer id="ImageViewer00" taborder="6" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
@@ -44,8 +78,8 @@
               </Rows>
               <Band id="head">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
-                <Cell col="1" text="메뉴명" background="#FFF8EE"/>
-                <Cell col="2" text="메뉴코드" background="#FFF8EE"/>
+                <Cell col="1" text="제품명" background="#FFF8EE"/>
+                <Cell col="2" text="제품코드" background="#FFF8EE"/>
                 <Cell col="3" text="현재재고" background="#FFF8EE"/>
                 <Cell col="4" text="발주수량" editinputtype="number" background="#FFF8EE"/>
               </Band>

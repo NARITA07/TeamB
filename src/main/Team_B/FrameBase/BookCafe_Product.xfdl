@@ -45,7 +45,7 @@
         </Grid>
         <Button id="btn_del" taborder="5" text="삭제" height="30" right="1.85%" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick" width="70"/>
         <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:5" bottom="Div00:5" cssclass="btn_save" onclick="btn_save_onclick"/>
-        <Button id="btn_add" taborder="3" text="신규" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_view"/>
+        <Button id="btn_add" taborder="3" text="추가" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_save"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -605,6 +605,37 @@ this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 	//this.setds(obj.getBindDataset(),this.paging.getColumn(0,"page"));
 };
 
+
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.exportObj = new ExcelExportObject("Export00", this);
+	
+	this.exportObj.set_exportfilename("BOOKBREAD_PRODUCT");
+	this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
+	
+	this.Grid00.deleteContentsCol("body",0);
+	this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid00, "Sheet1!A1");
+	
+	this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
+	this.addEventHandler("onerror", this.Export00_onerror, this);
+	
+	var intExportedItem = this.exportObj.exportData();
+	
+
+
+};
+
+this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
+{
+trace("Export00_onsuccess");
+this.reload()
+}
+
+this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
+{
+	trace("Export00_onerror");
+	this.reload()
+}
 
 ]]></Script>
     <Bind>

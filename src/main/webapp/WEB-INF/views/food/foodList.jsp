@@ -188,6 +188,13 @@
 	<!-- Modal -->
 	
 <script>
+$(document).ready(function() {
+	// 도서열람권 수량 수정불가
+	var targetProductCode = 'food_014';
+	$('#order_quantity-' + targetProductCode).prop('readonly',true);
+	
+});
+
 	// 카테고리 선택시
 	function showSection(sectionId) {
      	// 모든 섹션 보이게 하기
@@ -228,22 +235,26 @@
 	}
 	
 	// 재고수량 확인
-	function isQuantity(order_quantity, product_quantity) {
-		// 문자열을 숫자로 변환
-	    order_quantity = parseInt(order_quantity, 10);
-	    product_quantity = parseInt(product_quantity, 10);
-	    
-		console.log("order_quantity: " + order_quantity);
-	    console.log("product_quantity: " + product_quantity);
-		var productName = $(event.currentTarget).closest('.card').find('.fw-bolder').text();
-		if (product_quantity <= 0) {
-		    alert(productName + "의 재고가 부족합니다.");
-		    return false;
-		}
-		
-		if (order_quantity > product_quantity) {
-		    alert(productName + "의 주문가능 수량은 " + product_quantity + "개 입니다.");
-		    return false;
+	function isQuantity(product_code, order_quantity, product_quantity) {
+		if (product_code == 'food_014') {
+			return true;
+		} else {
+			// 문자열을 숫자로 변환
+		    order_quantity = parseInt(order_quantity, 10);
+		    product_quantity = parseInt(product_quantity, 10);
+		    
+			console.log("order_quantity: " + order_quantity);
+		    console.log("product_quantity: " + product_quantity);
+			var productName = $(event.currentTarget).closest('.card').find('.fw-bolder').text();
+			if (product_quantity <= 0) {
+			    alert(productName + "의 재고가 부족합니다.");
+			    return false;
+			}
+			
+			if (order_quantity > product_quantity) {
+			    alert(productName + "의 주문가능 수량은 " + product_quantity + "개 입니다.");
+			    return false;
+			}
 		}
 		return true;
 	}
@@ -260,7 +271,7 @@
     		return;
     	}
     	// 재고수량 확인
-    	if(!isQuantity(order_quantity, product_quantity)) {
+    	if(!isQuantity(product_code, order_quantity, product_quantity)) {
     		return;
     	}
     	
@@ -300,7 +311,7 @@
     		return;
     	}
     	// 재고수량 확인
-    	if(!isQuantity(order_quantity, product_quantity)) {
+    	if(!isQuantity(product_code, order_quantity, product_quantity)) {
     		return;
     	}
     	

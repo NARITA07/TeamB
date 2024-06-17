@@ -18,6 +18,7 @@
             <Format id="default">
               <Columns>
                 <Column size="20"/>
+                <Column size="30"/>
                 <Column size="40"/>
                 <Column size="40"/>
                 <Column size="100"/>
@@ -32,23 +33,25 @@
               </Rows>
               <Band id="head">
                 <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
-                <Cell col="1" text="분류코드" background="#FFF8EE"/>
-                <Cell col="2" text="분류명" background="#FFF8EE"/>
-                <Cell col="3" text="제품명" background="#FFF8EE"/>
-                <Cell col="4" text="이미지" background="#FFF8EE"/>
-                <Cell col="5" text="저자" background="#FFF8EE"/>
-                <Cell col="6" text="출판일" background="#FFF8EE"/>
-                <Cell col="7" text="가격" textAlign="right" background="#FFF8EE"/>
+                <Cell col="1" text="사용여부" background="#FFF8EE"/>
+                <Cell col="2" text="분류코드" background="#FFF8EE"/>
+                <Cell col="3" text="분류명" background="#FFF8EE"/>
+                <Cell col="4" text="제품명" background="#FFF8EE"/>
+                <Cell col="5" text="이미지" background="#FFF8EE"/>
+                <Cell col="6" text="저자" background="#FFF8EE"/>
+                <Cell col="7" text="출판일" background="#FFF8EE"/>
+                <Cell col="8" text="가격" textAlign="right" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
-                <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
-                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
-                <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
-                <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
-                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' || BOOK_PUBLICATION_DATE == '미상' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
-                <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
+                <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
+                <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
+                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
+                <Cell col="6" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
           </Formats>
@@ -77,6 +80,7 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="fir_category_select" useclientlayout="true">
@@ -114,6 +118,7 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="message" useclientlayout="true">
@@ -147,11 +152,27 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="STATUS">
+        <ColumnInfo>
+          <Column id="USE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="USE">Y</Col>
+          </Row>
+          <Row>
+            <Col id="USE">N</Col>
+          </Row>
+        </Rows>
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 include "Base::paging.xjs";
+
+
 //화면 시작 시
 var g_row = 0;
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
@@ -267,6 +288,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  	var name =	this.view_dtl.getColumn(i,"PRODUCT_NAME")
  	var price = this.view_dtl.getColumn(i,"PRODUCT_PRICE")
 	var path = this.view_dtl.getColumn(i,"PRODUCT_PATH")
+	var use = this.view_dtl.getColumn(i,"PRODUCT_STATUS")
 	var writer = this.view_dtl.getColumn(i,"BOOK_WRITER")
 	var publication =this.view_dtl.getColumn(i,"BOOK_PUBLICATION_DATE")
  		
@@ -275,6 +297,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  		this.save_date.setColumn(num,"PRODUCT_CODE",code)
  		this.save_date.setColumn(num,"PRODUCT_NAME",name)
  		this.save_date.setColumn(num,"PRODUCT_PRICE",price)
+		this.save_date.setColumn(num,"PRODUCT_STATUS", use)
 		this.save_date.setColumn(num,"PRODUCT_PATH", path)
 		this.save_date.setColumn(num,"BOOK_WRITER", writer)
 		this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", publication)
@@ -364,7 +387,7 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 4){
+	if(e.cell == 5){
 
 		g_row = e.row
 
@@ -385,21 +408,24 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 
 };
 this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
-{
+{	
 	var path;
 	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
 	
         // 선택된 파일들의 경로 가져오기
-        var path = e.virtualfiles.map(function(file) {
+         path = e.virtualfiles.map(function(file) {
             return file.path;	
         });
-
+	
+	alert(path)
+	alert(e.virtualfiles[0].filename)
 	if(path == presentpath){ //기존 이미지 파일이면
 		
 	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
-	img_name = e.virtualfiles[0].filename // 파일이름
-	img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
-	this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
+	var img_name = e.virtualfiles[0].filename // 파일이름
+	var img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
+	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
+
 	
 	
 	}else{//새로운 이미지이면
@@ -413,7 +439,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 		var day =y+ "-" + m + "-" + d +"-" +s;
 		
 	img_name = e.virtualfiles[0].filename // 파일이름
-	
+	alert(img_name)
 	var type_num =  img_name.lastIndexOf(".");
 	var type = img_name.substring(type_num)
 	var name = img_name.substring(0,type_num)

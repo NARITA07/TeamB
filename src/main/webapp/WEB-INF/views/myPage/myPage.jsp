@@ -12,10 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link href="/css/style.css" rel="stylesheet" />
 	<style>
-	.btn-primary {
-		background-color: #766650 !important;
-	    color: white !important;
-	}
     .table {
         width: 100%;
         border-collapse: collapse;
@@ -225,11 +221,11 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
 					          	<c:if test="${not empty myOrder}">
-						          	<div class="row">
+						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
 						          		<c:forEach var="myOrder" items="${myOrder}">
 											<div class="orderDiv col-md-4" onclick="getOrderInfo('${myOrder.order_code}')" style="padding: 20px;">
 												<div class="card h-100">
-													<h6 class="card-header" style="background-color: #766650; color:#fff;
+													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 														<c:choose>
@@ -239,7 +235,7 @@ $(document).ready(function() {
 								                        </c:choose>
 													</h6>
 													<img class="card-body-food" src="/${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
-													<div class="card-footer" style="background-color: #766650;
+													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
 														<h6 style="color:#fff;">${myOrder.product_name}
@@ -275,17 +271,17 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 대여중인 도서가 있는 경우 --%>
 					          	<c:if test="${not empty myBook}">
-						          	<div class="row">
+						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
 						          		<c:forEach var="myBook" items="${myBook}">
-											<div class="orderDiv col-md-4" style="padding: 20px;">
+											<div class="bookDiv col-md-4" style="padding: 20px;">
 												<div class="card">
-													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
+													<h6 class="card-header" style="background-color: #324554; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 													${myBook.return_state}
 													</h6>
 													<img class="card-body-img" src="/${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image1.jpg'"/>
-													<div class="card-footer" style="background-color: #AB8212;
+													<div class="card-footer" style="background-color: #324554;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
 														<h6 style="color:#fff;">${myBook.book_name}</h6>

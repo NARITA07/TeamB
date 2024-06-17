@@ -18,6 +18,7 @@
             <Format id="default">
               <Columns>
                 <Column size="20"/>
+                <Column size="30"/>
                 <Column size="40"/>
                 <Column size="40"/>
                 <Column size="100"/>
@@ -32,23 +33,25 @@
               </Rows>
               <Band id="head">
                 <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
-                <Cell col="1" text="분류코드" background="#FFF8EE"/>
-                <Cell col="2" text="분류명" background="#FFF8EE"/>
-                <Cell col="3" text="제품명" background="#FFF8EE"/>
-                <Cell col="4" text="이미지" background="#FFF8EE"/>
-                <Cell col="5" text="저자" background="#FFF8EE"/>
-                <Cell col="6" text="출판일" background="#FFF8EE"/>
-                <Cell col="7" text="가격" textAlign="right" background="#FFF8EE"/>
+                <Cell col="1" text="사용여부" background="#FFF8EE"/>
+                <Cell col="2" text="분류코드" background="#FFF8EE"/>
+                <Cell col="3" text="분류명" background="#FFF8EE"/>
+                <Cell col="4" text="제품명" background="#FFF8EE"/>
+                <Cell col="5" text="이미지" background="#FFF8EE"/>
+                <Cell col="6" text="저자" background="#FFF8EE"/>
+                <Cell col="7" text="출판일" background="#FFF8EE"/>
+                <Cell col="8" text="가격" textAlign="right" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
-                <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
-                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
-                <Cell col="4" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
-                <Cell col="5" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
-                <Cell col="6" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
-                <Cell col="7" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
+                <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
+                <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center" edittype="none"/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="none"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text"/>
+                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="text" autosizecol="limitmin"/>
+                <Cell col="6" text="bind:BOOK_WRITER" textAlign="center" edittype="expr:BOOK_WRITER=='-' ? 'nonel' : 'text'"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
           </Formats>
@@ -77,6 +80,7 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="fir_category_select" useclientlayout="true">
@@ -114,6 +118,7 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="message" useclientlayout="true">
@@ -147,15 +152,33 @@
           <Column id="PRODUCT_PATH" type="STRING" size="256"/>
           <Column id="BOOK_WRITER" type="STRING" size="256"/>
           <Column id="BOOK_PUBLICATION_DATE" type="STRING" size="256"/>
+          <Column id="PRODUCT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="STATUS">
+        <ColumnInfo>
+          <Column id="USE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="USE">Y</Col>
+          </Row>
+          <Row>
+            <Col id="USE">N</Col>
+          </Row>
+        </Rows>
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+include "Base::paging.xjs";
+
 
 //화면 시작 시
 var g_row = 0;
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
+	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
+	this.pageinit(1,20,"Grid00","view_code"); 
 	
 	this.check_sort(this.Grid00);
 
@@ -181,8 +204,7 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 		
 		this.transaction(id, url, set, get, arg, callback);
 		
-	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,20); 
+	
 }
 
 
@@ -229,7 +251,7 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
         var objChildFrame = new ChildFrame();
 						// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
-        objChildFrame.init("Product_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddProduct_popup.xfdl");
+        objChildFrame.init("ProductAdd_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddProduct_popup.xfdl");
         objChildFrame.set_dragmovetype("all"); // 마우스 드래그
         objChildFrame.set_openalign("center middle"); // 화면 위치 
 		objChildFrame.set_resizable(false); // 화면 크기 조절
@@ -262,28 +284,32 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  	var num = 0;
  	for(i = 0; i < this.view_dtl.rowcount; i++){
 		if(this.view_dtl.getColumn(i,"CHK") == "Y"){
-		trace("꼽")
  	var code =	this.view_dtl.getColumn(i,"PRODUCT_CODE")
  	var name =	this.view_dtl.getColumn(i,"PRODUCT_NAME")
  	var price = this.view_dtl.getColumn(i,"PRODUCT_PRICE")
 	var path = this.view_dtl.getColumn(i,"PRODUCT_PATH")
- 
+	var use = this.view_dtl.getColumn(i,"PRODUCT_STATUS")
+	var writer = this.view_dtl.getColumn(i,"BOOK_WRITER")
+	var publication =this.view_dtl.getColumn(i,"BOOK_PUBLICATION_DATE")
  		
  		this.save_date.addRow();
  		
  		this.save_date.setColumn(num,"PRODUCT_CODE",code)
  		this.save_date.setColumn(num,"PRODUCT_NAME",name)
  		this.save_date.setColumn(num,"PRODUCT_PRICE",price)
+		this.save_date.setColumn(num,"PRODUCT_STATUS", use)
 		this.save_date.setColumn(num,"PRODUCT_PATH", path)
+		this.save_date.setColumn(num,"BOOK_WRITER", writer)
+		this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", publication)
  		num++;
-		trace(num)
+
  	}; 
  	}; // for 끝
 	
  	if(this.save_date.getRowCount() == 0){
- 		alert("수정하실 내역이없습니다.")
+ 		
 		this.view_dtl.reset();
- 		return false
+ 		return alert("수정하실 내역이없습니다.")
  	}
  	
  	var id = "modi"
@@ -358,9 +384,10 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
+
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 4){
+	if(e.cell == 5){
 
 		g_row = e.row
 
@@ -381,21 +408,24 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 
 };
 this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
-{
+{	
 	var path;
 	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
 	
         // 선택된 파일들의 경로 가져오기
-        var path = e.virtualfiles.map(function(file) {
+         path = e.virtualfiles.map(function(file) {
             return file.path;	
         });
-
+	
+	alert(path)
+	alert(e.virtualfiles[0].filename)
 	if(path == presentpath){ //기존 이미지 파일이면
 		
 	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
-	img_name = e.virtualfiles[0].filename // 파일이름
-	img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
+	var img_name = e.virtualfiles[0].filename // 파일이름
+	var img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
 	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
+
 	
 	
 	}else{//새로운 이미지이면
@@ -409,7 +439,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 		var day =y+ "-" + m + "-" + d +"-" +s;
 		
 	img_name = e.virtualfiles[0].filename // 파일이름
-	
+	alert(img_name)
 	var type_num =  img_name.lastIndexOf(".");
 	var type = img_name.substring(type_num)
 	var name = img_name.substring(0,type_num)
@@ -417,7 +447,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 
 	this.FileUpTransfer00.addFile("images/"+full_date, e.virtualfiles[0])
 
-	this.view_code.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
+	this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
 	
 	}
 
@@ -437,10 +467,7 @@ this.fn_category = function(id, code, message){
 				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
 					this.sec_code.deleteRow(0)
 				}
-				var div = this.components['pagediv'];
-				if(div != null)
-					div.destroy();
-				this.setPaging(this.view_code,this.Grid00);
+				this.reset_paging();
 				break;
 				
 				case "modi":
@@ -457,10 +484,7 @@ this.fn_category = function(id, code, message){
 				break;
 				
 				case "view_code":
-				var div = this.components['pagediv'];
-				if(div != null)
-					div.destroy();
-				this.setPaging(this.view_code,this.Grid00);
+				this.reset_paging();
 				break;
 			
 			}
@@ -468,159 +492,20 @@ this.fn_category = function(id, code, message){
 		}
 }
 
-/***************************************************************************************/
-								//페이징
-/***************************************************************************************/
-this.setPaging = function(ds,grid){
-	//pagecount 세팅 (전체 페이지)
-	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
-	
-	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
-		pagecount+=1;
-	}
-	this.paging.setColumn(0,"pagecount",Number(pagecount));
-	//div 만들어주기 
-	var div = new nexacro.Div();
-	div.init("pagediv",1,2,400,50); // left top width height
-	this.addChild("pagediv",div);
-	
-	div.set_top(grid.id+":10px");
-	div.set_left(( (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
-	div.set_text("PAGEDIV");
-	div.show();
-	
-	this.makebtn(div,pagecount);
 
-	this.setds(ds,1);
-}
-this.makebtn = function(div,pagecount){
-	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
-	
-	var firstbtn = new nexacro.Button(); // << 버튼 만들기
-	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
-  	firstbtn.set_left((leftpos  + "px"));
- 	firstbtn.set_text("<<");
-	firstbtn.set_cssclass("btn_num");	
-	firstbtn.addEventHandler("onclick",this.onclick_firstbtn,this);
- 	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
- 	firstbtn.show();
-	
-	leftpos += 35;
-	var prevbtn = new nexacro.Button(); // <버튼 만들기
-	prevbtn.init("prevbtn",0,0,30, 30); // left top width height
-  	prevbtn.set_left((leftpos  + "px"));
- 	prevbtn.set_text("<");
-	prevbtn.set_cssclass("btn_num");	
-	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
- 	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
- 	prevbtn.show();
- 		
- 	for(var i =1; i<=pagecount; i++){
- 		var btn = new nexacro.Button(); // 숫자 버튼 만들기
- 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
-		leftpos += 35;
- 		btn.set_left(leftpos + "px");
- 		btn.set_text(i);
-		btn.set_cssclass("btn_num");
-		btn.addEventHandler("onclick",this.onclick_pagebtn,this);
- 		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
- 		btn.show();
- 	}
-	leftpos += 35;
-	var nextbtn = new nexacro.Button(); // > 버튼 만들기
-	nextbtn.init("nextbtn",0,0,30, 30); // left top width height
-  	nextbtn.set_left((leftpos  + "px"));
- 	nextbtn.set_text(">");
-	nextbtn.set_cssclass("btn_num");
-	nextbtn.addEventHandler("onclick",this.onclick_nextbtn,this);
- 	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
- 	nextbtn.show();
-	
-	leftpos += 35;
-	
-	var endbtn = new nexacro.Button(); // >> 버튼 만들기
-	endbtn.init("endbtn",0,0,30, 30); // left top width height
-  	endbtn.set_left((leftpos  + "px"));
- 	endbtn.set_text(">>");
-	endbtn.set_cssclass("btn_num");
-	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
- 	div.addChild("endbtn",endbtn); // div에  버튼 추가
- 	endbtn.show();
-};
 
-this.pageinit = function(page, pagesize){ // 페이징 세팅
-	this.paging.addRow();
-	this.paging.setColumn(0,"page",page); //현재 페이지
-	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
-}
-this.setpagediv = function(grid){
-	var div = this.components['pagediv'];
-	div.set_left( ((grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2)+"px");
-};
-this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
-	var pagesize = this.paging.getColumn(0,"pagesize");
-	this.Grid00.setCellProperty("head",0,"text",0);
-	this.view_dtl.clearData();
-	if(ds.rowcount == 0){
-		this.paging.setColumn(0,"page",1);
-		return;
-	}
-	this.view_dtl.set_enableevent(false);
 
-	if(page == this.paging.getColumn(0,"pagecount")){
-		for(var i = pagesize*(page-1) ; i<ds.rowcount; i++){
-			var idx = this.view_dtl.addRow();
-			this.view_dtl.copyRow(idx,ds,i);
-		}
-	}else{
-		for(var i = pagesize*(page-1) ; i<pagesize*page-1; i++){
-			var idx = this.view_dtl.addRow();
-			this.view_dtl.copyRow(idx,ds,i);
-		}
-	}
-	
-	this.view_dtl.set_enableevent(true);
-	this.paging.setColumn(0,"page",page);
-};
-
-//버튼 클릭 이벤트
-this.onclick_firstbtn = function(obj:nexacro.Button){
-	var ds = this.view_code; //수정
-	this.setds(ds,1);
-};
-this.onclick_prevbtn = function(obj:nexacro.Button){
-	var ds = this.view_code; //수정
-	var prevpage = this.paging.getColumn(0,"page")-1;
-	if(prevpage <= 1)
-		this.setds(ds,1);
-	else
-		this.setds(ds,prevpage);
-};
-this.onclick_nextbtn = function(obj:nexacro.Button){
-	var ds = this.view_code; //수정
-	var nextpage = this.paging.getColumn(0,"page")+1;
-	if(nextpage >= this.paging.getColumn(0,"pagecount"))
-		this.setds(ds,this.paging.getColumn(0,"pagecount"));
-	else
-		this.setds(ds,nextpage);
-};
-this.onclick_endbtn = function(obj:nexacro.Button){
-	var ds = this.view_code; //수정
-	this.setds(ds,this.paging.getColumn(0,"pagecount"));
-};
-this.onclick_pagebtn = function(obj:nexacro.Button){
-//버튼 이벤트
-	this.setds(this.view_code,obj.text); //수정
-};
-this.Grid00_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.setpagediv(obj);
-	//ss = 23;
-	//this.paging.setColumn(0,"pagesize",ss);
-	//this.setds(obj.getBindDataset(),this.paging.getColumn(0,"page"));
+	var objChildFrame = new ChildFrame();
+						// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
+        objChildFrame.init("ProductAddAll_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddAllProduct_popup.xfdl");
+        objChildFrame.set_dragmovetype("all"); // 마우스 드래그
+        objChildFrame.set_openalign("center middle"); // 화면 위치 
+		objChildFrame.set_resizable(false); // 화면 크기 조절
+		
+        objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
 };
-
 
 this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {

@@ -14,7 +14,7 @@
     <select id="getFoodCategory" resultType="bookcafe.food.service.FoodVO">
 		SELECT *
 		FROM SEC_CODE
-		WHERE FIR_CODE = 'fir_002'
+		WHERE FIR_CODE = 'FIR_002'
 		  AND USE_STATUS = 'Y'
 		ORDER BY
 		  CASE

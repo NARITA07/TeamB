@@ -31,17 +31,17 @@
         </Grid>
         <Static id="Static00" taborder="1" left="248" top="-6" width="280" height="56" cssclass="title_sub"/>
         <Static id="Static01" taborder="2" text="포인트 획득/사용 이력 : " left="20" top="9" width="226" height="24" onclick="Static01_onclick" cssclass="title_sub"/>
-        <ImageViewer id="ImageViewer00_00" taborder="11" left="24" top="60" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/chk_WF_Box.png')" stretch="fit"/>
+        <ImageViewer id="ImageViewer00_00" taborder="11" left="24" top="60" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/nav_logo.png')" stretch="fit"/>
         <Static id="Static04" taborder="12" text="분류" left="ImageViewer00_00:5" top="56" width="24" height="14"/>
         <Combo id="Combo00" taborder="3" left="Static04:5" top="48" width="110" height="30" innerdataset="point_pm" codecolumn="COD" datacolumn="TXT" cssclass="combo_default"/>
-        <ImageViewer id="ImageViewer00" taborder="10" left="Combo00:30" top="60" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/chk_WF_Box.png')" stretch="fit"/>
+        <ImageViewer id="ImageViewer00" taborder="10" left="Combo00:30" top="60" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/nav_logo.png')" stretch="fit"/>
         <Static id="Static03" taborder="9" text="기간" left="ImageViewer00:5" top="56" width="24" height="14"/>
         <Calendar id="Calendar00" taborder="4" left="Static03:5" top="48" width="110" height="30" cssclass="cal_default"/>
         <Static id="Static02" taborder="7" text="~" left="Calendar00:3" top="53" width="14" height="21" font="18px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="5" left="Static02:3" top="48" width="110" height="30" cssclass="cal_default"/>
-        <Button id="Button00" taborder="6" text="조회" width="80" onclick="Button00_onclick" cssclass="btn_view" right="2.99%" bottom="Div00:5" height="30"/>
-        <Button id="Button01" taborder="13" text="포인트추가" width="80" onclick="Button01_onclick" cssclass="btn_save" right="Button00:5" height="30" bottom="Div00:5"/>
+        <Button id="Button01" taborder="13" text="포인트추가" width="80" onclick="Button01_onclick" cssclass="btn_save" right="2.99%" height="30" bottom="Div00:5"/>
         <MaskEdit id="MaskEdit00" taborder="14" width="80" format="#####" onchanged="MaskEdit00_onchanged" right="Button01:5" bottom="Div00:5" height="30"/>
+        <Button id="Button00" taborder="6" text="조회" width="80" onclick="Button00_onclick" cssclass="btn_view" right="MaskEdit00:5" bottom="Div00:5" height="30"/>
       </Layout>
     </Layouts>
     <Objects>

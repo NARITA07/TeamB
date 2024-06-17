@@ -21,7 +21,7 @@
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" border="1px none" cursor="pointer" cssclass="grid_nav" treestate="bind:LEVEL"/>
               </Band>
               <Band id="summary">
-                <Cell displaytype="buttoncontrol" edittype="button" text="마감"/>
+                <Cell displaytype="buttoncontrol" edittype="button" text="마감" cssclass="grid_nav_summary"/>
               </Band>
             </Format>
           </Formats>
@@ -136,7 +136,7 @@ this.logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 this.nav_onlbuttondown = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
 {
 	if(e.row == -2){
-		var chk = this.confirm("업무 마감 하시겠습니까?")
+		var chk = this.confirm("업무를 마감 하시겠습니까?")
 		
 		if(chk == true){
 		
@@ -160,7 +160,7 @@ this.fn_businessclosure = function(id, code, message){
 		if(this.businessclosure > 0){
 		alert("도서 "+ this.businessclosure + "건을 반납처리해주십시오." )
 		}else{
-		alert("마감되었습니다")
+		alert("마감되었습니다.")
 		nexacro.Application.exit();
 		}
 	

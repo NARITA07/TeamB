@@ -63,11 +63,11 @@
                   </Format>
                 </Formats>
               </Grid>
-              <Button id="btn_all_del" taborder="5" text="삭제" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:4" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
-              <Button id="btn_all_save" taborder="4" text="저장" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:4" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
-              <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" right="btn_all_save:5" cssclass="btn_dafault" bottom="Fir_code:4" height="30" onclick="Main_btn_fir_add_onclick"/>
-              <Button id="btn_Sec_add" taborder="6" text="추가" width="70" minheight="30" maxheight="30" borderRadius="5px" minwidth="70" maxwidth="70" height="30" cssclass="btn_dafault" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
-              <Combo id="sec_search" taborder="7" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search2" codecolumn="SEC_CODE" datacolumn="SEC_NAME" width="100" right="btn_Sec_add:5" bottom="285" height="30" cssclass="combo_default" displaynulltext="분류" oncloseup="Main_sec_search_oncloseup"/>
+              <Button id="btn_all_del" taborder="5" text="삭제" minheight="30" maxheight="30" minwidth="70" maxwidth="70" cssclass="btn_del" height="30" bottom="Fir_code:5" right="2.31%" width="70" onclick="Main_btn_all_del_onclick"/>
+              <Button id="btn_all_save" taborder="4" text="저장" minheight="30" maxheight="30" minwidth="70" maxwidth="70" cssclass="btn_save" bottom="Fir_code:5" height="30" width="70" onclick="Main_btn_all_save_onclick" right="btn_all_del:5"/>
+              <Button id="btn_fir_add" taborder="2" text="추가" width="70" minheight="30" maxheight="30" minwidth="70" maxwidth="70" right="btn_all_save:5" cssclass="btn_save" bottom="Fir_code:5" height="30" onclick="Main_btn_fir_add_onclick"/>
+              <Button id="btn_Sec_add" taborder="6" text="추가" width="70" minheight="30" maxheight="30" minwidth="70" maxwidth="70" height="30" cssclass="btn_save" bottom="Sec_code:5" right="1.85%" onclick="Main_btn_Sec_add_onclick"/>
+              <Combo id="sec_search" taborder="7" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search2" codecolumn="SEC_CODE" datacolumn="SEC_NAME" width="100" right="btn_Sec_add:5" bottom="Sec_code:5" height="30" cssclass="combo_default" displaynulltext="분류" oncloseup="Main_sec_search_oncloseup"/>
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
               <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:1" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>

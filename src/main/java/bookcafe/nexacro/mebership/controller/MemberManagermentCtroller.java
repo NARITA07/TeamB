@@ -42,10 +42,10 @@ public class MemberManagermentCtroller {
 	
 	//회원관리
 	@RequestMapping("membermanagement.do")
-	public NexacroResult Admin_membership() {   
+	public NexacroResult Admin_membership(@ParamDataSet(name = "search_dtl", required = false) Map<String,String> search_dtl) {   
 		NexacroResult result = new NexacroResult(); // 넥사크로타입의 변수 result를 선언 
 		
-		List<Map<String, Object>> member =  mms.select_member();
+		List<Map<String, Object>> member =  mms.select_member(search_dtl);
 			
 		result.addDataSet("Member_Management", member);
 		
@@ -117,6 +117,7 @@ public class MemberManagermentCtroller {
 		        if (Member_Selected != null) {
 		            for (Map<String, String> param : Member_Selected) {
 		                mms.insertPointLog(param);
+		                mms.updateUserPoint(param);
 		            }
 		        }
 		        transactionManager.commit(txStatus);

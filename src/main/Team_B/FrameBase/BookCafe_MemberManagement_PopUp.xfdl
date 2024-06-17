@@ -39,9 +39,9 @@
         <Calendar id="Calendar00" taborder="4" left="Static03:5" top="48" width="110" height="30" cssclass="cal_default"/>
         <Static id="Static02" taborder="7" text="~" left="Calendar00:3" top="53" width="14" height="21" font="18px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="5" left="Static02:3" top="48" width="110" height="30" cssclass="cal_default"/>
-        <Button id="Button00" taborder="6" text="조회" left="551" top="10" width="100" height="30" onclick="Button00_onclick" cssclass="btn_view"/>
-        <Button id="Button01" taborder="13" text="포인트추가" left="459" top="9" width="82" height="30" onclick="Button01_onclick"/>
-        <MaskEdit id="MaskEdit00" taborder="14" left="374" top="9" width="80" height="30" format="#####" onchanged="MaskEdit00_onchanged"/>
+        <Button id="Button00" taborder="6" text="조회" width="80" onclick="Button00_onclick" cssclass="btn_view" right="2.99%" bottom="Div00:5" height="30"/>
+        <Button id="Button01" taborder="13" text="포인트추가" width="80" onclick="Button01_onclick" cssclass="btn_save" right="Button00:5" height="30" bottom="Div00:5"/>
+        <MaskEdit id="MaskEdit00" taborder="14" width="80" format="#####" onchanged="MaskEdit00_onchanged" right="Button01:5" bottom="Div00:5" height="30"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -322,9 +322,13 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.Member_Selected.setColumn(0,"USER_CODE", this.parent.USER_CODE);
 	this.Member_Selected.setColumn(0,"POINT_PM", this.MaskEdit00.value);
 	
-	confirm("포인트를 추가하시겠습니까?");
-	
-	this.fnInsertPointLog();
+	if (this.MaskEdit00.value !== "" && this.MaskEdit00.value != null) {
+		if (confirm("포인트를 추가하시겠습니까?")) {
+			this.fnInsertPointLog();
+		}
+	} else {
+		alert("추가할 포인트를 입력하세요");
+	}
 };
 
 ]]></Script>

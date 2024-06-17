@@ -64,6 +64,7 @@
 			F.PRODUCT_CODE, 
 		    F.PRODUCT_NAME, 
 		    F.PRODUCT_PRICE, 
+		    F.PRODUCT_QUANTITY,
 		    SUM(C.ORDER_QUANTITY) AS ORDER_QUANTITY 
 	    FROM 
 	        CART C 
@@ -178,24 +179,6 @@
 	    LIMIT 1;
 	</select>
 	
-	<!-- 포인트 로그 남기기 -->
-<!-- 	<insert id="addPoint" parameterType="bookcafe.cart.service.PointLogVO"> -->
-<!-- 		INSERT INTO POINTLOG ( -->
-<!--         POINT_CODE, -->
-<!--         USER_CODE, -->
-<!--         ORDER_CODE, -->
-<!--         POINT_CHANGE, -->
-<!--         POINT_JOINDATE -->
-<!--     	) -->
-<!--     	VALUES ( -->
-<!--         fnCode('pointlog'), -->
-<!--         #{user_code}, -->
-<!--         #{order_code}, -->
-<!--         #{point_change}, -->
-<!--         date_format(now(),'%Y%m%d%H%m%s') -->
-<!--     	); -->
-<!-- 	</insert> -->
-	
 	<!-- 총금액 계산(오더리스트) -->
 	<select id="getTotalPrice" parameterType="string" resultType="Integer">
 	    SELECT total_price 
@@ -203,15 +186,7 @@
 	    WHERE order_code = #{order_code}
 	</select>
 	
-	<!-- 유저포인트 업데이트 -->
-<!-- 	<update id="updateUserPoint" parameterType="String"> -->
-<!-- 		UPDATE USER u -->
-<!-- 		JOIN POINTLOG p ON u.USER_CODE = p.USER_CODE -->
-<!-- 		SET u.USER_POINT = u.USER_POINT + p.POINT_CHANGE -->
-<!-- 		WHERE p.USER_CODE = #{user_code} -->
-<!-- 	</update> -->
-	
-	<!--바로구매 cart insert -->
+	<!--바로구매 cart insert :삭제예정 -->
     <insert id="directInsertCart" parameterType="bookcafe.cart.service.CartVO">
     INSERT INTO CART (USER_CODE, PRODUCT_CODE, ORDER_QUANTITY, CART_CODE)
     VALUES (

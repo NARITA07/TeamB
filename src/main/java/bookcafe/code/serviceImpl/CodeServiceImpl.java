@@ -82,5 +82,16 @@ public class CodeServiceImpl implements CodeService {
 		return v;
 	}
 
+	@Override
+	public List<Map<String, Object>> add_sec_code(String add_fir_code) {
+			
+		
+		//도서의 중분류를 확인 
+		List<Map<String, Object>> chk = codemapper.sec_code_chk(add_fir_code);
+		
+		
+		return use_stat(chk);
+	}
+
 }
 

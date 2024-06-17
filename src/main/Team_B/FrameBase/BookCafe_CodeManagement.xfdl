@@ -12,7 +12,7 @@
                   <Format id="default">
                     <Columns>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="40"/>
                       <Column size="150"/>
                       <Column size="150"/>
                     </Columns>
@@ -22,26 +22,25 @@
                     </Rows>
                     <Band id="head">
                       <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="분류코드" background="#FFF8EE"/>
-                      <Cell col="2" text="코드명" background="#FFF8EE"/>
-                      <Cell col="3" text="사용여부" background="#FFF8EE"/>
+                      <Cell col="1" text="사용여부" background="#FFF8EE"/>
+                      <Cell col="2" text="분류코드" background="#FFF8EE"/>
+                      <Cell col="3" text="코드명" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="bind:SEC_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
-                      <Cell col="3" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
+                      <Cell col="1" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
+                      <Cell col="2" text="bind:SEC_CODE" textAlign="center"/>
+                      <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
               <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="fir_code_grid" scrollbartype="default default" right="20" autofittype="col" border="1px solid #4F4537" minheight="" height="260" oncellclick="Main_Fir_code_oncellclick" oncelldblclick="Main_Fir_code_oncelldblclick" top="120">
-
                 <Formats>
                   <Format id="default">
                     <Columns>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="40"/>
                       <Column size="150"/>
                       <Column size="150"/>
                     </Columns>
@@ -51,15 +50,15 @@
                     </Rows>
                     <Band id="head">
                       <Cell text="CHK" edittype="checkbox" background="#FFF8EE" displaytype="checkboxcontrol" cursor="auto" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                      <Cell col="1" text="분류코드" background="#FFF8EE" cursor="auto"/>
-                      <Cell col="2" text="분류명" background="#FFF8EE" cursor="auto"/>
-                      <Cell col="3" text="사용여부" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="1" text="사용여부" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="2" text="분류코드" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="3" text="분류명" background="#FFF8EE" cursor="auto"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:CHK" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                      <Cell col="1" text="bind:FIR_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
-                      <Cell col="3" text="bind:USE_STATUS" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center"/>
+                      <Cell col="1" text="bind:USE_STATUS" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center"/>
+                      <Cell col="2" text="bind:FIR_CODE" textAlign="center"/>
+                      <Cell col="3" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -72,7 +71,6 @@
               <Static id="Static01" text="상위 코드" left="20" width="90" bottom="Fir_code:5" height="24" cssclass="title_sub"/>
               <Static id="Static01_00" taborder="9" text="하위 코드" left="20" width="90" bottom="Sec_code:4" height="24" cssclass="title_sub"/>
               <Static id="Static02" taborder="14" text="※상위코드의 변경은 하위코드에도 영향을 미칩니다." top="Fir_code:5" height="14" onclick="Main_Static02_onclick" width="279" maxwidth="477" minwidth="" left="20" cssclass="warning_txt"/>
-
               <Combo id="fir_search" taborder="13" text="" displayrowcount="20" type="filterlike" value="" index="-1" innerdataset="search" codecolumn="FIR_CODE" datacolumn="FIR_NAME" onitemclick="Main_Div00_fir_search_onitemclick" oncloseup="Main.form.fir_search_oncloseup" width="100" right="btn_fir_add:5" bottom="Fir_code:5" height="30" cssclass="combo_default" displaynulltext="분류" onitemchanged="Main_fir_search_onitemchanged"/>
             </Layout>
           </Layouts>

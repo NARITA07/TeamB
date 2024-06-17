@@ -157,6 +157,22 @@
         var nRow = this.ds_year.addRow();
 		this.ds_year.setColumn(nRow, "YEAR", year);
     }
+	
+	this.sales_con.clearData();
+	
+	var sales_row = this.sales_con.addRow();
+	
+	var name = this.Edit00.value;
+	var menu = this.Edit01.value;
+	var year = this.Combo00.value;
+	var sec_code = this.Combo02.value;
+
+ 	this.sales_con.setColumn(sales_row, "NAME", name);
+ 	this.sales_con.setColumn(sales_row, "MENU", menu);
+	this.sales_con.setColumn(sales_row, "YEAR", year);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
+	
+	this.fnSelectSalesChart();
 };
 
 //조회

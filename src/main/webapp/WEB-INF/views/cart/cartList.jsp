@@ -44,6 +44,20 @@
 	    	width: 75px;
 	    	display:inline-block;
 		}
+		.cartAmountTable {
+	    	width: 100%;
+	    	border-collapse: collapse;
+	    }
+	
+	    .cartAmountTable th, .cartAmountTable td {
+	        border: 1px solid #dee2e6;
+	        padding: 8px;
+	        text-align: left;
+	    }
+	
+	    .cartAmountTable th {
+	        background-color: white;
+	    }
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
@@ -146,37 +160,47 @@
 	
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
+	  <div class="modal-dialog modal-sm modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel">장바구니 구매하기</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      <div class="modal-body">
+	      <div class="modal-body" style="margin-bottom: 16px">
 	      	 <form id="orderForm" action="/submitOrder" method="post">
-	             <div class="form-group">
-	                <label for="totalPrice">총 금액 : </label>
-	                <span id="modalTotalPrice"></span>
-                </div>
-                <div class="form-group">
-	               	<label for="userPoints">유저 포인트 : </label>
-             		<fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/>원
-                </div>
-                 <div class="form-group">
-                     <label for="usePoints">사용 포인트 입력</label>
-                     <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
-                      oninput="validatePoints(${loginInfo.user_point})">  원
-                 </div>
-                 <div class="form-group">
-                     <label for="amountOfPayment">결제 금액 : </label>
-                     <span id="paymentAmount"></span>
-                     <input type="hidden" name="total_price" id="totalPriceInput">
-                 </div>
-                	<input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
-                    <input type="hidden" name="product_code" id="productCodeInput" value="">
-                    <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
-                    <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
-                    <input type="hidden" name="point_change" id="pointChangeInput">
+		      	 <table>
+		      	 	 <tbody class="cartAmountTable">
+			      	 	<tr>
+			      	 		<th><label for="totalPrice">총 금액</label></th>
+			      	 		<td><span id="modalTotalPrice"></span></td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="userPoints">유저 포인트</label></th>
+			      	 		<td>
+			      	 			<fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/> 원
+		      	 			</td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="usePoints">사용 포인트</label></th>
+			      	 		<td>
+			      	 			<input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
+			      	 			oninput="validatePoints(${loginInfo.user_point})"> 원
+                     		</td>		      	 		
+			      	 	</tr>
+			      	 	<tr>
+			      	 		<th><label for="amountOfPayment">결제 금액</label></th>
+			      	 		<td>
+			      	 			<span id="paymentAmount"></span>
+		                     	<input type="hidden" name="total_price" id="totalPriceInput">
+		                    </td>		      	 		
+			      	 	</tr>
+			      	 </tbody>
+	      	 	</table>
+               	<input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
+                <input type="hidden" name="product_code" id="productCodeInput" value="">
+                <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
+                <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
+                <input type="hidden" name="point_change" id="pointChangeInput">
 	           </form>
 	      </div>
 	      <div class="modal-footer">
@@ -206,12 +230,12 @@
 	        	document.getElementById('orderQuantityInput').value=orderQuantity;
 	            var price = parseInt(priceElements[i].textContent.replace(/[^0-9]/g, ''));
 	            var total_price = orderQuantity * price;
-	            total_price_elements[i].innerHTML = new Intl.NumberFormat('ko-KR').format(total_price) + '원';
+	            total_price_elements[i].innerHTML = new Intl.NumberFormat('ko-KR').format(total_price) + ' 원';
 	            totalPrice += total_price;
 	        }
 	        
 	        // 총 금액을 화면에 표시
-	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + '원';
+	        document.getElementById('totalPriceValue').textContent = totalPrice.toLocaleString() + ' 원';
 	        
 	    }
 		
@@ -442,7 +466,7 @@
 	        }
 	        var paymentAmount = totalPrice - usePoints;
 	        console.log("결제금액"+paymentAmount)
-	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + '원';
+	        document.getElementById('paymentAmount').textContent = paymentAmount.toLocaleString() + ' 원';
 	    }
 		function goFoodList(){
 			 var url = 'foodList.do';

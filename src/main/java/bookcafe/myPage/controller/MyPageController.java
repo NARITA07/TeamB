@@ -52,11 +52,7 @@ public class MyPageController {
 	// 마이페이지
 	@GetMapping("/myPage")
 	public void myPageMain(HttpSession session, Model model) {
-		// 사용자 정보 업데이트
-		String sessionId = (String) session.getAttribute("sessionId");
-		MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-        session.setAttribute("loginInfo", loginInfo);
-		
+		MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
 		System.out.println("loginInfo: " + loginInfo.toString());
 		String user_code = loginInfo.getUser_code();
 		

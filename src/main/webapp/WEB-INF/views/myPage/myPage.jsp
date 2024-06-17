@@ -12,26 +12,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link href="/css/style.css" rel="stylesheet" />
 	<style>
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .table th, .table td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        text-align: left;
-    }
-
-    .table th {
-        background-color: #f8f9fa;
-    }
-    
-  	.card-body-food {
-  	    height: 100%;
-	    object-fit: cover; /* 이미지 비율 유지하며 자르기 */
-	    width: 100%;
-    }
+	/*
+ 	.table-abc { 
+       thi: 1px thin black; 
+       border-collapse: collapse; 
+     } 
+     .table-abc th .table-abc td{ 
+         border: thin; 
+     } 
+     */
 	</style>
 </head>
 <body>
@@ -221,10 +210,10 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 주문내역이 있는 경우 --%>
 					          	<c:if test="${not empty myOrder}">
-						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
+						          	<div class="row">
 						          		<c:forEach var="myOrder" items="${myOrder}">
 											<div class="orderDiv col-md-4" onclick="getOrderInfo('${myOrder.order_code}')" style="padding: 20px;">
-												<div class="card h-100">
+												<div class="card">
 													<h6 class="card-header" style="background-color: #AB8212; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
@@ -234,7 +223,7 @@ $(document).ready(function() {
 								                            <c:when test="${myOrder.order_state eq 3}">준비완료</c:when>
 								                        </c:choose>
 													</h6>
-													<img class="card-body-food" src="/${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
+													<img class="card-body-img" src="${myOrder.product_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #AB8212;
 																					display: flex; justify-content: center; 
 																					align-items: center;">
@@ -271,16 +260,16 @@ $(document).ready(function() {
 					          	</c:if>
 					          	<%-- 대여중인 도서가 있는 경우 --%>
 					          	<c:if test="${not empty myBook}">
-						          	<div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
+						          	<div class="row">
 						          		<c:forEach var="myBook" items="${myBook}">
-											<div class="bookDiv col-md-4" style="padding: 20px;">
+											<div class="orderDiv col-md-4" style="padding: 20px;">
 												<div class="card">
 													<h6 class="card-header" style="background-color: #324554; color:#fff;
 																				   display: flex; justify-content: center;
 																				   align-items: center;">
 													${myBook.return_state}
 													</h6>
-													<img class="card-body-img" src="/${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image1.jpg'"/>
+													<img class="card-body-img" src="${myBook.book_path}" onerror="this.onerror=null; this.src='/images/no_image.jpg'"/>
 													<div class="card-footer" style="background-color: #324554;
 																					display: flex; justify-content: center; 
 																					align-items: center;">

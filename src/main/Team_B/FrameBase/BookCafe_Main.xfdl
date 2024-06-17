@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>
@@ -26,8 +26,8 @@
         <Div id="Main" taborder="1" text="Main" left="200" top="0" height="100.00%" formscrolltype="none" right="0" border="1px solid black" url="FrameBase::BookCafe_OrderStatus.xfdl"/>
         <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
         <Edit id="Edit00" taborder="3" left="0" top="0" width="200" height="60" text="text" enable="false" background="#f7f7f7"/>
-        <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick" cssclass="btn_main_nave"/>
-        <Button id="BTN" taborder="5" text="마감" left="0" width="200" height="40" bottom="0" cssclass="btn_main_nave" onclick="BTN_onclick"/>
+        <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick" cssclass="btn_dafault"/>
+        <Button id="BTN" taborder="5" text="마감" left="0" width="200" height="40" bottom="0" cssclass="btn_dafault" onclick="BTN_onclick"/>
       </Layout>
     </Layouts>
     <Objects>

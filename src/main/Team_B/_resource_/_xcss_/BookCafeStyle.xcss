@@ -360,4 +360,8 @@
 .Grid .body .row .cell.grid_quantity
 {
 	color : red;
-}]]></XCSS>
+}.Grid.grid_nav_summary .summary .row .cell .cellbutton
+{
+	background : blue;
+}
+]]></XCSS>

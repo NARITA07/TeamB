@@ -381,4 +381,20 @@
 	background : yellowgreen;	
 	color : #000000;
 	font : normal bold  10pt/normal "Arial";
+}.Button.btn_main_nave
+{
+	background : transparent;
+	-nexa-border : 0px none,0px none,0px none,0px none ;
+	font : normal 10px/normal "Gulim";
+}
+
+
+.Button.btn_main_nave[status=mouseover],
+.Button.btn_main_nave[status=focused],
+.Button.btn_main_nave[userstatus=pushed],
+.Button.btn_main_nave[userstatus=selected]
+{
+	background : #FFF8EE;
+	font : normal bold 10px/normal "Gulim";
+	-nexa-border : 0px none,0px none,0px none,0px none ;
 }]]></XCSS>

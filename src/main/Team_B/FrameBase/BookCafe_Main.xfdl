@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_Main" width="1280" height="720" titletext="메인화면" oninit="BookCafe_Main_oninit" color="black">
     <Layouts>

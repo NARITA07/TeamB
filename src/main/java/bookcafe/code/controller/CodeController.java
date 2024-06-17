@@ -37,7 +37,7 @@ public class CodeController {
 		
 		nex_view_code.addDataSet("view_code", codeservice.view_code());
 
-		System.out.println(nex_view_code.getDataSets());
+	
 		return nex_view_code;
 		
 	}

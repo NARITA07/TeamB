@@ -33,10 +33,6 @@ public interface ProductManagementMapper {
 
 	void downdatevipstatus();
 
-	int product_allsavef(Map<String, Object> map);
-
-	int product_allsaveb(Map<String, Object> map);
-
 
 
 	

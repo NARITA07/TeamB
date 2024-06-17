@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface MemberManagermentService {
 
-	public List<Map<String, Object>> select_member(Map<String,String> search_dtl);
+	public List<Map<String, Object>> select_member();
 
 	public Map<String, Object> select_non(String nonmember);
 
@@ -19,9 +19,5 @@ public interface MemberManagermentService {
 
 	public List<Map<String, Object>> selectPointlog(Map<String, String> member_Selected);
 
-	//포인트로그 insert
 	public void insertPointLog(Map<String, String> param);
-	
-	//유저포인트 update
-	public void updateUserPoint(Map<String, String> param);
 }

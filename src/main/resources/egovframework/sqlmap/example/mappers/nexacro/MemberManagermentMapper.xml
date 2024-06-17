@@ -98,5 +98,4 @@
 		) 
 		WHERE USER_CODE = #{USER_CODE}
 	</update>
-	
 </mapper>

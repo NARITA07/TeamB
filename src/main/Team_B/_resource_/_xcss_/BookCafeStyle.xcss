@@ -325,7 +325,7 @@
 	-nexa-border : 1px;
 	-nexa-text-align : center;
 	-nexa-vertical-align : middle ;
-	background : yellowgreen;	
+	background : #FFF8EE;
 	color : #000000;
 	font : normal bold  10pt/normal "Arial";
 }
@@ -360,8 +360,25 @@
 .Grid .body .row .cell.grid_quantity
 {
 	color : red;
-}.Grid.grid_nav_summary .summary .row .cell .cellbutton
+}.Button.btn_fn_save,
+.Button.btn_fn_save[status=focused]
 {
-	background : blue;
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : #FAEBD7;	
+	color : #000000;
+	font : normal bold  10pt/normal "Arial";
 }
-]]></XCSS>
+
+.Button.btn_fn_save[status=mouseover],
+.Button.btn_fn_save[userstatus=pushed],
+.Button.btn_fn_save[userstatus=selected]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	background : yellowgreen;	
+	color : #000000;
+	font : normal bold  10pt/normal "Arial";
+}]]></XCSS>

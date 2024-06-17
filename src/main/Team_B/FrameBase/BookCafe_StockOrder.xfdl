@@ -21,7 +21,7 @@
               <Band id="head">
                 <Cell displaytype="checkboxcontrol" background="#FFF8EE" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="checkbox"/>
                 <Cell col="1" text="발주상태" background="#FFF8EE"/>
-                <Cell col="2" text="메뉴명" background="#FFF8EE"/>
+                <Cell col="2" text="제품명" background="#FFF8EE"/>
                 <Cell col="3" text="발주수량" background="#FFF8EE"/>
                 <Cell col="4" text="발주일시" background="#FFF8EE"/>
                 <Cell col="5" text="신청자" background="#FFF8EE"/>
@@ -78,8 +78,8 @@
               </Rows>
               <Band id="head">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
-                <Cell col="1" text="메뉴명" background="#FFF8EE"/>
-                <Cell col="2" text="메뉴코드" background="#FFF8EE"/>
+                <Cell col="1" text="제품명" background="#FFF8EE"/>
+                <Cell col="2" text="제품코드" background="#FFF8EE"/>
                 <Cell col="3" text="현재재고" background="#FFF8EE"/>
                 <Cell col="4" text="발주수량" editinputtype="number" background="#FFF8EE"/>
               </Band>

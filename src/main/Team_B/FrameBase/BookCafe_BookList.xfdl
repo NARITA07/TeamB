@@ -46,8 +46,8 @@
         <ImageViewer id="ImageViewer00_00" taborder="19" left="Combo02:20" top="117" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static00" taborder="1" text="이름" top="113" width="24" height="14" left="ImageViewer00_00:5"/>
         <Edit id="Edit00" taborder="0" left="Static00:5" top="105" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
-        <Button id="Button01_00" taborder="13" text="엑셀" height="30" cssclass="btn_dafault" bottom="Div00:5" width="70" onclick="Button01_00_onclick" right="1.76%"/>
-        <Button id="Button00" taborder="2" text="조회" height="30" onclick="Button00_onclick" cssclass="btn_dafault" bottom="Div00:5" width="70" right="Button01_00:5"/>
+        <Button id="Button01_00" taborder="13" text="엑셀" height="30" cssclass="btn_save" bottom="Div00:5" width="70" onclick="Button01_00_onclick" right="1.76%"/>
+        <Button id="Button00" taborder="2" text="조회" height="30" onclick="Button00_onclick" cssclass="btn_view" bottom="Div00:5" width="70" right="Button01_00:5"/>
         <ImageViewer id="ImageViewer00_01" taborder="20" left="Edit00:20" top="117" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static01_00" taborder="11" text="도서명" left="ImageViewer00_01:5" top="113" width="36" height="14"/>
         <Edit id="Edit00_00" taborder="16" left="Static01_00:5" top="105" width="100" height="30" cssclass="edit_default" onchanged="Div00_Edit00_onchanged"/>

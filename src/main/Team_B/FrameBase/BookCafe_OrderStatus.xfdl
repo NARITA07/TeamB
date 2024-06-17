@@ -25,7 +25,7 @@
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
                 <Cell col="1" text="주문번호" background="#FFF8EE"/>
                 <Cell col="2" text="아이디" background="#FFF8EE"/>
-                <Cell col="3" text="상품명" background="#FFF8EE"/>
+                <Cell col="3" text="제품명" background="#FFF8EE"/>
                 <Cell col="4" text="수량" background="#FFF8EE"/>
                 <Cell col="5" text="가격" background="#FFF8EE"/>
                 <Cell col="6" text="결제상태" background="#FFF8EE"/>
@@ -69,7 +69,7 @@
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="N" background="#FFF8EE"/>
                 <Cell col="1" text="주문번호" background="#FFF8EE"/>
                 <Cell col="2" text="아이디" background="#FFF8EE"/>
-                <Cell col="3" text="상품명" background="#FFF8EE"/>
+                <Cell col="3" text="제품명" background="#FFF8EE"/>
                 <Cell col="4" text="수량" background="#FFF8EE"/>
                 <Cell col="5" text="가격" background="#FFF8EE"/>
                 <Cell col="6" text="결제상태" background="#FFF8EE"/>

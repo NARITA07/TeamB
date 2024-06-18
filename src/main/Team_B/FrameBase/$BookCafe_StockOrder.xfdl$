@@ -3,7 +3,7 @@
   <Form id="주문관리" width="1080" height="720" titletext="재고관리" oninit="주문관리_oninit" onload="주문관리_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
-        <Grid id="Grid01" taborder="7" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.76%" bottom="6.94%" cssclass="grid_default" top="445" onsize="stock02_div_Grid00_onsize">
+        <Grid id="Grid01" taborder="7" left="1.76%" binddataset="view_dtl" autofittype="col" right="1.67%" bottom="5.56%" cssclass="grid_default" top="420" onsize="stock02_div_Grid00_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -95,20 +95,20 @@
         </Grid>
         <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_fn" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Static id="Static01" taborder="4" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
-        <Static id="Static00_00" taborder="6" text="입고 관리" left="1.76%" width="153" height="24" cssclass="title_sub" bottom="Grid01:5"/>
-        <Static id="Static01_00" taborder="8" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="10.19%" top="58.47%" width="321" cssclass="warning_txt" bottom="Grid01:5"/>
+        <Static id="Static00_00" taborder="6" text="입고 관리" left="1.76%" width="90" height="24" cssclass="title_sub" bottom="Grid01:5"/>
         <Button id="Button01_00" taborder="10" text="상태저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
         <Button id="Button00_00" taborder="9" text="엑셀저장" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
+        <Static id="Static01_00" taborder="8" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="Static00_00:5" width="321" cssclass="warning_txt" bottom="Grid01:5" height="14"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort_Stock_Order.xjs";
-include "Base::paging.xjs";
+include "Base::paging.xjs"; 
 /*
 1. 화면 초기화
 2. 이벤트
-3. 함수
+3. 함수d
 4. 페이징
-20240618 0921 수정
+20240618 1026 수정
 */
  
 /****************************************************/  
@@ -259,6 +259,8 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		}
 		
 		alert("발주신청이 완료되었습니다.");
+		// grid1 list 불러오기
+		this.fnStockMenuList();
 		this.fnSaveStockOrder();
 		
 		// grid2 list에 입고대기 리스트 불러오기

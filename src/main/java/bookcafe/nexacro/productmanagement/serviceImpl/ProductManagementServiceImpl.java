@@ -104,9 +104,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		
 		//반납 책 확인 
 		if(productmapper.bookReturn() >0) {// 반납할 책이 1개라도 있으면 
-			System.out.println();
 			date = productmapper.bookReturn();
-			System.out.println("반납 책 " + date);
 			return date;
 			
 		}else{ //VIP 등급 변경

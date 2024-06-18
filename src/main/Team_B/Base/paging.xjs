@@ -34,7 +34,7 @@ this.setPaging = function(grid,page=1){
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
 	var pagecount = parseInt(ds.rowcount / this.paging.getColumn(0,"pagesize"));
-	
+	trace(pagecount);
 	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
 		pagecount+=1;
 	}
@@ -46,9 +46,11 @@ this.setPaging = function(grid,page=1){
 	this.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
-	var leftpos = (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2;
+
+	var leftpos = (grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.getOffsetWidth()/2;
+
 	div.set_left(leftpos+"px");
-	div.set_text("PAGEDIV");
+	div.set_text("pagediv");
 	div.show();
 	
 	this.makebtn(div,pagecount);
@@ -64,15 +66,14 @@ this.makebtn = function(div,pagecount){
 	}
 	trace("pagecount : "+end);
 	var leftpos =  div.getOffsetWidth()/2 - ((end-start+4) /2 * 35)-35;
-	//var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
-	
+
 	var firstbtn = new nexacro.Button(); // << 버튼 만들기
 	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
   	firstbtn.set_left((leftpos  + "px"));
  	firstbtn.set_text("<<");
 	firstbtn.set_cssclass("btn_num");	
 	firstbtn.addEventHandler("onclick",this.onclick_firstbtn,this);
- 	div.addChild("firstbtn",firstbtn); // div에  버튼 추가
+ 	div.form.addChild("firstbtn",firstbtn); // div에  버튼 추가
  	firstbtn.show();
 	
 	leftpos += 35;
@@ -82,21 +83,22 @@ this.makebtn = function(div,pagecount){
  	prevbtn.set_text("<");
 	prevbtn.set_cssclass("btn_num");	
 	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
- 	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
+ 	div.form.addChild("prevbtn",prevbtn); // div에  버튼 추가
  	prevbtn.show();
  	
 
  	for(var i =start; i<=end; i++){
  		var btn = new nexacro.Button(); // 숫자 버튼 만들기
-		trace("pagebtn"+i);
- 		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
+		var name = "pagebtn"+i;
+ 		btn.init(name,0,0,30, 30); // left top width height
 		leftpos += 35;
  		btn.set_left(leftpos + "px");
  		btn.set_text(i);
 		btn.set_cssclass("btn_num");
 		btn.addEventHandler("onclick",this.onclick_pagebtn,this);
- 		div.addChild("pagebtn"+i,btn); // div에  버튼 추가
+ 		div.form.addChild(name,btn); // div에  버튼 추가
  		btn.show();
+		
  	}
 	leftpos += 35;
 	var nextbtn = new nexacro.Button(); // > 버튼 만들기
@@ -105,7 +107,7 @@ this.makebtn = function(div,pagecount){
  	nextbtn.set_text(">");
 	nextbtn.set_cssclass("btn_num");
 	nextbtn.addEventHandler("onclick",this.onclick_nextbtn,this);
- 	div.addChild("nextbtn",nextbtn); // div에  버튼 추가
+ 	div.form.addChild("nextbtn",nextbtn); // div에  버튼 추가
  	nextbtn.show();
 	
 	leftpos += 35;
@@ -116,13 +118,13 @@ this.makebtn = function(div,pagecount){
  	endbtn.set_text(">>");
 	endbtn.set_cssclass("btn_num");
 	endbtn.addEventHandler("onclick",this.onclick_endbtn,this);
- 	div.addChild("endbtn",endbtn); // div에  버튼 추가
+ 	div.form.addChild("endbtn",endbtn); // div에  버튼 추가
  	endbtn.show();
 };
 
 this.setpagediv = function(grid){
-	var div = this.components['pagediv'];
-	var leftpos=(grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2;
+	var div = this.components["pagediv"];
+	var leftpos=(grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.getOffsetWidth()/2;
 	div.set_left( leftpos+"px");
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
@@ -131,7 +133,6 @@ this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만
 	else if(page >this.paging.getColumn(0,"pagecount")){
 		page = this.paging.getColumn(0,"pagecount");
 	}
-
 	var pagesize = this.paging.getColumn(0,"pagesize");
 	if(this.view_dtl != null)
 		this.view_dtl.clearData();
@@ -154,6 +155,22 @@ this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만
 	}
 	
 	this.view_dtl.set_enableevent(true);
+	
+	var div = this.components['pagediv'];
+
+	var end =Number(this.paging.getColumn(0,"end"));
+	if( end > this.paging.getColumn(0,"pagecount")){
+		end = this.paging.getColumn(0,"pagecount");
+	}
+	for(var i =this.paging.getColumn(0,"start"); i<= end;i++){
+		var btnname = "pagebtn"+i;
+		var btn = div.form.components[btnname];
+		trace(btnname);
+		btn.set_cssclass("btn_num");
+		if(page == i)
+			btn.set_cssclass("btn_paging_selected");
+	}
+
 	this.paging.setColumn(0,"page",page);
 	
 	var start = this.paging.getColumn(0,"start");
@@ -168,20 +185,13 @@ this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만
 		this.paging.setColumn(0,"start",end-9);
 		this.reset_paging(page);
 	}
-// 	if(page < start){
-// 		this.paging.setColumn(0,"start",start-10);
-// 		this.paging.setColumn(0,"end",end-10);
-// 		this.reset_paging();
-// 	}else if(page > end){
-// 		this.paging.setColumn(0,"start",start+10);
-// 		this.paging.setColumn(0,"end",end+10);
-// 		this.reset_paging();
-// 	}
 };
 
 //버튼 클릭 이벤트
 this.onclick_firstbtn = function(obj:nexacro.Button){
+
 	var datasetname = this.paging.getColumn(0,"datasetname");
+
 	var ds = this[datasetname];
 	this.setds(ds,1);
 };
@@ -206,6 +216,8 @@ this.onclick_endbtn = function(obj:nexacro.Button){
 };
 this.onclick_pagebtn = function(obj:nexacro.Button){
 //버튼 이벤트
+
+	trace(obj.parent);
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
 	this.setds(ds,parseInt(obj.text));

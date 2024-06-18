@@ -52,7 +52,13 @@ import bookcafe.point.service.PointVO;
         
         // 카트에 user_code,product_code,cart_code 있는지 확인
         CartVO existingCart = cartService.selectCartItem(user_code, product_code, cart_code);
+        System.out.println("existingCart:" + existingCart);
         if (existingCart != null) {
+        	// 카트에 담겨있는 상품 코드가 'food_014'인 경우(도서열람권)
+        	if (existingCart.getProduct_code().equals("food_014")) {
+                return "{\"status\":\"alreadyExist\"}";
+            }
+        	
         	// 카트에 담겨있으면 수량 변경
             existingCart.setOrder_quantity(existingCart.getOrder_quantity() + order_quantity);
             cartService.updateCartItem(existingCart);

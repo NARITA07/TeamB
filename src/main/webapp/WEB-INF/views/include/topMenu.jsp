@@ -9,6 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+    @font-face {
+	   font-family: 'KCCChassam';
+	   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2') format('woff2');
+	   font-weight: normal;
+	   font-style: normal;
+	   }
+	   body {
+	       font-family: 'KCCChassam', sans-serif !important;
+	   }
+    </style>
 </head>
 <body>
 <%
@@ -28,7 +39,7 @@
 	    <img alt="logo" src="/images/책빵1.png"></a>
 	    <button class="navbar-toggler" type="button" onclick="toggleNavbar()" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="font-size:20px;">
 			<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="/foodList.do">음식</a></li>
             <li class="nav-item"><a class="nav-link" href="/bookList.do">도서</a></li>
@@ -68,8 +79,8 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-footer justify-content-center" style="justify-content: center;">
-					<a class="btn btn-primary"	href="/logout.do">로그아웃</a>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button> 
+					<a class="btn btn-primary"	href="/logout.do" style="background-color: #766650; border:none;">로그아웃</a>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border:none;">취소</button> 
 				</div>
 			</div>
 		</div>

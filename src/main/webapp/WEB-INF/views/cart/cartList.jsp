@@ -268,9 +268,6 @@
 			// formData를 serializeArray로 직렬화
 	         var formData = $('#updateForm').serializeArray();
 	         
-	         // 필요한 데이터를 formData에 추가 (예: 'action' 필드)
-	         formData.push({ name: 'action', value: 'update' });
-  
           // 사용 포인트 입력값 가져오기
           var usePoints = $('#usePoints').val();
   

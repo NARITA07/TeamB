@@ -1,3 +1,4 @@
+
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="Book_List" width="1080" height="670" titletext="도서대여목록" onload="Book_List_onload" cssclass="grid_default">
@@ -356,7 +357,7 @@ this.fnDeleteSelected = function ()
 {
   var strSvcId    = "deleteSelected";
   var strSvcUrl   = "svc::deleteSelected.do";
-  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
   var callBackFnc = "fnCallback";
@@ -438,3 +439,4 @@ this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEve
 ]]></Script>
   </Form>
 </FDL>
+

@@ -91,7 +91,7 @@
           </Formats>
         </Grid>
         <Static id="Static01" taborder="3" text="주문처리완료" left="1.85%" onclick="Static01_onclick" cssclass="title_sub" bottom="Grid00_00:5" right="935" height="24" width="126"/>
-        <Static id="Static02" taborder="4" text="주문현황" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
+        <Static id="Static02" taborder="4" text="주문처리" left="1.85%" top="2.99%" width="128" height="37" cssclass="main_title"/>
         <Button id="Button00" taborder="5" text="저장" cssclass="btn_save" onclick="Button00_onclick" bottom="Grid00:5" right="1.76%" height="30" width="70"/>
         <Button id="Button00_02" taborder="6" text="저장" width="70" cssclass="btn_save" onclick="Button00_02_onclick" bottom="Grid00_00:5" right="1.76%" height="30"/>
       </Layout>

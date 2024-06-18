@@ -6,7 +6,7 @@
         <Div id="Main" taborder="0" left="0.00%" top="-1.39%" text="" cssclass="btn_dafault" right="0" bottom="10">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="3" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
+              <Static id="Static00" taborder="3" text="공통코드관리" left="1.76%" height="38" top="2.78%" width="192" cssclass="main_title"/>
               <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="fir_code_grid" scrollbartype="default default" right="20" autofittype="col" border="1px solid #4F4537" maxheight="400" minheight="" height="250" oncellclick="Main_Fir_code_oncellclick" oncelldblclick="Main_Fir_code_oncelldblclick" top="Static00:157.89%">
                 <Formats>
                   <Format id="default">

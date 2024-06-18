@@ -109,7 +109,7 @@ include "Base::paging.xjs";
 3. 함수d
 4. 페이징
 20240618 1026 수정
-*/
+*/ 
  
 /****************************************************/  
 /* 					1. 화면 초기화					*/
@@ -119,8 +119,12 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	//페이징 세팅
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,8,"Grid01","stock_grid2");
+	
 	// grid1 list 불러오기
 	this.fnStockMenuList();
+	
+	// grid2 list 불러오기
+	this.fnStocksOrderList(); 
 	
 	// 메뉴 combo
 	this.fnFind_Sec_Combo();
@@ -259,12 +263,16 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		}
 		
 		alert("발주신청이 완료되었습니다.");
-		// grid1 list 불러오기
-		this.fnStockMenuList();
+		
 		this.fnSaveStockOrder();
 		
-		// grid2 list에 입고대기 리스트 불러오기
-		this.fnStocksOrderList();
+// 		// grid1 list 불러오기
+// 		this.fnStockMenuList();
+// 		// grid2 list에 입고대기 리스트 불러오기
+// 		this.fnStocksOrderList();
+		
+		// 화면 새로고침
+		this.reload(); 
 		
 		/* 팝업창
 			//확인용
@@ -503,7 +511,7 @@ this.fnSaveStockOrder = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-9. grid2 저장 버튼 */
+/* 3-9. grid2 상태저장 버튼 */
 this.fnUpdateStockOrder = function()
 {
   var strSvcId    = "updateStockOrder";
@@ -517,7 +525,7 @@ this.fnUpdateStockOrder = function()
   this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
 }
 
-/* 3-11. grid2 저장 버튼 -  재고 업데이트 */
+/* 3-11. grid2 상태저장 버튼 -  재고 업데이트 */
 this.fnUpdateStockQuantity = function()
 {
   var strSvcId    = "updateStockQuantity";

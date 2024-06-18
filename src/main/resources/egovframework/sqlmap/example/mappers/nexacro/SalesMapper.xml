@@ -230,5 +230,6 @@
 	<delete id="deleteSelected" parameterType="java.util.Map">
 		DELETE FROM RETURN_BOOK
 		WHERE ORDER_CODE = #{ORDER_CODE}
+			AND BOOK_CODE = #{BOOK}
 	</delete>
 </mapper>

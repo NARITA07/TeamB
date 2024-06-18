@@ -47,10 +47,10 @@
                 <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
                 <Cell col="2" textAlign="center" edittype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'combo' : 'nomal'" displaytype="normal" text="bind:PRODUCT_CODE" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="combo"/>
-                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'text' : 'none'"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_NAME != null ? 'text' : 'none'"/>
                 <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal"/>
                 <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER"/>
-                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="expr:BOOK_PUBLICATION_DATE == '-' ? || BOOK_PUBLICATION_DATE == '미상''nomal' : 'mask'" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="expr:BOOK_PUBLICATION_DATE == '-'  || BOOK_PUBLICATION_DATE == '미상' ? 'nomal' : 'mask'" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
                 <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' || PRODUCT_CODE =='음식' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
@@ -283,6 +283,7 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		this.view_dtl.setColumn(add_grow,"PRODUCT_STATUS", "Y")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_CODE"," ")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_PATH","이미지 준비중")
+		this.view_dtl.setColumn(add_grow,"PRODUCT_NAME",null)
 
     } 
 	
@@ -331,10 +332,9 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		}
  	}; 
 		alert(this.save_date.saveXML());
-		for(i = 0; i < this.save_date.getColCount(); i++){
+		for(i = 0; i < this.save_date.getRowCount(); i++){
 			
 			if(this.save_date.getColumn(i,"PRODUCT_PATH") == "이미지 준비중"){
-				alert("aa");
 			id = "product_save"
 			url = "svc::save_date.do";
 			set = "save_date = save_date";
@@ -346,10 +346,20 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				
 				//이미지 업로드 없이 제품 저장
 			
-			}else{
-				//이미지 업로드 후 제품 저장
+			}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중"){
+				//이미지 업로드 후 제품 저장(수정)
+				alert("a")
+				
+				this.FileUpTransfer00.upload("svc::upload.do")
+				
+// 			id = "product_save_with_img"
+// 			url = "svc::save_date.do";
+// 			set = "save_date = save_date";
+// 			get = "message = message";
+// 			arg = "";
+// 			callback = "fn_category";
 					
-					this.save
+					
 			}
 			
 		

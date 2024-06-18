@@ -48,9 +48,9 @@
                 <Cell col="2" textAlign="center" edittype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'combo' : 'nomal'" displaytype="normal" text="bind:PRODUCT_CODE" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="combo"/>
                 <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'text' : 'none'"/>
-                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'text' : 'none'" autosizecol="default"/>
+                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal"/>
                 <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER"/>
-                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="normal" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="expr:BOOK_PUBLICATION_DATE == '-' ? || BOOK_PUBLICATION_DATE == '미상''nomal' : 'mask'" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
                 <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' || PRODUCT_CODE =='음식' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
@@ -264,8 +264,6 @@ this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 //신규 등록버튼 클릭 시
 this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-
-	btn_count++;
 	
 	var id = "add_fir_code"
 	var url = "svc::init_fir_code.do";
@@ -280,7 +278,7 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		this.view_dtl.setColumn(add_grow,"CHK", "Y")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_STATUS", "Y")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_CODE"," ")
-		
+		this.view_dtl.setColumn(add_grow,"PRODUCT_PATH","이미지 준비중")
     } 
 	
 
@@ -326,11 +324,36 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  		this.save_date.setColumn(num,"PRODUCT_PATH", path)
  		this.save_date.setColumn(num,"BOOK_WRITER", writer)
  		this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", publication)
+		
+		
   		num++;
+		
+		
 		}
  	}; 
-	
-	alert(this.save_date.saveXML());
+		for(i = 0; i < this.save_date.getColCount(); i++){
+			
+			if(this.save_date.getColumn(i,"PRODUCT_PATH", path) == "이미지 준비중"){
+				
+			id = "product_save"
+			url = "svc::save_date.do";
+			set = "save_date = save_date";
+			get = "view_code = view_code";
+			arg = "";
+			callback = "fn_category";
+			
+			this.transaction(id, url, set, get, arg, callback)
+				
+				//이미지 업로드 없이 제품 저장
+			
+			}else{
+				//이미지 업로드 후 제품 저장
+					
+					this.save
+			}
+			
+		
+		}
  	}
 
 
@@ -395,21 +418,18 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 5){
+	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
 
 		g_row = e.row
 
 			this.FileDialog00.open('이미지수정', 1);
 			
-/*
-"FileDialog.LOAD" 또는 1 설정 시 한 개 파일을 읽을 수 있는 FileDialog 가 표시됩니다.
-"FileDialog.SAVE" 또는 2 설정 시 한 개 파일을 쓸 수 있는 FileDialog 가 표시됩니다.
-"FileDialog.MULTILOAD" 또는 3 설정 시 여러개의 파일을 읽을 수 있는 FileDialog 가 표시됩니다.
-"FileDialog.SELFOLDER" 또는 4 설정 시 폴더를 선택할 수 있는 FileDialog 가 표시됩니다.
-*/
 
 
-
+	}else if(e.cell == 4 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
+		alert("분류를 선택해주세요")
+	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " " ){
+		alert("분류를 선택해주세요")
 	}
 
 

@@ -173,10 +173,12 @@
 	    LEFT JOIN (
 	        SELECT 
 	            SUBSTRING(O.PAYMENT_DATE, 5, 2) AS MONTH,
-	            CASE 
-	                WHEN O.PAYMENT_STATE = 3 THEN 0
-	                ELSE SUM(F.PRODUCT_PRICE * C.ORDER_QUANTITY)
-	            END AS SALES
+	            SUM(
+	                CASE 
+	                    WHEN O.PAYMENT_STATE = 3 THEN 0
+	                    ELSE F.PRODUCT_PRICE * C.ORDER_QUANTITY
+	                END
+	            ) AS SALES
 	        FROM 
 	            ORDERS O
 	        INNER JOIN 
@@ -188,11 +190,11 @@
 	        WHERE 
 	            O.ORDER_STATE = 3
 	            <if test="NAME != null and NAME != ''">
-		            AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
-		        </if>
-		        <if test="MENU != null and MENU != ''">
-		            AND F.PRODUCT_NAME LIKE CONCAT('%', #{MENU}, '%')
-		        </if>
+	                AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
+	            </if>
+	            <if test="MENU != null and MENU != ''">
+	                AND F.PRODUCT_NAME LIKE CONCAT('%', #{MENU}, '%')
+	            </if>
 	            <if test="YEAR != null and YEAR != ''">
 	                AND SUBSTRING(O.PAYMENT_DATE, 1, 4) = #{YEAR}
 	            </if>
@@ -200,8 +202,7 @@
 	                AND F.PRODUCT_CATEGORY = #{SEC_CODE}
 	            </if>
 	        GROUP BY 
-	            SUBSTRING(O.PAYMENT_DATE, 5, 2),
-	            O.PAYMENT_STATE
+	            SUBSTRING(O.PAYMENT_DATE, 5, 2)
 	    ) AS S ON M.MONTH = S.MONTH
 	    ORDER BY 
 	        M.MONTH

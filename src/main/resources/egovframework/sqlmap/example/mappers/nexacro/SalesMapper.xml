@@ -188,11 +188,11 @@
 	        WHERE 
 	            O.ORDER_STATE = 3
 	            <if test="NAME != null and NAME != ''">
-	                AND U.USER_NAME = #{NAME}
-	            </if>
-	            <if test="MENU != null and MENU != ''">
-	                AND F.PRODUCT_NAME = #{MENU}
-	            </if>
+		            AND U.USER_NAME LIKE CONCAT('%', #{NAME}, '%')
+		        </if>
+		        <if test="MENU != null and MENU != ''">
+		            AND F.PRODUCT_NAME LIKE CONCAT('%', #{MENU}, '%')
+		        </if>
 	            <if test="YEAR != null and YEAR != ''">
 	                AND SUBSTRING(O.PAYMENT_DATE, 1, 4) = #{YEAR}
 	            </if>

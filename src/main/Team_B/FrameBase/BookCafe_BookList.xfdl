@@ -356,7 +356,7 @@ this.fnDeleteSelected = function ()
 {
   var strSvcId    = "deleteSelected";
   var strSvcUrl   = "svc::deleteSelected.do";
-  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
   var callBackFnc = "fnCallback";

@@ -31,7 +31,7 @@
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <p class="m-0 text-center text-white">Copyright &copy; 책빵 2024</p>
+        <p class="m-0 text-center text-white" style="font-size:20px;">Copyright &copy; 책빵 2024</p>
     </footer>
 
     <!-- Bootstrap core JS-->

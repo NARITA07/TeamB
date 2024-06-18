@@ -41,7 +41,7 @@
                 <Cell col="2" background="#FAEBD7"/>
                 <Cell col="3" background="#FAEBD7"/>
                 <Cell col="4" text="TOTAL" background="#FAEBD7"/>
-                <Cell col="5" text="expr:dataset.getSum(&quot;SALES&quot;)" displaytype="number" textAlign="right" background="#FAEBD7"/>
+                <Cell col="5" text="expr:comp.parent.sales_dtl.getSum('SALES')" displaytype="number" textAlign="right" background="#FAEBD7"/>
               </Band>
             </Format>
           </Formats>
@@ -85,6 +85,27 @@ this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	
 	this.check_sort(this.Grid00);
 
+	var currDate = new Date();
+    var year = currDate.getFullYear().toString().padLeft(4, "0");
+    var month = (currDate.getMonth()+1).toString().padLeft(2, "0");
+    var day = currDate.getDate().toString().padLeft(2, "0");
+
+    this.Calendar00.set_value(year+month+day);
+	this.Calendar01.set_value(year+month+day);
+	
+	this.sales_con.clearData();
+	
+	var sales_row = this.sales_con.addRow();
+	
+	var date1 = this.Calendar00.value;
+	var date2 = this.Calendar01.value;
+	var sec_code = this.Combo02.value;
+
+	this.sales_con.setColumn(sales_row, "DATE1", date1);
+	this.sales_con.setColumn(sales_row, "DATE2", date2);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
+	
+	this.fnSelectSales();
 
 };
 

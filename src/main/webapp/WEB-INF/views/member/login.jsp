@@ -34,7 +34,7 @@ $(function() {
                 if (result == "ok") {
                     alert(user_id + "님 로그인에 성공하였습니다.");
                     $("#frm")[0].reset();
-                    location.href = "./";
+                    location.href = "loginSuccess.do"; 
                 } else if (result == "x") {
                     alert(user_id + " 해당 아이디는 없는 아이디입니다.");
                 } else if (result == "wrong password") {
@@ -117,9 +117,9 @@ button {
 
 .form-group button,
 .btn {
-    background-color: #AB8212;
+    background-color: #766650;
     color: white;
-    border: none;
+    border: none !important;
     cursor: pointer;
     padding: 15px 0;
     border-radius: 4px;
@@ -184,7 +184,7 @@ button {
                 <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="비밀번호를 입력해주세요">
             </div>
             <div class="button-container">
-                <button type="button" id="btn_submit" class="btn btn-primary" style="width:140px; height:56px; text-align: center; background-color: #4F4537;">로그인</button>
+                <button type="button" id="btn_submit" class="btn btn-primary" style="width:140px; height:56px; text-align: center; background-color: #766650;">로그인</button>
                 <div class="naver-login-btn">
                     <a id="naver_login_link" href="naverLogin.do">
                         <img id="btn_naver_login" alt="네이버 로그인" src="/images/NaverBtn.png" style="margin-top:13px; width:140px; height: 56px;">

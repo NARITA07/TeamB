@@ -12,7 +12,6 @@
               <Rows>
                 <Row size="98" band="head"/>
                 <Row size="50"/>
-                <Row size="40" band="summ"/>
               </Rows>
               <Band id="head">
                 <Cell background="#ffffff" border="1px solid transparent" cursor="auto"/>
@@ -20,16 +19,14 @@
               <Band id="body">
                 <Cell text="bind:title" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:LEVEL" border="1px none" cursor="pointer" cssclass="grid_nav" treestate="bind:LEVEL"/>
               </Band>
-              <Band id="summary">
-                <Cell displaytype="buttoncontrol" edittype="button" text="마감" cssclass="grid_nav_summary"/>
-              </Band>
             </Format>
           </Formats>
         </Grid>
         <Div id="Main" taborder="1" text="Main" left="200" top="0" height="100.00%" formscrolltype="none" right="0" border="1px solid black" url="FrameBase::BookCafe_OrderStatus.xfdl"/>
         <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
         <Edit id="Edit00" taborder="3" left="0" top="0" width="200" height="60" text="text" enable="false" background="#f7f7f7"/>
-        <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick"/>
+        <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick" cssclass="btn_main_nav"/>
+        <Button id="btn_cafe_close" taborder="5" text="마감" left="0" top="690" width="200" height="30" onclick="btn_cafe_close_onclick" cssclass="btn_main_nav"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -83,7 +80,7 @@
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.businessclosure = 0;
-
+ 
 
 this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
  {	
@@ -133,12 +130,13 @@ this.logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 };
 
-this.nav_onlbuttondown = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+// 카페 업무 마감
+this.btn_cafe_close_onclick = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
 {
-	if(e.row == -2){
-		var chk = this.confirm("업무를 마감 하시겠습니까?")
+	
+	var chk = this.confirm("업무를 마감 하시겠습니까?")
 		
-		if(chk == true){
+	if(chk == true){
 		
 	var id = "businessclosure";
 	var url = "svc::businessclosure.do";
@@ -150,7 +148,7 @@ this.nav_onlbuttondown = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
 	this.transaction(id, url, set, get, arg, callback)
 		
 		}
-		}
+		
 };
 
 this.fn_businessclosure = function(id, code, message){
@@ -170,8 +168,7 @@ this.fn_businessclosure = function(id, code, message){
 
 
 
-}
-]]></Script>
+}]]></Script>
     <Bind>
       <BindItem id="item0" compid="Edit00" propid="value" datasetid="Session_login" columnid="USER_NAME"/>
     </Bind>

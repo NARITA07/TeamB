@@ -182,6 +182,7 @@
           <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <FileDialog id="FileDialog01" onclose="FileDialog01_onclose"/>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 include "Base::paging.xjs";
@@ -331,39 +332,40 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
 		}
  	}; 
-		alert(this.save_date.saveXML());
 		for(i = 0; i < this.save_date.getRowCount(); i++){
 			
 			if(this.save_date.getColumn(i,"PRODUCT_PATH") == "이미지 준비중"){
-			id = "product_save"
-			url = "svc::save_date.do";
-			set = "save_date = save_date";
-			get = "message = message";
-			arg = "";
-			callback = "fn_category";
-			
-			this.transaction(id, url, set, get, arg, callback)
+				id = "product_save"
+				url = "svc::save_date.do";
+				set = "save_date = save_date";
+				get = "message = message";
+				arg = "";
+				callback = "fn_category";
+				
+				this.transaction(id, url, set, get, arg, callback)
 				
 				//이미지 업로드 없이 제품 저장
-			
-			}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중"){
+				
+			}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중" && (this.save_date.getColumn(i,"PRODUCT_CODE") == "도서" || this.save_date.getColumn(i,"PRODUCT_CODE") == "음식") ){
 				//이미지 업로드 후 제품 저장(수정)
-				alert("a")
 				
 				this.FileUpTransfer00.upload("svc::upload.do")
 				
-// 			id = "product_save_with_img"
-// 			url = "svc::save_date.do";
-// 			set = "save_date = save_date";
-// 			get = "message = message";
-// 			arg = "";
-// 			callback = "fn_category";
-					
-					
 			}
 			
-		
+			
+			
 		}
+				
+			id = "product_save_with_img"
+			url = "svc::save_date.do";
+ 			set = "save_date = save_date";
+ 			get = "message = message";
+ 			arg = "";
+ 			callback = "fn_category";
+		
+			this.transaction(id, url, set, get, arg, callback)
+		
  	}
 
 
@@ -429,69 +431,48 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
+	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_PATH") == "이미지 준비중"){
+	g_row = e.row
+		// 제품 이미지 수정
+		if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
 
-
-		g_row = e.row
-
-			this.FileDialog00.open('이미지수정', 1);
+			this.FileDialog01.open('이미지삽입', 1);
+		}else{
+			alert("분류를 선택해주세요")
+		}
 			
+	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
+	g_row = e.row
+		//제품 저장
+			this.FileDialog00.open('이미지수정', 1);
 	}else if(e.cell == 4 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
 		alert("분류를 선택해주세요")
-	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
-		alert("분류를 선택해주세요")
-
 	}
+
+	
+		
+	
 
 
 
 };
-this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+//제품 저장용 이미지 삽입
+this.FileDialog01_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{	
+	this.file_upload(e.virtualfiles);
+	
+	
 
+
+};
+//제품 수정용 이미지 수정
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
 {	
 
-	var path;
-	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
-	
-        // 선택된 파일들의 경로 가져오기
-         path = e.virtualfiles.map(function(file) {
-            return file.path;	
-        });
-	
-	if(path == presentpath){ //기존 이미지 파일이면
-		
-	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
-	var img_name = e.virtualfiles[0].filename // 파일이름
-	var img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
-	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
-
-	
-	
-	}else{//새로운 이미지이면
-		
-		 var objDate1 = new nexacro.Date()
-
-		var y = objDate1.getYear(); //년
-		var m = objDate1.getMonth()+1; //월
-		var d = objDate1.getDate(); //일
-		var s = objDate1.getSeconds();//시
-		var day =y+ "-" + m + "-" + d +"-" +s;
-		
-	img_name = e.virtualfiles[0].filename // 파일이름
-
-	var type_num =  img_name.lastIndexOf(".");
-	var type = img_name.substring(type_num)
-	var name = img_name.substring(0,type_num)
-	var full_date = name + day + type
-
-	this.FileUpTransfer00.addFile("images/"+full_date, e.virtualfiles[0])
-
-	this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
-	
-	}
-
+	this.file_upload(e.virtualfiles);
 
 };
+
 
 
 //카테고리 콜백 함수
@@ -532,6 +513,12 @@ this.fn_category = function(id, code, message){
 				alert(count + "건 적용되었습니다.")
 				this.reload();
 				break;
+				
+				case "add_save_date_img":
+				var count = this.message.getColumn(0,"num");
+				alert(count + "건 적용되었습니다.")
+				this.reload();
+				
 
 			
 			}
@@ -604,7 +591,7 @@ this.download_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
 {
-	alert(e.filelist)
+
 	
 	this.importObj = new ExcelImportObject("Import00", this);
 	
@@ -648,7 +635,71 @@ this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 
 }	
 
+this.file_upload = function(img){
+	var path;
+	
+	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
+	
+        // 선택된 파일들의 경로 가져오기
+         path = img.map(function(file) {
+            return file.path;	
+        });
+	if(path == presentpath){ //기존 이미지 파일이면
+		
+	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
+	var img_name = img[0].filename // 파일이름
+	var img_length = img[0].filename.length; // 파일이름의 길이
+	this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
 
+	
+	
+	}else{//새로운 이미지이면
+		 var objDate1 = new nexacro.Date()
+
+		var y = objDate1.getYear(); //년
+		var m = objDate1.getMonth()+1; //월
+		var d = objDate1.getDate(); //일
+		var s = objDate1.getSeconds();//시
+		var day =y+ "-" + m + "-" + d +"-" +s;
+		
+	img_name = img[0].filename // 파일이름
+
+	var type_num =  img_name.lastIndexOf(".");
+	var type = img_name.substring(type_num)
+	var name = img_name.substring(0,type_num)
+	var full_date = name + day + type
+
+	this.FileUpTransfer00.addFile("images/"+full_date, img[0])
+
+	this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
+	
+	}
+
+}
+
+
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	for(i = 0; i < this.save_date.getRowCount(); i++){
+	this.save_date.setColumn(i,"PRODUCT_PATH", e.datasets[0].getColumn(0,"FILE_NAME"))
+	
+	}
+
+	
+ 			var id = "add_save_date_img"
+ 			var url = "svc::save_date.do";
+			var set = "save_date = save_date";
+ 			var get = "message = message";
+			var arg = "";
+ 			var	callback = "fn_category";
+ 			
+ 			this.transaction(id, url, set, get, arg, callback)
+	
+	
+	
+	
+};
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>

@@ -33,10 +33,12 @@ public class ProductManagementController {
 	
 	//추가
 	@RequestMapping("save_date.do")
-	public NexacroResult savedate(@ParamDataSet(name ="save_date")List<Map<String, Object>>save_date) {
+	public NexacroResult savedate(@ParamDataSet(name ="save_date", required = false)List<Map<String, Object>>save_date) {
+		System.out.println(save_date);
 		NexacroResult product_save = new NexacroResult();
 		
 		product_save.addDataSet("message", productservice.product_save(save_date));
+		System.out.println(product_save.getDataSets());
 		return product_save;
 		
 	} 
@@ -109,7 +111,7 @@ public class ProductManagementController {
                     String type = path_name.substring(type_num); // ex) .png 
                    
                     String type_name = path_name.substring(0,type_num); // 파일이름 
-      
+      System.out.println(type_name);
                     File dest = new File(savePath + type_name + formattedDateTime + type); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 책방.날짜.png
                     file.transferTo(dest); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 파일이름.png으로 저장
                     

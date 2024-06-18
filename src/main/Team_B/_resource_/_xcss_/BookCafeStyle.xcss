@@ -365,7 +365,8 @@
 .Button.btn_paging_selected,
 .Button.btn_paging_selected[status=disabled],
 .Button.btn_paging_selected[status=focused],
-.Button.btn_paging_selected[userstatus=selected]
+.Button.btn_paging_selected[userstatus=selected],
+.Button.btn_paging_selected[status=mouseover]
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
@@ -373,7 +374,20 @@
 	/* 아이보리 */
 	background : #FAEBD7 ;
 	border-radius : 5px;	
-	color : #FFFFFF;
+	color : #4F4537;
 	font : normal bold  10pt/normal "Arial";
 }
-]]></XCSS>
+.Button.btn_main_nav
+{
+	background : transparent;
+
+}
+
+
+.Button.btn_main_nav[status=mouseover],
+.Button.btn_main_nav[userstatus=pushed],
+.Button.btn_main_nav[userstatus=selected]
+{
+	background : transparent;
+	color : red;
+}]]></XCSS>

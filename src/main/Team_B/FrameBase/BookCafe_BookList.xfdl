@@ -136,9 +136,10 @@
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
     </Bind>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+
 include "Base::paging.xjs";
 this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
-{	
+{	 
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,15,"Grid01","book_sales_dtl"); 
@@ -356,7 +357,7 @@ this.fnDeleteSelected = function ()
 {
   var strSvcId    = "deleteSelected";
   var strSvcUrl   = "svc::deleteSelected.do";
-  var inData      = "book_sales_dtl=book_sales_dtl:U";
+  var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
   var callBackFnc = "fnCallback";

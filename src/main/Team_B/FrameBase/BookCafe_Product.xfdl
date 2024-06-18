@@ -46,7 +46,7 @@
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
                 <Cell col="2" textAlign="center" edittype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'combo' : 'nomal'" displaytype="normal" text="bind:PRODUCT_CODE" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME"/>
-                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="combo"/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:SEC_NAME == null ? 'combo' : 'none' "/>
                 <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_NAME != null ? 'text' : 'none'"/>
                 <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal"/>
                 <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER"/>
@@ -182,6 +182,7 @@
           <Column id="SEC_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <FileDialog id="FileDialog01" onclose="FileDialog01_onclose"/>
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 include "Base::paging.xjs";
@@ -199,9 +200,9 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 	this.pageinit(1,20,"Grid00","view_code"); 
 	
 	this.check_sort(this.Grid00);
-
+	
 	this.sec_category.set_enable(false)// 중분류 카테고리 잠그기
-
+	
 	//대분류 카테고리 가져오기
 	
 	var id = "init_fir_code"
@@ -212,16 +213,16 @@ this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexa
 	var callback = "fn_category";
 	
 	this.transaction(id, url, set, get, arg, callback);
-		
-		var id = "view_code";
-		var url = "svc::view_code.do";
-		var set = "";
-		var get = "view_code = view_code";
-		var arg = "";
-		var callback = "fn_category";
-		
-		this.transaction(id, url, set, get, arg, callback);
-		
+	
+	var id = "view_code";
+	var url = "svc::view_code.do";
+	var set = "";
+	var get = "view_code = view_code";
+	var arg = "";
+	var callback = "fn_category";
+	
+	this.transaction(id, url, set, get, arg, callback);
+	
 	
 }
 
@@ -231,13 +232,13 @@ this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 {
 	this.sec_category.set_enable(true) // 중분류 카테고리 열기
 	if(this.fir_category.value == "fir_000"){
-	this.sec_category.set_value(null)
-	this.sec_category.set_enable(false)
+		this.sec_category.set_value(null)
+		this.sec_category.set_enable(false)
 	}else {
-	this.sec_category.set_enable(true)
+		this.sec_category.set_enable(true)
 	}
-
-
+	
+	
 	
 	var select_category = this.fir_category.value;
 	this.fir_category_select.setColumn(0,"FIR_CODE",select_category)
@@ -258,16 +259,16 @@ this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 	var get = "sec_code = sec_code";
 	var arg = "";
 	var callback = "fn_category";
-			
+	
 	this.transaction(id, url, set, get, arg, callback)
-
-
+	
+	
 }
 
-//신규 등록버튼 클릭 시
+//추가 등록버튼 클릭 시
 this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-
+	
 	
 	var id = "add_fir_code"
 	var url = "svc::init_fir_code.do";
@@ -275,18 +276,18 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	var get = "add_fir_code = init_fir_code";
 	var arg = "";
 	var callback = "fn_category";
-			
+	
 	this.transaction(id, url, set, get, arg, callback)		
 	
 	add_grow = this.view_dtl.addRow();
-		this.view_dtl.setColumn(add_grow,"CHK", "Y")
-		this.view_dtl.setColumn(add_grow,"PRODUCT_STATUS", "Y")
-		this.view_dtl.setColumn(add_grow,"PRODUCT_CODE"," ")
-		this.view_dtl.setColumn(add_grow,"PRODUCT_PATH","이미지 준비중")
-		this.view_dtl.setColumn(add_grow,"PRODUCT_NAME",null)
-
-    } 
+	this.view_dtl.setColumn(add_grow,"CHK", "Y")
+	this.view_dtl.setColumn(add_grow,"PRODUCT_STATUS", "Y")
+	this.view_dtl.setColumn(add_grow,"PRODUCT_CODE"," ")
+	this.view_dtl.setColumn(add_grow,"PRODUCT_PATH","이미지 준비중")
+	this.view_dtl.setColumn(add_grow,"PRODUCT_NAME",null)
 	
+} 
+
 
 //중분류 카테고리 선택시
 this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
@@ -294,14 +295,14 @@ this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 	var sec_code = this.sec_category.value
 	this.choice_sec_code.setColumn(0,"SEC_CODE",sec_code)
 	
-			id = "choice_sec_code"
-			url = "svc::choice_sec_code.do";
-			set = "choice_sec_code = choice_sec_code";
-			get = "view_code = view_code";
-			arg = "";
-			callback = "fn_category";
-			
-			this.transaction(id, url, set, get, arg, callback)
+	id = "choice_sec_code"
+	url = "svc::choice_sec_code.do";
+	set = "choice_sec_code = choice_sec_code";
+	get = "view_code = view_code";
+	arg = "";
+	callback = "fn_category";
+	
+	this.transaction(id, url, set, get, arg, callback)
 	
 };
 
@@ -311,11 +312,13 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
 	this.save_date.reset()
  	var num = 0;
+	var chk_num = 0;
+	
  	for(i = 0; i < this.view_dtl.rowcount; i++){
  		if(this.view_dtl.getColumn(i,"CHK") == "Y"){
-
+			
 			this.save_date.addRow();
-  		
+			
 			this.save_date.setColumn(num,"PRODUCT_CODE",this.view_dtl.getColumn(i,"PRODUCT_CODE"))
 			this.save_date.setColumn(num,"PRODUCT_NAME",this.view_dtl.getColumn(i,"PRODUCT_NAME"))
 			this.save_date.setColumn(num,"PRODUCT_PRICE",this.view_dtl.getColumn(i,"PRODUCT_PRICE"))
@@ -324,17 +327,73 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			this.save_date.setColumn(num,"BOOK_WRITER", this.view_dtl.getColumn(i,"BOOK_WRITER"))
 			this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", this.view_dtl.getColumn(i,"BOOK_PUBLICATION_DATE"))
 			this.save_date.setColumn(num,"SEC_NAME", this.view_dtl.getColumn(i,"SEC_NAME"))
+			
+			
+			num++;
+			}
+	}	
+			
+	if (num == 0) // 선택한 체크가 없을 때
+	{	return alert("변경하실 행을 선택해주세요")
 		
-		
-  		num++;
-		
-		
-		}
- 	}; 
-		alert(this.save_date.saveXML());
+	}else{//추가 시 공백체크 
 		for(i = 0; i < this.save_date.getRowCount(); i++){
 			
-			if(this.save_date.getColumn(i,"PRODUCT_PATH") == "이미지 준비중"){
+			if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == " "){
+				var date = this.save_date.getColumn(i,"BOOK_PUBLICATION_DATE")
+				if (this.save_date.getColumn(i,"PRODUCT_CODE") == " ")
+				{
+					return alert("분류코드를 선택해주세요");
+				}else if(this.save_date.getColumn(i,"SEC_NAME") == null){
+					
+					return alert("분류명을 선택해주세요")
+					//chk_num++;
+				}else if(this.save_date.getColumn(i,"PRODUCT_NAME") == null || this.save_date.getColumn(i,"PRODUCT_NAME") == " "){
+					
+					return alert("제품명을 입력해주세요")
+					//chk_num++;
+				}else if(this.save_date.getColumn(i,"BOOK_WRITER") == null || this.save_date.getColumn(i,"BOOK_WRITER") == " "){
+					
+					return alert("저자를 입력해주세요")
+					//chk_num++;
+				}else if(this.save_date.getColumn(i,"BOOK_PUBLICATION_DATE") == null || (date.length < 8 && this.save_date.getColumn(i,"BOOK_PUBLICATION_DATE") != '미상')){//렝스체크?
+					return alert("출판일을 입력해주세요")
+					//chk_num++;
+				}
+				
+					
+				
+			}else if(this.save_date.getColumn(i,"PRODUCT_CODE") == '음식' || this.save_date.getColumn(i,"PRODUCT_CODE") == " "){
+				
+				if (this.save_date.getColumn(i,"PRODUCT_CODE") == " ")
+				{
+					return alert("분류코드를 선택해주세요");
+				}else if(this.save_date.getColumn(i,"SEC_NAME") == null){
+					
+						return alert("분류명을 선택해주세요")
+						//chk_num++;
+					}
+				else if(this.save_date.getColumn(i,"PRODUCT_NAME") == null || this.save_date.getColumn(i,"PRODUCT_NAME") == " "){
+					
+						return alert("제품명을 입력해주세요")
+						//chk_num++;
+					}else if(this.save_date.getColumn(i,"PRODUCT_PRICE") == null || this.save_date.getColumn(i,"PRODUCT_PRICE") == " "){
+					
+						return alert("가격을 입력해주세요")
+						//chk_num++;
+					}
+			
+		
+				
+			
+			
+			}
+		}
+	
+	}//추가 수정의 차이? product 코드로 체크.
+	
+	for(i = 0; i < this.save_date.getRowCount(); i++){
+		if(this.save_date.getColumn(i,"PRODUCT_PATH") == "이미지 준비중"){
 			id = "product_save"
 			url = "svc::save_date.do";
 			set = "save_date = save_date";
@@ -343,63 +402,64 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			callback = "fn_category";
 			
 			this.transaction(id, url, set, get, arg, callback)
-				
-				//이미지 업로드 없이 제품 저장
 			
-			}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중"){
-				//이미지 업로드 후 제품 저장(수정)
-				alert("a")
-				
-				this.FileUpTransfer00.upload("svc::upload.do")
-				
-// 			id = "product_save_with_img"
-// 			url = "svc::save_date.do";
-// 			set = "save_date = save_date";
-// 			get = "message = message";
-// 			arg = "";
-// 			callback = "fn_category";
-					
-					
-			}
+			//이미지 업로드 없이 제품 저장
 			
-		
+		}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중" && (this.save_date.getColumn(i,"PRODUCT_CODE") == "도서" || this.save_date.getColumn(i,"PRODUCT_CODE") == "음식") ){
+			//이미지 업로드 후 제품 저장(수정)
+			
+			this.FileUpTransfer00.upload("svc::upload.do")
+			
 		}
- 	}
+	}
+	
+	id = "product_save_with_img"
+	url = "svc::save_date.do";
+	set = "save_date = save_date";
+	get = "message = message";
+	arg = "";
+	callback = "fn_category";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+	
+	
+}
 
 
 
 //삭제 버튼
 this.btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
-var num = 0 ;
+	var num = 0 ;
 	var con = this.confirm("정말 삭제 하시겠습니까?")
 	
 	if(con == true){
-
-	//그리드의 전체 숫자만큼 반복 
-	for(i = 0; i < this.view_dtl.getRowCount(); i++){
-
+		
+		//그리드의 전체 숫자만큼 반복 
+		for(i = 0; i < this.view_dtl.getRowCount(); i++){
+			
 			// 걔 중 체크항목을 확인하고
 			if(this.view_dtl.getColumn(i,"CHK") == "Y"){ // 체크항목이 존재한다면
 				
 				this.del_date.addRow()// 데이터셋에 공간을 만들고
-			
+				
 				//삭제값만 dataset에 저장
 				var code = this.view_dtl.getColumn(i,"PRODUCT_CODE")//체크된 값의 코드를 가져옴
 				this.del_date.setColumn(num,"PRODUCT_CODE",code)// 그리고 저장
-			num++;
-	
+				num++;
+				
+			}
+			
+			
+			
 		}
-	
-	
-	
-	}
 		if(this.del_date.getRowCount() == 0){
-		
+			
 			alert("제품을 선택해주세요")
 			return false;
 			
-	
+			
 		}else {
 			alert(this.del_date.saveXML())
 			var id = "del_date"
@@ -410,13 +470,13 @@ var num = 0 ;
 			var	callback = "fn_category";
 			
 			this.transaction(id, url, set, get, arg, callback)
-		
-		
-		
+			
+			
+			
 		}
 	}
-
-
+	
+	
 };
 
 
@@ -426,117 +486,102 @@ var num = 0 ;
 //그리드 더블클릭
 this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-
+	
 	this.view_dtl.setColumn(e.row,"CHK","Y");//더블클릭한 cell의 체크박스 체크표시로 전환
 	
-	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
-
-
+	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_PATH") == "이미지 준비중"){
 		g_row = e.row
-
-			this.FileDialog00.open('이미지수정', 1);
+		// 제품 이미지 수정
+		if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
 			
+			this.FileDialog01.open('이미지삽입', 1);
+		}else{
+			alert("분류를 선택해주세요")
+		}
+		
+	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
+		g_row = e.row
+		//제품 저장
+		this.FileDialog00.open('이미지수정', 1);
 	}else if(e.cell == 4 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
 		alert("분류를 선택해주세요")
-	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
-		alert("분류를 선택해주세요")
-
 	}
-
-
-
+	
+	
+	
+	
+	
+	
+	
 };
-this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
-
+//제품 저장용 이미지 삽입
+this.FileDialog01_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
 {	
-
-	var path;
-	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
-	
-        // 선택된 파일들의 경로 가져오기
-         path = e.virtualfiles.map(function(file) {
-            return file.path;	
-        });
-	
-	if(path == presentpath){ //기존 이미지 파일이면
-		
-	// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
-	var img_name = e.virtualfiles[0].filename // 파일이름
-	var img_length = e.virtualfiles[0].filename.length; // 파일이름의 길이
-	this.view_code.setColumn(g_row,"PRODUCT_PATH",img_name)
-
+	this.file_upload(e.virtualfiles);
 	
 	
-	}else{//새로운 이미지이면
-		
-		 var objDate1 = new nexacro.Date()
-
-		var y = objDate1.getYear(); //년
-		var m = objDate1.getMonth()+1; //월
-		var d = objDate1.getDate(); //일
-		var s = objDate1.getSeconds();//시
-		var day =y+ "-" + m + "-" + d +"-" +s;
-		
-	img_name = e.virtualfiles[0].filename // 파일이름
-
-	var type_num =  img_name.lastIndexOf(".");
-	var type = img_name.substring(type_num)
-	var name = img_name.substring(0,type_num)
-	var full_date = name + day + type
-
-	this.FileUpTransfer00.addFile("images/"+full_date, e.virtualfiles[0])
-
-	this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
 	
-	}
-
-
+	
 };
+//제품 수정용 이미지 수정
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{	
+	
+	this.file_upload(e.virtualfiles);
+	
+};
+
 
 
 //카테고리 콜백 함수
 this.fn_category = function(id, code, message){
-
+	
 	this.message.reset()
 	
 	if(code == 0){
-			switch(id) {
-			case "fir_category_select":
-			case "choice_sec_code":
-				if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
-					this.sec_code.deleteRow(0)
-				}
-				this.reset_paging();
-				break;
-				
-				
-				case "del_date":
-				var count = this.message.getColumn(0,"num");
-				alert(count + "건 삭제되었습니다.")
-				this.reload();
-				break;
-				
-				case "view_code":
-				this.reset_paging();
-				break;
-
-				
-				case "add_fir_code":
-				if(this.add_fir_code.getColumn(0,"FIR_NAME") == "전체"){
-					this.add_fir_code.deleteRow(0)
-				}
-				break;
-				
-				case "product_save":
-				var count = this.message.getColumn(0,"num");
-				alert(count + "건 적용되었습니다.")
-				this.reload();
-				break;
-
-			
+		switch(id) {
+		case "fir_category_select":
+		case "choice_sec_code":
+			if(this.sec_code.getColumn(0,"SEC_NAME") == "전체"){
+				this.sec_code.deleteRow(0)
 			}
-		
+			this.reset_paging();
+			break;
+			
+			
+		case "del_date":
+			var count = this.message.getColumn(0,"num");
+			alert(count + "건 삭제되었습니다.")
+			this.reload();
+			break;
+			
+		case "view_code":
+			this.reset_paging();
+			break;
+			
+			
+		case "add_fir_code":
+			if(this.add_fir_code.getColumn(0,"FIR_NAME") == "전체"){
+				this.add_fir_code.deleteRow(0)
+			}
+			break;
+			
+		case "product_save":
+			var count = this.message.getColumn(0,"num");
+			alert(count + "건 적용되었습니다.")
+			this.reload();
+			break;
+			
+		case "add_save_date_img":
+			var count = this.message.getColumn(0,"num");
+			alert(count + "건 적용되었습니다.")
+			this.reload();
+			
+			
+			
 		}
+		
+	}
 }
 
 
@@ -545,21 +590,21 @@ this.fn_category = function(id, code, message){
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	var objChildFrame = new ChildFrame();
-						// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
-        objChildFrame.init("ProductAddAll_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddAllProduct_popup.xfdl");
-        objChildFrame.set_dragmovetype("all"); // 마우스 드래그
-        objChildFrame.set_openalign("center middle"); // 화면 위치 
-		objChildFrame.set_resizable(false); // 화면 크기 조절
-		
-        objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
+	// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
+	objChildFrame.init("ProductAddAll_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddAllProduct_popup.xfdl");
+	objChildFrame.set_dragmovetype("all"); // 마우스 드래그
+	objChildFrame.set_openalign("center middle"); // 화면 위치 
+	objChildFrame.set_resizable(false); // 화면 크기 조절
+	
+	objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
 };
 
 
 
 this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
 {
-trace("Export00_onsuccess");
-this.reload()
+	trace("Export00_onsuccess");
+	this.reload()
 }
 
 this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
@@ -604,7 +649,7 @@ this.download_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
 {
-	alert(e.filelist)
+	
 	
 	this.importObj = new ExcelImportObject("Import00", this);
 	
@@ -622,32 +667,97 @@ this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
 this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 {
 	if(e.col == 2){
-	
-	var val =e.value;
 		
-			var id = "add_sec_code"
-			var url = "svc::add_sec_code.do";
-			var set = "";
-			var get = "add_sec_code = sec_code";
-			var arg = "add_fir_code="+ val;
-			var	callback = "fn_category";
-			
-			this.transaction(id, url, set, get, arg, callback)
-			
-			if(e.value == '음식'){
-				this.view_dtl.setColumn(add_grow,"BOOK_WRITER","-")
-				this.view_dtl.setColumn(add_grow,"BOOK_PUBLICATION_DATE","-")
-			}else{
-				this.view_dtl.setColumn(add_grow,"BOOK_WRITER","미상")
-				this.view_dtl.setColumn(add_grow,"BOOK_PUBLICATION_DATE","미상")
-			}
-			
-			
+		var val =e.value;
+		
+		var id = "add_sec_code"
+		var url = "svc::add_sec_code.do";
+		var set = "";
+		var get = "add_sec_code = sec_code";
+		var arg = "add_fir_code="+ val;
+		var	callback = "fn_category";
+		
+		this.transaction(id, url, set, get, arg, callback)
+		
+		if(e.value == '음식'){
+			this.view_dtl.setColumn(add_grow,"BOOK_WRITER","-")
+			this.view_dtl.setColumn(add_grow,"BOOK_PUBLICATION_DATE","-")
+		}else{
+			this.view_dtl.setColumn(add_grow,"BOOK_WRITER","미상")
+			this.view_dtl.setColumn(add_grow,"BOOK_PUBLICATION_DATE","미상")
+		}
+		
+		
 	}
 	
-
+	
 }	
 
+this.file_upload = function(img){
+	var path;
+	
+	var presentpath = "C:\\Users\\wornt\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
+	
+	// 선택된 파일들의 경로 가져오기
+	path = img.map(function(file) {
+            return file.path;	
+        });
+	if(path == presentpath){ //기존 이미지 파일이면
+		
+		// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
+		var img_name = img[0].filename // 파일이름
+		var img_length = img[0].filename.length; // 파일이름의 길이
+		this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
+		
+		
+		
+	}else{//새로운 이미지이면
+		var objDate1 = new nexacro.Date()
+		
+		var y = objDate1.getYear(); //년
+		var m = objDate1.getMonth()+1; //월
+		var d = objDate1.getDate(); //일
+		var s = objDate1.getSeconds();//시
+		var day =y+ "-" + m + "-" + d +"-" +s;
+		
+		img_name = img[0].filename // 파일이름
+		
+		var type_num =  img_name.lastIndexOf(".");
+		var type = img_name.substring(type_num)
+		var name = img_name.substring(0,type_num)
+		var full_date = name + day + type
+		
+		this.FileUpTransfer00.addFile("images/"+full_date, img[0])
+		
+		this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+full_date)
+		
+	}
+	
+}
+
+
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	for(i = 0; i < this.save_date.getRowCount(); i++){
+		
+		if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == '음식'){
+		this.save_date.setColumn(i,"PRODUCT_PATH", e.datasets[0].getColumn(0,"FILE_NAME"))
+		}
+	}
+	
+	
+	var id = "add_save_date_img"
+	var url = "svc::save_date.do";
+	var set = "save_date = save_date";
+	var get = "message = message";
+	var arg = "";
+	var	callback = "fn_category";
+	
+	this.transaction(id, url, set, get, arg, callback)
+	
+	
+};
 
 ]]></Script>
     <Bind>

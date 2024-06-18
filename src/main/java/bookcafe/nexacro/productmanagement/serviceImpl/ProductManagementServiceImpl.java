@@ -22,12 +22,26 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		
 		for(int i = 0; i < save_date.size(); i++) {
 			
-			if(save_date.get(i).get("PRODUCT_CODE").equals("도서")) {
+		if(save_date.get(i).get("PRODUCT_CODE").equals("도서")) {//인서트
 			result += productmapper.insert_book(save_date.get(i));
 				
-			}else if(save_date.get(i).get("PRODUCT_CODE").equals("음식")) {
+			}else if(save_date.get(i).get("PRODUCT_CODE").equals("음식")) {//인서트
 				
 				result += productmapper.insert_food(save_date.get(i));
+			}else {//업데이트
+				
+					String data = (String)save_date.get(i).get("PRODUCT_CODE");
+					System.out.println(data.substring(0,1));
+					if(data.substring(0,1).equals("f")) {
+						//음식
+						result += productmapper.update_food(save_date.get(i));
+					}else if(data.substring(0,1).equals("b")) {
+						//도서
+						result += productmapper.update_book(save_date.get(i));
+					}
+						
+					
+				
 			}
 			
 		}

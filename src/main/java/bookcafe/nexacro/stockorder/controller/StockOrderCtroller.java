@@ -117,8 +117,6 @@ public class StockOrderCtroller {
     @RequestMapping("/updateStockQuantity.do")
     public NexacroResult updateStockQuantity(@ParamDataSet(name = "stock_order_update", required = false) List<Map<String,String>> stock_order_update){
     	
-    	System.out.println("뭐가들어왔나요?"+stock_order_update);
-    	
     	NexacroResult result = new NexacroResult();	
     
         int service_result = soservice.updateStockQuantity(stock_order_update);
@@ -144,8 +142,6 @@ public class StockOrderCtroller {
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
-
-	    System.out.println("가는거 : "+ dataList);
 	
 	    return result;
     }    

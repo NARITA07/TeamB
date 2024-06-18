@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -83,7 +84,9 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
    
    /* 로그인 페이지 */
    @RequestMapping("login.do") 
-   public String login() { 
+   public String login(HttpServletRequest request, HttpSession session) { 
+       String referer = request.getHeader("Referer");
+       session.setAttribute("prevPage", referer);
        return "/member/login"; 
    }
    
@@ -99,10 +102,10 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
            int loginResult = memberService.loginProc(memberVO);
            if (loginResult == 1) {
                // 기존 세션 무효화
-               sessionRegistry.invalidateSession(memberVO.getUser_id());
+//               sessionRegistry.invalidateSession(memberVO.getUser_id());
                
                // 새로운 세션 등록
-               sessionRegistry.registerSession(memberVO.getUser_id(), session);
+//               sessionRegistry.registerSession(memberVO.getUser_id(), session);
 
                MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
                session.setAttribute("sessionId", memberVO.getUser_id());
@@ -118,6 +121,18 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
        System.out.println(memberVO.getUser_id());
        return message;
    } 
+   
+   // 로그인 시 보던페이지로 이동
+   @RequestMapping("loginSuccess.do")
+   public String loginSuccess(HttpSession session) {
+       String prevPage = (String) session.getAttribute("prevPage");
+       if (prevPage != null) {
+           session.removeAttribute("prevPage");
+           return "redirect:" + prevPage;
+       } else {
+           return "redirect:/";
+       }
+   }
    
    /* 로그아웃 */
    @RequestMapping("logout.do")

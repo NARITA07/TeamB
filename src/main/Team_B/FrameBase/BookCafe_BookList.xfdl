@@ -75,7 +75,7 @@
           <Column id="SEC_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="book_sales_dtl" onvaluechanged="Button00_onclick">
+      <Dataset id="book_sales_dtl">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="256"/>
           <Column id="ORDER_CODE" type="STRING" size="256"/>
@@ -122,7 +122,7 @@
           <Column id="nextpage" type="INT" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="view_dtl">
+      <Dataset id="view_dtl" onrowsetchanged="Button00_onclick">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="256"/>
           <Column id="ORDER_CODE" type="STRING" size="256"/>
@@ -139,7 +139,7 @@
 
 include "Base::paging.xjs";
 this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
-{	 
+{	
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
 	this.pageinit(1,15,"Grid01","book_sales_dtl"); 
@@ -161,6 +161,25 @@ this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 
     this.Calendar00.set_value(year+month+day);
 	this.Calendar01.set_value(year+month+day);
+	
+	this.sales_con.clearData();
+	
+	var sales_row = this.sales_con.addRow();
+	
+	var name = this.Edit00.value;
+	var book = this.Edit00_00.value;
+	var date1 = this.Calendar00.value;
+	var date2 = this.Calendar01.value;
+	var sec_code = this.Combo02.value;
+	var combo = this.Combo00.value;
+
+ 	this.sales_con.setColumn(sales_row, "NAME", name);
+	this.sales_con.setColumn(sales_row, "BOOK", book);
+	this.sales_con.setColumn(sales_row, "DATE1", date1);
+	this.sales_con.setColumn(sales_row, "DATE2", date2);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
+	
+	this.fnSelectBookList();
 	
 };
 
@@ -294,6 +313,7 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			var combo = this.Combo00.value;
 			if(combo=='N'){
 				this.fnSelectBookList();
+				this.reload();
 			}else{
 				this.fnSelectBookSales();
 			}
@@ -322,6 +342,7 @@ this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 		this.fnDeleteSelected();
 	}
 	
+
 };
 
 // 반납 update처리 함수

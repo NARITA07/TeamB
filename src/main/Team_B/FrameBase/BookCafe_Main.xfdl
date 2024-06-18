@@ -48,9 +48,19 @@
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
-            <Col id="title">매출현황</Col>
-            <Col id="url">FrameBase::BookCafe_SalesBoard.xfdl</Col>
+            <Col id="title">매출</Col>
+            <Col id="url"> </Col>
             <Col id="LEVEL">0</Col>
+          </Row>
+          <Row>
+            <Col id="LEVEL">1</Col>
+            <Col id="url">FrameBase::BookCafe_SalesBoard.xfdl</Col>
+            <Col id="title">매출현황</Col>
+          </Row>
+          <Row>
+            <Col id="title">월별매출차트</Col>
+            <Col id="url">FrameBase::BookCafe_SalesChart.xfdl</Col>
+            <Col id="LEVEL">1</Col>
           </Row>
           <Row>
             <Col id="title">관리</Col>
@@ -80,47 +90,54 @@
       </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.businessclosure = 0;
- 
+
 
 this.nav_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
- {	
- var m_row = "";
- 
+{	
+	var stat ="";
+	var m_row = "";
+	var c_row = "";
+	var close = 0;
 	for(i = 0; i < this.Nav.rowcount; i++){
 		
 		if(this.Nav.getColumn(i,"title") == "관리"){
-		
-			m_row = i;
+			
+			 m_row = i; //5
 		}
 		
-	
-	}
-	
-	if(e.row != m_row){
-	this.Grid_val(this.Nav.getColumn(e.row,1)) 
-	}
-	
- 	if(e.row == m_row){
-		this.nav.setTreeStatus(e.row,true)//하위 트리 생성
- 	}
-		else{
+		if(this.Nav.getColumn(i,"title") == "매출"){
 		
-			if(m_row > e.row){
-				
-				this.nav.setTreeStatus(m_row,false)
+			 c_row = i; //2
+		}
+	}
 	
-			}
+	if(e.row != c_row){
+	
+		if(e.row != m_row){
+		this.Grid_val(this.Nav.getColumn(e.row,1))
+		}
 		
 	}
-
+	if(e.row == m_row || e.row == c_row){
+		
+		 stat = this.nav.setTreeStatus(e.row,true)//하위 트리 생성
+		 trace(stat)
+		 if(stat != true){
+			this.nav.setTreeStatus(e.row,false)
+		 }
+	}
+	
+		
+	
 }
+
 
 this.Grid_val = function(url_change){
 	
 	//div의 url값을 변경. 
 	this.Main.set_url(url_change)
 	
-
+	
 }
 
 this.logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -135,39 +152,39 @@ this.btn_cafe_close_onclick = function(obj:nexacro.Grid,e:nexacro.GridMouseEvent
 {
 	
 	var chk = this.confirm("업무를 마감 하시겠습니까?")
-		
+	
 	if(chk == true){
 		
-	var id = "businessclosure";
-	var url = "svc::businessclosure.do";
-	var set = "";
-	var get = "businessclosure = businessclosure";
-	var arg = "";
-	var callback ="fn_businessclosure";
+		var id = "businessclosure";
+		var url = "svc::businessclosure.do";
+		var set = "";
+		var get = "businessclosure = businessclosure";
+		var arg = "";
+		var callback ="fn_businessclosure";
+		
+		this.transaction(id, url, set, get, arg, callback)
+		
+	}
 	
-	this.transaction(id, url, set, get, arg, callback)
-		
-		}
-		
 };
 
 this.fn_businessclosure = function(id, code, message){
-
+	
 	switch(id) {
 	case "businessclosure":
 		if(this.businessclosure > 0){
-		alert("도서 "+ this.businessclosure + "건을 반납처리해주십시오." )
+			alert("도서 "+ this.businessclosure + "건을 반납처리해주십시오." )
 		}else{
-		alert("마감되었습니다.")
-		nexacro.Application.exit();
+			alert("마감되었습니다.")
+			nexacro.Application.exit();
 		}
-	
+		
 		break;
-	
+		
 	}
-
-
-
+	
+	
+	
 }]]></Script>
     <Bind>
       <BindItem id="item0" compid="Edit00" propid="value" datasetid="Session_login" columnid="USER_NAME"/>

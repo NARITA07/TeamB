@@ -153,6 +153,13 @@ this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	
 	this.check_sort(this.Grid01);
 	
+	var currDate = new Date();
+    var year = currDate.getFullYear().toString().padLeft(4, "0");
+    var month = (currDate.getMonth()+1).toString().padLeft(2, "0");
+    var day = currDate.getDate().toString().padLeft(2, "0");
+
+    this.Calendar00.set_value(year+month+day);
+	this.Calendar01.set_value(year+month+day);
 	
 };
 

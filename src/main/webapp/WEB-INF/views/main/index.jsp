@@ -44,8 +44,9 @@
 				</c:forEach>
 			</div>
 		<div>
-			<h1 style="text-align:center; margin-bottom:50px; font-family:fantasy;">찾아오시는 길</h1>
+			<h1 style="text-align:center; margin-bottom:50px;">찾아오시는 길</h1>
 			<div id="map" style="width:500px;height:400px;margin:auto;"></div>
+			<h5 style="text-align:center; margin-top:50px;">주소 : 울산광역시 중구 종가로 406-21 혁신비즈니스센터 A동 3층</h5>
 		</div>
 	</div>
 </section>

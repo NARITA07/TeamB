@@ -11,18 +11,24 @@
             $("#findIdForm").submit(function(event) {
                 event.preventDefault();
 
+                /* var userName = $("#user_name_id").val().trim(); */
                 var userName = $("#user_name_id").val().trim();
                 var userEmail = $("#user_email_id").val().trim();
                 var emailAuthCode = $("#emailAuthCode_id").val().trim();
-
-                var namePattern = /^[가-힣]{2,}$/;
+                
+                /* var namePattern = /^[가-힣]{2,}$/; */
                 var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-                if (!namePattern.test(userName)) {
-                    alert("이름은 한글로 2글자 이상이어야 합니다.");
+                /* if (!namePattern.test(userName)) {
+                    alert("이름을 입력해주세요");
                     $("#user_name_id").focus();
                     return false;
-                }
+                } */
+                   if (userName == "") {
+                       alert("이름을 입력해주세요");
+                       $("#user_name_id").focus();
+                       return false;
+                   }
                 if (!emailPattern.test(userEmail)) {
                     alert("이메일 형식이 올바르지 않습니다.");
                     $("#user_email_id").focus();
@@ -34,7 +40,6 @@
                     return false;
                 }
 
-                // Verify the email authentication code before proceeding
                 $.ajax({
                     type: "POST",
                     url: "checkEmailAuthCode.do",
@@ -93,25 +98,37 @@
             $("#findPwForm").submit(function(event) {
                 event.preventDefault();
 
+                /* var userId = $("#user_id_pw").val().trim();
+                var userName = $("#user_name_pw").val().trim(); */
                 var userId = $("#user_id_pw").val().trim();
                 var userName = $("#user_name_pw").val().trim();
                 var userTel = $("#user_tel_pw").val().trim();
                 var userEmail = $("#user_email").val().trim();
                 var emailAuthCode = $("#emailAuthCode").val().trim();
 
-                var idPattern = /^[a-zA-Z0-9]{5,}$/;
-                var namePattern = /^[가-힣]{2,}$/;
+                /* var idPattern = /^[a-zA-Z0-9]{5,}$/;
+                var namePattern = /^[가-힣]{2,}$/; */
                 var telPattern = /^\d{3}-\d{3,4}-\d{4}$/;
                 var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
                 
-                if (!idPattern.test(userId)) {
+                /* if (!idPattern.test(userId)) {
                     alert("아이디는 영문자와 숫자로 5자리 이상이어야 합니다.");
                     $("#user_id_pw").focus();
                     return false;
                 }
                 if (!namePattern.test(userName)) {
                     alert("이름은 한글로 2글자 이상이어야 합니다.");
+                    $("#user_name_pw").focus();
+                    return false;
+                } */
+                if (userId == "") {
+                    alert("아이디를 입력해주세요");
+                    $("#user_id_pw").focus();
+                    return false;
+                }
+                if (userName == "") {
+                    alert("이름을 입력해주세요");
                     $("#user_name_pw").focus();
                     return false;
                 }
@@ -146,7 +163,6 @@
                     data: formData,
                     success: function(response) {
                         if (response === "found") {
-                            // Proceed with password reset only if verification code matches
                             var enteredCode = $("#emailAuthCode").val();
                             $.ajax({
                                 type: "POST",
@@ -198,7 +214,7 @@
                 });
             });
             
-        	 // 전화번호 변환(user_tel)
+            // 전화번호 변환(user_tel)
             $("#user_tel_pw").blur(function() {
                 var tel = $("#user_tel_pw").val().trim();
                 if(tel.substr(3,1) == "-" || tel.length < 10 || tel == ""){ 
@@ -226,7 +242,6 @@
                     return false;
                 }
 
-                // Check if verification code is correct before proceeding
                 var enteredCode = $("#emailAuthCode").val();
                 $.ajax({
                     type: "POST",
@@ -267,6 +282,7 @@
             });
 
             $(".close-modal").click(function() {
+               event.preventDefault();
                 $("#resetPwModal").hide();
             });
         });
@@ -280,14 +296,13 @@
             background-color: #f8f9fa;
         }
         button {
-	    	font-weight: bold !important;
-	    	font-size: 18px !important;
-		}
+          font-weight: bold !important;
+          font-size: 18px !important;
+      }
         .container {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            margin-top: 50px;
         }
         .form-container {
             width: 45%;
@@ -347,7 +362,7 @@
 </head>
 <body>
         <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
-    <div class="container">
+    <div class="container" style="margin-top: 50px;">
         <!-- ID 폼 -->
         <div class="form-container">
             <h2>아이디 찾기</h2>

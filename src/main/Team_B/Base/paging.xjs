@@ -1,7 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Script version="1.0" type="xscript5.1"><![CDATA[
+
 //페이징 기능 
-this.setPaging = function(grid){
+//페이징 초기화
+this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세팅
+	this.paging = new Dataset("paging");
+	this.paging.addColumn("page");
+	this.paging.addColumn("start");
+	this.paging.addColumn("end");
+	this.paging.addColumn("pagecount");
+	this.paging.addColumn("pagesize");
+	this.paging.addColumn("gridname");
+	this.paging.addColumn("datasetname");
+	
+	this.paging.addRow();
+	this.paging.setColumn(0,"page",page); //현재 페이지
+	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
+	this.paging.setColumn(0,"gridname",gridname);
+	this.paging.setColumn(0,"datasetname",datasetname);
+	this.paging.setColumn(0,"start",1);
+	this.paging.setColumn(0,"end",10);
+
+	this.view_dtl = new Dataset("view_dtl");
+	
+	this.view_dtl.copyData(this[datasetname]);
+	var grid = this[gridname];
+	grid.setBindDataset(this.view_dtl);
+	grid.addEventHandler("onsize",this.grid_onsize,this);
+	
+};
+this.setPaging = function(grid,page=1){
 	//pagecount 세팅 (전체 페이지)
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
@@ -10,10 +38,11 @@ this.setPaging = function(grid){
 	if( ds.rowcount % this.paging.getColumn(0,"pagesize") > 0){
 		pagecount+=1;
 	}
-	this.paging.setColumn(0,"pagecount",Number(pagecount));
+	this.paging.setColumn(0,"pagecount",pagecount);
+	
 	//div 만들어주기 
 	var div = new nexacro.Div();
-	div.init("pagediv",1,2,400,50); // left top width height
+	div.init("pagediv",1,2,800,50); // left top width height
 	this.addChild("pagediv",div);
 	
 	div.set_top(grid.id+":10px");
@@ -24,11 +53,18 @@ this.setPaging = function(grid){
 	
 	this.makebtn(div,pagecount);
 
-	this.setds(ds,1);
-}
+	this.setds(ds,page);
+};
 this.makebtn = function(div,pagecount){
 	//div 안에 버튼 만들어주기
-	var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
+	var start = this.paging.getColumn(0,"start");
+	var end = this.paging.getColumn(0,"end");
+	if(end > pagecount){
+		end=pagecount;
+	}
+	trace("pagecount : "+end);
+	var leftpos =  div.getOffsetWidth()/2 - ((end-start+4) /2 * 35)-35;
+	//var leftpos =  div.getOffsetWidth()/2 - ((pagecount+4) /2 * 35)-35;
 	
 	var firstbtn = new nexacro.Button(); // << 버튼 만들기
 	firstbtn.init("firstbtn",0,0,30, 30); // left top width height
@@ -48,9 +84,11 @@ this.makebtn = function(div,pagecount){
 	prevbtn.addEventHandler("onclick",this.onclick_prevbtn,this);
  	div.addChild("prevbtn",prevbtn); // div에  버튼 추가
  	prevbtn.show();
- 		
- 	for(var i =1; i<=pagecount; i++){
+ 	
+
+ 	for(var i =start; i<=end; i++){
  		var btn = new nexacro.Button(); // 숫자 버튼 만들기
+		trace("pagebtn"+i);
  		btn.init("pagebtn"+i,0,0,30, 30); // left top width height
 		leftpos += 35;
  		btn.set_left(leftpos + "px");
@@ -81,37 +119,18 @@ this.makebtn = function(div,pagecount){
  	div.addChild("endbtn",endbtn); // div에  버튼 추가
  	endbtn.show();
 };
-//페이징 초기화
-this.pageinit = function(page, pagesize,gridname,datasetname){ // 페이징 세팅
-	this.paging = new Dataset("paging");
-	this.paging.addColumn("page");
-	this.paging.addColumn("start");
-	this.paging.addColumn("end");
-	this.paging.addColumn("pagecount");
-	this.paging.addColumn("pagesize");
-	this.paging.addColumn("gridname");
-	this.paging.addColumn("datasetname");
-	
-	this.paging.addRow();
-	this.paging.setColumn(0,"page",page); //현재 페이지
-	this.paging.setColumn(0,"pagesize",pagesize); // 한페이지에 노출될 row 수
-	this.paging.setColumn(0,"gridname",gridname);
-	this.paging.setColumn(0,"datasetname",datasetname);
 
-	this.view_dtl = new Dataset("view_dtl");
-	
-	this.view_dtl.copyData(this[datasetname]);
-	var grid = this[gridname];
-	grid.setBindDataset(this.view_dtl);
-	grid.addEventHandler("onsize",this.grid_onsize,this);
-	
-};
 this.setpagediv = function(grid){
 	var div = this.components['pagediv'];
 	var leftpos=(grid.getOffsetWidth()/2+grid.getOffsetLeft()) - div.width/2;
 	div.set_left( leftpos+"px");
 };
 this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만 보여줌
+	if(page <=0)
+		page =1;
+	else if(page >this.paging.getColumn(0,"pagecount")){
+		page = this.paging.getColumn(0,"pagecount");
+	}
 
 	var pagesize = this.paging.getColumn(0,"pagesize");
 	if(this.view_dtl != null)
@@ -137,6 +156,27 @@ this.setds = function(ds,page){ //ds를 페이징처리해서 보여줄것들만
 	this.view_dtl.set_enableevent(true);
 	this.paging.setColumn(0,"page",page);
 	
+	var start = this.paging.getColumn(0,"start");
+	var end = this.paging.getColumn(0,"end");
+	var endchk = parseInt((end-1) / 10);
+	
+	var paging = parseInt(((page-1)/10));
+	trace("paging : "+paging+", end : "+end+", page : "+page);
+	if(endchk != paging){
+		end = paging *10+10;
+		this.paging.setColumn(0,"end",end);
+		this.paging.setColumn(0,"start",end-9);
+		this.reset_paging(page);
+	}
+// 	if(page < start){
+// 		this.paging.setColumn(0,"start",start-10);
+// 		this.paging.setColumn(0,"end",end-10);
+// 		this.reset_paging();
+// 	}else if(page > end){
+// 		this.paging.setColumn(0,"start",start+10);
+// 		this.paging.setColumn(0,"end",end+10);
+// 		this.reset_paging();
+// 	}
 };
 
 //버튼 클릭 이벤트
@@ -149,19 +189,15 @@ this.onclick_prevbtn = function(obj:nexacro.Button){
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
 	var prevpage = this.paging.getColumn(0,"page")-1;
-	if(prevpage <= 1)
-		this.setds(ds,1);
-	else
-		this.setds(ds,prevpage);
+
+	this.setds(ds,prevpage);
 };
 this.onclick_nextbtn = function(obj:nexacro.Button){
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
-	var nextpage = this.paging.getColumn(0,"page")+1;
-	if(nextpage >= this.paging.getColumn(0,"pagecount"))
-		this.setds(ds,this.paging.getColumn(0,"pagecount"));
-	else
-		this.setds(ds,nextpage);
+	var nextpage = parseInt(this.paging.getColumn(0,"page"))+1;
+
+	this.setds(ds,nextpage);
 };
 this.onclick_endbtn = function(obj:nexacro.Button){
 	var datasetname = this.paging.getColumn(0,"datasetname");
@@ -172,17 +208,17 @@ this.onclick_pagebtn = function(obj:nexacro.Button){
 //버튼 이벤트
 	var datasetname = this.paging.getColumn(0,"datasetname");
 	var ds = this[datasetname];
-	this.setds(ds,obj.text);
+	this.setds(ds,parseInt(obj.text));
 };
 
-this.reset_paging = function(){
+this.reset_paging = function(page=1){
 	var div = this.components['pagediv'];
 	if(div != null)
 		div.destroy();
 	var gridname = this.paging.getColumn(0,"gridname");
 	var grid = this.components[gridname];
-	this.setPaging(grid);//수정
-}
+	this.setPaging(grid,page);//수정
+};
 
 this.grid_onsize = function(obj:nexacro.Grid,e:nexacro.SizeEventInfo)
 {//그리드 사이즈 변화 이벤트

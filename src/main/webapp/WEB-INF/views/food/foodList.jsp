@@ -4,29 +4,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <meta name="description" content="" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   	<meta name="description" content="" />
     <meta name="author" content="" />
-   <title>foodList</title>
-   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-   <style>
-   .btn.btn-light.push_cart,.btn.btn-light{
-      background-color: #AB8212;
-       color: white;
-       margin-bottom: 5px;
-   }
-   .category_btn{
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin-top: 50px;
-      margin-bottom: 150px;
-   }
-   .category_btn .btn {
-      padding: 15px 30px;
-      font-size: 25px;
-   }
+	<title>foodList</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<style>
+	.btn.btn-light.push_cart,.btn.btn-light{
+		background-color: #c19f76;
+	    color: white;
+	    margin-bottom: 5px;
+	}
+	.category_btn{
+		display: flex;
+		justify-content: center;
+		gap: 30px;
+		margin-bottom: 100px;
+	}
+	.category_btn .btn {
+		padding: 15px 20px;
+		font-size: 20px;
+		font-weight: bold;
+	}
    button.btn.btn-light.drink,
    button.btn.btn-light.dessert,
    button.btn.btn-light.brunch,
@@ -60,6 +60,33 @@
     .table th {
         background-color: #f8f9fa;
     }
+    
+    .btn.btn-light.push_cart, .btn.btn-light {
+       background-color: #c19f76;
+       color: white;
+       margin-bottom: 5px;
+	}
+	
+	.btn.btn-light.push_cart:hover, .btn.btn-light:hover {
+	    background-color: #766650;
+	    color: white;
+	}
+    
+    #topButton {
+    display: none; /* 기본적으로 버튼을 숨깁니다 */
+    position: fixed; /* 화면에 고정 */
+    bottom: 200px; /* 아래에서 200px 위치 */
+    right: 40px; /* 오른쪽에서 40px 위치 */
+    z-index: 99; /* 다른 요소 위에 표시되도록 설정 */
+    border: none; /* 테두리 없음 */
+    outline: none; /* 외곽선 없음 */
+    background-color: #AB8212; /* 버튼 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+    padding: 15px; /* 패딩 설정 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    font-size: 18px; /* 글꼴 크기 */
+	}
    </style>
    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
@@ -71,22 +98,22 @@
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
    
-   <div class="food_list">
-       <img alt="mainimg" src="images/food_main4.jpg" class="header-image">
-       <img alt="mainimg" src="images/food_main5.jpg" class="header-image">
-   </div>
-   
-   <section class="py-5">
-      <div class="container px-4 px-lg-5 mt-5">
-      
-         <!-- 카테고리 -->
-         <h1 style="text-align:center; margin-bottom:50px;">*Menu*</h1>
-         <div class="category_btn">
-            <button class="btn btn-light" type="button" onclick="showSection('all')">전체</button>
-            <c:forEach items="${category}" var="category">
-               <button class="btn btn-light" type="button" onclick="showSection('${category.sec_code}')">${category.sec_name}</button>
-            </c:forEach>
-         </div>
+<!-- 	<div class="food_list h-100"> -->
+<!-- 	    <img alt="mainimg" src="images/food_main4.jpg" class="header-image"> -->
+<!-- 	    <img alt="mainimg" src="images/food_main5.jpg" class="header-image"> -->
+<!-- 	</div> -->
+	
+	<section class="py-5">
+		<div class="container px-5 px-lg-5">
+		
+			<!-- 카테고리 -->
+			<h1 style="text-align:center; margin-bottom:50px;">MENU</h1>
+			<div class="category_btn">
+				<button class="btn btn-light" type="button" onclick="showSection('all')">전체</button>
+				<c:forEach items="${category}" var="category">
+					<button class="btn btn-light" type="button" onclick="showSection('${category.sec_code}')">${category.sec_name}</button>
+				</c:forEach>
+			</div>
          
          <!-- 메뉴 출력 -->
          <c:forEach items="${category}" var="category">
@@ -106,13 +133,13 @@
                               </div>
                               <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                                  <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
-                                    수량 :
+                                	수량 :
                                     <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
                                     oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;">
                                  </div>
                                  <div>
-                                          금액 : 
-                                          <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
+                                   	 금액 : 
+                                    <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
                                     <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
                                     </span>
                                  </div>
@@ -130,7 +157,7 @@
                </div>
             </div>
          </c:forEach>
-         
+         <button onclick="topFunction()" id="topButton" title="Go to top">Top</button>
        </div>
    </section>
    
@@ -293,10 +320,13 @@ $(document).ready(function() {
             },
             success: function(response) {
                var jsonResponse = JSON.parse(response);
-                if (jsonResponse.status === "success") {
+               console.log(jsonResponse);
+                if (jsonResponse.status == "success") {
                     alert('장바구니에 담겼습니다.');
                     //장바구니 숫자 업데이트
                    $('#cartSize').text(jsonResponse.cartSize);
+                } else if(jsonResponse.status == "alreadyExist") {
+                	alert('이미 장바구니에 담겨있는 도서열람권이 있습니다.');
                 } else {
                     alert('장바구니 담기 실패.');
                 }
@@ -435,7 +465,23 @@ $(document).ready(function() {
        var paymentAmount = totalPrice - usePoints;
        $('#paymentAmount').text(paymentAmount.toLocaleString() + ' 원');
    }
-         
+   
+	// 스크롤 시 버튼 표시
+	window.onscroll = function() {scrollFunction()};
+	
+	function scrollFunction() {
+	    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+	        document.getElementById("topButton").style.display = "block";
+	    } else {
+	        document.getElementById("topButton").style.display = "none";
+	    }
+	}
+	
+	// 버튼 클릭 시 맨 위로 스크롤
+	function topFunction() {
+	    document.body.scrollTop = 0; // Safari
+	    document.documentElement.scrollTop = 0; // Chrome, Firefox, IE, Opera
+	}
 </script>
 
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>

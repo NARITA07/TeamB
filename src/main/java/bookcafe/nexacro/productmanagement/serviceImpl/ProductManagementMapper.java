@@ -37,6 +37,10 @@ public interface ProductManagementMapper {
 
 	int product_allsaveb(Map<String, Object> map);
 
+	int insert_book(Map<String, Object> map);
+
+	int insert_food(Map<String, Object> map);
+
 
 
 	

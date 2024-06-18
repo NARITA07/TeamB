@@ -102,7 +102,7 @@
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort_Stock_Order.xjs";
-include "Base::paging.xjs";
+include "Base::paging.xjs"; 
 /*
 1. 화면 초기화
 2. 이벤트

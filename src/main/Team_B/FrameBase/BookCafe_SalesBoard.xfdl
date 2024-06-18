@@ -213,7 +213,7 @@ this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEve
 this.ReturnCellFontColor = function(str) {
 	return str == 0 ? "ExprRed" : "";
 }
-]]></Script>
+ ]]></Script>
     <Objects>
       <Dataset id="sales_dtl">
         <ColumnInfo>

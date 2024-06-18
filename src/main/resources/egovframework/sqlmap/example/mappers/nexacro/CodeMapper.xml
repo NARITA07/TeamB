@@ -150,6 +150,10 @@ WHERE
 		SEC_CODE = #{SEC_CODE};
 	</select>
 	
- 
+<select id="sec_code_chk" resultType="java.util.Map">
+ SELECT * FROM SEC_CODE s JOIN FIR_CODE f
+  ON s.FIR_CODE = f.FIR_CODE WHERE FIR_NAME= #{code}
+</select>
+
  
 </mapper>

@@ -17,20 +17,21 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	ProductManagementMapper productmapper;
 
 	@Override
-	public int product_save(Map<String, Object> save_date) {
+	public int product_save(List<Map<String, Object>> save_date) {
 		int result = 0;
 		
-	String bool = (String) save_date.get("FIR_CODE");
-	
-	if(bool.equals("fir_001")) {
-		//도서에 저장
-		result = productmapper.book_save(save_date);
+		for(int i = 0; i < save_date.size(); i++) {
+			
+			if(save_date.get(i).get("PRODUCT_CODE").equals("도서")) {
+			result += productmapper.insert_book(save_date.get(i));
+				
+			}else if(save_date.get(i).get("PRODUCT_CODE").equals("음식")) {
+				
+				result += productmapper.insert_food(save_date.get(i));
+			}
+			
+		}
 		
-	}else if(bool.equals("fir_002")) {
-		//음식에 저장
-		result = productmapper.food_save(save_date);
-		
-	}
 		
 		return result;
 	}

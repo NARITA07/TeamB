@@ -12,13 +12,14 @@ public class BookCafeInterceptors extends HandlerInterceptorAdapter{
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO)session.getAttribute("loginInfo");
-		if(memberVO == null) {
-			response.sendRedirect("/login.do");
-			return false;
-		}
-		return true;
+	        throws Exception {
+	    HttpSession session = request.getSession();
+	    MemberVO memberVO = (MemberVO)session.getAttribute("loginInfo");
+	    if(memberVO == null) {
+	        session.setAttribute("prevPage", request.getRequestURI());
+	        response.sendRedirect("/login.do");
+	        return false;
+	    }
+	    return true;
 	}
 }

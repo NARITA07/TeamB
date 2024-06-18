@@ -7,35 +7,7 @@
           <Layouts>
             <Layout>
               <Static id="Static00" taborder="3" text="코드관리" left="1.85%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-              <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" height="260" right="20" bottom="2.78%" oncelldblclick="Main_Sec_code_oncelldblclick">
-                <Formats>
-                  <Format id="default">
-                    <Columns>
-                      <Column size="40"/>
-                      <Column size="150"/>
-                      <Column size="150"/>
-                      <Column size="150"/>
-                    </Columns>
-                    <Rows>
-                      <Row size="24" band="head"/>
-                      <Row size="24"/>
-                    </Rows>
-                    <Band id="head">
-                      <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="분류코드" background="#FFF8EE"/>
-                      <Cell col="2" text="코드명" background="#FFF8EE"/>
-                      <Cell col="3" text="사용여부" background="#FFF8EE"/>
-                    </Band>
-                    <Band id="body">
-                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="bind:SEC_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
-                      <Cell col="3" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
-                    </Band>
-                  </Format>
-                </Formats>
-              </Grid>
-              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="fir_code_grid" scrollbartype="default default" right="20" autofittype="col" border="1px solid #4F4537" maxheight="400" minheight="" bottom="350" height="250" oncellclick="Main_Fir_code_oncellclick" oncelldblclick="Main_Fir_code_oncelldblclick">
+              <Grid id="Fir_code" taborder="0" left="20" minwidth="" binddataset="fir_code_grid" scrollbartype="default default" right="20" autofittype="col" border="1px solid #4F4537" maxheight="400" minheight="" height="250" oncellclick="Main_Fir_code_oncellclick" oncelldblclick="Main_Fir_code_oncelldblclick" top="Static00:157.89%">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -59,6 +31,34 @@
                       <Cell col="1" text="bind:FIR_CODE" textAlign="center"/>
                       <Cell col="2" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
                       <Cell col="3" text="bind:USE_STATUS" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" right="20" oncelldblclick="Main_Sec_code_oncelldblclick" top="Fir_code:70" bottom="2.78%">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="150"/>
+                      <Column size="150"/>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
+                      <Cell col="1" text="분류코드" background="#FFF8EE"/>
+                      <Cell col="2" text="코드명" background="#FFF8EE"/>
+                      <Cell col="3" text="사용여부" background="#FFF8EE"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
+                      <Cell col="1" text="bind:SEC_CODE" textAlign="center"/>
+                      <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
+                      <Cell col="3" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -130,7 +130,7 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
+    <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs"; 
 
 var row = 0;
 this.message_count = 0;
@@ -583,8 +583,6 @@ this.Main_fir_search_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemCh
 	}else{
 		this.Main.form.sec_search.set_enable(true)
 	}
-};
-
-]]></Script>
+};]]></Script>
   </Form>
 </FDL>

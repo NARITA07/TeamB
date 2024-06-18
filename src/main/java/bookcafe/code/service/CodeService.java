@@ -20,5 +20,7 @@ public interface CodeService {
 
 	List<Map<String, Object>> choice_sec_code(Map<String, Object> choice_sec_code);
 
+	List<Map<String, Object>> add_sec_code(String add_fir_code);
+
 
 }

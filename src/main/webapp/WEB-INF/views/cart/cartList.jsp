@@ -13,19 +13,24 @@
           width: 100%;
           margin: auto;
       }
+      table thead{
+         background-color: #fff;
+         border-bottom: 1px solid #cdcdcd;
+      }
       th, td {
-          border: 1px solid black;
-          padding: 8px;
-          text-align: center;
+         border: 1px solid black;
+         padding: 8px;
+         text-align: center;
           
       }
       th {
-          background-color: #f2f2f2;
+          background-color: #fff;
+          border-bottom: 1px solid #cdcdcd
       }
       .btn.btn-light.buy_btn {
           margin-left: 47%;
           margin-top: 30px;
-          background-color: #AB8212;
+          background-color: #c19f76;
           color: white;
           font-style: 
       }

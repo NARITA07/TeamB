@@ -37,7 +37,7 @@ public class ProductManagementController {
 	System.out.println(save_date);
 		NexacroResult product_save = new NexacroResult();
 		
-		product_save.addVariable("message", productservice.product_save(save_date));
+		product_save.addDataSet("message", productservice.product_save(save_date));
 		return product_save;
 		
 	} 
@@ -47,7 +47,7 @@ public class ProductManagementController {
 	System.out.println(trans);
 		NexacroResult product_all_save = new NexacroResult();
 		
-		product_all_save.addVariable("message", productservice.product_allsave(trans));
+		product_all_save.addDataSet("message", productservice.product_allsave(trans));
 		
 		return product_all_save;
 		

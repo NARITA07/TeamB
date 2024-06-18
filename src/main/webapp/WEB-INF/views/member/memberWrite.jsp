@@ -367,14 +367,14 @@ function sample2_execDaumPostcode() {
 
 
     .form-group button {
-        background-color: #4F4537;
+        background-color:  #c19f76;
         color: white;
         border: none;
         cursor: pointer;
         margin-left: 10px;
     }
     .form-group button:hover{
-        background-color: #373026;
+        background-color:  #c19f76;
     }
 
     .div_btn {
@@ -384,7 +384,7 @@ function sample2_execDaumPostcode() {
     }
     .div_btn button {
         padding: 10px 20px;
-        background-color: #4F4537;
+        background-color: #766650;
         color: white;
         border: none;
         cursor: pointer;
@@ -393,14 +393,6 @@ function sample2_execDaumPostcode() {
 
     #user_agree_checkbox{
         margin-left: 160px;
-    }
-
-    #btn_submit:hover{
-        background-color: #373026;
-    }
-
-    #btn_cancel:hover{
-        background-color: crimson;
     }
 
     .address-group {
@@ -498,7 +490,7 @@ function sample2_execDaumPostcode() {
     </div>
     <div class="div_btn">
         <button type="button" id="btn_submit">저장</button>
-        <button type="button" id="btn_cancel">취소</button>
+        <button type="button" id="btn_cancel" style="background-color:#6c757d;">취소</button>
     </div>
 </div>
 

@@ -88,7 +88,7 @@
                     }
                 });
             });
-
+            
             // 비밀번호 찾기 폼 제출
             $("#findPwForm").submit(function(event) {
                 event.preventDefault();
@@ -104,6 +104,7 @@
                 var telPattern = /^\d{3}-\d{3,4}-\d{4}$/;
                 var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+                
                 if (!idPattern.test(userId)) {
                     alert("아이디는 영문자와 숫자로 5자리 이상이어야 합니다.");
                     $("#user_id_pw").focus();
@@ -119,6 +120,7 @@
                     $("#user_tel_pw").focus();
                     return false;
                 }
+               
                 if (!emailPattern.test(userEmail)) {
                     alert("이메일 형식이 올바르지 않습니다.");
                     $("#user_email").focus();
@@ -129,7 +131,7 @@
                     $("#emailAuthCode").focus();
                     return false;
                 }
-
+                
                 var formData = {
                     user_id: userId,
                     user_name: userName,
@@ -171,7 +173,7 @@
                     }
                 });
             });
-
+                
             // 비밀번호 찾기 이메일 인증 버튼 클릭 시
             $("#btn_sendEmail").click(function() {
                 var userEmail = $("#user_email").val().trim();
@@ -313,7 +315,7 @@
             border-radius: 4px;
         }
         .form-group button {
-            background-color: #AB8212;
+            background-color: #766650;
             color: white;
             border: none;
             cursor: pointer;
@@ -410,19 +412,19 @@
 </div>
 
 <!-- 비밀번호 재설정 모달 -->
-<div id="resetPwModal">
-    <h4>새로운 비밀번호를 <br> 입력하세요:</h4>
+<div id="resetPwModal" style="max-width:50%; margin: auto; width:400px;">
+    <h4>새로운 비밀번호를 입력하세요:</h4>
     <form id="resetPwForm" method="post">
         <input type="hidden" id="modal_user_id" name="user_id">
         <div class="form-group">
             <label for="new_password">새 비밀번호:</label>
             <input type="password" id="new_password" name="new_password">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display:flex; justify-content:space-between; gap:10px;">
             <button type="submit">비밀번호 변경</button>
+          <button class="close-modal" style="background-color:#6c757d;">닫기</button>
         </div>
     </form>
-    <button class="close-modal">닫기</button>
 </div>
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>
 <!--!  -->

@@ -31,9 +31,9 @@ public class ProductManagementController {
 	@Autowired
 	ProductManagementService productservice;
 	
-	//단건 추가
+	//추가
 	@RequestMapping("save_date.do")
-	public NexacroResult savedate(@ParamDataSet(name ="save_date")Map<String, Object>save_date) {
+	public NexacroResult savedate(@ParamDataSet(name ="save_date")List<Map<String, Object>>save_date) {
 	System.out.println(save_date);
 		NexacroResult product_save = new NexacroResult();
 		

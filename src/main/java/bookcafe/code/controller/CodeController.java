@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import bookcafe.code.service.CodeService;
@@ -44,7 +45,8 @@ public class CodeController {
 	
 	//대분류 코드 선택조회
 		@RequestMapping("fir_category_select.do")
-		public NexacroResult fir_category_select(@ParamDataSet(name="fir_category_select")Map<String, Object> fir_category_select) {
+		public NexacroResult fir_category_select(
+				@ParamDataSet(name="fir_category_select", required = false)Map<String, Object> fir_category_select){
 			NexacroResult nex_fir_category_select = new NexacroResult();
 			
 			nex_fir_category_select.addDataSet("fir_category_select", codeservice.fir_category_select(fir_category_select));
@@ -73,4 +75,15 @@ public class CodeController {
 	
 			
 	}
+	
+	@RequestMapping("add_sec_code.do")
+	public NexacroResult add_sec_code(@ParamVariable(name="add_fir_code", required = false)String add_fir_code){
+		System.out.println(add_fir_code);
+		NexacroResult nex_sec_category_select = new NexacroResult();
+		
+		nex_sec_category_select.addDataSet("sec_code",codeservice.add_sec_code(add_fir_code));
+		return nex_sec_category_select;
+	}
+	
+	
 }

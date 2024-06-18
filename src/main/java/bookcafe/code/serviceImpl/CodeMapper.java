@@ -20,6 +20,9 @@ public interface CodeMapper {
 
 	List<Map<String, Object>> choice_sec_code(Map<String, Object> choice_sec_code);
 
+	List<Map<String, Object>> sec_code_chk(String code);
+
+
 	
 
 

@@ -93,11 +93,11 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_fn" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
+        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="1.76%" bottom="Grid00:5" height="30" width="71"/>
         <Static id="Static01" taborder="4" text="재고 관리" left="1.76%" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
         <Static id="Static00_00" taborder="6" text="입고 관리" left="1.76%" width="90" height="24" cssclass="title_sub" bottom="Grid01:5"/>
-        <Button id="Button01_00" taborder="10" text="상태저장" width="70" height="30" cssclass="btn_fn" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
-        <Button id="Button00_00" taborder="9" text="엑셀저장" height="30" right="Button01_00:5" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
+        <Button id="Button01_00" taborder="10" text="상태저장" width="70" height="30" cssclass="btn_save" right="1.76%" bottom="Grid01:5" onclick="stock02_div_Button01_onclick"/>
+        <Button id="Button00_00" taborder="9" text="엑셀저장" height="30" right="Button01_00:5" width="70" cssclass="btn_save" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
         <Static id="Static01_00" taborder="8" text="※입고완료 및 발주취소는 발주상태를 재변경할 수 없습니다." left="Static00_00:5" width="321" cssclass="warning_txt" bottom="Grid01:5" height="14"/>
       </Layout>
     </Layouts>
@@ -108,7 +108,7 @@ include "Base::paging.xjs";
 2. 이벤트
 3. 함수d
 4. 페이징
-20240618 1026 수정
+20240618 수정
 */ 
  
 /****************************************************/  

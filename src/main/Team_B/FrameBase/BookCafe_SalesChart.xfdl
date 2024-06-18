@@ -21,7 +21,7 @@
         <ImageViewer id="ImageViewer00_02" taborder="15" left="Edit01:30" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static06" taborder="5" text="연도" left="ImageViewer00_02:5" top="110" width="24" height="14" onclick="Static06_onclick"/>
         <Static id="Static00_00" taborder="9" text="매출현황 차트" left="1.85%" width="201" height="38" top="2.99%" cssclass="main_title"/>
-        <BasicChart id="BasicChart00" taborder="10" left="20" top="200" binddataset="sales_chart_dtl" categorycolumn="bind:MONTH" right="20" bottom="20">
+        <BasicChart id="BasicChart00" taborder="10" left="20" top="200" binddataset="sales_chart_dtl" categorycolumn="bind:MONTH" right="20" bottom="20" enableanimation="true">
           <Contents><![CDATA[{
 	"title": {
 		"id": "title",

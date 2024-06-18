@@ -81,7 +81,6 @@
 
 this.BookCafe_MemberManagement_PopUp_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-
 	this.pageinit(1,9,"Grid00","pointlog_dtl");
 	
 	this.Member_Selected.clearData();
@@ -162,7 +161,6 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.Member_Selected.setColumn(0,"USER_CODE", this.parent.USER_CODE);
 	this.Member_Selected.setColumn(0,"POINT_PM", this.MaskEdit00.value);
 	
-
 	if (this.MaskEdit00.value != null && this.MaskEdit00.value != "") {
 		if (confirm("포인트를 추가하시겠습니까?")) {
 			this.fnInsertPointLog();
@@ -170,7 +168,6 @@ this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	} else {
 		alert("포인트를 입력해주세요");
 	}
-
 
 };
 

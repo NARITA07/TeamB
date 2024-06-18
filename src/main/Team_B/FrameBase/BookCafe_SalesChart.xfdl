@@ -10,12 +10,12 @@
         </Div>
         <ImageViewer id="ImageViewer00" taborder="12" left="37" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08" taborder="6" text="분류" left="ImageViewer00:5" top="110" width="24" height="14" onclick="Static08_onclick"/>
-        <Combo id="Combo02" taborder="7" text="Combo02" left="Static08:6" top="102" width="110" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
+        <Combo id="Combo02" taborder="7" text="Combo02" left="Static08:6" top="102" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
         <ImageViewer id="ImageViewer00_00" taborder="13" left="Combo02:30" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static00" taborder="2" text="이름" left="ImageViewer00_00:5" top="110" width="24" height="14"/>
         <Edit id="Edit00" taborder="0" left="Static00:5" top="102" height="30" onchanged="Edit00_onchanged" width="100" cssclass="edit_default"/>
         <ImageViewer id="ImageViewer00_01" taborder="14" left="Edit00:30" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
-        <Static id="Static01" taborder="3" text="제품명" left="ImageViewer00_01:5" top="110" width="36" height="14"/>
+        <Static id="Static01" taborder="3" text="제품" left="ImageViewer00_01:5" top="110" width="24" height="14"/>
         <Edit id="Edit01" taborder="1" left="Static01:5" top="102" width="100" height="30" onchanged="Edit01_onchanged" cssclass="edit_default"/>
         <Button id="Button00" taborder="4" text="조회" height="30" onclick="Button00_onclick" width="70" cssclass="btn_view" right="1.85%" bottom="Div00:5"/>
         <ImageViewer id="ImageViewer00_02" taborder="15" left="Edit01:30" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
@@ -157,22 +157,6 @@
         var nRow = this.ds_year.addRow();
 		this.ds_year.setColumn(nRow, "YEAR", year);
     }
-	
-	this.sales_con.clearData();
-	
-	var sales_row = this.sales_con.addRow();
-	
-	var name = this.Edit00.value;
-	var menu = this.Edit01.value;
-	var year = this.Combo00.value;
-	var sec_code = this.Combo02.value;
-
- 	this.sales_con.setColumn(sales_row, "NAME", name);
- 	this.sales_con.setColumn(sales_row, "MENU", menu);
-	this.sales_con.setColumn(sales_row, "YEAR", year);
-	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	
-	this.fnSelectSalesChart();
 };
 
 //조회

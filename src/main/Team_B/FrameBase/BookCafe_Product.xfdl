@@ -14,6 +14,7 @@
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
         <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
         <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup">
+
           <Formats>
             <Format id="default">
               <Columns>
@@ -186,10 +187,12 @@
 include "Base::paging.xjs";
 
 
+
 //화면 시작 시
 var g_row = 0;
 var add_grow = 0;
 var btn_count = 0;
+
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
@@ -264,6 +267,7 @@ this.fir_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 //신규 등록버튼 클릭 시
 this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+
 	
 	var id = "add_fir_code"
 	var url = "svc::init_fir_code.do";
@@ -279,6 +283,7 @@ this.btn_add_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		this.view_dtl.setColumn(add_grow,"PRODUCT_STATUS", "Y")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_CODE"," ")
 		this.view_dtl.setColumn(add_grow,"PRODUCT_PATH","이미지 준비중")
+
     } 
 	
 
@@ -302,6 +307,7 @@ this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 
 //저장 클릭 시 
 this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+
 {	
 	this.save_date.reset()
  	var num = 0;
@@ -355,6 +361,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
 		}
  	}
+
 
 
 //삭제 버튼
@@ -420,23 +427,25 @@ this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 	
 	if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") != " "){
 
+
 		g_row = e.row
 
 			this.FileDialog00.open('이미지수정', 1);
 			
-
-
 	}else if(e.cell == 4 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " "){
 		alert("분류를 선택해주세요")
 	}else if(e.cell == 5 && this.view_dtl.getColumn(e.row,"PRODUCT_CODE") == " " ){
 		alert("분류를 선택해주세요")
+
 	}
 
 
 
 };
 this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+
 {	
+
 	var path;
 	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
 	
@@ -465,7 +474,7 @@ this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialog
 		var day =y+ "-" + m + "-" + d +"-" +s;
 		
 	img_name = e.virtualfiles[0].filename // 파일이름
-	alert(img_name)
+
 	var type_num =  img_name.lastIndexOf(".");
 	var type = img_name.substring(type_num)
 	var name = img_name.substring(0,type_num)
@@ -512,6 +521,7 @@ this.fn_category = function(id, code, message){
 				case "view_code":
 				this.reset_paging();
 				break;
+
 				
 				case "add_fir_code":
 				if(this.add_fir_code.getColumn(0,"FIR_NAME") == "전체"){
@@ -521,6 +531,7 @@ this.fn_category = function(id, code, message){
 				
 				case "add_sec_code":
 				break;
+
 			
 			}
 		
@@ -541,6 +552,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		
         objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
 };
+
 
 
 this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
@@ -570,6 +582,8 @@ this.upload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 };
 // 엑셀 다운로드
 this.download_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+
+
 {
 	this.exportObj = new ExcelExportObject("Export00", this);
 	
@@ -632,6 +646,7 @@ this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 	
 
 }	
+
 
 ]]></Script>
     <Bind>

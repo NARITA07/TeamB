@@ -92,6 +92,20 @@ this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 
     this.Calendar00.set_value(year+month+day);
 	this.Calendar01.set_value(year+month+day);
+	
+	this.sales_con.clearData();
+	
+	var sales_row = this.sales_con.addRow();
+	
+	var date1 = this.Calendar00.value;
+	var date2 = this.Calendar01.value;
+	var sec_code = this.Combo02.value;
+
+	this.sales_con.setColumn(sales_row, "DATE1", date1);
+	this.sales_con.setColumn(sales_row, "DATE2", date2);
+	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
+	
+	this.fnSelectSales();
 
 };
 

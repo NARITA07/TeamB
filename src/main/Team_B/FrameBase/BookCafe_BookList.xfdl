@@ -75,7 +75,7 @@
           <Column id="SEC_CODE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <Dataset id="book_sales_dtl">
+      <Dataset id="book_sales_dtl" onvaluechanged="Button00_onclick">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="256"/>
           <Column id="ORDER_CODE" type="STRING" size="256"/>

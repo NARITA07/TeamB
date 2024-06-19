@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_MemberManagement_PopUp" width="670" height="380" titletext="포인트 획득/사용 이력" onload="BookCafe_MemberManagement_PopUp_onload">
     <Layouts>

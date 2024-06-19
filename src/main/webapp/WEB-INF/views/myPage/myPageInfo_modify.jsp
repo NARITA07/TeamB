@@ -262,7 +262,7 @@ $(function() {
        var user_tel = $("#user_tel").val().trim();
        
        if (originalTel == user_tel) {
-          return true;
+    	   callback(true);  // 전화번호가 변경되지 않으면 중복 아님
        } else {
            $.ajax({
                type: "POST",
@@ -272,14 +272,14 @@ $(function() {
                   console.log("rData:", rData);
                    if (rData == "duplicate") {
                       alert("중복된 전화번호가 있습니다. 다시 확인해주세요.");
-                      return false;
+                      callback(false);
                    } else {
-                      return true;
+                	  callback(true);
                    }
                },
                error: function(){
                    alert("전화번호 중복확인 중 에러가 발생하였습니다");
-                   return false;
+                   callback(false);
                }
            });
        }
@@ -293,16 +293,18 @@ $(function() {
            return false;
         } 
         
-        if(!checkDuplicateUserTel()) {
-           return false;
-        }
+        checkDuplicateUserTel(function(isValid) {
+            if (!isValid) {
+                return false;
+            }
        
-        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
-        $("#user_address").val(combinedAddress);
-       // 폼 제출
-        $("#formModify").submit();
+	        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
+	        $("#user_address").val(combinedAddress);
+	       // 폼 제출
+	        $("#formModify").submit();
+       
+    	});
     });
-    
 });
 </script>
 
@@ -394,8 +396,8 @@ $(function() {
                 <div id="invalid-message2">비밀번호가 일치하지 않습니다.</div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="btn-pwdChange-save" style="background-color: #c19f76;">저장</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="submit" class="btn btn-primary" id="btn-pwdChange-save" style="background-color: #c19f76; border:none;">저장</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border:none;">닫기</button>
             </div>
         </div>
     </div>

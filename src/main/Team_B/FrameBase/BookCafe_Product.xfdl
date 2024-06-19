@@ -419,6 +419,13 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			}else{
 					this.FileUpTransfer00.upload("svc::upload_modi.do")
 					
+				for(i = 0; i < this.save_date.getRowCount(); i++){
+		
+				if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == '음식'){
+				this.save_date.deleteRow(i)
+			}
+					
+					
 				id = "product_save_with_img"
 				url = "svc::save_date.do";
 				set = "save_date = save_date";
@@ -431,6 +438,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				}
 			}
 		}
+	}
 }
 
 	
@@ -676,14 +684,25 @@ this.file_upload = function(img){
 
 this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
 {
-	for(i = 0; i < this.save_date.getRowCount(); i++){
-		
-		if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == '음식'){
-		this.save_date.setColumn(i,"PRODUCT_PATH", e.datasets[0].getColumn(0,"FILE_NAME"))
-		}else{
+	this.save_date.reset();
+	var num = 0;
+	
+	for(i = 0; i < this.view_dtl.getRowCount(); i++){
+	
+	if(this.view_dtl.getColumn(i,"CHK") == "Y" && (this.view_dtl.getColumn(i,"PRODUCT_CODE") == '도서' || this.view_dtl.getColumn(i,"PRODUCT_CODE") == '음식')){
+			this.save_date.addRow();
 			
-			this.save_date.deleteRow(i)
-		
+			this.save_date.setColumn(num,"PRODUCT_CODE",this.view_dtl.getColumn(i,"PRODUCT_CODE"))
+			this.save_date.setColumn(num,"PRODUCT_NAME",this.view_dtl.getColumn(i,"PRODUCT_NAME"))
+			this.save_date.setColumn(num,"PRODUCT_PRICE",this.view_dtl.getColumn(i,"PRODUCT_PRICE"))
+			this.save_date.setColumn(num,"PRODUCT_STATUS", this.view_dtl.getColumn(i,"PRODUCT_STATUS"))
+			this.save_date.setColumn(num,"PRODUCT_PATH",e.datasets[0].getColumn(0,"FILE_NAME"))
+			this.save_date.setColumn(num,"BOOK_WRITER", this.view_dtl.getColumn(i,"BOOK_WRITER"))
+			this.save_date.setColumn(num,"BOOK_PUBLICATION_DATE", this.view_dtl.getColumn(i,"BOOK_PUBLICATION_DATE"))
+			this.save_date.setColumn(num,"SEC_NAME", this.view_dtl.getColumn(i,"SEC_NAME"))
+			
+			
+			num++;
 		}
 	}
 	

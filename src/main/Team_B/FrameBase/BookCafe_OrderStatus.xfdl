@@ -34,10 +34,10 @@
               </Band>
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
-                <Cell col="1" text="bind:ORDER_CODE" suppress="1"/>
-                <Cell col="2" text="bind:USER_ID" suppress="2"/>
-                <Cell col="3" text="bind:PRODUCT_NAME"/>
-                <Cell col="4" text="bind:ORDER_QUANTITY"/>
+                <Cell col="1" text="bind:ORDER_CODE" suppress="1" textAlign="center"/>
+                <Cell col="2" text="bind:USER_ID" suppress="2" textAlign="center"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center"/>
+                <Cell col="4" text="bind:ORDER_QUANTITY" textAlign="center"/>
                 <Cell col="5" text="bind:TOTAL_PRICE" suppress="2"/>
                 <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
                 <Cell col="7" text="bind:PAYMENT_DATE" displaytype="date" rtl="false" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss"/>
@@ -77,10 +77,10 @@
               </Band>
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
-                <Cell col="1" text="bind:ORDER_CODE" suppress="1"/>
-                <Cell col="2" text="bind:USER_ID" suppress="2"/>
-                <Cell col="3" text="bind:PRODUCT_NAME"/>
-                <Cell col="4" text="bind:ORDER_QUANTITY"/>
+                <Cell col="1" text="bind:ORDER_CODE" suppress="1" textAlign="center"/>
+                <Cell col="2" text="bind:USER_ID" suppress="2" textAlign="center"/>
+                <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center"/>
+                <Cell col="4" text="bind:ORDER_QUANTITY" textAlign="center"/>
                 <Cell col="5" text="bind:TOTAL_PRICE" suppress="2"/>
                 <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2"/>
                 <Cell col="7" text="bind:PAYMENT_DATE" displaytype="date" rtl="false" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" edittype="none" suppress="2"/>

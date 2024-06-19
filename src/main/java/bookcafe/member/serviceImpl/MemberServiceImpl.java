@@ -119,4 +119,12 @@ private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		System.out.println(user_code);
 		return memberMapper.selectMemberEmail(user_code);
 	}
+	
+	/* 네이버 회원정보 조회*/
+	@Override
+	public MemberVO getUserInfoBySnsId(String user_sns_Id) {
+		MemberVO memberVO = memberMapper.getUserInfoBySnsId(user_sns_Id);
+ 		return memberVO;
+	}
+
 }

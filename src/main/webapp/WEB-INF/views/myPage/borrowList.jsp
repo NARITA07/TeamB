@@ -99,10 +99,6 @@ $(document).ready(function() {
    });
    
 });
-
-$(function() {
-   
-});
 </script>
    <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
    
@@ -136,7 +132,6 @@ $(function() {
                                     </div>
                                 </div>
                             </div>
-                           <%-- 주문내역이 없는 경우 --%>
                            <table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
                               <thead>
                                  <tr class="table-warning">
@@ -150,12 +145,14 @@ $(function() {
                                  </tr>
                               </thead>
                               <tbody>
+                              	 <%-- 주문내역이 없는 경우 --%>
                                  <c:if test="${empty borrowList}">
                                      <tr>
-                                    <td colspan='6'>도서 대여내역이 없습니다.</td>
+                                    <td colspan='7'>도서 대여내역이 없습니다.</td>
                                  </tr>
-                                  </c:if>
-                              <c:if test="${not empty borrowList}">
+                                 </c:if>
+                                 <%-- 주문내역이 있는 경우 --%>
+                             	 <c:if test="${not empty borrowList}">
                                  <c:forEach var="borrow" items="${borrowList}">
                                     <tr>
                                        <td>${borrow.rowNum}</td>

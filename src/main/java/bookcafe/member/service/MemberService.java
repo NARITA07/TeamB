@@ -38,4 +38,7 @@ public MemberVO getUserInfo(String user_id);
 /* 회원 코드로 이메일 받아오기 */
 public String selectMemberEmail(String user_code);
 
+/*네이버 회원정보 조회*/
+public MemberVO getUserInfoBySnsId(String userId);
+
 }

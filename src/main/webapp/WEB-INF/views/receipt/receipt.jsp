@@ -30,7 +30,6 @@
         	justify-content:center;
             align-items: center;
             height: 100%;
-            margin-top: 50px;
         }
         .receipt-container {
             width: 100%;
@@ -124,7 +123,7 @@
 		<%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
 	</div>
 	
-	<div class="container">
+	<div class="container" style="margin-top: 50px;">
 	    <div class="receipt-container">
 	        <div id="receipt">
 	            <h1>영수증</h1>
@@ -143,7 +142,7 @@
                 </c:forEach>
                 <div class="pricePoint">
                 	<div class="totalAmount">
-	                    <label>기존가격</label>
+	                    <label>총 금액</label>
 	                    <span class="price" data-price="${receiptInfo.total_amount}"></span>
 	                </div>
 	                <div class="pointChange2">
@@ -151,7 +150,7 @@
 	                    <span class="price" data-price="${receiptPoint.point_change2}"></span>
 	                </div>
 	                <div class="totalPrice">
-	                    <label>결제가격</label>
+	                    <label>결제금액</label>
 	                    <span class="price" data-price="${receiptInfo.total_price}"></span>
 	                </div>
 	                <div class="pointChange1">

@@ -17,7 +17,8 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	ProductManagementMapper productmapper;
 
 	@Override
-	public int product_save(List<Map<String, Object>> save_date) {
+	public Map<String, Object> product_save(List<Map<String, Object>> save_date) {
+		Map<String, Object> num = new HashMap<>();
 		int result = 0;
 		
 		for(int i = 0; i < save_date.size(); i++) {
@@ -46,8 +47,9 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 			
 		}
 		
+		num.put("num", result);
 		
-		return result;
+		return num;
 	}
 
 	@Override

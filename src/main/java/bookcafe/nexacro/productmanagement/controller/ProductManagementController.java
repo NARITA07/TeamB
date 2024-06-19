@@ -34,7 +34,7 @@ public class ProductManagementController {
 	//추가
 	@RequestMapping("save_date.do")
 	public NexacroResult savedate(@ParamDataSet(name ="save_date", required = false)List<Map<String, Object>>save_date) {
-		System.out.println(save_date);
+		System.out.println("수정데이트" + save_date);
 		NexacroResult product_save = new NexacroResult();
 		
 		product_save.addDataSet("message", productservice.product_save(save_date));
@@ -128,7 +128,6 @@ public class ProductManagementController {
 	
 		@RequestMapping("/upload_modi.do")
 	    public void upload_modi(HttpServletRequest request) throws IllegalStateException, IOException {
-			
 			String savePath = "C:/Users/hcnc/git/TeamB/src/main/webapp/";//이미지 저장 경로
 			
 	        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request; //이미지는 HttpServletRequest로 받음
@@ -137,7 +136,7 @@ public class ProductManagementController {
 	        	
 	            MultipartFile file = multiRequest.getFile(fileNames.next());
 	                	String fileName = file.getName(); //파일이름.png
-	                	
+	     
 	                    File dest = new File(savePath + fileName); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 책방.날짜.png
 	                    file.transferTo(dest); // C:/Users/hcnc/git/TeamB/src/main/webapp/images/에 파일이름.png으로 저장
 	                  }

@@ -3,17 +3,17 @@
   <Form id="BookCafe_ProductManagemnet_Modify" width="1080" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1020">
-        <Div id="Div00" taborder="7" left="1.76%" top="97" height="40" cssclass="main_nav" right="1.76%" text="">
+        <Static id="Static00" taborder="0" text="제품관리" left="20" height="38" top="20" width="128" cssclass="main_title"/>
+        <Div id="Div00" taborder="7" left="19" top="Static00:40" height="40" cssclass="main_nav" right="20" text="">
           <Layouts>
             <Layout/>
           </Layouts>
         </Div>
-        <Static id="Static00" taborder="0" text="제품관리" left="1.86%" height="38" top="2.78%" width="128" cssclass="main_title"/>
-        <ImageViewer id="ImageViewer00" taborder="9" left="40" top="114" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
-        <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="110" width="24" height="14"/>
-        <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="102" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
-        <Combo id="sec_category" taborder="2" top="102" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
-        <Grid id="Grid00" taborder="6" left="19" top="156" bottom="7.78%" right="21" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup">
+        <ImageViewer id="ImageViewer00" taborder="9" left="37" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
+        <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="111" width="24" height="14"/>
+        <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="103" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
+        <Combo id="sec_category" taborder="2" top="103" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="filterlike"/>
+        <Grid id="Grid00" taborder="6" left="20" top="Div00:20" bottom="60" right="20" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup" autosizingtype="row">
           <Formats>
             <Format id="default">
               <Columns>
@@ -28,8 +28,8 @@
                 <Column size="30"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row size="35" band="head"/>
+                <Row size="30"/>
               </Rows>
               <Band id="head">
                 <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" background="#FFF8EE"/>
@@ -47,16 +47,16 @@
                 <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
                 <Cell col="2" textAlign="center" edittype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'combo' : 'nomal'" displaytype="normal" text="bind:PRODUCT_CODE" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_CODE  == '도서' || PRODUCT_CODE == '음식' ? 'combo' : 'none'"/>
-                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_NAME != null ? 'text' : 'none'"/>
-                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal"/>
-                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_NAME != null ? 'text' : 'none'" wordWrap="char"/>
+                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal" wordWrap="char"/>
+                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER" wordWrap="char"/>
                 <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="expr:BOOK_PUBLICATION_DATE == '-'  || BOOK_PUBLICATION_DATE == '미상' ? 'nomal' : 'mask'" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
                 <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' || PRODUCT_CODE =='음식' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_del" taborder="5" text="삭제" height="30" right="1.85%" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick" width="70"/>
+        <Button id="btn_del" taborder="5" text="삭제" height="30" right="20" bottom="Div00:5" cssclass="btn_del" onclick="btn_del_onclick" width="70"/>
         <Button id="btn_save" taborder="4" text="저장" width="70" height="30" right="btn_del:5" bottom="Div00:5" cssclass="btn_save" onclick="btn_save_onclick"/>
         <Button id="btn_add" taborder="3" text="추가" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_save"/>
       </Layout>
@@ -197,7 +197,7 @@ var btn_count = 0;
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,20,"Grid00","view_code"); 
+	this.pageinit(1,15,"Grid00","view_code"); 
 	
 	this.check_sort(this.Grid00);
 	

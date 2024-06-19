@@ -48,6 +48,11 @@ public class MyPageController {
 	
 	// 비밀번호 암호화
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
+	// 일반 회원과 네이버 로그인 사용자를 구분하는 메서드 추가
+    private boolean isNaverUser(String sessionId) {
+        return sessionId != null && sessionId.length() > 10;
+    }
 
 	// 마이페이지
 	@GetMapping("/myPage")
@@ -55,7 +60,16 @@ public class MyPageController {
 		// 사용자 정보 업데이트
 		String sessionId = (String) session.getAttribute("sessionId");
 		MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-        session.setAttribute("loginInfo", loginInfo);
+		session.setAttribute("loginInfo", loginInfo);
+		    
+		if(sessionId != null) {
+			if (isNaverUser(sessionId)) {
+			    loginInfo = memberService.getUserInfoBySnsId(sessionId);
+			} else {
+			    loginInfo = memberService.getUserInfo(sessionId);
+			}
+			session.setAttribute("loginInfo", loginInfo);
+		}
 		
 		System.out.println("loginInfo: " + loginInfo.toString());
 		String user_code = loginInfo.getUser_code();

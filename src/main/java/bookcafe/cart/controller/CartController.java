@@ -134,6 +134,8 @@ import bookcafe.point.service.PointVO;
 			session.setAttribute("loginInfo", loginInfo);
 		}
 		
+//		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo"); 
+		
 		String user_code = loginInfo.getUser_code();
 		String cart_code = cartService.selectMaxCartCode(user_code);
 		System.out.println("cart_code:" + cart_code);
@@ -203,6 +205,7 @@ import bookcafe.point.service.PointVO;
 		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 	    String user_code = loginInfo.getUser_code();
 	    String cart_code =cartService.selectMaxCartCode(user_code);
+	    String userAuthority = loginInfo.getUser_authority();
 	    
 	    // 기존 주문 존재 여부 확인
 	    String existingOrderCode = cartService.selectOrderCode(cart_code);
@@ -242,16 +245,21 @@ import bookcafe.point.service.PointVO;
 				pointService.insertPointLog(pointLog);
 				System.out.println("test3");
 			}
-			// 포인트 증가
-			int pointChange = (int) (totalPrice * 0.05);
-			System.out.println("주문넣기 컨트롤러 오더코드: " + order_code);
-			System.out.println("총 가격: " + totalPrice);
-			System.out.println("포인트 적립: " + pointChange);
-			 
-			pointLog.setUser_code(user_code);
-			pointLog.setOrder_code(order_code);
-			pointLog.setPoint_change(pointChange);
-			System.out.println("포인트적립VO(pointLog):" + pointLog);
+			
+			// 포인트 적립
+            if(userAuthority.equals("1")) {
+               int pointChange = (int) (total_price * 0.05);
+               pointLog.setUser_code(user_code);
+               pointLog.setOrder_code(order_code);
+               pointLog.setPoint_change(pointChange);
+               System.out.println("바로구매 포인트적립VO 일반:" + pointLog);
+            } else if(userAuthority.equals("2")) {
+               int pointChange = (int) (total_price * 0.10);
+               pointLog.setUser_code(user_code);
+               pointLog.setOrder_code(order_code);
+               pointLog.setPoint_change(pointChange);
+               System.out.println("바로구매 포인트적립VO vip:" + pointLog);
+            }
 			
 			// 포인트 로그 입력
 			int result = pointService.insertPointLog(pointLog);
@@ -285,6 +293,9 @@ import bookcafe.point.service.PointVO;
 	@PostMapping("/submitOrderDirect")
 	@ResponseBody
 	public String submitOrderDirect(CartVO cart, HttpSession session,OrdersVO orders,int total_price, int point_change) {
+		MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+	    String userAuthority = loginInfo.getUser_authority();
+		
 		System.out.println("ordersVO:" + orders);
 		System.out.println("point_change:" + point_change);
 		
@@ -293,26 +304,33 @@ import bookcafe.point.service.PointVO;
 		System.out.println("처음 cart_code 확인 : "+cart_code);
 		// 카트코드 부여
 		int isOrders = cartService.selectOrders(cart_code);
+		int result;
 		// 해당 카트코드의 결제내역이 있는 경우
 		if (isOrders > 0) {
 			cart.setCart_code(null);
-		} 
-		// 해당 카트코드로 결제 진행하면 되는 경우
-		else {
+			result = cartService.directInsertCart(cart);
+			cart_code = cartService.selectMaxCartCode(user_code);
+			System.out.println("새로운 카트코드 생성");
+		} else if (cart_code == null) {
+			// 회원가입 후 첫 결제하는 경우
+			result = cartService.directInsertCart(cart);
+			cart_code = cartService.selectMaxCartCode(user_code);
+		} else {
+			// 해당 카트코드로 결제 진행하면 되는 경우
 			// 기존 장바구니 목록들 뒤로 미루기
 			cartService.updateCartcode(cart_code);
 			// 카트코드 뺏어서 사용
 			cart.setCart_code(cart_code);
+			result = cartService.directInsertCart(cart);
 			System.out.println("카트코드 훔치기 성공");
 		}
 	    System.out.println("최종 cart_code: " + cart_code);
 		
-		
 		// 카트에 바로 넣기
-		int result = cartService.directInsertCart(cart);
 		if (result >= 1) {
 			System.out.println("바로 장바구니 담기 성공");
 			System.out.println("장바구니 이후 cartVO:" + cart);
+			
 			// 주문 바로 넣기
 			orders.setCart_code(cart_code);
 			orders.setTotal_price(total_price);
@@ -349,13 +367,20 @@ import bookcafe.point.service.PointVO;
 					System.out.println("test3");
 				}
 				
-				
 				// 포인트 적립
-				int pointChange = (int) (total_price * 0.05);
-				pointLog.setUser_code(user_code);
-				pointLog.setOrder_code(order_code);
-				pointLog.setPoint_change(pointChange);
-				System.out.println("바로구매 포인트적립VO :" + pointLog);
+	            if(userAuthority.equals("1")) {
+	               int pointChange = (int) (total_price * 0.05);
+	               pointLog.setUser_code(user_code);
+	               pointLog.setOrder_code(order_code);
+	               pointLog.setPoint_change(pointChange);
+	               System.out.println("바로구매 포인트적립VO 일반:" + pointLog);
+	            } else if(userAuthority.equals("2")) {
+	               int pointChange = (int) (total_price * 0.10);
+	               pointLog.setUser_code(user_code);
+	               pointLog.setOrder_code(order_code);
+	               pointLog.setPoint_change(pointChange);
+	               System.out.println("바로구매 포인트적립VO vip:" + pointLog);
+	            }
 				
 				// 포인트 로그 입력
 				int pointResult = pointService.insertPointLog(pointLog);
@@ -364,7 +389,6 @@ import bookcafe.point.service.PointVO;
 					// 유저 포인트 업데이트
 					pointService.updateUserPoint(user_code);
 					// 세션 포인트 업데이트
-					MemberVO loginInfo = (MemberVO)session.getAttribute("loginInfo");
 					loginInfo.setUser_point(newSumPoint);
 					session.setAttribute("loginInfo", loginInfo);
 					System.out.println("loginInfo_point:" + loginInfo.getUser_point());

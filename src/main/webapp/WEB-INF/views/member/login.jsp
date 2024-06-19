@@ -10,6 +10,13 @@
 <link href="css/style.css" rel="stylesheet" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+document.addEventListener('keydown', (event) => {
+	   if(event.key == 'Enter'){
+	   //이벤트 발생
+	      $("#btn_submit").trigger("click");
+	   }
+	});
+	
 $(function() {
     $("#btn_submit").click(function() {
         var user_id = $("#user_id").val();

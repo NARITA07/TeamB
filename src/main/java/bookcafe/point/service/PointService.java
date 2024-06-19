@@ -19,4 +19,5 @@ public interface PointService {
 	
 	// 주문코드를 통해 포인트 내역 조회
 	public List<Map<String,Object>> selectOrderToPointLog(String order_code);
+	
 }

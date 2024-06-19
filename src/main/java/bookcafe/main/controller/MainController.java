@@ -18,7 +18,7 @@ import bookcafe.member.service.MemberVO;
 
 @Controller
 public class MainController {
-	@Resource(name = "bookService")
+    @Resource(name = "bookService")
     public BookService bookService;
         
     @Resource(name = "memberService")
@@ -29,23 +29,35 @@ public class MainController {
     
     // 도서대여 탑3
     @GetMapping("/")
-    public String showBookList(Model model,HttpSession session) {
-    	
-    	List<BookVO> books;
-        books = bookService.selectTopBooksOfMonth();
-        model.addAttribute("books", books);
+    public String showBookList(Model model, HttpSession session) {
+        List<BookVO> books = null;
+        try {
+            books = bookService.selectTopBooksOfMonth();
+            model.addAttribute("books", books);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "도서목록 불러오기 실패");
+        }
         
         String sessionId = (String) session.getAttribute("sessionId");
         if (sessionId != null) {
-        	MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-        	session.setAttribute("loginInfo", loginInfo);
-        	
-            String user_code = loginInfo.getUser_code();
-            int cartSize = cartService.getCurrentCartSize(user_code);
-            session.setAttribute("cartSize", cartSize);
-            
+            try {
+                MemberVO loginInfo = memberService.getUserInfo(sessionId);
+                if (loginInfo != null) {
+                    session.setAttribute("loginInfo", loginInfo);
+                    
+                    String user_code = loginInfo.getUser_code();
+                    if (user_code != null) {
+                        int cartSize = cartService.getCurrentCartSize(user_code);
+                        session.setAttribute("cartSize", cartSize);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.setAttribute("loginInfo", null);
+                session.setAttribute("cartSize", 0);
+            }
         }
         return "/main/index";
     }
-	
 }

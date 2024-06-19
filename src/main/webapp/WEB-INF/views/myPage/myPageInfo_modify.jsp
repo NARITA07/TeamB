@@ -262,7 +262,7 @@ $(function() {
        var user_tel = $("#user_tel").val().trim();
        
        if (originalTel == user_tel) {
-    	   callback(true);  // 전화번호가 변경되지 않으면 중복 아님
+          return true;
        } else {
            $.ajax({
                type: "POST",
@@ -272,17 +272,18 @@ $(function() {
                   console.log("rData:", rData);
                    if (rData == "duplicate") {
                       alert("중복된 전화번호가 있습니다. 다시 확인해주세요.");
-                      callback(false);
+                      return false;
                    } else {
-                	  callback(true);
+                      return true;
                    }
                },
                error: function(){
                    alert("전화번호 중복확인 중 에러가 발생하였습니다");
-                   callback(false);
+                   return false;
                }
            });
        }
+       return true;
     }
 
     // 수정완료버튼 클릭
@@ -293,18 +294,16 @@ $(function() {
            return false;
         } 
         
-        checkDuplicateUserTel(function(isValid) {
-            if (!isValid) {
-                return false;
-            }
+        if(!checkDuplicateUserTel()) {
+           return false;
+        }
        
-	        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
-	        $("#user_address").val(combinedAddress);
-	       // 폼 제출
-	        $("#formModify").submit();
-       
-    	});
+        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
+        $("#user_address").val(combinedAddress);
+       // 폼 제출
+        $("#formModify").submit();
     });
+    
 });
 </script>
 

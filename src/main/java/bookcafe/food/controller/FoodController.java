@@ -22,14 +22,26 @@ public class FoodController {
 	@Resource(name = "memberService")
     private MemberService memberService;
 	
+	// 일반 회원과 네이버 로그인 사용자를 구분하는 메서드 추가
+    private boolean isNaverUser(String sessionId) {
+        return sessionId != null && sessionId.length() > 10;
+    }
+	
 	// 커피,음식 리스트
 	@RequestMapping("foodList.do")
 	public String foodList(Model model, HttpSession session) {
 		// 사용자 정보 업데이트
 		String sessionId = (String) session.getAttribute("sessionId");
-		if (sessionId != null) {
-			MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-            session.setAttribute("loginInfo", loginInfo);
+		MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
+		session.setAttribute("loginInfo", loginInfo);
+		    
+		if(sessionId != null) {
+			if (isNaverUser(sessionId)) {
+			    loginInfo = memberService.getUserInfoBySnsId(sessionId);
+			} else {
+			    loginInfo = memberService.getUserInfo(sessionId);
+			}
+			session.setAttribute("loginInfo", loginInfo);
 		}
 		
 		List<FoodVO> foodList = foodService.getFoodesssList();

@@ -40,7 +40,7 @@
                 <Cell col="5" text="이미지" background="#FFF8EE"/>
                 <Cell col="6" text="저자" background="#FFF8EE"/>
                 <Cell col="7" text="출판일" background="#FFF8EE"/>
-                <Cell col="8" text="가격" textAlign="right" background="#FFF8EE"/>
+                <Cell col="8" text="가격" textAlign="center" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
@@ -406,9 +406,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			//제품수정
 		}else {
 			
-			if(this.FileUpTransfer00.filelist[0].filename == null){//이미지 없이 수정
-				alert("이미지 노수정")
-				
+			if(this.FileUpTransfer00.filelist[0] == null){//이미지 없이 수정
 				
 				id = "product_save_no_img"
 				url = "svc::save_date.do";
@@ -591,6 +589,12 @@ this.fn_category = function(id, code, message){
 		var count = this.message.getColumn(0,"num");
 			alert(count + "건 수정되었습니다.")
 			this.reload();
+			break;
+		case "product_save_no_img":
+		var count = this.message.getColumn(0,"num");
+			alert(count + "건 수정되었습니다.")
+			this.reload();
+			break;
 			
 		}
 		

@@ -9,7 +9,7 @@
             <Layout/>
           </Layouts>
         </Div>
-        <Grid id="Grid01" taborder="5" top="Div00:45" binddataset="view_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="20" right="20" bottom="51" onsize="Grid01_onsize">
+        <Grid id="Grid01" taborder="5" top="Div00:45" binddataset="view_dtl" autofittype="col" onheadclick="Grid01_onheadclick" cssclass="grid_default" left="20" right="20" bottom="60" onsize="Grid01_onsize">
           <Formats>
             <Format id="default">
               <Columns>
@@ -143,7 +143,7 @@ this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {	
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,15,"Grid01","book_sales_dtl"); 
+	this.pageinit(1,17,"Grid01","book_sales_dtl"); 
 	
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();

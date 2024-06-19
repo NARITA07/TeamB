@@ -9,7 +9,7 @@
             <Layout/>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="0" left="20" top="Div00:20" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="8%" cssclass="grid_default" onsize="Grid00_onsize" right="20">
+        <Grid id="Grid00" taborder="0" left="20" top="Div00:20" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="60" cssclass="grid_default" onsize="Grid00_onsize" right="20">
           <Formats>
             <Format id="default">
               <Columns>
@@ -76,7 +76,7 @@ this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 
 	//페이징 정보  page : 현재 페이지 pagesize : 한 페이지에 보여줄 row갯수
-	this.pageinit(1,15,"Grid00","sales_dtl"); 
+	this.pageinit(1,17,"Grid00","sales_dtl"); 
 	this.combo_dtl.clearData();
 	this.combo_dtl.addRow();
 	this.combo_dtl.setColumn(0,"FIR_CODE","fir_002");

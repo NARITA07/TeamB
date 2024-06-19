@@ -14,7 +14,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="10.00%" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
+        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="60" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>

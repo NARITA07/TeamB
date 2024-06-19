@@ -167,15 +167,15 @@ $(function() {
                         dataType: "text",
                         success: function(result){
                             if(result == "ok"){
-                                alert("저장 완료하였습니다.");
+                                alert("회원가입 되었습니다.");
                                 $("#frm")[0].reset();
-                                location.href = "./";
+                                location.href = "/login.do";
                             } else {
-                                alert("저장 실패하였습니다.");
+                                alert("회원가입에 실패하였습니다.");
                             }
                         },
                         error: function(){
-                            alert("저장 중 오류가 발생하였습니다.");
+                            alert("회원가입 중 오류가 발생하였습니다.");
                         }
                     });
                 } else {

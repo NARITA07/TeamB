@@ -99,10 +99,6 @@ $(document).ready(function() {
    });
    
 });
-
-$(function() {
-   
-});
 </script>
    <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
    

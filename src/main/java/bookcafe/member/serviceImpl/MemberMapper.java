@@ -42,4 +42,8 @@ public interface MemberMapper { //!
 	
 	/* 회원 코드로 이메일 받아오기 */
 	String selectMemberEmail(@Param("USER_CODE") String userCode);
+	
+	/* 네이버 회원정보 조회*/
+	MemberVO getUserInfoBySnsId(String user_sns_Id);
+
 }

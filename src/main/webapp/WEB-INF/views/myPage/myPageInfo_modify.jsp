@@ -283,6 +283,7 @@ $(function() {
                }
            });
        }
+       return true;
     }
 
     // 수정완료버튼 클릭
@@ -394,8 +395,8 @@ $(function() {
                 <div id="invalid-message2">비밀번호가 일치하지 않습니다.</div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="btn-pwdChange-save" style="background-color: #c19f76;">저장</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="submit" class="btn btn-primary" id="btn-pwdChange-save" style="background-color: #c19f76; border:none;">저장</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border:none;">닫기</button>
             </div>
         </div>
     </div>

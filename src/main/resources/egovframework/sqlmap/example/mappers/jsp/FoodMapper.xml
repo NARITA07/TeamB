@@ -7,7 +7,7 @@
         SELECT F.*, SC.FIR_CODE , SC.SEC_NAME , SC.USE_STATUS  
 		FROM FOOD F
 		JOIN SEC_CODE SC ON F.PRODUCT_CATEGORY = SC.SEC_CODE
-		WHERE SC.USE_STATUS = 'Y';
+		WHERE SC.USE_STATUS = 'Y' AND F.PRODUCT_STATUS = 'Y'
     </select>
     
     <!-- 음식 카테고리 -->
@@ -20,7 +20,7 @@
 		  CASE
 		    WHEN SEC_NAME = '도서열람권' THEN 1
 		    ELSE 2
-		  END, SEC_CODE;
+		  END, SEC_CODE
     </select>
     
 </mapper>

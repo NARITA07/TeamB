@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize">
+  <Form id="BookCafe_ReciptProcessing" width="1080" height="720" titletext="회원관리" oninit="BookCafe_ReciptProcessing_oninit" onsize="BookCafe_ReciptProcessing_onsize" onkeyup="Button00_01_00_enter_onkeyup">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1080">
         <Static id="Static00" taborder="1" text="회원관리" left="20" width="128" height="37" top="20" cssclass="main_title"/>
@@ -266,6 +266,8 @@ this.fn_popupCallback = function(strPopupID, strReturn)
 		this.fnSelect_Members();
     }
 };
+
+// 조회버튼
 this.Button00_01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.search_dtl.clearData();
@@ -277,6 +279,13 @@ this.Button00_01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 	this.fnSelect_Members();
 	
 };
-]]></Script>
+// 엔터눌렀을 때 조회되게
+this.Button00_01_00_enter_onkeyup = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.Button00_01_00_onclick();
+	}
+}]]></Script>
   </Form>
 </FDL>

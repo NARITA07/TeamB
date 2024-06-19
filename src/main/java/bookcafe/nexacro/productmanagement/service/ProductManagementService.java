@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface ProductManagementService {
 
-	int product_save(List<Map<String, Object>> save_date);
+	Map<String, Object> product_save(List<Map<String, Object>> save_date);
 
 	Map<String, Object> delete_product(List<Map<String, Object>> del_date);
 

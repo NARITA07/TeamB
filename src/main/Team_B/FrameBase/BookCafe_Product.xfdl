@@ -46,7 +46,7 @@
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="text" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS"/>
                 <Cell col="2" textAlign="center" edittype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'combo' : 'nomal'" displaytype="normal" text="bind:PRODUCT_CODE" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME"/>
-                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:SEC_NAME == null ? 'combo' : 'none' "/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_CODE  == '도서' || PRODUCT_CODE == '음식' ? 'combo' : 'none'"/>
                 <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_NAME != null ? 'text' : 'none'"/>
                 <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="expr:PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식' || PRODUCT_CODE != ' ' ? 'nomal' : 'none'" autosizecol="default" displaytype="normal"/>
                 <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER"/>
@@ -310,8 +310,8 @@ this.sec_category_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
 //저장 클릭 시 
 this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {	
-	this.save_date.reset()
- 	var num = 0;
+	this.save_date.reset() // 데이터 리셋
+ 	var num = 0; 
 	var chk_num = 0;
 	
  	for(i = 0; i < this.view_dtl.rowcount; i++){
@@ -330,9 +330,9 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			
 			
 			num++;
-			}
-	}	
-			
+		}// if 끝;
+	}//for 끝;
+	
 	if (num == 0) // 선택한 체크가 없을 때
 	{	return alert("변경하실 행을 선택해주세요")
 		
@@ -361,7 +361,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 					//chk_num++;
 				}
 				
-					
+				
 				
 			}else if(this.save_date.getColumn(i,"PRODUCT_CODE") == '음식' || this.save_date.getColumn(i,"PRODUCT_CODE") == " "){
 				
@@ -370,28 +370,22 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 					return alert("분류코드를 선택해주세요");
 				}else if(this.save_date.getColumn(i,"SEC_NAME") == null){
 					
-						return alert("분류명을 선택해주세요")
-						//chk_num++;
-					}
+					return alert("분류명을 선택해주세요")
+					//chk_num++;
+				}
 				else if(this.save_date.getColumn(i,"PRODUCT_NAME") == null || this.save_date.getColumn(i,"PRODUCT_NAME") == " "){
 					
-						return alert("제품명을 입력해주세요")
-						//chk_num++;
-					}else if(this.save_date.getColumn(i,"PRODUCT_PRICE") == null || this.save_date.getColumn(i,"PRODUCT_PRICE") == " "){
+					return alert("제품명을 입력해주세요")
+					//chk_num++;
+				}else if(this.save_date.getColumn(i,"PRODUCT_PRICE") == null || this.save_date.getColumn(i,"PRODUCT_PRICE") == " "){
 					
-						return alert("가격을 입력해주세요")
-						//chk_num++;
-					}
-			
-		
-				
-			
-			
+					return alert("가격을 입력해주세요")
+					//chk_num++;
+				}
 			}
-		}
-	
-	}//추가 수정의 차이? product 코드로 체크.
-	
+		}//for 끝?
+		
+	//제품추가 (이미지 없이)
 	for(i = 0; i < this.save_date.getRowCount(); i++){
 		if(this.save_date.getColumn(i,"PRODUCT_PATH") == "이미지 준비중"){
 			id = "product_save"
@@ -403,29 +397,46 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			
 			this.transaction(id, url, set, get, arg, callback)
 			
-			//이미지 업로드 없이 제품 저장
-			
+			//제품추가(이미지 있음)
 		}else if(this.save_date.getColumn(i,"PRODUCT_PATH") != "이미지 준비중" && (this.save_date.getColumn(i,"PRODUCT_CODE") == "도서" || this.save_date.getColumn(i,"PRODUCT_CODE") == "음식") ){
 			//이미지 업로드 후 제품 저장(수정)
 			
 			this.FileUpTransfer00.upload("svc::upload.do")
 			
+			//제품수정
+		}else {
+			
+			if(this.FileUpTransfer00.filelist[0].filename == null){//이미지 없이 수정
+				alert("이미지 노수정")
+				
+				
+				id = "product_save_no_img"
+				url = "svc::save_date.do";
+				set = "save_date = save_date";
+				get = "message = message";
+				arg = "";
+				callback = "fn_category";
+				
+				this.transaction(id, url, set, get, arg, callback) // 이미지 넣고 수정
+			}else{
+					this.FileUpTransfer00.upload("svc::upload_modi.do")
+					
+				id = "product_save_with_img"
+				url = "svc::save_date.do";
+				set = "save_date = save_date";
+				get = "message = message";
+				arg = "";
+				callback = "fn_category";
+				
+				this.transaction(id, url, set, get, arg, callback)
+					}
+				}
+			}
 		}
-	}
-	
-	id = "product_save_with_img"
-	url = "svc::save_date.do";
-	set = "save_date = save_date";
-	get = "message = message";
-	arg = "";
-	callback = "fn_category";
-	
-	this.transaction(id, url, set, get, arg, callback)
-	
-	
-	
 }
 
+	
+	
 
 
 //삭제 버튼
@@ -461,7 +472,6 @@ this.btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 			
 			
 		}else {
-			alert(this.del_date.saveXML())
 			var id = "del_date"
 			var url = "svc::del_date.do";
 			var set = "del_date = del_date";
@@ -576,93 +586,16 @@ this.fn_category = function(id, code, message){
 			var count = this.message.getColumn(0,"num");
 			alert(count + "건 적용되었습니다.")
 			this.reload();
-			
-			
+			break;
+		case "product_save_with_img":
+		var count = this.message.getColumn(0,"num");
+			alert(count + "건 수정되었습니다.")
+			this.reload();
 			
 		}
 		
 	}
 }
-
-
-
-
-this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	var objChildFrame = new ChildFrame();
-	// 팝업명 ,		상,하,좌,우, 좌측앵커, 우측앵커, 팝업할 xfdl
-	objChildFrame.init("ProductAddAll_popup", 0, 0, 400, 350, null, null, "FrameBase::BookCafe_AddAllProduct_popup.xfdl");
-	objChildFrame.set_dragmovetype("all"); // 마우스 드래그
-	objChildFrame.set_openalign("center middle"); // 화면 위치 
-	objChildFrame.set_resizable(false); // 화면 크기 조절
-	
-	objChildFrame.showModal(this.getOwnerFrame(), null, this, "");
-};
-
-
-
-this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
-{
-	trace("Export00_onsuccess");
-	this.reload()
-}
-
-this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
-{
-	trace("Export00_onerror");
-	this.reload()
-}
-
-//올리기
-this.upload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	this.importObj = new ExcelImportObject("Import00", this);
-	
-	this.importObj.set_importtype(nexacro.ImportTypes.EXCEL);
-	this.importObj.set_importurl("http://demo.nexacro.com/developer_guide/XImport");
-	
-	this.importObj.addEventHandler("onsuccess", this.Import00_onsuccess, this);
-	this.importObj.addEventHandler("onerror", this.Import00_onerror, this);
-	
-	this.importObj.importData("", "Sheet1!A1:", "trans");
-};
-// 엑셀 다운로드
-this.download_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-
-
-{
-	this.exportObj = new ExcelExportObject("Export00", this);
-	
-	this.exportObj.set_exportfilename("BOOKBREAD_PRODUCT");
-	this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
-	
-	this.Grid00.deleteContentsCol("body",0);
-	this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid00, "Sheet1!A1");
-	
-	this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
-	this.addEventHandler("onerror", this.Export00_onerror, this);
-	
-	var intExportedItem = this.exportObj.exportData();
-	
-};
-
-
-this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
-{
-	
-	
-	this.importObj = new ExcelImportObject("Import00", this);
-	
-	this.importObj.set_importtype(nexacro.ImportTypes.EXCEL);
-	//this.importObj.set_importurl("http://demo.nexacro.com/developer_guide/XImport");
-	
-	this.importObj.addEventHandler("onsuccess", this.Import00_onsuccess, this);
-	this.importObj.addEventHandler("onerror", this.Import00_onerror, this);
-	
-	this.importObj.importData("", "Sheet1!A1:", "trans");
-	
-	
-};
 
 this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 {
@@ -696,7 +629,7 @@ this.Grid00_oncloseup = function(obj:nexacro.Grid,e:nexacro.GridEditEventInfo)
 this.file_upload = function(img){
 	var path;
 	
-	var presentpath = "C:\\Users\\wornt\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
+	var presentpath = "C:\\Users\\hcnc\\git\\TeamB\\src\\main\\webapp\\images\\"; //기존 이미지 저장경로
 	
 	// 선택된 파일들의 경로 가져오기
 	path = img.map(function(file) {
@@ -743,6 +676,10 @@ this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.
 		
 		if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == '음식'){
 		this.save_date.setColumn(i,"PRODUCT_PATH", e.datasets[0].getColumn(0,"FILE_NAME"))
+		}else{
+			
+			this.save_date.deleteRow(i)
+		
 		}
 	}
 	

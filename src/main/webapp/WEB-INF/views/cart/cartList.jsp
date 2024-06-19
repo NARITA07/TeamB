@@ -35,18 +35,18 @@
           font-style: 
       }
       .btn.btn-light.delete_btn{
-         background-color: #AB8212;
+         background-color: #c19f76;
          color: white;
       }
       .btn.btn-light{
-         background-color: #AB8212;
+         background-color: #c19f76;
          color: white;
       }
       input.order_quantity {
           width: 40px;
       }
       input#usePoints {
-          width: 75px;
+          width: 90px;
           display:inline-block;
       }
       .cartAmountTable {
@@ -151,7 +151,7 @@
       <div class="cart-item">
          <c:choose>
             <c:when test="${not empty total_price}">
-               <button id="btnBuy" type="submit" form="updateForm" class="btn btn-light buy_btn" data-cart-code="${cart_code}"><!-- onclick="direct_buy()" -->
+               <button id="btnBuy" class="btn btn-light buy_btn" data-cart-code="${cart_code}"><!-- onclick="direct_buy()" -->
                 	구매
                </button>
             </c:when>
@@ -171,7 +171,7 @@
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body" style="margin-bottom: 16px">
-             <form id="orderForm" action="/submitOrder" method="post">
+             <form id="orderForm">
                 <table>
                     <tbody class="cartAmountTable">
                        <tr>
@@ -195,7 +195,7 @@
                          <th><label for="usePoints">사용 포인트</label></th>
                          <td>
                             <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
-                            oninput="validatePoints(${loginInfo.user_point})"> 원
+                            maxlength="7" oninput="validatePoints(${loginInfo.user_point})"> 원
                            </td>                      
                       </tr>
                       <tr>
@@ -207,7 +207,7 @@
                       </tr>
                    </tbody>
                 </table>
-                  <input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
+                <input type="hidden" name="user_code" id="userCodeInput" value="${loginInfo.user_code}">
                 <input type="hidden" name="product_code" id="productCodeInput" value="">
                 <input type="hidden" name="order_quantity" id="orderQuantityInput" value="">
                 <input type="hidden" name="cart_code" id="cartCodeInput" value="${cart_code}">
@@ -215,12 +215,10 @@
                 
               </form>
          </div>
-         <div class="modal-footer">
+         <div class="modal-footer" style="display: flex; justify-content: center;">
            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-           <button type="submit" form="orderForm" class="btn btn-light">
-              	 결제
-           </button>
-               </div>
+           <button type="submit" form="orderForm" class="btn btn-light" id="btnOrder">결제</button>
+         </div>
        </div>
      </div>
    </div>
@@ -281,7 +279,7 @@
               url: "updateQuantity.do",
               data: formData,
               success: function(response) {
-                  if (response === 'success') {
+                  if (response ==='success') {
                       // 장바구니 업데이트 성공 시 모달에 총 금액 업데이트
                       var totalPriceValue = $('#totalPriceValue').text();
                       $('#modalTotalPrice').text(totalPriceValue);
@@ -409,6 +407,27 @@
           }
       });
    
+      $('#btnOrder').on('click', function(e) {
+    	  e.preventDefault();
+    	  
+    	  $.ajax({
+    	        type: "POST",
+    	        url: "/submitOrder",
+    	        data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
+    	        success: function(response) {
+    	        	 if (response != "fail") {
+    	                 alert("결제가 완료되었습니다.");
+    	                 console.log("order_code: " + response);
+    	                 window.location.href = "/selectReceipt.do?order_code=" + response;
+    	             } else {
+    	                 alert("결제중 오류가 발생했습니다.");
+    	             }
+    	         },
+    	         error: function() {
+    	             alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+    	         }
+    	     });
+    	 });
       
    
        // 페이지 로드 시 총 금액을 계산하여 표시
@@ -418,14 +437,28 @@
          var usePointsInput = document.getElementById('usePoints');
          var usePointsValue = usePointsInput.value;
          var totalPointsValue = document.getElementById('modalTotalPrice').textContent;
-         var paymentAmount = document.getElementById('paymentAmount')
+         var paymentAmount = document.getElementById('paymentAmount');
+         
+      	// 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
+         usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
+      
+      	
+         // 변경된 값을 입력 필드에 반영
+         usePointsInput.value = usePointsValue;
+         
+      	// 정수로 변환하여 추가 검증
+         var usePoints = parseInt(usePointsValue, 10);
+         
+         if (isNaN(usePoints)) {
+             usePoints = 0;
+         }
          
          // 빈 문자열을 0으로 변환
-          if (usePointsValue === "") {
-              usePointsInput.value = 0;
-              usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
-          }
-         console.log("테스트1"+usePointsValue)
+//           if (usePointsValue === "") {
+//               usePointsInput.value = 0;
+//               usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+//           }
+//          console.log("테스트1"+usePointsValue)
          
            // 정규식으로 양의 정수인지 확인
            var isPositiveInteger = /^\d+$/.test(usePointsValue);

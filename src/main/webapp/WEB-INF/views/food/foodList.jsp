@@ -98,11 +98,6 @@
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
    
-<!-- 	<div class="food_list h-100"> -->
-<!-- 	    <img alt="mainimg" src="images/food_main4.jpg" class="header-image"> -->
-<!-- 	    <img alt="mainimg" src="images/food_main5.jpg" class="header-image"> -->
-<!-- 	</div> -->
-	
 	<section class="py-5">
 		<div class="container px-5 px-lg-5">
 		
@@ -193,7 +188,8 @@
                                <tr>
                                    <th style="padding-top: 15px"><label for="usePoints">사용 포인트</label></th>
                                    <td>
-                                       <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value="" oninput="validatePoints(${loginInfo.user_point})"> 원
+                                       <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value="" maxlength="7" 
+                                       		  oninput="validatePoints(${loginInfo.user_point})"> 원
                                    </td>
                                </tr>
                                <tr>
@@ -212,9 +208,9 @@
                   <input type="hidden" name="point_change" id="pointChangeInput">
                </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="display: flex; justify-content: center;">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-               <button type="submit" form="orderForm" class="btn btn-light">결제</button>
+               <button type="submit" form="orderForm" class="btn btn-light" id="btnOrder">결제</button>
             </div>
          </div>
       </div>
@@ -396,12 +392,25 @@ $(document).ready(function() {
       var totalPointsValue = $('#modalTotalPrice').text();
       var paymentAmount = $('#paymentAmount');
       
-      // 빈 문자열을 0으로 변환
-      if (usePointsValue == "") {
-         usePointsInput.val(0);
-          usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+   	  // 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
+      usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
+   	  
+      // 변경된 값을 입력 필드에 반영
+      usePointsInput.value = usePointsValue;
+      
+   	  // 정수로 변환하여 추가 검증
+      var usePoints = parseInt(usePointsValue, 10);
+      
+      if (isNaN(usePoints)) {
+          usePoints = 0;
       }
-      console.log("테스트1: " + usePointsValue)
+      
+//       // 빈 문자열을 0으로 변환
+//       if (usePointsValue == "") {
+//          usePointsInput.val(0);
+//           usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+//       }
+//       console.log("테스트1: " + usePointsValue)
       
       // 정규식으로 양의 정수인지 확인
       var isPositiveInteger = /^\d+$/.test(usePointsValue);
@@ -465,6 +474,29 @@ $(document).ready(function() {
        var paymentAmount = totalPrice - usePoints;
        $('#paymentAmount').text(paymentAmount.toLocaleString() + ' 원');
    }
+   
+   //바로구매결제
+	$('#btnOrder').on('click', function(e) {
+		e.preventDefault();
+		 
+		$.ajax({
+			type: "POST",
+			url: "/submitOrderDirect",
+			data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
+			success: function(response) {
+				if (response != "fail") {
+					alert("결제가 완료되었습니다.");
+					console.log("order_code: " + response);
+					window.location.href = "/selectReceipt.do?order_code=" + response;
+				} else {
+				    alert("결제중 오류가 발생했습니다.");
+				}
+			},
+			error: function() {
+				alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+			}
+		});
+	});
    
 	// 스크롤 시 버튼 표시
 	window.onscroll = function() {scrollFunction()};

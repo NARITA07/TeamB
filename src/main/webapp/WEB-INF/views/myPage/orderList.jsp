@@ -12,42 +12,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <link href="/css/style.css" rel="stylesheet" />
 <style>
-   #tbl_point tr, #tbl_point td, #tbl_point th {
-      padding: 10px;
-   }
-   #tbl_point th:nth-child(1), #tbl_point td:nth-child(1) {
-      width: 5%;
-   }
-   #tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
-      width: 15%;
-   }
-   #tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
-      width: 20%;
-   }
-   #tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
-      width: 22%;
-   }
-   #tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
-      width: 13%;
-   }
-   #tbl_point th:nth-child(6)), #tbl_point td:nth-child(6) {
-      width: 15%;
-   }
-   #tbl_point th:nth-child(7), #tbl_point td:nth-child(7) {
-      width: 10%;
-   }
-   a.page-link {
-       color: #111;
-   }
-   li.page-item.active a.page-link{
-      background-color: #c19f76;
-      border: 1px solid #c19f76;
-   }
-   li.page-item a.page-link:hover{
-      background-color: #dbbb95;
-      border: 1px solid #dbbb95;
-      color: #fff;
-   }
+	#tbl_point tr, #tbl_point td, #tbl_point th {
+	   padding: 10px;
+	}
+	#tbl_point th:nth-child(1), #tbl_point td:nth-child(1) {
+	   width: 5%;
+	}
+	#tbl_point th:nth-child(2), #tbl_point td:nth-child(2) {
+	   width: 20%;
+	}
+	#tbl_point th:nth-child(3), #tbl_point td:nth-child(3) {
+	   width: 20%;
+	}
+	#tbl_point th:nth-child(4), #tbl_point td:nth-child(4) {
+	   width: 25%;
+	}
+	#tbl_point th:nth-child(5), #tbl_point td:nth-child(5) {
+	   width: 15%;
+	}
+	#tbl_point th:nth-child(6), #tbl_point td:nth-child(6) {
+	   width: 15%;
+	}
+	a.page-link {
+	    color: #111;
+	}
+	li.page-item.active a.page-link{
+	   background-color: #c19f76;
+	   border: 1px solid #c19f76;
+	}
+	li.page-item a.page-link:hover{
+	   background-color: #dbbb95;
+	   border: 1px solid #dbbb95;
+	   color: #fff;
+	}
+	
+	.modal-table {
+	 width: 100%;
+	 border-collapse: collapse;
+    }
+
+    .modal-table th, .modal-table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .modal-table th {
+        background-color: #f8f9fa;
+    }
 </style>
 </head>
 <body>
@@ -89,6 +101,69 @@ function formattedDate(payment_date) {
      return formattedDate;
 }
 
+//구매내역 모달창 내용
+function getOrderInfo(order_code) {
+	$.ajax({
+		url: '/myPage/getOrderInfo',
+		method: 'POST',
+		data: { order_code: order_code },
+		success: function (data) {
+			console.log('Success:', data);
+			var modalBody = $("#orderModalBody");
+			modalBody.empty();
+	      
+			if (data.length == 0) {
+			   modalBody.text("구매건 정보없음");
+			 } else {
+				$("#myModalLabel").text("주문번호: " + order_code);
+				
+				var payment_date = formattedDate(data[0].payment_date);
+				var usePoint = data[0].point_change2;
+				var total_price = data[0].total_price;
+				
+				var table = $("<table class='modal-table'>");
+				var tbody = $("<tbody>");
+				  
+				// Row 1: 결제금액
+				var row2 = $("<tr>");
+				row2.append($("<th scope='row'>").text("결제금액"));
+				row2.append($("<td>").text(total_price.toLocaleString() + " 원 ( " + usePoint.toLocaleString() + " P 사용 )"));
+				tbody.append(row2);
+				
+				// Row 2: 결제시각
+				var row3 = $("<tr>");
+				row3.append($("<th scope='row'>").text("결제시각"));
+				row3.append($("<td>").text(payment_date));
+				tbody.append(row3);
+	            
+				// Row 3: 주문 메뉴
+				$.each(data, function(index, order) {
+				var row4 = $("<tr>");
+	             
+				if (index == 0) {
+				    var th = $("<th scope='row'>").text("주문메뉴");
+				    th.attr("rowspan", data.length);
+				    row4.append(th);
+				}
+				
+				var product_name = order.product_name;
+				var order_quantity = order.order_quantity;
+				var td = $("<td>").text(product_name + " " + order_quantity + "개");
+				row4.append(td);
+				tbody.append(row4);
+				});
+	             
+				table.append(tbody);
+				modalBody.append(table);
+				$("#orderModal").modal("show");
+			}
+		},
+		error: function(xhr, status, error) {
+		    console.log('구매상세정보 에러:', error);
+		}
+	});
+}
+
 $(document).ready(function() {
    
    $(".payment_date").each(function() {
@@ -97,10 +172,6 @@ $(document).ready(function() {
          $(this).text(formattedDate(payment_date));
       }
    });
-   
-});
-
-$(function() {
    
 });
 </script>
@@ -120,23 +191,22 @@ $(function() {
                            <div style="display: flex; justify-content: center;">
                               <h2 style="margin-bottom:50px;">${loginInfo.user_name}님의 카페 주문내역입니다.</h2>
                            </div>
-                            <!-- 날짜 선택기 -->
-                              <div class="d-flex justify-content-end align-items-center" style="margin:10px;">
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <div class="col-auto">
-                                        <input type="date" class="form-control" id="startDate" value="${startDate}">
-                                    </div>
-                                    <span>~</span>
-                                    <div class="col-auto">
-                                        <input type="date" class="form-control" id="endDate" value="${endDate}">
-                                    </div>
-                                    <div class="col-auto">
-                                        <button class="btn btn-primary" onclick="orderHistory()"
-                                        style="background-color: #c19f76; border: 1px solid;">조회</button>
-                                    </div>
-                                </div>
-                            </div>
-                           <%-- 주문내역이 없는 경우 --%>
+							<!-- 날짜 선택기 -->
+							<div class="d-flex justify-content-end align-items-center" style="margin:10px;">
+								<div style="display: flex; align-items: center; justify-content: center;">
+									<div class="col-auto">
+									    <input type="date" class="form-control" id="startDate" value="${startDate}">
+									</div>
+									<span>~</span>
+									<div class="col-auto">
+									    <input type="date" class="form-control" id="endDate" value="${endDate}">
+									</div>
+									<div class="col-auto">
+										<button class="btn btn-primary" onclick="orderHistory()"
+												style="background-color: #c19f76; border: 1px solid;">조회</button>
+									</div>
+								</div>
+							</div>
                            <table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
                               <thead>
                                  <tr class="table-warning">
@@ -146,46 +216,38 @@ $(function() {
                                     <th>주문메뉴</th>
                                     <th>결제금액</th>
                                     <th>결제상태</th>
-                                    <th>주문상태</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <c:if test="${empty orderList}">
-                                     <tr>
-                                    <td colspan='7'>카페 주문내역이 없습니다.</td>
-                                 </tr>
-                                  </c:if>
-                              <c:if test="${not empty orderList}">
-                                 <c:forEach var="order" items="${orderList}">
-                                    <tr>
-                                       <td>${order.rowNum}</td>
-                                       <td>${order.order_code}</td>
-                                       <td class="payment_date">${order.payment_date}</td>
-                                       <td>${order.product_name}
-                                          <c:if test="${order.whole_quantity > 1}">
-                                             외 ${order.whole_quantity-1} 건
-                                          </c:if>
-                                       </td>
-                                       <td><fmt:formatNumber value="${order.total_price}" type="number"/> 원</td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${order.payment_state eq 0}">결제중</c:when>
-                                                    <c:when test="${order.payment_state eq 1}">결제완료</c:when>
-                                                    <c:when test="${order.payment_state eq 2}">환불</c:when>
-                                                    <c:when test="${order.payment_state eq 3}">결제취소</c:when>
-                                                    <c:otherwise>기타</c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${order.order_state eq 1}">주문확인중</c:when>
-                                                    <c:when test="${order.order_state eq 2}">준비중</c:when>
-                                                    <c:when test="${order.order_state eq 3}">준비완료</c:when>
-                                                </c:choose>
-                                            </td>
-                                    </tr>
-                                 </c:forEach>
-                              </c:if>
+								  <%-- 주문내역이 없는 경우 --%>
+	                              <c:if test="${empty orderList}">
+		                              <tr>
+		                              <td colspan='7'>카페 주문내역이 없습니다.</td>
+		                              </tr>
+	                              </c:if>
+	                              <%-- 주문내역이 있는 경우 --%>
+	                              <c:if test="${not empty orderList}">
+	                                 <c:forEach var="order" items="${orderList}">
+	                                    <tr onclick="getOrderInfo('${order.order_code}')">
+	                                       <td>${order.rowNum}</td>
+	                                       <td>${order.order_code}</td>
+	                                       <td class="payment_date">${order.payment_date}</td>
+	                                       <td>${order.product_name}
+	                                          <c:if test="${order.whole_quantity > 1}">외 ${order.whole_quantity-1} 건</c:if>
+	                                       </td>
+	                                       <td><fmt:formatNumber value="${order.total_price}" type="number"/> 원</td>
+                                           <td>
+	                                           <c:choose>
+	                                               <c:when test="${order.payment_state eq 0}">결제중</c:when>
+	                                               <c:when test="${order.payment_state eq 1}">결제완료</c:when>
+	                                               <c:when test="${order.payment_state eq 2}">환불</c:when>
+	                                               <c:when test="${order.payment_state eq 3}">결제취소</c:when>
+	                                               <c:otherwise>기타</c:otherwise>
+	                                           </c:choose>
+                                           </td>
+	                                    </tr>
+	                                 </c:forEach>
+	                              </c:if>
                               </tbody>
                            </table>
                            <nav>
@@ -220,6 +282,27 @@ $(function() {
       </div>
    </div>
    </section>
+   
+	<!-- 구매내역 모달창 -->
+	<div class="modal fade" id="orderModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog modal-dialog-centered" role="document" >
+	      <div class="modal-content" style="text-align: center;">
+	         <div class="modal-header">
+	            <h5 class="modal-title" id="myModalLabel"></h5>
+	            <button type="button" class="close" data-bs-dismiss="modal">
+	               <span aria-hidden="true">×</span>
+	            </button>
+	         </div>
+	         <div class="modal-body" id="orderModalBody">
+	         
+	         </div>
+	         <div class="modal-footer" style="justify-content: center;">
+	            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	         </div>
+	      </div>
+	   </div>
+	</div>
+	<!-- // 구매내역 모달창 -->
    
    <div class="footer">
        <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>

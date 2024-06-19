@@ -248,7 +248,11 @@
 
 }
 /* 디폴트 */
-.Button.btn_num
+
+.Button.btn_num,
+.Button.btn_num[status=disabled],
+.Button.btn_num[status=focused],
+.Button.btn_num[userstatus=selected]
 {
 	-nexa-border : 1px;
 	-nexa-text-align : center;
@@ -260,18 +264,8 @@
 	font : normal bold  10pt/normal "Arial";
 }
 
-/* 사용자가 클릭 후 */
-.Button.btn_num[status=focused]
-{
-	-nexa-border : 1px;
-	-nexa-text-align : center;
-	-nexa-vertical-align : middle ;
-	/* 모카 */
-	background : #BEA888;
-	border-radius : 5px;	
-	color : #FFFFFF;
-	font : normal bold  10pt/normal "Arial";
-}/* 사용자가 마우스를 가져다 댈 때 */
+/* 사용자가 마우스를 가져다 댈 때 */
+
 .Button.btn_num[status=mouseover]
 {
 	-nexa-border : 1px;
@@ -283,20 +277,6 @@
 	color : #FFFFFF;
 	font : normal bold  10pt/normal "Arial";
 }
-/* 사용자가 꾹 클릭하고 있을 때 */
-.Button.btn_num[userstatus=pushed]
-{
-	-nexa-border : 1px;
-	-nexa-text-align : center;
-	-nexa-vertical-align : middle ;
-	/* 아이보리 */
-	background : #FAEBD7 ;
-	border-radius : 5px;	
-	color : #FFFFFF;
-	font : normal bold  10pt/normal "Arial";
-}
-
-
 .Grid .body .row .cell.grid_nav .celltreeitem .treeitemtext
 {
 	font : normal 12pt /normal "Arial";
@@ -381,4 +361,33 @@
 	background : yellowgreen;	
 	color : #000000;
 	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_paging_selected,
+.Button.btn_paging_selected[status=disabled],
+.Button.btn_paging_selected[status=focused],
+.Button.btn_paging_selected[userstatus=selected],
+.Button.btn_paging_selected[status=mouseover]
+{
+	-nexa-border : 1px;
+	-nexa-text-align : center;
+	-nexa-vertical-align : middle ;
+	/* 아이보리 */
+	background : #FAEBD7 ;
+	border-radius : 5px;	
+	color : #4F4537;
+	font : normal bold  10pt/normal "Arial";
+}
+.Button.btn_main_nav
+{
+	background : transparent;
+
+}
+
+
+.Button.btn_main_nav[status=mouseover],
+.Button.btn_main_nav[userstatus=pushed],
+.Button.btn_main_nav[userstatus=selected]
+{
+	background : transparent;
+	color : red;
 }]]></XCSS>

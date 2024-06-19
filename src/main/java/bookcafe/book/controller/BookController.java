@@ -37,6 +37,12 @@ public class BookController {
     @Resource(name = "memberService")
     private MemberService memberService;
 
+    
+    // 일반 회원과 네이버 로그인 사용자를 구분하는 메서드 추가
+    private boolean isNaverUser(String sessionId) {
+        return sessionId != null && sessionId.length() > 10;
+    }
+    
     // 도서 목록 조회
     @GetMapping("bookList.do")
     public String showBookList(@RequestParam(value = "category", required = false) String category,
@@ -45,13 +51,18 @@ public class BookController {
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "10") int size,
                                Model model, HttpSession session) {
-        String sessionId = (String) session.getAttribute("sessionId");
+		String sessionId = (String) session.getAttribute("sessionId");
         
         if(sessionId != null) {
-        	MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
-        	session.setAttribute("loginInfo", loginInfo);
+            // 일반 회원과 네이버 로그인 사용자를 구분하여 처리
+            MemberVO loginInfo;
+            if (isNaverUser(sessionId)) {
+                loginInfo = memberService.getUserInfoBySnsId(sessionId);
+            } else {
+                loginInfo = memberService.getUserInfo(sessionId);
+            }
+            session.setAttribute("loginInfo", loginInfo);
         }
-    	
     	
         PagingRequestVO pagingRequest = new PagingRequestVO(page, size);
         List<BookVO> books;

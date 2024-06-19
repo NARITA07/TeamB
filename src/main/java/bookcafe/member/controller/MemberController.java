@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import bookcafe.cart.service.CartService;
 import bookcafe.member.service.MemberService;
 import bookcafe.member.service.MemberVO;
 
@@ -33,6 +34,9 @@ public MemberService memberService;
 
 @Autowired
 private SessionRegistry sessionRegistry;
+
+@Autowired
+private CartService cartService;
 
 
 private final String clientId = "KFlxuf0Rhy_fUBNEU_1e";
@@ -110,6 +114,13 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
                MemberVO loginInfo = memberService.getUserInfo(memberVO.getUser_id());
                session.setAttribute("sessionId", memberVO.getUser_id());
                session.setAttribute("loginInfo", loginInfo);
+               
+               // 특정 페이지에서 로그인 시 prevPage를 null로 설정
+               String prevPage = (String) session.getAttribute("prevPage");
+               if (prevPage != null && (prevPage.contains("memberWrite.do") || prevPage.contains("findIdPwForm.do"))) {
+                   session.setAttribute("prevPage", null);
+               }
+               
                message = "ok"; // 로그인 성공
            } else if (loginResult == 0) {
                message = "wrong password"; // 패스워드가 틀렸습니다.
@@ -123,16 +134,29 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
    } 
    
    // 로그인 시 보던페이지로 이동
-   @RequestMapping("loginSuccess.do")
-   public String loginSuccess(HttpSession session) {
-       String prevPage = (String) session.getAttribute("prevPage");
-       if (prevPage != null) {
-           session.removeAttribute("prevPage");
-           return "redirect:" + prevPage;
-       } else {
-           return "redirect:/";
-       }
-   }
+	@RequestMapping("loginSuccess.do")
+	public String loginSuccess(HttpSession session) {
+	    String prevPage = (String) session.getAttribute("prevPage");
+	    MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+	
+	    if (memberVO != null) {
+	        // 장바구니 수량 업데이트
+	        int cartSize = cartService.getCurrentCartSize(memberVO.getUser_code());
+	        session.setAttribute("cartSize", cartSize);
+	    }
+	
+	    if (prevPage != null) {
+	        session.removeAttribute("prevPage");
+	        if (prevPage.contains("memberWrite.do") || prevPage.contains("findIdPwForm.do")) {
+	            return "redirect:/";
+	        } else {
+	            return "redirect:" + prevPage;
+	        }
+	    } else {
+	        return "redirect:/";
+	    }
+	}
+
    
    /* 로그아웃 */
    @RequestMapping("logout.do")
@@ -298,7 +322,27 @@ private final String state = "randomState"; // CSRF 방지를 위한 상태 코�
         session.setAttribute("sessionId", userId);
         session.setAttribute("accessToken", accessToken);
         session.setAttribute("loginInfo", memberVO);
+        
+        MemberVO loginInfo = memberService.getUserInfoBySnsId(userId);
+        if (loginInfo != null) {
+            session.setAttribute("loginInfo", loginInfo);
+            String user_code = loginInfo.getUser_code();
+            if (user_code != null) {
+                int cartSize = cartService.getCurrentCartSize(user_code);
+                session.setAttribute("cartSize", cartSize);
+            }
+        }
 
-      return new RedirectView("/");
-    }
+        String prevPage = (String) session.getAttribute("prevPage");
+        if (prevPage != null) {
+            session.removeAttribute("prevPage");
+            if (prevPage.contains("memberWrite.do") || prevPage.contains("findIdPwForm.do")) {
+                return new RedirectView("/");
+            } else {
+                return new RedirectView(prevPage);
+            }
+        } else {
+            return new RedirectView("/");
+        }
+   }
 }

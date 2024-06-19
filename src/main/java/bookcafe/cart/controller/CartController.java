@@ -36,6 +36,11 @@ import bookcafe.point.service.PointVO;
 	@Autowired
 	private MemberService memberService;
 	
+	// 일반 회원과 네이버 로그인 사용자를 구분하는 메서드 추가
+    private boolean isNaverUser(String sessionId) {
+        return sessionId != null && sessionId.length() > 10;
+    }
+	
 	// 장바구니 담기 (비동기)
 	@RequestMapping("insertCart.do")
     @ResponseBody
@@ -115,11 +120,19 @@ import bookcafe.point.service.PointVO;
 	// 장바구니 리스트 보기
 	@RequestMapping("cartList.do")
 	public String selectCartList(Model model, HttpSession session) {
-	
 		// 사용자 정보 업데이트
 		String sessionId = (String) session.getAttribute("sessionId");
 		MemberVO loginInfo = (MemberVO) memberService.getUserInfo(sessionId);
 		session.setAttribute("loginInfo", loginInfo);
+		    
+		if(sessionId != null) {
+			if (isNaverUser(sessionId)) {
+			    loginInfo = memberService.getUserInfoBySnsId(sessionId);
+			} else {
+			    loginInfo = memberService.getUserInfo(sessionId);
+			}
+			session.setAttribute("loginInfo", loginInfo);
+		}
 		
 		String user_code = loginInfo.getUser_code();
 		String cart_code = cartService.selectMaxCartCode(user_code);

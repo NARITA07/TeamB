@@ -150,7 +150,7 @@ public class SalesController {
 	    
 	    NexacroResult result = new NexacroResult();
 	    
-	    System.out.println("====반납 수정" + book_sales_dtl);
+	    System.out.println("====반납테이블에서 삭제" + book_sales_dtl);
 	    try {
 	        if (book_sales_dtl != null) {
 	            for (Map<String, String> param : book_sales_dtl) {

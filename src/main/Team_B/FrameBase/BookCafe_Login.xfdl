@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인" oninit="BookCafe_Login_oninit">
+  <Form id="BookCafe_Login" width="1280" height="720" titletext="로그인" oninit="BookCafe_Login_oninit" onkeyup="Main_Login_onkeyup">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="Static00" text="책빵" left="47.50%" top="133" height="38" onclick="Div00_Static00_onclick" textAlign="center" width="64" cssclass="main_title" taborder="2"/>
@@ -60,7 +60,17 @@ this.Main_Btn_Login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
  	
 	
 };
-		//this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
+
+// 엔터눌렀을 때 로그인
+this.Main_Login_onkeyup = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		this.Main_Btn_Login_onclick();
+	}
+}
+
+//this.go("FrameBase::BookCafe_Main.xfdl");//메인화면으로 이동
 
 this.login = function(id,code,message){
 		

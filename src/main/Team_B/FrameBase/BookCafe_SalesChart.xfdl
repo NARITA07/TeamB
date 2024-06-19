@@ -112,7 +112,7 @@
 	]
 }]]></Contents>
         </BasicChart>
-        <Combo id="Combo00" taborder="11" text="Combo00" left="Static06:5" top="103" width="110" height="30" innerdataset="ds_year" codecolumn="YEAR" datacolumn="YEAR" cssclass="combo_default"/>
+        <Combo id="Combo00" taborder="11" text="Combo00" left="Static06:5" top="103" width="110" height="30" innerdataset="ds_year" codecolumn="YEAR" datacolumn="YEAR" cssclass="combo_default" onitemchanged="Combo00_onitemchanged"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -152,7 +152,9 @@
 	
 	this.fnselectSalesCombo();
 	
-	for (var year = 2024; year >= 2005; year--)
+	var currDate = new Date();
+	
+	for (var year = currDate.getFullYear(); year >= 2005; year--)
     {
         var nRow = this.ds_year.addRow();
 		this.ds_year.setColumn(nRow, "YEAR", year);

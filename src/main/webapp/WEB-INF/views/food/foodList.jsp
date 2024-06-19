@@ -385,79 +385,78 @@ $(document).ready(function() {
        $("#exampleModal").modal("show");
    }
 
-   // 사용 포인트 유효성 검사 및 결제 금액 계산 (모달)
-   function validatePoints(userPoints) {
-      var usePointsInput = $('#usePoints');
-      var usePointsValue = usePointsInput.val();
-      var totalPointsValue = $('#modalTotalPrice').text();
-      var paymentAmount = $('#paymentAmount');
-      
-   	  // 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
-      usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
-   	  
-      // 변경된 값을 입력 필드에 반영
-      usePointsInput.value = usePointsValue;
-      
-   	  // 정수로 변환하여 추가 검증
-      var usePoints = parseInt(usePointsValue, 10);
-      
-      if (isNaN(usePoints)) {
-          usePoints = 0;
-      }
-      
-//       // 빈 문자열을 0으로 변환
-//       if (usePointsValue == "") {
-//          usePointsInput.val(0);
-//           usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
-//       }
-//       console.log("테스트1: " + usePointsValue)
-      
-      // 정규식으로 양의 정수인지 확인
-      var isPositiveInteger = /^\d+$/.test(usePointsValue);
-      
-      if (!isPositiveInteger) {
-          //alert('사용 포인트를 정확히 입력해주세요.');
-          usePointsInput.val(null);
-          console.log("확인1: " + totalPointsValue);
-          paymentAmount.text(totalPointsValue);
-          console.log("확인2: "+ paymentAmount.text());
-          return;
-      }
-      
-      var usePoints = parseInt(usePointsInput.val());
-      var totalPrice = parseInt($('#modalTotalPrice').text().replace(/[^0-9]/g, ''));
-      
-      // 입력 포인트가 음수이면 0으로 설정
-      if (usePoints < 0) {
-          usePointsInput.val(0);
-          usePoints = 0;
-      }
-         
-      if (usePoints > userPoints) {
-          alert('잔여포인트보다 큽니다.');
-          usePointsInput.val(userPoints);
-          usePoints = userPoints;
-      }
-      
-      if (usePoints > totalPrice) {
-          alert('총 금액보다 큽니다.');
-          usePointsInput.val(totalPrice);
-          usePoints = totalPrice;
-      }
-      
-      var paymentAmount = totalPrice - usePoints;
-      console.log('사용 포인트: ' + usePoints + ', 결제 금액: ' + paymentAmount);
-      
-      var formattedUsePoints = usePoints.toLocaleString('ko-KR');
+	// 사용 포인트 유효성 검사 및 결제 금액 계산 (모달)
+	function validatePoints(userPoints) {
+       var usePointsInput = $('#usePoints');
+       var usePointsValue = usePointsInput.val();
+       var totalPointsValue = $('#modalTotalPrice').text();
+       var paymentAmount = $('#paymentAmount');
+       
+       // 빈 문자열을 0으로 변환
+       if (usePointsValue === "") {
+           usePointsInput.val(0);
+           usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+       }
+       console.log("테스트1: " + usePointsValue)
+       
+       // 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
+       usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
+       
+       // 변경된 값을 입력 필드에 반영
+       usePointsInput.val(usePointsValue);
+       
+       // 정수로 변환하여 추가 검증
+       var usePoints = parseInt(usePointsValue, 10);
+       
+       if (isNaN(usePoints)) {
+           usePoints = 0;
+       }
+       
+       // 정규식으로 양의 정수인지 확인
+       var isPositiveInteger = /^\d+$/.test(usePointsValue);
+       
+       if (!isPositiveInteger) {
+           //alert('사용 포인트를 정확히 입력해주세요.');
+           usePointsInput.val(null);
+           console.log("확인1: " + totalPointsValue);
+           paymentAmount.text(totalPointsValue);
+           console.log("확인2: " + paymentAmount.text());
+           return;
+       }
+       
+       var totalPrice = parseInt($('#modalTotalPrice').text().replace(/[^0-9]/g, ''));
+       
+       // 입력 포인트가 음수이면 0으로 설정
+       if (usePoints < 0) {
+           usePointsInput.val(0);
+           usePoints = 0;
+       }
+          
+       if (usePoints > userPoints) {
+           alert('잔여포인트보다 큽니다.');
+           usePointsInput.val(userPoints);
+           usePoints = userPoints;
+       }
+       
+       if (usePoints > totalPrice) {
+           alert('총 금액보다 큽니다.');
+           usePointsInput.val(totalPrice);
+           usePoints = totalPrice;
+       }
+       
+       var paymentAmount = totalPrice - usePoints;
+       console.log('사용 포인트: ' + usePoints + ', 결제 금액: ' + paymentAmount);
+       
+       var formattedUsePoints = usePoints.toLocaleString('ko-KR');
        usePointsInput.val(formattedUsePoints);
-      
+       
        console.log("검증 : " + formattedUsePoints + "포인트");
-      console.log(typeof(usePoints))
-      
-      $('#pointChangeInput').val(usePoints);
-      $('#totalPriceInput').val(paymentAmount);
-      
-      calculatePaymentAmount();
+       console.log(typeof(usePoints))
+       
+       $('#pointChangeInput').val(usePoints);
+       $('#totalPriceInput').val(paymentAmount);
+       
+       calculatePaymentAmount();
    }
    
    // 포인트 사용 후 결제 금액 계산기
@@ -474,6 +473,7 @@ $(document).ready(function() {
        var paymentAmount = totalPrice - usePoints;
        $('#paymentAmount').text(paymentAmount.toLocaleString() + ' 원');
    }
+
    
    //바로구매결제
 	$('#btnOrder').on('click', function(e) {

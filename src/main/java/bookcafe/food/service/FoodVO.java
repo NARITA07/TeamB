@@ -9,6 +9,7 @@ public class FoodVO {
 	private String user_code;
 	private String user_id;
 	private String product_category;
+	private String product_status;
 	
 	private String fir_code;
 	private String sec_code;
@@ -87,6 +88,12 @@ public class FoodVO {
 	}
 	public void setUse_status(String use_status) {
 		this.use_status = use_status;
+	}
+	public String getProduct_status() {
+		return product_status;
+	}
+	public void setProduct_status(String product_status) {
+		this.product_status = product_status;
 	}
 	
 }

@@ -393,4 +393,53 @@
 {
 	background : transparent;
 	color : red;
-}]]></XCSS>
+}.GridCellControl.use_y
+{
+}
+.GridCellControl.use_n
+{
+}
+.GridCellControl.use_n .cellbutton
+{
+	color : #dc3545;
+	background : white;
+	-nexa-border : 0px dotted;
+
+}
+.GridCellControl.use_y .cellbutton
+{
+	color : #28a745;
+	background : white;
+	-nexa-border : 0px dotted;
+}
+.GridCellControl.use_n .cellbutton[status=focused]
+{
+color : #dc3545;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=focused]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=focused][userstatus=selected]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_n .cellbutton[status=focused][userstatus=selected]
+{
+color : #dc3545;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=mouseover]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_n .cellbutton[status=mouseover]
+{
+	color : #dc3545;
+	background : white;
+}
+]]></XCSS>

@@ -15,7 +15,7 @@
         <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="111" width="24" height="14"/>
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="103" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike" ondropdown="fir_category_ondropdown"/>
         <Combo id="sec_category" taborder="2" top="103" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="search" ondropdown="sec_category_ondropdown"/>
-        <Grid id="Grid00" taborder="6" left="20" top="Div00:20" bottom="60" right="20" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup" autosizingtype="row">
+        <Grid id="Grid00" taborder="6" left="20" top="Div00:20" bottom="60" right="20" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup" autosizingtype="row" oncellclick="Grid00_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -46,9 +46,9 @@
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                <Cell col="1" displaytype="normal" edittype="combo" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center"/>
-                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_CODE" edittype="expr:PRODUCT_NAME == null ? 'combo': 'none'" text="expr:PRODUCT_CODE.substring(0,1) == 'f' ? '음식':'도서'"/>
-                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="none" displaytype="normal"/>
+                <Cell col="1" displaytype="buttoncontrol" edittype="none" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center" cursor="pointer" border="1px solid #dbdee2" cssclass="expr:PRODUCT_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
+                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_CODE" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
                 <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text" wordWrap="char" displaytype="normal"/>
                 <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="none" autosizecol="default" displaytype="normal" wordWrap="char" cursor="pointer" cssclass="expr:PRODUCT_PATH == '이미지 준비중' ? 'img':&quot; "/>
                 <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER" wordWrap="char" displaytype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'editcontrol' : 'nomal'"/>
@@ -619,7 +619,6 @@ this.fn_category = function(id, code, message){
 			
 			
 		case "add_fir_code":
-		alert(this.add_fir_code.saveXML());
 			if(this.add_fir_code.getColumn(0,"FIR_NAME") == "전체"){
 				this.add_fir_code.deleteRow(0)
 			}
@@ -790,6 +789,21 @@ this.Div00_serch_product_onitemchanged = function(obj:nexacro.Combo,e:nexacro.It
 	var	callback = "fn_category";
 	
 	this.transaction(id, url, set, get, arg, callback)
+};
+
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 1){
+		if(this.view_dtl.getColumn(e.row,"PRODUCT_STATUS") == "Y"){
+				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "N")
+		}else {
+				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "Y")
+		}
+		
+	
+	}
+
+	
 };
 ]]></Script>
     <Bind>

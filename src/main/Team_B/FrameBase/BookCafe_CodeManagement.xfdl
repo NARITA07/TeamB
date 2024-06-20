@@ -12,7 +12,7 @@
                   <Format id="default">
                     <Columns>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="40"/>
                       <Column size="150"/>
                       <Column size="150"/>
                     </Columns>
@@ -22,25 +22,25 @@
                     </Rows>
                     <Band id="head">
                       <Cell text="CHK" edittype="checkbox" background="#FFF8EE" displaytype="checkboxcontrol" cursor="auto" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                      <Cell col="1" text="분류코드" background="#FFF8EE" cursor="auto"/>
-                      <Cell col="2" text="분류명" background="#FFF8EE" cursor="auto"/>
-                      <Cell col="3" text="사용여부" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="1" text="사용여부" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="2" text="분류코드" background="#FFF8EE" cursor="auto"/>
+                      <Cell col="3" text="분류명" background="#FFF8EE" cursor="auto"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:CHK" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
-                      <Cell col="1" text="bind:FIR_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
-                      <Cell col="3" text="bind:USE_STATUS" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center"/>
+                      <Cell col="1" text="bind:USE_STATUS" edittype="none" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center" displaytype="buttoncontrol" cssclass="expr:USE_STATUS == 'Y' ? 'use_y' : 'use_n'" cursor="pointer"/>
+                      <Cell col="2" text="bind:FIR_CODE" textAlign="center"/>
+                      <Cell col="3" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
                     </Band>
                   </Format>
                 </Formats>
               </Grid>
-              <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" right="20" oncelldblclick="Main_Sec_code_oncelldblclick" top="Fir_code:60" bottom="20">
+              <Grid id="Sec_code" taborder="1" binddataset="sec_code_grid" scrollbartype="none" autofittype="col" border="1px solid #4F4537" left="20" minwidth="" maxheight="400" minheight="" right="20" oncelldblclick="Main_Sec_code_oncelldblclick" top="Fir_code:60" bottom="20" oncellclick="Main_Sec_code_oncellclick">
                 <Formats>
                   <Format id="default">
                     <Columns>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="40"/>
                       <Column size="150"/>
                       <Column size="150"/>
                     </Columns>
@@ -50,15 +50,15 @@
                     </Rows>
                     <Band id="head">
                       <Cell text="CHK" displaytype="checkboxcontrol" edittype="checkbox" background="#FFF8EE" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="분류코드" background="#FFF8EE"/>
-                      <Cell col="2" text="코드명" background="#FFF8EE"/>
-                      <Cell col="3" text="사용여부" background="#FFF8EE"/>
+                      <Cell col="1" text="사용여부" background="#FFF8EE"/>
+                      <Cell col="2" text="분류코드" background="#FFF8EE"/>
+                      <Cell col="3" text="코드명" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
-                      <Cell col="1" text="bind:SEC_CODE" textAlign="center"/>
-                      <Cell col="2" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
-                      <Cell col="3" text="bind:USE_STATUS" textAlign="center" edittype="combo" combodataset="use_status" combodatacol="use_status" combocodecol="use_status"/>
+                      <Cell col="1" text="bind:USE_STATUS" textAlign="center" edittype="none" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" displaytype="buttoncontrol" cssclass="expr:USE_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
+                      <Cell col="2" text="bind:SEC_CODE" textAlign="center"/>
+                      <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="text"/>
                     </Band>
                   </Format>
                 </Formats>
@@ -169,24 +169,32 @@ this.Main_Fir_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 {	
 	this.Main.form.sec_search.set_enable(true)
 	
-	var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
-	this.Main.form.fir_search.set_value(search)
-	if(e.cell == 0){
-	return false;
-	
-	}else {
-	
-	var id = "fir_category";
-	var url = "svc::fir_category.do";
-	var set = "";
-	var get = "sec_code_grid = sec_code_grid";
-	var arg = "fir_category=" + search;
-	var callback ="codemanagement";
-	
-	this.transaction(id, url, set, get, arg, callback)
-	
-	}
-};
+	if(e.cell == 1){
+		if(this.fir_code_grid.getColumn(e.row,"USE_STATUS") == "Y"){
+			this.fir_code_grid.setColumn(e.row,"USE_STATUS", "N")
+		}else {
+			this.fir_code_grid.setColumn(e.row,"USE_STATUS", "Y")
+		}
+		}else{
+			var search = this.fir_code_grid.getColumn(e.row,"FIR_CODE");
+			this.Main.form.fir_search.set_value(search)
+			if(e.cell == 0){
+				return false;
+				
+			}else {
+				
+				var id = "fir_category";
+				var url = "svc::fir_category.do";
+				var set = "";
+				var get = "sec_code_grid = sec_code_grid";
+				var arg = "fir_category=" + search;
+				var callback ="codemanagement";
+				
+				this.transaction(id, url, set, get, arg, callback)
+				
+			}					
+		}		
+}
 
 /***************************************************************************************/
 								//상위코드 추가 버튼 클릭 시
@@ -594,6 +602,17 @@ this.Main_fir_search_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemCh
 	}else{
 		this.Main.form.sec_search.set_enable(true)
 	}
-};]]></Script>
+};
+this.Main_Sec_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 1){
+		if(this.sec_code_grid.getColumn(e.row,"USE_STATUS") == "Y"){
+				this.sec_code_grid.setColumn(e.row,"USE_STATUS", "N")
+		}else {
+				this.sec_code_grid.setColumn(e.row,"USE_STATUS", "Y")
+		}
+	}
+};
+]]></Script>
   </Form>
 </FDL>

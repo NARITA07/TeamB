@@ -3,8 +3,8 @@
   <Form id="BookCafe_MemberManagement_PopUp" width="670" height="380" titletext="포인트 획득/사용 이력" onload="BookCafe_MemberManagement_PopUp_onload">
     <Layouts>
       <Layout height="380" width="670">
-        <Div id="Div00" taborder="8" left="2.99%" top="43" height="40" cssclass="main_nav" right="2.99%"/>
-        <Grid id="Grid00" taborder="0" left="2.99%" height="238" autofittype="col" cssclass="grid_default" right="2.99%" bottom="13.16%">
+        <Div id="Div00" taborder="8" left="20" top="43" height="40" cssclass="main_nav" right="20"/>
+        <Grid id="Grid00" taborder="0" left="20" height="238" autofittype="col" cssclass="grid_default" right="2.99%" bottom="50">
           <Formats>
             <Format id="default">
               <Columns>
@@ -29,7 +29,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Static id="Static00" taborder="1" left="282" top="10" width="70" height="24" font="18px/normal &quot;Gulim&quot;"/>
+        <Static id="Static00" taborder="1" left="282" top="7" width="70" height="24" font="18px/normal &quot;Gulim&quot;"/>
         <Static id="Static01" taborder="2" text="포인트 적립/사용 이력 " left="20" top="9" width="226" height="24" onclick="Static01_onclick" cssclass="title_sub"/>
         <ImageViewer id="ImageViewer00_00" taborder="11" left="24" top="60" width="6" height="6" cssclass="iv_none_border" image="url('theme://images/nav_logo.png')" stretch="fit"/>
         <Static id="Static04" taborder="12" text="분류" left="ImageViewer00_00:5" top="56" width="24" height="14"/>
@@ -39,9 +39,9 @@
         <Calendar id="Calendar00" taborder="4" left="Static03:5" top="48" width="110" height="30" cssclass="cal_default"/>
         <Static id="Static02" taborder="7" text="~" left="Calendar00:3" top="53" width="14" height="21" font="18px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="5" left="Static02:3" top="48" width="110" height="30" cssclass="cal_default"/>
-        <Button id="Button00" taborder="6" text="조회" width="80" onclick="Button00_onclick" cssclass="btn_view" right="20" bottom="Div00:4" height="30"/>
-        <Static id="Static05" taborder="13" left="495" top="10" width="60" height="24" font="18px/normal &quot;Gulim&quot;"/>
-        <Static id="Static06" taborder="14" text="님의 현재포인트:" left="349" top="10" width="160" height="24" font="18px/normal &quot;Gulim&quot;"/>
+        <Button id="Button00" taborder="6" text="조회" width="80" onclick="Button00_onclick" cssclass="btn_view" right="20" bottom="Div00:5" height="30"/>
+        <Static id="Static05" taborder="13" left="498" top="7" width="60" height="24" font="18px/normal &quot;Gulim&quot;"/>
+        <Static id="Static06" taborder="14" text="님의 현재포인트:" left="338" top="9" width="138" height="21" font="18px/normal &quot;Gulim&quot;"/>
       </Layout>
     </Layouts>
     <Objects>

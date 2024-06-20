@@ -49,7 +49,7 @@
           </Row>
           <Row>
             <Col id="title">매출</Col>
-            <Col id="url"> </Col>
+            <Col id="url"/>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
@@ -58,14 +58,14 @@
             <Col id="title">매출현황</Col>
           </Row>
           <Row>
-            <Col id="title">매출현황차트</Col>
+            <Col id="title">월별매출차트</Col>
             <Col id="url">FrameBase::BookCafe_SalesChart.xfdl</Col>
             <Col id="LEVEL">1</Col>
           </Row>
           <Row>
             <Col id="title">관리</Col>
             <Col id="LEVEL">0</Col>
-            <Col id="url"> </Col>
+            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">제품관리</Col>

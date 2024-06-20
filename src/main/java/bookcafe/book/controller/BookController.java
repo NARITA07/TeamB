@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +26,6 @@ import bookcafe.paging.serviceImpl.PagingServiceImpl;
 
 @Controller
 public class BookController { 
-
-    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Resource(name = "bookService")
     public BookService bookService;
@@ -95,7 +91,8 @@ public class BookController {
         List<BookVO> categories = bookService.getAllCategories();
         model.addAttribute("categories", categories);
         // 카트 정보 가져오기
-        Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
+        @SuppressWarnings("unchecked")
+		Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
         }
@@ -110,7 +107,9 @@ public class BookController {
         }*/
 
 		model.addAttribute("selectedCategory", category); 
-		
+		model.addAttribute("searchType", searchType);
+	    model.addAttribute("searchQuery", searchQuery);
+
         return "/book/bookList";
     }
 
@@ -120,7 +119,8 @@ public class BookController {
     public String addToCart(@RequestParam("bookCode") String bookCode, 
                             @RequestParam("bookName") String bookName, 
                             HttpSession session) {
-        Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
+        @SuppressWarnings("unchecked")
+		Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
         }
@@ -133,7 +133,8 @@ public class BookController {
     @PostMapping(value = "removeFromCart", produces = "text/html; charset=UTF-8")
     @ResponseBody
     public String removeFromCart(@RequestParam("bookCode") String bookCode, HttpSession session) {
-        Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
+        @SuppressWarnings("unchecked")
+		Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
         }
@@ -146,7 +147,8 @@ public class BookController {
     @PostMapping(value = "rentBook", produces = "text/html; charset=UTF-8")
     @ResponseBody
     public String rentBook(@RequestParam("bookCode") String bookCode, HttpSession session) {
-        Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
+        @SuppressWarnings("unchecked")
+		Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo"); 
         String userCode = loginInfo.getUser_code(); 
         bookService.rentBook(bookCode, userCode, cart);
@@ -158,7 +160,8 @@ public class BookController {
     @PostMapping(value = "rentBooks", produces = "text/html; charset=UTF-8")
     @ResponseBody
     public String rentBooks(HttpSession session) {
-        Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
+        @SuppressWarnings("unchecked")
+		Map<String, String> cart = (Map<String, String>) session.getAttribute("cart");
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo"); 
         String userCode = loginInfo.getUser_code();
 

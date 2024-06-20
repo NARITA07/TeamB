@@ -106,6 +106,8 @@ public class StockOrderCtroller {
     @RequestMapping("/updateStockOrder.do")
     public NexacroResult updateStockOrder(@ParamDataSet(name = "stock_order_update", required = false) List<Map<String,String>> stock_order_update){
     	
+    	System.out.println("상태 업데이트 : "+ stock_order_update);
+    	
     	NexacroResult result = new NexacroResult();	
     
         int service_result = soservice.updateStockOrder(stock_order_update);
@@ -131,18 +133,17 @@ public class StockOrderCtroller {
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid1", dataList);	
 	    return result;
-    	
     }
     
     // 조회하기 버튼 grid2
     @RequestMapping(value = "/ViewStockOrder.do")
     public NexacroResult ViewStockOrder(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
-    	
+
     	List<Map<String, Object>> dataList = soservice.ViewStockOrder(search_so_grid);
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
-	
+	    
 	    return result;
     }    
 }

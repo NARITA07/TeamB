@@ -21,18 +21,28 @@
 					 ON bc.PRODUCT_CODE = p.PRODUCT_CODE) pc
 			ON pc.CART_CODE = o.CART_CODE
 		   AND pc.USER_CODE = u.USER_CODE 
-		WHERE o.ORDER_STATE <![CDATA[<]]> #{end_state}
+		WHERE (o.ORDER_STATE <![CDATA[<]]> #{end_state}
 		  AND o.ORDER_STATE <![CDATA[>]]> #{start_state}
 		  <choose>
 			<when test="end_state == 4"> 
+				AND o.PAYMENT_STATE =1 OR o.PAYMENT_STATE >1) 
 				AND DATE(o.PAYMENT_DATE) = DATE(NOW()) 
 			</when>
 			<otherwise> 
-				AND o.PAYMENT_STATE = 1 
+				AND o.PAYMENT_STATE = 1 )
 			</otherwise>
 		</choose>
-	ORDER BY o.PAYMENT_DATE ASC
+	ORDER BY o.PAYMENT_DATE 
+		<choose>
+			<when test="end_state == 4">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose>
 	</select>
+	
 	<update id="updateOrders">
 		UPDATE ORDERS
 		   SET ORDER_STATE = #{ORDER_STATE},

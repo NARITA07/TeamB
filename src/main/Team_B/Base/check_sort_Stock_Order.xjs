@@ -79,8 +79,6 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		
 		text=dataset.keystring;	// 바인딩된 데이터셋의 현재 정렬 keyString 가져오기
 		
-		alert(text);
-		
 		// 현재 오름차순 상태라면
 		if(text.includes('+')) {	
 			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경

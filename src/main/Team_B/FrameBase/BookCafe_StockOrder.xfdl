@@ -105,9 +105,9 @@
               <Combo id="Combo00" taborder="5" text="Combo00" left="Static02:5" top="5" width="130" height="30" innerdataset="ds_stockorder_state" datacolumn="TEXT" codecolumn="STOCK_ORDER_STATUS_IN" cssclass="combo_default" onitemchanged="Div01.form.Combo00_onitemchanged" displaynulltext="대기/완료/취소"/>
               <ImageViewer id="ImageViewer00_00" taborder="7" left="Combo00:30" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static00_00" taborder="1" text="발주기간" left="ImageViewer00_00:5" top="13" width="48" height="14"/>
-              <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default" onchanged="Div01.form.Combo00_onitemchanged"/>
+              <Calendar id="Calendar00" taborder="2" left="Static00_00:5" top="5" width="110" height="30" cssclass="cal_default" onchanged="Date_start_onchanged"/>
               <Static id="Static01" taborder="4" text="~" left="Calendar00:3" top="13" width="9" height="14"/>
-              <Calendar id="Calendar01" taborder="3" left="Static01:3" top="5" width="110" height="30" cssclass="cal_default" onchanged="Div01.form.Combo00_onitemchanged"/>
+              <Calendar id="Calendar01" taborder="3" left="Static01:3" top="5" width="110" height="30" cssclass="cal_default" onchanged="Date_start_onchanged"/>
             </Layout>
           </Layouts>
         </Div>
@@ -157,7 +157,7 @@
         <Static id="Static01" taborder="4" text="재고 관리" left="20" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
         <Static id="Static00_00" taborder="6" text="입고 관리 - 입고대기" left="20" width="193" height="24" cssclass="title_sub" bottom="Grid01:5"/>
         <Button id="Button00_00" taborder="8" text="엑셀저장" height="30" right="20" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
-        <Button id="Button02" taborder="10" text="발주취소" height="30" cssclass="btn_fn_save" bottom="Grid01:5" width="70" right="Button00_00:5" onclick="btntxt_onclick"/>
+        <Button id="Button02" taborder="10" text="발주취소" height="30" cssclass="btn_fn_del" bottom="Grid01:5" width="70" right="Button00_00:5" onclick="btntxt_onclick"/>
         <Button id="Button01" taborder="9" text="입고완료" width="70" cssclass="btn_fn" right="Button02:5" bottom="Grid01:5" height="30" onclick="btntxt_onclick"/>
       </Layout>
     </Layouts>
@@ -194,7 +194,8 @@ this.주문관리_onload = function(obj:nexacro.Form,e:nexacro.EventInfo)
 	// 체크박스+정렬 공통함수 끌어오기
 	this.check_sort(this.Grid00);
 	this.check_sort(this.Grid01);
-
+	
+	this.Div01.form.Combo00.set_index(0);
 
 };
 
@@ -207,6 +208,10 @@ this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 {
 	// 현재 사용자가 선택한 중분류코드 변수에 저장
 	var sec_code = this.Div00.form.Combo00.value;
+	// 중분류가 전체보기일 시 소분류도 전체가 나오게
+	if(sec_code == ''){
+	this.fnFind_Thir_Combo();
+	}
 	
 	// 만약 소분류가 선택되어 있다면 충돌이 있으니 소분류 combo 초기화
 	this.Div00.form.Combo03.set_value(null);
@@ -262,7 +267,7 @@ this.Div00.form.Combo03_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	this.fnViewStockOrder();
 };
 
-/* grid2 조회조건 변경시 자동조회*/
+/* grid2 조회조건 변경시 자동조회 */
 this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
 	var strFormat = this.Div01.form.Combo00.value;
@@ -336,6 +341,66 @@ this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	}
 	
 };
+
+/* grid2 기간조건 변경시 자동조회 */
+this.Date_start_onchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var strFormat = this.Div01.form.Combo00.value;
+	if(strFormat == '0')
+	{
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
+
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();	
+	}else if(strFormat == '1')
+	{
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
+
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();	
+	}else if(strFormat == '2'){
+	// 새로운 행 추가
+	this.search_so_grid.addRow();
+	// 중분류
+	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
+	// 소분류
+	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
+
+	//////////////////// grid2 ////////////////////
+	
+	// 발주상태
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
+	//주간별
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
+	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
+	// grid2의 조회조건을 조회버튼에 전달
+	this.fnViewStockOrder();	
+	}
+}
 
 /* 2-3. grid1 발주신청 버튼 */
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -436,14 +501,16 @@ this.btntxt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 						this.stock_order_update.copyRow(row, this.view_dtl, i);
 						this.stock_order_update.setColumn(row,"STOCK_ORDER_STATUS", 1);
 				}
-			}
+			} // for end
+			/* 재고합연산 + 상태Y/N + 새로고침 */
+			this.fnUpdateStockQuantity();
+			this.fnUpdateStockOrder();
+			this.reload();
 		}
+	}else{
+	alert("선택된 항목이 없습니다.");
 	}
-		/* 재고합연산 + 상태Y/N + 새로고침 */
-		this.fnUpdateStockQuantity();
-		this.fnUpdateStockOrder();
-		this.reload();
-}
+	}
 	
 	}else if(btntxt == '발주취소'){
 	
@@ -482,6 +549,8 @@ this.btntxt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				}
 			}
 		}
+	}else{
+	alert("선택된 항목이 없습니다.");
 	}		
 		
 	}
@@ -714,10 +783,7 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			this.reset_paging();
 		break;
 	}
-};
-
-
-]]></Script>
+};]]></Script>
     <Objects>
       <Dataset id="stock_grid1" useclientlayout="true">
         <ColumnInfo>

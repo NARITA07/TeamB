@@ -27,6 +27,7 @@ public class CodeController {
 		NexacroResult nex_fir_code = new NexacroResult();
 		
 		nex_fir_code.addDataSet("init_fir_code", codeservice.init_fir_code());
+		System.out.println(nex_fir_code.getDataSets());
 		return nex_fir_code;
 		
 	}
@@ -78,10 +79,11 @@ public class CodeController {
 	
 	@RequestMapping("add_sec_code.do")
 	public NexacroResult add_sec_code(@ParamVariable(name="add_fir_code", required = false)String add_fir_code){
-		System.out.println(add_fir_code);
+		System.out.println("추가 " + add_fir_code);
 		NexacroResult nex_sec_category_select = new NexacroResult();
 		
 		nex_sec_category_select.addDataSet("sec_code",codeservice.add_sec_code(add_fir_code));
+		System.out.println("추가 " + nex_sec_category_select.getDataSets());
 		return nex_sec_category_select;
 	}
 	

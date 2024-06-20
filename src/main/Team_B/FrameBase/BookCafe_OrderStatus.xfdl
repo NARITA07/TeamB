@@ -82,7 +82,7 @@
                 <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="4" text="bind:ORDER_QUANTITY" textAlign="center"/>
                 <Cell col="5" text="bind:TOTAL_PRICE" suppress="2"/>
-                <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2" color="#6666666" background="#FAEBD7"/>
+                <Cell col="6" text="bind:PAYMENT_STATE" displaytype="combotext" combodataset="ds_paymentstate" combodatacol="txt" combocodecol="payment_state" edittype="combo" suppress="2" color="#6666666" background="#f9ffe5"/>
                 <Cell col="7" text="bind:PAYMENT_DATE" displaytype="date" rtl="false" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" edittype="none" suppress="2"/>
                 <Cell col="8" text="bind:ORDER_STATE" displaytype="combotext" combodataset="ds_orderstate" combodatacol="txt" combocodecol="order_state" comboautoselect="false" edittype="none" suppress="2"/>
               </Band>

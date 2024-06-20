@@ -14,7 +14,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="60" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
+        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="60" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick" extendsizetype="row">
           <Formats>
             <Format id="default">
               <Columns>
@@ -47,11 +47,11 @@
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="2" text="bind:USER_JOINDATE" displaytype="date" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" calendardateformat="yyyy-MM-dd " textAlign="center"/>
-                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center" wordWrap="char"/>
                 <Cell col="4" text="bind:USER_NAME" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
-                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center" wordWrap="char"/>
                 <Cell col="6" text="bind:USER_TEL" textAlign="center" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="char" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="8" text="bind:USER_POINT" edittype="none" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="right"/>
               </Band>
             </Format>

@@ -18,6 +18,8 @@ public interface ProductManagementService {
 	int businessclosure();
 
 	int product_allsave(List<Map<String, Object>> trans);
+
+	Map<String, Object> serchproduct(String serch_product);
 	
 
 

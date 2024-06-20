@@ -48,14 +48,7 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		var dataset = obj.getBindDataset();	// 바인딩된 데이터셋 가져오기
 		
 		dataset.set_enableevent(false);	// 바인딩된 데이터셋의 이벤트 OFF
-		
-		//if 컬럼이 checkbox 면 수정하게
-// 			for(var i=0; i<dataset.rowcount; i++){
-// 			trace(obj.getCellProperty("body",i,"edittype"))
-// 				if(obj.getCellProperty("body",i,"edittype") == "checkbox" ){
-// 					dataset.setColumn(i,"CHK",val);
-// 				}
-// 			}
+
 			for(var i =0; i< dataset.rowcount;i++){
 				if(dataset.getColumn(i,"STOCK_ORDER_STATUS_IN") != 'Y'&&
 				dataset.getColumn(i,"STOCK_ORDER_STATUS_IN") != 'N'){
@@ -75,17 +68,17 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		var headtext = obj.getCellText(e.row,e.cell);	// 현재 그리드의 컬럼 text값 가져오기
 		var text = "";
 		
-		
-		
 		text=dataset.keystring;	// 바인딩된 데이터셋의 현재 정렬 keyString 가져오기
 		
 		// 현재 오름차순 상태라면
 		if(text.includes('+')) {	
 			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
+			obj.vscrollbar.set_pos(0);
 		}else{
 			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▲");
+			obj.vscrollbar.set_pos(0);
 			}
 	}
 }

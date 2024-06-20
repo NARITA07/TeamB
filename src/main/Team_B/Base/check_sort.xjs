@@ -78,9 +78,11 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		if(text.includes('+')) {	
 			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
+			obj.vscrollbar.set_pos(0);	// 스크롤 고정
 		}else{
 			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▲");
+			obj.vscrollbar.set_pos(0);
 			}
 	}
 }

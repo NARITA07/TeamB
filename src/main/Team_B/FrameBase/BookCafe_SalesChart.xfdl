@@ -112,7 +112,7 @@
 	]
 }]]></Contents>
         </BasicChart>
-        <Combo id="Combo00" taborder="11" text="Combo00" left="Static06:5" top="103" width="110" height="30" innerdataset="ds_year" codecolumn="YEAR" datacolumn="YEAR" cssclass="combo_default"/>
+        <Combo id="Combo00" taborder="11" text="Combo00" left="Static06:5" top="103" width="110" height="30" innerdataset="ds_year" codecolumn="YEAR" datacolumn="YEAR" cssclass="combo_default" onitemchanged="Combo00_onitemchanged"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -152,7 +152,9 @@
 	
 	this.fnselectSalesCombo();
 	
-	for (var year = 2024; year >= 2005; year--)
+	var currDate = new Date();
+	
+	for (var year = currDate.getFullYear(); year >= 2019; year--)
     {
         var nRow = this.ds_year.addRow();
 		this.ds_year.setColumn(nRow, "YEAR", year);
@@ -160,21 +162,7 @@
 	
 	this.Combo00.set_value("2024");
 	
-	this.sales_con.clearData();
-	
-	var sales_row = this.sales_con.addRow();
-	
-	var name = this.Edit00.value;
-	var menu = this.Edit01.value;
-	var year = this.Combo00.value;
-	var sec_code = this.Combo02.value;
-
- 	this.sales_con.setColumn(sales_row, "NAME", name);
- 	this.sales_con.setColumn(sales_row, "MENU", menu);
-	this.sales_con.setColumn(sales_row, "YEAR", year);
-	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	
-	this.fnSelectSalesChart();
+	this.fnSelect();
 };
 
 //엔터키 이벤트
@@ -189,8 +177,13 @@ this.EnterKey_onkeyup = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 //조회
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	
-	//조건 값 데이터셋에 담아서 넘겨주기
+	this.fnSelect();
+};
+
+//조회
+this.fnSelect = function ()
+{
+  //조건 값 데이터셋에 담아서 넘겨주기
  	this.sales_con.clearData();
 	
 	var sales_row = this.sales_con.addRow();
@@ -206,7 +199,6 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
 	
 	this.fnSelectSalesChart();
-
 };
 
 //카페 현황 함수
@@ -267,9 +259,15 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 			break;
 	}
 };
-this.Static00_00_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	
+	this.fnSelect();
+};
+
+this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSelect();
 };
 ]]></Script>
     <Bind>

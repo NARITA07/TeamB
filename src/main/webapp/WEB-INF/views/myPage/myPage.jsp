@@ -161,7 +161,7 @@ $(document).ready(function() {
 									<div style="display: flex; justify-content: space-between; align-items: center;">
 										<h2>${loginInfo.user_name}님 안녕하세요!</h2>
 										<c:if test="${not empty loginInfo.user_id}">
-											<a href="myPageInfo">내정보 보러가기<i class="fa fa-arrow-circle-right"></i></a>
+											<a href="myPageInfo">내정보 보러가기 <i class="fa fa-arrow-circle-right"></i></a>
 										</c:if>
 									</div>
 									<h5>( 회원등급:
@@ -180,7 +180,7 @@ $(document).ready(function() {
 											<h3 style="margin-right:20px;">나의 포인트 : 
 												<a id="myPoint" style="margin-left:10px;"><fmt:formatNumber value="${loginInfo.user_point}" type="number" groupingUsed="true"/></a>P 
 											</h3>
-											<a href="pointList">포인트 내역조회<i class="fa fa-arrow-circle-right"></i></a>
+											<a href="pointList">포인트 내역조회 <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
 									<hr>
@@ -190,7 +190,7 @@ $(document).ready(function() {
 								<div class="col-md-12" style="padding-top: 30px;">
 									<div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
 										<h3>금일 카페 주문목록</h3>
-										<a href="orderList">전체 주문내역<i class="fa fa-arrow-circle-right"></i></a>
+										<a href="orderList">전체 주문내역 <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 									<%-- 주문내역이 없는 경우 --%>
 									<c:if test="${empty myOrder}">
@@ -234,7 +234,7 @@ $(document).ready(function() {
 								<div class="col-md-12" style="padding-top: 30px;">
 									<div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
 										<h3>금일 도서 대여목록</h3>
-										<a href="borrowList">책 대여 내역조회<i class="fa fa-arrow-circle-right"></i></a>
+										<a href="borrowList">책 대여 내역조회 <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 									<%-- 대여중인 도서가 없는 경우 --%>
 									<c:if test="${empty myBook}">

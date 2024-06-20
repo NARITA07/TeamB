@@ -250,27 +250,27 @@ $(document).ready(function() {
 	                              </c:if>
                               </tbody>
                            </table>
-                           <nav>
-                              <ul class="pagination" style="display: flex; justify-content: center; color: #fff">
-                                 <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}">&laquo;&laquo;</a>
-                                 </li>
-                                 <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}">&laquo;</a>
-                                 </li>
-                                 <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
-                                    <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
-                                       <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}">${i}</a>
-                                    </li>
-                                 </c:forEach>
-                                 <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}">&raquo;</a>
-                                 </li>
-                                 <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}">&raquo;&raquo;</a>
-                                 </li>
-                              </ul>
-                           </nav>
+							<nav>
+								<ul class="pagination" style="display: flex; justify-content: center; color: #fff">
+									<li class="page-item ${pagination.currentPage == 1 || orderList.isEmpty() ? 'disabled' : ''}">
+										<a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;&laquo;</a>
+									</li>
+									<li class="page-item ${pagination.currentPage == 1 || orderList.isEmpty() ? 'disabled' : ''}">
+										<a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;</a>
+									</li>
+									<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
+										<li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
+										  <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&category=${selectedCategory}" style="color:#766650;">${i}</a>
+										</li>
+									</c:forEach>
+									<li class="page-item ${pagination.currentPage == pagination.totalPages || orderList.isEmpty() ? 'disabled' : ''}">
+										<a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;</a>
+									</li>
+									<li class="page-item ${pagination.currentPage == pagination.totalPages || orderList.isEmpty() ? 'disabled' : ''}">
+										<a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;&raquo;</a>
+								    </li>
+								</ul>
+							</nav>
                         </div>
                      </div>
                   </div>

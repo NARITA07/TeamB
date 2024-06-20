@@ -79,7 +79,7 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▲");
 			obj.vscrollbar.set_pos(0);
-			}
+			} 
 	}
 }
 

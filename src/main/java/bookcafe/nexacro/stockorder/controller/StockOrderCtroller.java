@@ -133,7 +133,6 @@ public class StockOrderCtroller {
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid1", dataList);	
 	    return result;
-    	
     }
     
     // 조회하기 버튼 grid2

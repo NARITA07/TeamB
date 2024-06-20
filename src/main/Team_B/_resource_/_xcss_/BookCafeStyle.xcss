@@ -232,6 +232,9 @@
 }.Grid .body .row .cell.ExprRed
 {
 	color : red;
+}.Grid .body .row .cell.ExprGreen
+{
+	color : #00FF00;
 }
 
 .Grid .body .row .cell.grid_nav[userstatus=selected]

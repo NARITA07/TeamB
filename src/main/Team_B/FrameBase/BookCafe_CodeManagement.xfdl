@@ -333,11 +333,10 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 
 	}
 	
-	if(fir_chx> 0){ // 상위 선택이 있음.
+	if(fir_chx > 0){ // 상위 선택이 있음.
 
-		 row_category = this.sec_code_grid.getRowCount()
-		
-			if(row_category > 0){
+		 row_category = this.sec_code_grid.rowcount
+			if(row_category > 0){// 상위카테고리의 하위카테고리가 있을 시
 			
 				var con = this.confirm("하위 항목 " + row_category +"개가 있습니다, 삭제하시겠습니까?")
 					if(con == true){
@@ -353,11 +352,24 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 				}
 					else{
 						alert("취소되었습니다")
-						this.reload();
-						
-					}
+						this.reload();	
+						}
 					
-				}else{
+				}else{//하위 카테고리가 없을 시
+				var id = "del_code";
+						var url = "svc::del_code.do";
+						var set = "save = save:u";
+						var get = "message_count = message_count ";
+						var arg = "";
+						var callback ="codemanagement";
+						
+						this.transaction(id, url, set, get, arg, callback)
+				
+				}
+				
+				
+				}
+				else{//하위카테고리만 삭제
 						var id = "del_code";
 						var url = "svc::del_code.do";
 						var set = "save = save:u";
@@ -367,8 +379,7 @@ this.Main_btn_all_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEvent
 						
 						this.transaction(id, url, set, get, arg, callback)
 					}
-				}
-				}
+			}
 /***************************************************************************************/
 								//상위코드 그리드 더블 클릭 시
 /***************************************************************************************/

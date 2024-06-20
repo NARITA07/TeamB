@@ -109,6 +109,41 @@ ON fc.FIR_CODE = sc.FIR_CODE WHERE SEC_NAME =#{SEC_NAME}), #{PRODUCT_STATUS} )
 	UPDATE USER SET USER_LEADBOOK = "N";
 	</update>
 	
-  
+  <select id="serchproduct" resultType="java.util.Map">
+ SELECT 
+		SEC_CODE, F.PRODUCT_NAME,USE_STATUS,SEC_NAME, PRODUCT_PRICE, PRODUCT_CODE, PRODUCT_PATH, IFNULL("-", '-') AS BOOK_WRITER, 
+   		IFNULL("-", '-') AS BOOK_PUBLICATION_DATE, PRODUCT_STATUS
+FROM
+		 FOOD F JOIN SEC_CODE SC
+ON 
+		F.PRODUCT_CATEGORY = SC. SEC_CODE
+WHERE 
+		PRODUCT_CODE = #{serch_product}
+UNION
+SELECT 
+		SEC_CODE, B.BOOK_NAME,USE_STATUS,SEC_NAME, BOOK_PRICE, BOOK_CODE,BOOK_PATH, BOOK_WRITER, 
+    	BOOK_PUBLICATION_DATE, PRODUCT_STATUS 
+FROM 
+		BOOK B JOIN SEC_CODE SC
+ON 
+		B.BOOK_CATEGORY = SC. SEC_CODE
+WHERE 
+		BOOK_CODE = #{serch_product}
+  </select>
+
+<!-- 제품 갯수 -->
+<select id="product_quantity" resultType="int">
+SELECT PRODUCT_QUANTITY FROM FOOD WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+</select>
+
+<!-- 주문상태 확인 -->
+<select id="stock_order_status" resultType="int">
+SELECT STOCK_ORDER_STATUS FROM STOCKORDER WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+</select>
+
+<select id="book_quantity" resultType="String">
+SELECT BOOK_QUANTITY FROM BOOK WHERE BOOK_CODE = #{PRODUCT_CODE}
+</select>
+
 
 </mapper>

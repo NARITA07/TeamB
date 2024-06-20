@@ -31,4 +31,7 @@ public interface SalesMapper {
 	//delete 반납
 	void deleteSelected(Map<String, String> param);
 
+	//반납 취소 update
+	void updateSelected2(Map<String, String> param);
+
 }

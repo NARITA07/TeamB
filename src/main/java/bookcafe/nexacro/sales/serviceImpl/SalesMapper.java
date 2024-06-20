@@ -11,7 +11,7 @@ public interface SalesMapper {
 	List<Map<String, Object>> selectSales(Map<String, String> sales_con);
 	
 	//도서 조회
-	List<Map<String, Object>> selectBookSales(Map<String, String> sales_con);
+//	List<Map<String, Object>> selectBookSales(Map<String, String> sales_con);
 	
 	//중분류
 	List<Map<String, Object>> selectSalesCombo(Map<String, String> combo_con);

@@ -7,7 +7,7 @@ public interface SalesService {
 	//카페 매출현황 SELECT
 	public List<Map<String, Object>> selectSales(Map<String, String> sales_con);
 	//도서 이력 SELECT
-	public List<Map<String, Object>> selectBookSales(Map<String, String> sales_con);
+//	public List<Map<String, Object>> selectBookSales(Map<String, String> sales_con);
 	//중분류 콤보조회
 	public List<Map<String, Object>> selectSalesCombo(Map<String, String> combo_con);
 	

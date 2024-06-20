@@ -106,6 +106,8 @@ public class StockOrderCtroller {
     @RequestMapping("/updateStockOrder.do")
     public NexacroResult updateStockOrder(@ParamDataSet(name = "stock_order_update", required = false) List<Map<String,String>> stock_order_update){
     	
+    	System.out.println("상태 업데이트 : "+ stock_order_update);
+    	
     	NexacroResult result = new NexacroResult();	
     
         int service_result = soservice.updateStockOrder(stock_order_update);

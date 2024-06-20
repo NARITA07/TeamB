@@ -139,12 +139,12 @@ public class StockOrderCtroller {
     // 조회하기 버튼 grid2
     @RequestMapping(value = "/ViewStockOrder.do")
     public NexacroResult ViewStockOrder(@ParamDataSet(name = "search_so_grid", required = false) Map<String,String> search_so_grid){
-    	
+
     	List<Map<String, Object>> dataList = soservice.ViewStockOrder(search_so_grid);
     	
 	    NexacroResult result = new NexacroResult();
 	    result.addDataSet("stock_grid2", dataList);
-	
+	    
 	    return result;
     }    
 }

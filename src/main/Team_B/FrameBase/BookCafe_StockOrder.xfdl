@@ -279,7 +279,8 @@ this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	// 조회조건 중 기간의 text를 발주기간으로 변경
 	this.Div01.form.Static00_00.set_text("발주기간");
 	this.Static00_00.set_text("입고관리 - 입고대기")
-	
+	this.Button01.set_visible(true);
+	this.Button02.set_visible(true);
 	// 새로운 행 추가
 	this.search_so_grid.addRow();
 	// 중분류
@@ -297,40 +298,40 @@ this.Div01.form.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.Ite
 	// grid2의 조회조건을 조회버튼에 전달
 	this.fnViewStockOrder();
 	
-	}else if(strFormat == '1'){
+	}else if(strFormat == '1'){	
 	this.Div01.form.Calendar00.set_value();
 	this.Div01.form.Calendar01.set_value();
 	this.Grid01.set_formatid('입고완료')
 	this.Div01.form.Static00_00.set_text("입고기간");
 	this.Static00_00.set_text("입고관리 - 입고완료")
-	this.Button01.set_visible(hide);
+	
+	// 입고완료/발주취소 버튼 숨기기
+	this.Button01.set_visible(false);
+	this.Button02.set_visible(false);
+	
 	this.search_so_grid.addRow();
 	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
 	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
-
-	//////////////////// grid2 ////////////////////
-	
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
 	// grid2의 조회조건을 조회버튼에 전달
 	this.fnViewStockOrder();
+	
 	}else if(strFormat == '2'){
 	this.Div01.form.Calendar00.set_value();
 	this.Div01.form.Calendar01.set_value();
 	this.Grid01.set_formatid('발주취소')
 	this.Div01.form.Static00_00.set_text("취소기간");
 	this.Static00_00.set_text("입고관리 - 발주취소")
+	this.Button01.set_visible(false);
+	this.Button02.set_visible(false);
 	this.search_so_grid.addRow();
 	this.search_so_grid.setColumn(0,"SEC_CODE",this.Div00.form.Combo00.value);
 	this.search_so_grid.setColumn(0,"PRODUCT_CODE",this.Div00.form.Combo03.value);
-
-	//////////////////// grid2 ////////////////////
-	
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_STATUS",this.Div01.form.Combo00.value);
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_1",this.Div01.form.Calendar00.value);
 	this.search_so_grid.setColumn(0,"STOCK_ORDER_DATE_2",this.Div01.form.Calendar01.value);
-	// grid2의 조회조건을 조회버튼에 전달
 	this.fnViewStockOrder();
 	}
 	
@@ -722,7 +723,7 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
         <ColumnInfo>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
-          <Column id="PRODUCT_QUANTITY" type="STRING" size="256"/>
+          <Column id="PRODUCT_QUANTITY" type="INT" size="256"/>
           <Column id="CHK" type="STRING" size="256" description="발주신청용체크"/>
           <Column id="STOCK_ORDER_QUANTITY" type="INT" size="256"/>
         </ColumnInfo>

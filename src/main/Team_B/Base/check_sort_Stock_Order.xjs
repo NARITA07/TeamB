@@ -75,7 +75,11 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 		var headtext = obj.getCellText(e.row,e.cell);	// 현재 그리드의 컬럼 text값 가져오기
 		var text = "";
 		
+		
+		
 		text=dataset.keystring;	// 바인딩된 데이터셋의 현재 정렬 keyString 가져오기
+		
+		alert(text);
 		
 		// 현재 오름차순 상태라면
 		if(text.includes('+')) {	

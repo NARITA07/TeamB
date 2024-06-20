@@ -56,18 +56,35 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	public Map<String, Object> delete_product(List<Map<String, Object>> del_date) {
 		Map<String, Object>nums = new HashMap<>();
 		int num = 0;
-		
 		for(int i = 0; i < del_date.size(); i++) {
-			
 			String date = (String) del_date.get(i).get("PRODUCT_CODE");
-			
-			if(date.substring(0,1).equals("f")) {
+				if(date.substring(0,1).equals("f")) {//분류 구분
+					if(productmapper.product_quantity(del_date.get(i).get("PRODUCT_CODE")) == 0) {
+						if(productmapper.stock_order_status(del_date.get(i).get("PRODUCT_CODE")) > 0) {
+							num += productmapper. delete_food(del_date.get(i));
+						}else {
+							// 입고 대기중 ->삭제 불가능;
+							num = 99;
+						}
+				}else {
+					//재고 남아있음 ->삭제 불가능
+					num = 98;
+				}
 				
-				num += productmapper. delete_food(del_date.get(i));
 				
 			}else if(date.substring(0,1).equals("b")) {
+				String book_quantity = (String) del_date.get(i).get("PRODUCT_CODE");
+				//도서는 대여상태라면 삭제 불가능.
+					if(productmapper.book_quantity(book_quantity).equals("N")) {
+						
+						num =97;
+						
+					}else {
+						
+						num += productmapper.delete_book(del_date.get(i));
+						
+					}
 				
-				num += productmapper. delete_book(del_date.get(i));
 			}
 			
 			
@@ -130,10 +147,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		}
 		
 		
-		
-		
-		//이후 마감 
-		System.out.println(date);
 		return date;
 	}
 
@@ -147,15 +160,6 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 			
 			date = productmapper.product_allsavef(trans.get(i));
 			
-			
-//			sdate = (String)trans.get(i).get("분류코드");
-//			
-//				if(sdate.substring(0,1).equals("b")){
-//					date += productmapper.product_allsaveb(trans.get(i));
-//				
-//			}else if(sdate.substring(0,1).equals("f")) {
-//				
-//				date += productmapper.product_allsavef(trans.get(i));
 				
 			}
 			
@@ -165,12 +169,12 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 
 		return date;
 	
-	}	
+	}
 
-			
-			
-		
-		
+	@Override
+	public Map<String, Object> serchproduct(String serch_product) {
+			return productmapper.serchproduct(serch_product);
+	}	
 }
 
 

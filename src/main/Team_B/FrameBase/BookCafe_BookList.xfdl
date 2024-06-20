@@ -340,6 +340,10 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 				this.fnSelect();
 				this.reload();
 			break;
+		case "updateSelected2":
+				this.fnSelect();
+				this.reload();
+			break;
 		case "selectSalesCombo":
 			var row = this.combo_dtl.insertRow(0);
 			var row2 = this.return_yn.insertRow(0);
@@ -366,7 +370,7 @@ this.Button01_00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 //반납취소 버튼
 this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.fnUpdateSelected();
+	this.fnUpdateSelected2();
 	
 	this.fnDeleteSelected();
 
@@ -377,6 +381,20 @@ this.fnUpdateSelected = function ()
 {
   var strSvcId    = "updateSelected";
   var strSvcUrl   = "svc::updateSelected.do";
+  var inData      = "book_sales_dtl=view_dtl:U";
+  var outData     = "";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+// 반납취소 update처리 함수
+this.fnUpdateSelected2 = function ()
+{
+  var strSvcId    = "updateSelected2";
+  var strSvcUrl   = "svc::updateSelected2.do";
   var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";

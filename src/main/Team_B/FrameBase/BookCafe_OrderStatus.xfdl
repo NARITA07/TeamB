@@ -94,10 +94,10 @@
         <Static id="Static02" taborder="4" text="주문처리" left="20" top="20" width="128" height="38" cssclass="main_title"/>
         <Button id="Button00" taborder="5" text="준비완료" cssclass="btn_save" onclick="Button00_onclick" bottom="Grid00:5" right="20" height="30" width="70"/>
         <Button id="Button00_02" taborder="6" text="준비완료" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="20" height="30" onclick="Button00_02_onclick"/>
-        <Button id="Button00_00" taborder="7" text="준비중" cssclass="btn_save" bottom="555" right="Button00:5" height="30" width="70" onclick="Button00_00_onclick"/>
-        <Button id="Button00_01" taborder="8" text="준비" cssclass="btn_save" bottom="555" right="Button00_00:5" height="30" width="70" onclick="Button00_01_onclick"/>
-        <Button id="Button00_02_00" taborder="9" text="준비중" width="70" cssclass="btn_save" bottom="225" right="Button00_02:5" height="30" onclick="Button00_02_00_onclick"/>
-        <Button id="Button00_02_01" taborder="10" text="준비" width="70" cssclass="btn_save" bottom="225" right="Button00_02_00:5" height="30" onclick="Button00_02_01_onclick"/>
+        <Button id="Button00_00" taborder="7" text="준비중" cssclass="btn_save" bottom="Grid00:5" right="Button00:5" height="30" width="70" onclick="Button00_00_onclick"/>
+        <Button id="Button00_01" taborder="8" text="준비" cssclass="btn_save" bottom="Grid00:5" right="Button00_00:5" height="30" width="70" onclick="Button00_01_onclick"/>
+        <Button id="Button00_02_00" taborder="9" text="준비중" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02:5" height="30" onclick="Button00_02_00_onclick"/>
+        <Button id="Button00_02_01" taborder="10" text="준비" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02_00:5" height="30" onclick="Button00_02_01_onclick"/>
       </Layout>
     </Layouts>
     <Objects>

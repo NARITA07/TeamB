@@ -38,8 +38,8 @@ public class SalesServiceImpl extends EgovAbstractServiceImpl implements SalesSe
 	}
 	//반납 처리
 	@Override
-	public void updateSelected(Map<String, String> book_sales_dtl) {
-		Sales_mapper.updateSelected(book_sales_dtl);
+	public void updateSelected(Map<String, String> param) {
+		Sales_mapper.updateSelected(param);
 	}
 	//대여중인 도서 조회
 	@Override
@@ -56,6 +56,11 @@ public class SalesServiceImpl extends EgovAbstractServiceImpl implements SalesSe
 	@Override
 	public void deleteSelected(Map<String, String> param) {
 		Sales_mapper.deleteSelected(param);
+	}
+
+	@Override
+	public void updateSelected2(Map<String, String> param) {
+		Sales_mapper.updateSelected2(param);
 	}
 
 

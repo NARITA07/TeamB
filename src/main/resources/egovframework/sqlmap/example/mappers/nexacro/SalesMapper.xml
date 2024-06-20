@@ -232,15 +232,18 @@
 	    ORDER BY 
 	        M.MONTH
 	</select>
-	<!-- 책 대여상태 변경 -->
+	<!-- 책 반납 -->
 	<update id="updateSelected" parameterType="java.util.Map">
 		UPDATE BOOK
 		SET
-			BOOK_QUANTITY = CASE 
-                          WHEN BOOK_QUANTITY = 'Y' THEN 'N'
-                          WHEN BOOK_QUANTITY = 'N' THEN 'Y'
-                          ELSE BOOK_QUANTITY
-                      	  END
+			BOOK_QUANTITY = 'Y'
+		WHERE BOOK_NAME = #{BOOK}
+	</update>
+	<!-- 책 반납취소 -->
+	<update id="updateSelected2" parameterType="java.util.Map">
+		UPDATE BOOK
+		SET
+			BOOK_QUANTITY = 'N'
 		WHERE BOOK_NAME = #{BOOK}
 	</update>
 	<!-- 반납 테이블 insert -->

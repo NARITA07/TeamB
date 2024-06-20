@@ -15,7 +15,7 @@ public interface SalesService {
 	public List<Map<String, Object>> selectSalesChart(Map<String, String> sales_con);
 	
 	//선택 반납
-	public void updateSelected(Map<String, String> book_sales_dtl);
+	public void updateSelected(Map<String, String> param);
 	
 	//대여중인 도서 조회
 	public List<Map<String, Object>> selectBookList(Map<String, String> sales_con);
@@ -25,4 +25,7 @@ public interface SalesService {
 	
 	//DELETE 반납
 	public void deleteSelected(Map<String, String> param);
+	
+	//반납 취소
+	public void updateSelected2(Map<String, String> param);
 }

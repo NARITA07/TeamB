@@ -44,12 +44,12 @@
                 <Cell col="3" text="bind:BOOK" textAlign="center" wordWrap="char"/>
                 <Cell col="4" text="expr:RETURN_YN == 'Y' ? '반납완료' : '대여중'" cssclass="expr:comp.parent.ReturnCellFontColor(RETURN_YN)" textAlign="center"/>
                 <Cell col="5" text="bind:TIME1" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" textAlign="center"/>
-                <Cell col="6" displaytype="mask" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" textAlign="center" maskeditformat="9999-99-99 99:99:99" text="bind:TIME2"/>
+                <Cell col="6" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" textAlign="center" text="bind:TIME2" calendardisplaynulltype="none"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button01_00_00" taborder="12" text="반납완료로 변경" height="30" onclick="Button01_00_00_onclick" bottom="Grid01:5" right="1.76%" width="150" cssclass="btn_fn"/>
+        <Button id="Button01_00_00" taborder="12" text="반납취소" height="30" onclick="Button01_00_00_onclick" bottom="Grid01:5" right="1.76%" width="150" cssclass="btn_fn"/>
         <ImageViewer id="ImageViewer00" taborder="15" left="37" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08" taborder="5" text="분류" left="ImageViewer00:5" top="111" width="24" height="14" onclick="Static08_onclick"/>
         <Combo id="Combo02" taborder="6" text="Combo02" left="Static08:5" top="103" width="100" height="30" onitemchanged="Combo02_onitemchanged" innerdataset="combo_dtl" codecolumn="SEC_CODE" datacolumn="SEC_NAME" cssclass="combo_default"/>
@@ -64,6 +64,7 @@
         <Calendar id="Calendar00" taborder="2" left="Static06:144" top="103" width="110" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Static id="Static09" taborder="7" text="~" left="Div00:-131" top="110" width="11" height="16" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="8" left="Static09:34" top="105" width="110" height="30" cssclass="cal_default"/>
+        <Button id="Button01_00_01" taborder="18" text="반납" height="30" onclick="Button01_00_01_onclick" bottom="492" right="16.57%" width="150" cssclass="btn_fn"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -239,13 +240,7 @@ this.fnSelect = function ()
 	this.sales_con.setColumn(sales_row, "DATE1", date1);
 	this.sales_con.setColumn(sales_row, "DATE2", date2);
 	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);	
-	this.sales_con.setColumn(sales_row, "COMBO_YN", combo);	
-	
-	if(combo=='Y'){
-		this.Button01_00_00.set_text("대여중로 변경");
-	}else{
-		this.Button01_00_00.set_text("반납완료로 변경");
-	}
+	this.sales_con.setColumn(sales_row, "COMBO_YN", combo);
 	
 	this.fnSelectBookList();
 };
@@ -342,15 +337,12 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 	switch(svcID)
 	{
 		case "updateSelected":
-			this.Grid01.setCellProperty("head",0,"text","N");
-			
-			var combo = this.Combo00.value;
-			if(combo=='N'){
-				this.fnSelectBookList();
+				this.fnSelect();
 				this.reload();
-			}else{
-				this.fnSelectBookSales();
-			}
+			break;
+		case "updateSelected2":
+				this.fnSelect();
+				this.reload();
 			break;
 		case "selectSalesCombo":
 			var row = this.combo_dtl.insertRow(0);
@@ -368,18 +360,19 @@ this.fnCallback = function(svcID,errorCode,errorMsg)
 };
 
 //반납 처리 버튼
-this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+this.Button01_00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.fnUpdateSelected();
 	
-	var con = this.Button01_00_00.getDisplayText();
+	this.fnInsertSelected();
+};
+
+//반납취소 버튼
+this.Button01_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnUpdateSelected2();
 	
-	if(con == "반납완료로 변경"){
-		this.fnInsertSelected();
-	}else{
-		this.fnDeleteSelected();
-	}
-	
+	this.fnDeleteSelected();
 
 };
 
@@ -388,6 +381,20 @@ this.fnUpdateSelected = function ()
 {
   var strSvcId    = "updateSelected";
   var strSvcUrl   = "svc::updateSelected.do";
+  var inData      = "book_sales_dtl=view_dtl:U";
+  var outData     = "";
+  var strArg      = "";
+  var callBackFnc = "fnCallback";
+  var isAsync     = true;
+
+  this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);    
+};
+
+// 반납취소 update처리 함수
+this.fnUpdateSelected2 = function ()
+{
+  var strSvcId    = "updateSelected2";
+  var strSvcUrl   = "svc::updateSelected2.do";
   var inData      = "book_sales_dtl=view_dtl:U";
   var outData     = "";
   var strArg      = "";
@@ -476,7 +483,6 @@ this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportE
 this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo) {
     trace("Export00_onerror");
 };
-
 ]]></Script>
   </Form>
 </FDL>

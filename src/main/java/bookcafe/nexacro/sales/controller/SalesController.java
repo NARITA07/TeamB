@@ -110,6 +110,35 @@ public class SalesController {
 	    
 	    return result;
 	}
+	
+	//반납 취소 update
+		@RequestMapping(value = "/updateSelected2.do")
+		public NexacroResult updateSelected2(@ParamDataSet(name = "book_sales_dtl", required = false) List<Map<String, String>> book_sales_dtl) throws IOException, InvocationTargetException, SQLException {
+		    DefaultTransactionDefinition transDef = new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED); 
+		    transDef.setReadOnly(false);
+		    transDef.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+		    TransactionStatus txStatus = transactionManager.getTransaction(transDef);
+		    
+		    NexacroResult result = new NexacroResult();
+		    
+		    System.out.println("====반납 취소" + book_sales_dtl);
+		    try {
+		        if (book_sales_dtl != null) {
+		            for (Map<String, String> param : book_sales_dtl) {
+		                if ("Y".equals(param.get("CHK"))) {
+		                    sales_service.updateSelected2(param);
+		                }
+		            }
+		        }
+		        transactionManager.commit(txStatus);
+		    } catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg(e.getMessage());
+		        transactionManager.rollback(txStatus);
+		    }
+		    
+		    return result;
+		}
 		
 	//insert 반납
 	@RequestMapping(value = "/insertSelected.do")

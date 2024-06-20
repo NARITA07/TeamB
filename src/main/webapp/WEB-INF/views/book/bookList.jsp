@@ -406,9 +406,9 @@ $(document).ready(function() {
                                <th style="display:none;">책 코드</th>
                                <th>책 이름</th>
                                <th>저자</th>
-                               <th>출판 날짜</th>
+                               <th>출판일</th>
                                <th>카테고리</th>
-                               <th>대여하기</th>
+                               <th>대여상태</th>
                                <th>담기</th>
                            </tr>
                        </thead>
@@ -455,26 +455,30 @@ $(document).ready(function() {
                    </table>
                </div>
                <nav>
-                   <ul class="pagination">
-                       <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                           <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;&laquo;</a>
-                       </li>
-                       <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                           <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;</a>
-                       </li>
-                       <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
-                           <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
-                               <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&category=${selectedCategory}" style="color:#766650;">${i}</a>
-                           </li>
-                       </c:forEach>
-                       <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                           <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;</a>
-                       </li>
-                       <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                           <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;&raquo;</a>
-                       </li>
-                   </ul>
-               </nav>
+				   <ul class="pagination">
+				       <!-- 처음으로 이동 버튼, 목록이 없을 때 비활성화 -->
+				       <li class="page-item ${pagination.currentPage == 1 || books.isEmpty() ? 'disabled' : ''}">
+				           <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&category=${selectedCategory}&searchType=${searchType}&searchQuery=${searchQuery}">&laquo;&laquo;</a>
+				       </li>
+				       <!-- 이전 페이지 이동 버튼, 목록이 없을 때 비활성화 -->
+				       <li class="page-item ${pagination.currentPage == 1 || books.isEmpty() ? 'disabled' : ''}">
+				           <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}&searchType=${searchType}&searchQuery=${searchQuery}">&laquo;</a>
+				       </li>
+				       <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
+				           <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
+				               <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&category=${selectedCategory}&searchType=${searchType}&searchQuery=${searchQuery}" style="color:#766650;">${i}</a>
+				           </li>
+				       </c:forEach>
+				       <!-- 다음 페이지 이동 버튼, 목록이 없을 때 비활성화 -->
+				       <li class="page-item ${pagination.currentPage == pagination.totalPages || books.isEmpty() ? 'disabled' : ''}">
+				           <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}&searchType=${searchType}&searchQuery=${searchQuery}">&raquo;</a>
+				       </li>
+				       <!-- 마지막으로 이동 버튼, 목록이 없을 때 비활성화 -->
+				       <li class="page-item ${pagination.currentPage == pagination.totalPages || books.isEmpty() ? 'disabled' : ''}">
+				           <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&category=${selectedCategory}&searchType=${searchType}&searchQuery=${searchQuery}">&raquo;&raquo;</a>
+				       </li>
+				   </ul>
+				</nav>
            </div>
            <div class="col-lg-3 col-md-12 sidebar">
               <h2>담긴도서</h2>

@@ -231,8 +231,11 @@ this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 // 데이터 더블클릭시 팝업호출
 this.user_table_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-	var objParam = {USER_CODE:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_CODE"),
-					USER_NAME:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_NAME")};
+	var objParam = {
+						USER_CODE:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_CODE"),
+						USER_NAME:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_NAME"),
+						USER_POINT:this.view_dtl.getColumn(this.view_dtl.rowposition, "USER_POINT")
+					};
 				  
 	this.showPopup(objParam);
 };

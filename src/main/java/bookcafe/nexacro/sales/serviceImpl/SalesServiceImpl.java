@@ -22,10 +22,10 @@ public class SalesServiceImpl extends EgovAbstractServiceImpl implements SalesSe
 	}
 	
 	//도서 조회
-	@Override
-	public List<Map<String, Object>> selectBookSales(Map<String, String> sales_con) {
-		return Sales_mapper.selectBookSales(sales_con);
-	}
+//	@Override
+//	public List<Map<String, Object>> selectBookSales(Map<String, String> sales_con) {
+//		return Sales_mapper.selectBookSales(sales_con);
+//	}
 	//분류 콤보 조회
 	@Override
 	public List<Map<String, Object>> selectSalesCombo(Map<String, String> combo_con) {

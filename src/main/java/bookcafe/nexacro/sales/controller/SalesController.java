@@ -43,14 +43,14 @@ public class SalesController {
     }
 	
 	// 도서 이력 조회
-	@RequestMapping(value = "/selectBookSales.do")
-    public NexacroResult selectBookSales(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) { 
-		System.out.println("=====도서"+sales_con);
-		List<Map<String, Object>> dataList = sales_service.selectBookSales(sales_con);
-	    NexacroResult result = new NexacroResult();
-	    result.addDataSet("book_sales_dtl", dataList);
-	    return result;
-    }
+//	@RequestMapping(value = "/selectBookSales.do")
+//    public NexacroResult selectBookSales(@ParamDataSet(name = "sales_con", required = false) Map<String,String> sales_con) { 
+//		System.out.println("=====도서"+sales_con);
+//		List<Map<String, Object>> dataList = sales_service.selectBookSales(sales_con);
+//	    NexacroResult result = new NexacroResult();
+//	    result.addDataSet("book_sales_dtl", dataList);
+//	    return result;
+//    }
 	
 	// 대여중인 도서 조회
 		@RequestMapping(value = "/selectBookList.do")

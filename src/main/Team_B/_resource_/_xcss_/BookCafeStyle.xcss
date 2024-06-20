@@ -439,4 +439,12 @@ color : #28a745;
 	color : #dc3545;
 	background : white;
 }
+.GridCellControl.grid_mask
+{
+}
+.GridCellControl.grid_mask .cellmaskedit
+{
+	-nexa-border : 0px none;
+	
+}
 ]]></XCSS>

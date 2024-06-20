@@ -47,13 +47,13 @@
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="buttoncontrol" edittype="none" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center" cursor="pointer" border="1px solid #dbdee2" cssclass="expr:PRODUCT_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
-                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_CODE" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
+                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
-                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text" wordWrap="char" displaytype="normal"/>
-                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="none" autosizecol="default" displaytype="normal" wordWrap="char" cursor="pointer" cssclass="expr:PRODUCT_PATH == '이미지 준비중' ? 'img':&quot; "/>
-                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" text="bind:BOOK_WRITER" wordWrap="char" displaytype="expr:PRODUCT_CODE == ' ' || PRODUCT_CODE == '도서' || PRODUCT_CODE == '음식'  ? 'editcontrol' : 'nomal'"/>
-                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" edittype="expr:BOOK_PUBLICATION_DATE=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'mask'" maskedittype="string" displaytype="expr:BOOK_PUBLICATION_DATE == '-'  || BOOK_PUBLICATION_DATE == '미상' ? 'nomal' : 'mask'" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask"/>
-                <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="mask" edittype="expr:PRODUCT_PRICE &gt; '0' || PRODUCT_CODE =='음식' ? 'mask' : 'none'" maskeditformat="###,###" autosizecol="limitmin"/>
+                <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text" wordWrap="char" displaytype="expr:PRODUCT_NAME == null ? 'editcontrol' : 'normal'"/>
+                <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="none" autosizecol="default" displaytype="text" wordWrap="char" cursor="pointer" cssclass="expr:PRODUCT_PATH == '이미지 준비중' ? 'img':&quot; "/>
+                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" wordWrap="char" displaytype="expr:BOOK_WRITER == '-' || BOOK_WRITER !='미상' ? 'normal' : 'editcontrol'" text="bind:BOOK_WRITER"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" maskedittype="string" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask" displaytype="expr:BOOK_PUBLICATION_DATE != null ? comp.parent.book_date(BOOK_PUBLICATION_DATE): '';" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'"/>
+                <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="expr:PRODUCT_CODE =='음식' ? 'maskeditcontrol': 'mask'" edittype="mask" maskeditformat="###,###" autosizecol="limitmin" cssclass="expr:PRODUCT_PRICE  &gt; 0 ? 'grid_mask':'' "/>
               </Band>
             </Format>
           </Formats>
@@ -200,6 +200,7 @@ var g_row = 0;
 var add_grow = 0;
 var btn_count = 0;
 var add_num = 0;
+var save_num = 0;
 
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
@@ -803,9 +804,17 @@ this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 	
 	}
 
-	
 };
-]]></Script>
+this.book_date = function(val){
+if (val == '-') {
+    return 'normal'; // '-' 인 경우
+} else if (val == '미상') {
+    return 'editcontrol'; // '미상' 인 경우
+} else {
+    return 'mask'; // 그 외의 경우
+}
+
+} ]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="serch_product" propid="value" datasetid="view_dtl" columnid="SEC_NAME"/>

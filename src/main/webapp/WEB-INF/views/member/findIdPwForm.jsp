@@ -86,7 +86,7 @@
                     url: "send.do",
                     dataType: "text",
                     success: function(result) {
-                        alert("이메일 전송 완료");
+                        alert("인증번호가 전송되었습니다.");
                     },
                     error: function() {
                         alert("이메일 전송 중 오류가 발생했습니다.");
@@ -206,7 +206,7 @@
                     url: "send.do",
                     dataType: "text",
                     success: function(result) {
-                        alert("이메일 전송 완료");
+                        alert("인증번호가 전송되었습니다.");
                     },
                     error: function() {
                         alert("이메일 전송 중 오류가 발생했습니다.");
@@ -261,7 +261,7 @@
                                 success: function(response) {
                                     if (response === "success") {
                                         $("#resetPwModal").hide();
-                                        alert("비밀번호 변경 완료");
+                                        alert("비밀번호 변경 완료되었습니다.");
                                         window.location.href = "login.do";
                                     } else {
                                         alert("비밀번호 변경에 실패하였습니다.");

@@ -115,10 +115,10 @@
         <Div id="Div00" taborder="2" left="20" top="Static00:40" text="" cssclass="main_nav" right="20" height="40">
           <Layouts>
             <Layout>
-              <Combo id="Combo00" taborder="1" left="55" top="5" width="130" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵/샐러드"/>
-              <Combo id="Combo03" taborder="0" left="Combo00:3" top="5" width="227" height="30" value="" index="-1" onitemchanged="Div00.form.Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
               <ImageViewer id="ImageViewer00_00" taborder="3" left="15" top="17" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
               <Static id="Static03" taborder="2" text="분류" left="ImageViewer00_00:5" top="13" width="24" height="14"/>
+              <Combo id="Combo00" taborder="1" left="Static03:5" top="5" width="130" height="30" cssclass="combo_default" innerdataset="find_sec_combo" datacolumn="SEC_NAME" codecolumn="SEC_CODE" onitemchanged="Combo00_onitemchanged" displaynulltext="음료/빵/샐러드"/>
+              <Combo id="Combo03" taborder="0" left="Combo00:3" top="5" width="227" height="30" value="" index="-1" onitemchanged="Div00.form.Combo03_onitemchanged" cssclass="combo_default" displaynulltext="메뉴명" innerdataset="find_thir_combo" datacolumn="PRODUCT_NAME" codecolumn="PRODUCT_CODE"/>
             </Layout>
           </Layouts>
         </Div>

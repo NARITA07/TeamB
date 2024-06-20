@@ -153,12 +153,12 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_fn" right="20" bottom="Grid00:5" height="30" width="71"/>
+        <Button id="Button00" taborder="3" text="발주신청" onclick="Button00_onclick" cssclass="btn_save" right="20" bottom="Grid00:5" height="30" width="71"/>
         <Static id="Static01" taborder="4" text="재고 관리" left="20" cssclass="title_sub" height="24" right="971" bottom="Grid00:5"/>
         <Static id="Static00_00" taborder="6" text="입고 관리 - 입고대기" left="20" width="193" height="24" cssclass="title_sub" bottom="Grid01:5"/>
-        <Button id="Button00_00" taborder="8" text="엑셀저장" height="30" right="20" width="70" cssclass="btn_fn" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
-        <Button id="Button02" taborder="10" text="발주취소" height="30" cssclass="btn_fn_del" bottom="Grid01:5" width="70" right="Button00_00:5" onclick="btntxt_onclick"/>
-        <Button id="Button01" taborder="9" text="입고완료" width="70" cssclass="btn_fn" right="Button02:5" bottom="Grid01:5" height="30" onclick="btntxt_onclick"/>
+        <Button id="Button00_00" taborder="8" text="엑셀저장" height="30" right="20" width="70" cssclass="btn_save" onclick="stock02_div_Button00_onclick" bottom="Grid01:5"/>
+        <Button id="Button02" taborder="10" text="발주취소" height="30" cssclass="btn_del" bottom="Grid01:5" width="70" right="Button00_00:5" onclick="btntxt_onclick"/>
+        <Button id="Button01" taborder="9" text="입고완료" width="70" cssclass="btn_save" right="Button02:5" bottom="Grid01:5" height="30" onclick="btntxt_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort_Stock_Order.xjs";

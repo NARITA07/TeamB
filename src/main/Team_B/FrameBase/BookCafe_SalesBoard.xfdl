@@ -93,26 +93,19 @@ this.Sales_Board_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
     this.Calendar00.set_value(year+month+day);
 	this.Calendar01.set_value(year+month+day);
 	
-	this.sales_con.clearData();
-	
-	var sales_row = this.sales_con.addRow();
-	
-	var date1 = this.Calendar00.value;
-	var date2 = this.Calendar01.value;
-	var sec_code = this.Combo02.value;
-
-	this.sales_con.setColumn(sales_row, "DATE1", date1);
-	this.sales_con.setColumn(sales_row, "DATE2", date2);
-	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
-	
-	this.fnSelectSales();
+	this.fnSelect();
 
 };
 
 //조회
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	
+{	
+	this.fnSelect();
+
+};
+
+//조회 메서드
+this.fnSelect = function() {
 	//조건 값 데이터셋에 담아서 넘겨주기
  	this.sales_con.clearData();
 	
@@ -131,7 +124,6 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.sales_con.setColumn(sales_row, "SEC_CODE", sec_code);
 	
 	this.fnSelectSales();
-
 };
 
 //엔터키 이벤트
@@ -243,7 +235,12 @@ this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEve
 this.ReturnCellFontColor = function(str) {
 	return str == 0 ? "ExprRed" : "";
 }
- ]]></Script>
+ 
+this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSelect();
+};
+]]></Script>
     <Objects>
       <Dataset id="sales_dtl">
         <ColumnInfo>

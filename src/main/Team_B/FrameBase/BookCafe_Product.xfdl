@@ -687,7 +687,7 @@ this.file_upload = function(img){
 		// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
 		var img_name = img[0].filename // 파일이름
 		var img_length = img[0].filename.length; // 파일이름의 길이
-		this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
+		this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+img_name)
 		
 		
 		

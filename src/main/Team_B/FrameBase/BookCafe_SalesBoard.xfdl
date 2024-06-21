@@ -9,7 +9,7 @@
             <Layout/>
           </Layouts>
         </Div>
-        <Grid id="Grid00" taborder="0" left="20" top="Div00:20" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="60" cssclass="grid_default" onsize="Grid00_onsize" right="20">
+        <Grid id="Grid00" taborder="0" left="20" top="Div00:20" binddataset="view_dtl" scrollbartype="none default" autofittype="col" bottom="60" cssclass="grid_default" onsize="Grid00_onsize" right="20" oncellclick="Grid00_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -246,6 +246,11 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 this.ImageViewer00_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
 	this.reload();
+};
+
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	
 };
 ]]></Script>
     <Objects>

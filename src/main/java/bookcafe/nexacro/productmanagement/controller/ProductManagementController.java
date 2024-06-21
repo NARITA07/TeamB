@@ -61,7 +61,7 @@ public class ProductManagementController {
 		NexacroResult del =new NexacroResult();
 		
 			del.addDataSet("message", productservice.delete_product(del_date));
-		
+			System.out.println(del.getDataSets());
 		return del;
 		
 		

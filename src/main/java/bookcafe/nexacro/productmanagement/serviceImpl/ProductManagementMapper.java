@@ -47,7 +47,7 @@ public interface ProductManagementMapper {
 	int product_quantity(Object object);
 
 	//주문상태 확인
-	int stock_order_status(Object object);
+	Integer stock_order_status(Object object);
 
 	Object book_quantity(String book_quantity);
 

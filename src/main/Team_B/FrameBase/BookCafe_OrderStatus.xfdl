@@ -33,7 +33,7 @@
                 <Cell col="8" text="주문상태" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
+                <Cell displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
                 <Cell col="1" text="bind:ORDER_CODE" suppress="1" textAlign="center"/>
                 <Cell col="2" text="bind:USER_ID" suppress="2" textAlign="center"/>
                 <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center"/>
@@ -76,7 +76,7 @@
                 <Cell col="8" text="주문상태" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
+                <Cell displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK" suppress="2"/>
                 <Cell col="1" text="bind:ORDER_CODE" suppress="1" textAlign="center"/>
                 <Cell col="2" text="bind:USER_ID" suppress="2" textAlign="center"/>
                 <Cell col="3" text="bind:PRODUCT_NAME" textAlign="center"/>
@@ -98,6 +98,7 @@
         <Button id="Button00_01" taborder="8" text="준비" cssclass="btn_save" bottom="Grid00:5" right="Button00_00:5" height="30" width="70" onclick="Button00_01_onclick"/>
         <Button id="Button00_02_00" taborder="9" text="준비중" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02:5" height="30" onclick="Button00_02_00_onclick"/>
         <Button id="Button00_02_01" taborder="10" text="준비" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02_00:5" height="30" onclick="Button00_02_01_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="11" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -156,7 +157,7 @@
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="ds_orders_updaterdy" oncolumnchanged="dataset_oncolumnchanged">
+      <Dataset id="ds_orders_updaterdy" useclientlayout="true">
         <ColumnInfo>
           <Column id="USER_CODE" type="STRING" size="256"/>
           <Column id="USER_ID" type="STRING" size="256"/>
@@ -168,6 +169,7 @@
           <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
           <Column id="TOTAL_PRICE" type="INT" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_orders_end" oncolumnchanged="dataset_oncolumnchanged">
@@ -264,6 +266,7 @@ this.fnCallBack_Update_orders = function()
 
 this.dataset_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
+	
 	if(e.col == obj.getColIndex("CHK")){
 		var ordercode = obj.getColumn(e.row,"ORDER_CODE");
 		
@@ -305,7 +308,7 @@ this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		if(this.ds_orders.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",1);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",1);
 		}
 	}
 	this.fnUpdate_orders();
@@ -317,7 +320,7 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		if(this.ds_orders.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",2);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",2);
 		}
 	}
 	this.fnUpdate_orders();
@@ -329,7 +332,7 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		if(this.ds_orders.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",3);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",3);
 		}
 	}
 	this.fnUpdate_orders();
@@ -344,7 +347,8 @@ this.Button00_02_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 		if(this.ds_orders_end.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders_end,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",1);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",1);
+			var test = this.ds_orders_updaterdy.getColumn(idx,"ORDER_STATE");
 		}
 	}
 	this.fnUpdate_orders();
@@ -357,7 +361,7 @@ this.Button00_02_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 		if(this.ds_orders_end.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders_end,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",2);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",2);
 		}
 	}
 	this.fnUpdate_orders();
@@ -369,10 +373,17 @@ this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		if(this.ds_orders_end.getColumn(i,"CHK") == 'Y'){
 			var idx = this.ds_orders_updaterdy.addRow();
 			this.ds_orders_updaterdy.copyRow(idx,this.ds_orders_end,i);
-			this.ds_orders_updaterdy.setColumn(i,"ORDER_STATE",3);
+			this.ds_orders_updaterdy.setColumn(idx,"ORDER_STATE",3);
 		}
 	}
 	this.fnUpdate_orders();
-};]]></Script>
+};
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

@@ -60,6 +60,7 @@
         <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="Div00:5" right="20"/>
         <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:5" bottom="Div00:5"/>
         <Button id="Button00_01_00" taborder="5" text="조회" width="70" cssclass="btn_view" height="30" bottom="Div00:5" right="Button00_00:5" onclick="Button00_01_00_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="6" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -289,6 +290,13 @@ this.Button00_01_00_enter_onkeyup = function(obj:nexacro.Button,e:nexacro.ClickE
 	{
 		this.Button00_01_00_onclick();
 	}
-}]]></Script>
+}
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

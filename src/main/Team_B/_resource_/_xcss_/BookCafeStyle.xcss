@@ -78,6 +78,7 @@
 {
 	font : normal bold  24pt/normal "Arial";
 	-nexa-border : 0px none,0px none,1px solid #4F4537;
+	color : black;
 }
 .Edit.edit_default,
 .Edit.edit_default[status=focused],

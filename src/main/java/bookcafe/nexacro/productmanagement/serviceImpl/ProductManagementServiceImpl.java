@@ -56,19 +56,29 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 	public Map<String, Object> delete_product(List<Map<String, Object>> del_date) {
 		Map<String, Object>nums = new HashMap<>();
 		int num = 0;
+		String mes = "";
 		for(int i = 0; i < del_date.size(); i++) {
 			String date = (String) del_date.get(i).get("PRODUCT_CODE");
 				if(date.substring(0,1).equals("f")) {//분류 구분
 					if(productmapper.product_quantity(del_date.get(i).get("PRODUCT_CODE")) == 0) {
-						if(productmapper.stock_order_status(del_date.get(i).get("PRODUCT_CODE")) > 0) {
-							num += productmapper. delete_food(del_date.get(i));
+						if(productmapper.stock_order_status(del_date.get(i).get("PRODUCT_CODE")) == null) {
+												
+							//입고 주문한적이 없음. - > 삭제
+							num += productmapper.delete_food(del_date.get(i));
+							
+						}else if(productmapper.stock_order_status(del_date.get(i).get("PRODUCT_CODE")) >0) {
+							//입고 주문한적이 있으나 현재 입고가 다 끝난 상태 -> 삭제
+							num += productmapper.delete_food(del_date.get(i));
 						}else {
-							// 입고 대기중 ->삭제 불가능;
-							num = 99;
+							
+							//주문이 들어가서 입고 대기중 ->삭제 불가능;
+							
+							mes += (String) del_date.get(i).get("PRODUCT_NAME") + "제품이 입고대기 중인 항목입니다.*\n";
 						}
 				}else {
 					//재고 남아있음 ->삭제 불가능
-					num = 98;
+					mes += (String) del_date.get(i).get("PRODUCT_NAME")+ "제품의 재고가 남아있습니다.*\n";
+					
 				}
 				
 				
@@ -76,9 +86,8 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 				String book_quantity = (String) del_date.get(i).get("PRODUCT_CODE");
 				//도서는 대여상태라면 삭제 불가능.
 					if(productmapper.book_quantity(book_quantity).equals("N")) {
-						
-						num =97;
-						
+							System.out.println("대여상태"+ del_date.get(i));
+						mes += (String) del_date.get(i).get("PRODUCT_NAME") + " 도서는 현재 대여상태입니다.*\n";
 					}else {
 						
 						num += productmapper.delete_book(del_date.get(i));
@@ -91,13 +100,13 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 		}
 		
 		nums.put("num", num);
+		nums.put("mes", mes);
 		return nums;
 	}
 
 	//제품 수정
 	@Override
 	public Map<String, Object> update_product(List<Map<String, Object>> save_date) {
-		System.out.println(save_date);
 		Map<String, Object>nums = new HashMap<>();
 		int num = 0;
 		

@@ -249,6 +249,8 @@
 }.ImageViewer.iv_none_border
 {
 	-nexa-border : 0px none transparent,0px none,0px none;
+	cursor : pointer;
+	background : transparent;
 
 }
 /* 디폴트 */

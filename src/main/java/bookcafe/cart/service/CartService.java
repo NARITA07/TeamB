@@ -59,6 +59,8 @@ public interface CartService {
 
 	public String selectReadBook(String user_code);
 
+	public OrdersVO selectOrdersInfo(String order_code);
+
 
 
 }

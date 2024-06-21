@@ -73,11 +73,11 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 							
 							//주문이 들어가서 입고 대기중 ->삭제 불가능;
 							
-							mes += (String) del_date.get(i).get("PRODUCT_NAME") + "제품이 입고대기 중인 항목입니다.";
+							mes += (String) del_date.get(i).get("PRODUCT_NAME") + "제품이 입고대기 중인 항목입니다.*\n";
 						}
 				}else {
 					//재고 남아있음 ->삭제 불가능
-					mes += (String) del_date.get(i).get("PRODUCT_NAME")+ "제품의 재고가 남아있습니다.";
+					mes += (String) del_date.get(i).get("PRODUCT_NAME")+ "제품의 재고가 남아있습니다.*\n";
 					
 				}
 				
@@ -87,7 +87,7 @@ public class ProductManagementServiceImpl extends EgovAbstractServiceImpl implem
 				//도서는 대여상태라면 삭제 불가능.
 					if(productmapper.book_quantity(book_quantity).equals("N")) {
 							System.out.println("대여상태"+ del_date.get(i));
-						mes += (String) del_date.get(i).get("PRODUCT_NAME") + " 도서는 현재 대여상태입니다.";
+						mes += (String) del_date.get(i).get("PRODUCT_NAME") + " 도서는 현재 대여상태입니다.*\n";
 					}else {
 						
 						num += productmapper.delete_book(del_date.get(i));

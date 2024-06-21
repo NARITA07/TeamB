@@ -14,7 +14,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="60" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick">
+        <Grid id="user_table" taborder="0" left="20" top="Div00:20" autofittype="col" right="20" bottom="60" border="1px solid #4F4537" onmousemove="user_table_onmousemove" onmouseenter="user_table_onmouseenter" onsize="user_table_onsize" oncelldblclick="user_table_oncelldblclick" extendsizetype="row" autosizingtype="row">
           <Formats>
             <Format id="default">
               <Columns>
@@ -47,11 +47,11 @@
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="2" text="bind:USER_JOINDATE" displaytype="date" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" calendardateformat="yyyy-MM-dd " textAlign="center"/>
-                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center" wordWrap="char"/>
                 <Cell col="4" text="bind:USER_NAME" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
-                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center"/>
+                <Cell col="5" text="bind:USER_EMAIL" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center" wordWrap="char"/>
                 <Cell col="6" text="bind:USER_TEL" textAlign="center" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
-                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="english" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
+                <Cell col="7" text="bind:USER_ADDRESS" wordWrap="char" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="8" text="bind:USER_POINT" edittype="none" editinputtype="number" displaytype="mask" maskeditformat="#,###,###,###" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="right"/>
               </Band>
             </Format>
@@ -60,6 +60,7 @@
         <Button id="Button00_01" taborder="3" text="삭제" width="70" cssclass="btn_del" onclick="Button00_01_onclick" height="30" bottom="Div00:5" right="20"/>
         <Button id="Button00_00" taborder="2" text="수정" cssclass="btn_save" onclick="Button00_00_onclick" width="70" height="30" right="Button00_01:5" bottom="Div00:5"/>
         <Button id="Button00_01_00" taborder="5" text="조회" width="70" cssclass="btn_view" height="30" bottom="Div00:5" right="Button00_00:5" onclick="Button00_01_00_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="6" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -289,6 +290,13 @@ this.Button00_01_00_enter_onkeyup = function(obj:nexacro.Button,e:nexacro.ClickE
 	{
 		this.Button00_01_00_onclick();
 	}
-}]]></Script>
+}
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

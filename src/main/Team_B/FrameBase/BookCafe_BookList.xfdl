@@ -64,6 +64,7 @@
         <Calendar id="Calendar00" taborder="2" left="Combo03:3" top="103" width="110" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Static id="Static09" taborder="7" text="~" left="Calendar00:3" top="110" width="11" height="16" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="8" left="Static09:3" top="103" width="110" height="30" cssclass="cal_default"/>
+        <ImageViewer id="ImageViewer00_00" taborder="21" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')" cursor="pointer"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -487,6 +488,12 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 {
 	this.fnSelect();
 };
-]]></Script>
+
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};]]></Script>
   </Form>
 </FDL>

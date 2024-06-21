@@ -78,6 +78,7 @@
 {
 	font : normal bold  24pt/normal "Arial";
 	-nexa-border : 0px none,0px none,1px solid #4F4537;
+	color : black;
 }
 .Edit.edit_default,
 .Edit.edit_default[status=focused],
@@ -248,6 +249,8 @@
 }.ImageViewer.iv_none_border
 {
 	-nexa-border : 0px none transparent,0px none,0px none;
+	cursor : pointer;
+	background : transparent;
 
 }
 /* 디폴트 */
@@ -393,4 +396,61 @@
 {
 	background : transparent;
 	color : red;
-}]]></XCSS>
+}.GridCellControl.use_y
+{
+}
+.GridCellControl.use_n
+{
+}
+.GridCellControl.use_n .cellbutton
+{
+	color : #dc3545;
+	background : white;
+	-nexa-border : 0px dotted;
+
+}
+.GridCellControl.use_y .cellbutton
+{
+	color : #28a745;
+	background : white;
+	-nexa-border : 0px dotted;
+}
+.GridCellControl.use_n .cellbutton[status=focused]
+{
+color : #dc3545;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=focused]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=focused][userstatus=selected]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_n .cellbutton[status=focused][userstatus=selected]
+{
+color : #dc3545;
+	background : white;
+}
+.GridCellControl.use_y .cellbutton[status=mouseover]
+{
+color : #28a745;
+	background : white;
+}
+.GridCellControl.use_n .cellbutton[status=mouseover]
+{
+	color : #dc3545;
+	background : white;
+}
+.GridCellControl.grid_mask
+{
+}
+.GridCellControl.grid_mask .cellmaskedit
+{
+	-nexa-border : 0px none;
+	
+}
+]]></XCSS>

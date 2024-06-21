@@ -68,6 +68,7 @@
         <Calendar id="Calendar00" taborder="6" left="Static06:5" top="103" width="110" height="30" onchanged="Calendar00_onchanged" cssclass="cal_default"/>
         <Static id="Static09" taborder="10" text="~" left="Calendar00:3" top="106" width="20" height="25" font="14px/normal &quot;Gulim&quot;" textAlign="center"/>
         <Calendar id="Calendar01" taborder="11" left="Static09:3" top="103" width="110" height="30" cssclass="cal_default"/>
+        <ImageViewer id="ImageViewer00_03" taborder="19" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
@@ -239,6 +240,12 @@ this.ReturnCellFontColor = function(str) {
 this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
 	this.fnSelect();
+};
+
+// 새로고침 버튼
+this.ImageViewer00_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
 };
 ]]></Script>
     <Objects>

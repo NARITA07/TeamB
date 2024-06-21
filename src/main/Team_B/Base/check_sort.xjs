@@ -13,7 +13,8 @@
 this.check_sort = function(obj:nexacro.Grid)
 {
 	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
-	var head = obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
+	obj.addEventHandler("oncellclick",this.grid_oncellclick,this);
 	
 	// 그리드에 바인딩된 데이터셋 가져오기
 	var ds_grid = obj.getBindDataset();
@@ -27,7 +28,7 @@ this.check_sort2 = function(obj:nexacro.Grid)
 {
 	// 그리드 헤더 클릭 시 실행될 이벤트 함수 추가
 	var head = obj.addEventHandler("onheadclick",this.grid_onheadclick, this);
-	
+	obj.addEventHandler("oncellclick",this.grid_oncellclick,this);
 };
 
 /* oncolumnchanged 이벤트 : 컬럼값이 바뀌면 자동으로 CHK가 체크 */
@@ -80,10 +81,13 @@ this.grid_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 			dataset.set_keystring("S:-"+id);	// S:- 내림차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▼");	// 헤더에 마크 추가
 			obj.vscrollbar.set_pos(0);	// 스크롤 고정
+			obj.selectRow(0);
+			
 		}else{
 			dataset.set_keystring("S:+"+id);	// S:+ 오름차순으로 변경
 			obj.setCellProperty("head",e.cell,"text",headtext.replace(/ ▲| ▼/g,"")+" ▲");
 			obj.vscrollbar.set_pos(0);
+			obj.selectRow(0);
 			}
 	}
 }
@@ -127,4 +131,24 @@ this.getBindColumnIDByIndex = function(grid, index)
   }
   
   return columnid;
-}]]></Script>
+}
+
+/* cell 클릭하면 체크박스가 되게 */
+this.grid_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	var dataset = obj.getBindDataset();	// 바인딩된 데이터셋 가져오기
+	
+	if(e.cell == 0)
+	{
+		if(dataset.getColumn(e.row,"CHK") == "Y")
+		{
+		trace("aa");
+ 			dataset.setColumn(e.row,"CHK","N");
+		}else if (dataset.getColumn(e.row,"CHK") == "N")
+		{
+		trace("aa2");
+			dataset.setColumn(e.row,"CHK","Y");
+		}
+
+	}
+};]]></Script>

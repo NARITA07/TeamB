@@ -113,6 +113,7 @@
 }]]></Contents>
         </BasicChart>
         <Combo id="Combo00" taborder="11" text="Combo00" left="Static06:5" top="103" width="110" height="30" innerdataset="ds_year" codecolumn="YEAR" datacolumn="YEAR" cssclass="combo_default" onitemchanged="Combo00_onitemchanged"/>
+        <ImageViewer id="ImageViewer00_03" taborder="16" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -269,7 +270,12 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 {
 	this.fnSelect();
 };
-]]></Script>
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};]]></Script>
     <Bind>
       <BindItem id="item1" compid="Combo02" propid="value" datasetid="Dataset00" columnid="Column1"/>
     </Bind>

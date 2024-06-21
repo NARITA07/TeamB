@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="BookCafe_ProductManagemnet_Modify" width="1080" height="720" titletext="제품관리" oninit="BookCafe_ProductManagemnet_Modify_oninit">
     <Layouts>
@@ -45,7 +45,7 @@
                 <Cell col="8" text="가격" textAlign="center" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="buttoncontrol" edittype="none" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center" cursor="pointer" border="1px solid #dbdee2" cssclass="expr:PRODUCT_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
                 <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
@@ -64,6 +64,7 @@
         <ImageViewer id="im_v" taborder="10" left="sec_category:30" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08_00" taborder="11" text="검색" left="im_v:5" top="111" height="14" onclick="Static08_onclick" width="24"/>
         <Combo id="serch_product" taborder="12" left="Static08_00:5" top="103" width="150" height="30" type="filterlike" cssclass="combo_default" innerdataset="view_code" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" autoselect="true" displaynulltext="제품검색" onitemchanged="Div00_serch_product_onitemchanged" displayrowcount="10"/>
+        <ImageViewer id="ImageViewer00_00" taborder="13" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -192,7 +193,7 @@
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 include "Base::paging.xjs";
-
+ 
 
 
 //화면 시작 시
@@ -200,7 +201,6 @@ var g_row = 0;
 var add_grow = 0;
 var btn_count = 0;
 var add_num = 0;
-var save_num = 0;
 
 this.BookCafe_ProductManagemnet_Modify_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
 {	
@@ -599,9 +599,9 @@ this.fn_category = function(id, code, message){
 			if(this.message.getColumn(0,"num") == 99){
 			alert("입고 대기 중인 제품입니다.")
 			}else if(this.message.getColumn(0,"num") == 98){
-			alert("재고가 남아있습니다.")
+			alert("재고가 남아있는 품목이 있습니다.")
 			}else if(this.message.getColumn(0,"num") == 97){
-			alert("대여 중인 책입니다.")
+			alert("대여 중인 책이 있습니다.")
 			}else{
 			alert(count + "건 삭제되었습니다.");
 			this.reload();
@@ -626,24 +626,20 @@ this.fn_category = function(id, code, message){
 			break;
 			
 		case "product_save":
-			var count = this.message.getColumn(0,"num");
-			alert(count + "건 적용되었습니다.")
+			this.messages();
 			this.reload();
 			break;
 			
 		case "add_save_date_img":
-			var count = this.message.getColumn(0,"num");
-			alert(count + "건 적용되었습니다.")
+			this.messages();
 			this.reload();
 			break;
 		case "product_save_with_img":
-		var count = this.message.getColumn(0,"num");
-			alert(count + "건 수정되었습니다.")
+			this.messages();
 			this.reload();
 			break;
 		case "product_save_no_img":
-		var count = this.message.getColumn(0,"num");
-			alert(count + "건 수정되었습니다.")
+			this.messages();
 			this.reload();
 			break;
 			
@@ -792,19 +788,19 @@ this.Div00_serch_product_onitemchanged = function(obj:nexacro.Combo,e:nexacro.It
 	this.transaction(id, url, set, get, arg, callback)
 };
 
+// 셀클릭
 this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
+{	
 	if(e.cell == 1){
 		if(this.view_dtl.getColumn(e.row,"PRODUCT_STATUS") == "Y"){
 				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "N")
 		}else {
 				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "Y")
 		}
-		
-	
 	}
-
 };
+
+
 this.book_date = function(val){
 if (val == '-') {
     return 'normal'; // '-' 인 경우
@@ -814,7 +810,19 @@ if (val == '-') {
     return 'mask'; // 그 외의 경우
 }
 
-} ]]></Script>
+} 
+
+//처리 메시지
+this.messages = function(){
+	var count = this.message.getColumn(0,"num");
+	return alert(count + "건 처리 되었습니다.")
+}
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="serch_product" propid="value" datasetid="view_dtl" columnid="SEC_NAME"/>

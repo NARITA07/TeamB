@@ -13,7 +13,7 @@
                     <Columns>
                       <Column size="40"/>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="100"/>
                       <Column size="150"/>
                     </Columns>
                     <Rows>
@@ -41,7 +41,7 @@
                     <Columns>
                       <Column size="40"/>
                       <Column size="40"/>
-                      <Column size="150"/>
+                      <Column size="100"/>
                       <Column size="150"/>
                     </Columns>
                     <Rows>

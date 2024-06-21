@@ -44,7 +44,7 @@
                 <Cell col="8" text="포인트" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
+                <Cell displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y" text="bind:CHK"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" edittype="combo" combodataset="Member_Authority" combodatacol="TXT" combocodecol="USER_AUTHORITY" text="bind:USER_AUTHORITY" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''"/>
                 <Cell col="2" text="bind:USER_JOINDATE" displaytype="date" maskeditformat="####-##-##" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" calendardateformat="yyyy-MM-dd " textAlign="center"/>
                 <Cell col="3" text="bind:USER_ID" cssclass="expr:USER_AUTHORITY ==5? 'reduser':''" textAlign="center" wordWrap="char"/>

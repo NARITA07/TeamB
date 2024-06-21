@@ -27,7 +27,7 @@
                       <Cell col="3" text="분류명" background="#FFF8EE" cursor="auto"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:CHK" edittype="checkbox" displaytype="checkboxcontrol" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                      <Cell text="bind:CHK" edittype="none" displaytype="checkboxcontrol" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                       <Cell col="1" text="bind:USE_STATUS" edittype="none" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" textAlign="center" displaytype="buttoncontrol" cssclass="expr:USE_STATUS == 'Y' ? 'use_y' : 'use_n'" cursor="pointer"/>
                       <Cell col="2" text="bind:FIR_CODE" textAlign="center"/>
                       <Cell col="3" text="bind:FIR_NAME" edittype="text" textAlign="center"/>
@@ -55,7 +55,7 @@
                       <Cell col="3" text="코드명" background="#FFF8EE"/>
                     </Band>
                     <Band id="body">
-                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
+                      <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="none" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
                       <Cell col="1" text="bind:USE_STATUS" textAlign="center" edittype="none" combodataset="use_status" combodatacol="use_status" combocodecol="use_status" displaytype="buttoncontrol" cssclass="expr:USE_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
                       <Cell col="2" text="bind:SEC_CODE" textAlign="center"/>
                       <Cell col="3" text="bind:SEC_NAME" textAlign="center" edittype="text"/>

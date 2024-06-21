@@ -98,6 +98,7 @@
         <Button id="Button00_01" taborder="8" text="준비" cssclass="btn_save" bottom="Grid00:5" right="Button00_00:5" height="30" width="70" onclick="Button00_01_onclick"/>
         <Button id="Button00_02_00" taborder="9" text="준비중" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02:5" height="30" onclick="Button00_02_00_onclick"/>
         <Button id="Button00_02_01" taborder="10" text="준비" width="70" cssclass="btn_save" bottom="Grid00_00:5" right="Button00_02_00:5" height="30" onclick="Button00_02_01_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="11" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -376,6 +377,13 @@ this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		}
 	}
 	this.fnUpdate_orders();
-};]]></Script>
+};
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

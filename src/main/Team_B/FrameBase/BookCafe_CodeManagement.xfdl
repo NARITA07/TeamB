@@ -75,6 +75,7 @@
             </Layout>
           </Layouts>
         </Div>
+        <ImageViewer id="ImageViewer00" taborder="1" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -613,6 +614,11 @@ this.Main_Sec_code_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEv
 		}
 	}
 };
-]]></Script>
+
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};]]></Script>
   </Form>
 </FDL>

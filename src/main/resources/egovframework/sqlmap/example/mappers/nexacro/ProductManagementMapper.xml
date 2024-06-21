@@ -137,9 +137,12 @@ SELECT PRODUCT_QUANTITY FROM FOOD WHERE PRODUCT_CODE = #{PRODUCT_CODE}
 </select>
 
 <!-- 주문상태 확인 -->
-<select id="stock_order_status" resultType="int">
-SELECT STOCK_ORDER_STATUS FROM STOCKORDER WHERE PRODUCT_CODE = #{PRODUCT_CODE}
+<select id="stock_order_status" resultType="Integer">
+    SELECT COALESCE(STOCK_ORDER_STATUS, 0) AS STOCK_ORDER_STATUS 
+    FROM STOCKORDER 
+    WHERE PRODUCT_CODE = #{PRODUCT_CODE}
 </select>
+
 
 <select id="book_quantity" resultType="String">
 SELECT BOOK_QUANTITY FROM BOOK WHERE BOOK_CODE = #{PRODUCT_CODE}

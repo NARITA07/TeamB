@@ -57,7 +57,7 @@ public class ProductManagementController {
 	//제품 삭제
 	@RequestMapping("del_date.do")
 	public NexacroResult deldate(@ParamDataSet(name = "del_date", required = false)List<Map<String,Object>>del_date) {
-		
+		System.out.println(del_date);
 		NexacroResult del =new NexacroResult();
 		
 			del.addDataSet("message", productservice.delete_product(del_date));

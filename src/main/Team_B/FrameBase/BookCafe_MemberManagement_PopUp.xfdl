@@ -4,12 +4,13 @@
     <Layouts>
       <Layout height="380" width="670">
         <Div id="Div00" taborder="8" left="20" top="43" height="40" cssclass="main_nav" right="20"/>
-        <Grid id="Grid00" taborder="0" left="20" height="238" autofittype="col" cssclass="grid_default" right="2.99%" bottom="50">
+        <Grid id="Grid00" taborder="0" left="20" height="238" autofittype="col" cssclass="grid_default" right="2.99%" bottom="50" binddataset="pointlog_dtl">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="80"/>
-                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="80"/>
                 <Column size="80"/>
               </Columns>
               <Rows>
@@ -18,13 +19,15 @@
               </Rows>
               <Band id="head">
                 <Cell text="주문번호" background="#FFF8EE"/>
-                <Cell col="1" text="포인트 증감" background="#FFF8EE"/>
-                <Cell col="2" text="적립/사용일시" displaytype="normal" background="#FFF8EE"/>
+                <Cell col="1" text="포인트 적립/사용" background="#FFF8EE"/>
+                <Cell col="2" text="비고" background="#FFF8EE"/>
+                <Cell col="3" text="적립/사용일시" background="#FFF8EE"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:ORDER_CODE" textAlign="center"/>
                 <Cell col="1" text="bind:POINT_CHANGE" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(POINT_CHANGE)"/>
-                <Cell col="2" text="bind:POINT_JOINDATE" displaytype="date" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" textAlign="center"/>
+                <Cell col="2" text="expr:POINT_STATE == 2 ?  '환불' : POINT_STATE == 3 ? '취소' : '결제완료' " textAlign="center"/>
+                <Cell col="3" text="bind:POINT_JOINDATE" textAlign="center" displaytype="date" calendareditformat="yyyy-MM-dd HH:mm:ss" calendardateformat="yyyy-MM-dd HH:mm:ss"/>
               </Band>
             </Format>
           </Formats>
@@ -50,6 +53,7 @@
           <Column id="ORDER_CODE" type="STRING" size="256"/>
           <Column id="POINT_CHANGE" type="INT" size="256"/>
           <Column id="POINT_JOINDATE" type="STRING" size="256"/>
+          <Column id="POINT_STATE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="Member_Selected">

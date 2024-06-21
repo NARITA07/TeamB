@@ -27,7 +27,7 @@
                 <Cell col="5" text="신청자" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="expr:STOCK_ORDER_STATUS_IN != null ? 'none' : 'checkbox'"/>
+                <Cell displaytype="checkboxcontrol" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y" edittype="none"/>
                 <Cell col="1" textAlign="center" displaytype="combotext" combocodecol="STOCK_ORDER_STATUS_IN" combodatacol="TEXT" combodataset="ds_stockorder_state" edittype="none" text="bind:STOCK_ORDER_STATUS"/>
                 <Cell col="2" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="3" text="bind:STOCK_ORDER_QUANTITY" textAlign="center"/>
@@ -564,25 +564,52 @@ this.btntxt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 /* 2-8. 엑셀버튼 */
 this.stock02_div_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	// 엑셀 내보내기 객체 생성
-    this.exportObj = new ExcelExportObject("Export00", this);
-
-    // 엑셀파일 이름 설정하기
-    this.exportObj.set_exportfilename("stock_order_excel");
+	var strFormat = this.Div01.form.Combo00.value;
     
-    // 엑셀 내보내기 URL 설정 (데모 URL입니다.)
-    this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
+	// 사용자가 입고대기 선택할 시
+	if(strFormat == '0')
+	{
+		// 엑셀 내보내기 객체 생성
+		this.exportObj = new ExcelExportObject("Export00", this);
+
+		// 엑셀파일 이름 설정하기
+		this.exportObj.set_exportfilename("발주신청서_excel");
     
-    // 내보낼 항목 추가 (grid2의 데이터를 "Sheet1"의 A1 셀부터 시작해서 내보내기)
-    this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid01, "Sheet1!A1");
+		// 엑셀 내보내기 URL 설정 (데모 URL입니다.)
+		this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
+    
+		// 내보낼 항목 추가 (grid2의 데이터를 "Sheet1"의 A1 셀부터 시작해서 내보내기)
+		this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid01, "Sheet1!A1");
 
-    // 성공 및 오류 이벤트 추가
-    this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
-    this.addEventHandler("onerror", this.Export00_onerror, this);
+		// 성공 및 오류 이벤트 추가
+		this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
+		this.addEventHandler("onerror", this.Export00_onerror, this);
 
-    // 데이터 내보내기 시작
-    var intExportedItem = this.exportObj.exportData();
-    trace("Number of Exported Item: " + intExportedItem);
+		// 데이터 내보내기 시작
+		var intExportedItem = this.exportObj.exportData();
+		trace("Number of Exported Item: " + intExportedItem);
+	
+	}else if(strFormat == '1')
+	{
+		this.exportObj = new ExcelExportObject("Export00", this);
+		this.exportObj.set_exportfilename("발주신청서_입고완료_excel");
+		this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
+		this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid01, "Sheet1!A1");
+		this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
+		this.addEventHandler("onerror", this.Export00_onerror, this);
+		var intExportedItem = this.exportObj.exportData();
+		trace("Number of Exported Item: " + intExportedItem);
+	}else if(strFormat == '2')
+	{
+		this.exportObj = new ExcelExportObject("Export00", this);
+		this.exportObj.set_exportfilename("발주신청서_발주취소_excel");
+		this.exportObj.set_exporturl("http://demo.nexacro.com/developer_guide/XExportImport");
+		this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.Grid01, "Sheet1!A1");
+		this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
+		this.addEventHandler("onerror", this.Export00_onerror, this);
+		var intExportedItem = this.exportObj.exportData();
+		trace("Number of Exported Item: " + intExportedItem);	
+	}
 	
 };
 

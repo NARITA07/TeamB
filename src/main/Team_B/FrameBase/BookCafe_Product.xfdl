@@ -64,6 +64,7 @@
         <ImageViewer id="im_v" taborder="10" left="sec_category:30" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08_00" taborder="11" text="검색" left="im_v:5" top="111" height="14" onclick="Static08_onclick" width="24"/>
         <Combo id="serch_product" taborder="12" left="Static08_00:5" top="103" width="150" height="30" type="filterlike" cssclass="combo_default" innerdataset="view_code" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" autoselect="true" displaynulltext="제품검색" onitemchanged="Div00_serch_product_onitemchanged" displayrowcount="10"/>
+        <ImageViewer id="ImageViewer00_00" taborder="13" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -192,7 +193,7 @@
     </Objects>
     <Script type="xscript5.1"><![CDATA[include "Base::check_sort.xjs";
 include "Base::paging.xjs";
-
+ 
 
 
 //화면 시작 시
@@ -815,9 +816,13 @@ if (val == '-') {
 this.messages = function(){
 	var count = this.message.getColumn(0,"num");
 	return alert(count + "건 처리 되었습니다.")
-	
+}
 
-}]]></Script>
+//새로고침 버튼
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="serch_product" propid="value" datasetid="view_dtl" columnid="SEC_NAME"/>

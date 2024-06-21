@@ -41,6 +41,16 @@ public interface ProductManagementMapper {
 
 	int insert_food(Map<String, Object> map);
 
+	Map<String, Object> serchproduct(String serch_product);
+	
+	//재고 확인
+	int product_quantity(Object object);
+
+	//주문상태 확인
+	Integer stock_order_status(Object object);
+
+	Object book_quantity(String book_quantity);
+
 
 
 	

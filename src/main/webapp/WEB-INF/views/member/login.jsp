@@ -39,7 +39,7 @@ $(function() {
             dataType: "text",
             success: function(result) {
                 if (result == "ok") {
-                    alert(user_id + "님 로그인에 성공하였습니다.");
+//                     alert(user_id + "님 로그인에 성공하였습니다.");
                     $("#frm")[0].reset();
                     location.href = "loginSuccess.do"; 
                 } else if (result == "x") {

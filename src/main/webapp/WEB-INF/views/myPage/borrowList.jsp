@@ -132,7 +132,6 @@ $(document).ready(function() {
                                     </div>
                                 </div>
                             </div>
-                           <%-- 주문내역이 없는 경우 --%>
                            <table id="tbl_point" class="table table-hover table-sm" style="text-align: center;">
                               <thead>
                                  <tr class="table-warning">
@@ -146,12 +145,14 @@ $(document).ready(function() {
                                  </tr>
                               </thead>
                               <tbody>
+                              	 <%-- 주문내역이 없는 경우 --%>
                                  <c:if test="${empty borrowList}">
                                      <tr>
-                                    <td colspan='6'>도서 대여내역이 없습니다.</td>
+                                    <td colspan='7'>도서 대여내역이 없습니다.</td>
                                  </tr>
-                                  </c:if>
-                              <c:if test="${not empty borrowList}">
+                                 </c:if>
+                                 <%-- 주문내역이 있는 경우 --%>
+                             	 <c:if test="${not empty borrowList}">
                                  <c:forEach var="borrow" items="${borrowList}">
                                     <tr>
                                        <td>${borrow.rowNum}</td>
@@ -167,26 +168,26 @@ $(document).ready(function() {
                               </tbody>
                            </table>
                            <nav>
-                              <ul class="pagination" style="display: flex; justify-content: center; color: #fff">
-                                 <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}">&laquo;&laquo;</a>
-                                 </li>
-                                 <li class="page-item ${pagination.currentPage == 1 ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}">&laquo;</a>
-                                 </li>
-                                 <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
-                                    <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
-                                       <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}">${i}</a>
-                                    </li>
-                                 </c:forEach>
-                                 <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}">&raquo;</a>
-                                 </li>
-                                 <li class="page-item ${pagination.currentPage == pagination.totalPages ? 'disabled' : ''}">
-                                    <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}">&raquo;&raquo;</a>
-                                 </li>
-                              </ul>
-                           </nav>
+			                   <ul class="pagination" style="display: flex; justify-content: center; color: #fff">
+			                       <li class="page-item ${pagination.currentPage == 1 || borrowList.isEmpty() ? 'disabled' : ''}">
+			                           <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;&laquo;</a>
+			                       </li>
+			                       <li class="page-item ${pagination.currentPage == 1 || borrowList.isEmpty() ? 'disabled' : ''}">
+			                           <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;</a>
+			                       </li>
+			                       <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
+			                           <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
+			                               <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&category=${selectedCategory}" style="color:#766650;">${i}</a>
+			                           </li>
+			                       </c:forEach>
+			                       <li class="page-item ${pagination.currentPage == pagination.totalPages || borrowList.isEmpty() ? 'disabled' : ''}">
+			                           <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;</a>
+			                       </li>
+			                       <li class="page-item ${pagination.currentPage == pagination.totalPages || borrowList.isEmpty() ? 'disabled' : ''}">
+			                           <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;&raquo;</a>
+			                       </li>
+			                   </ul>
+			               </nav>
                         </div>
                      </div>
                   </div>

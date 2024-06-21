@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bookcafe.cart.service.CartService;
 import bookcafe.cart.service.CartVO;
@@ -315,9 +314,12 @@ import bookcafe.point.service.PointVO;
 			result = cartService.directInsertCart(cart);
 			cart_code = cartService.selectMaxCartCode(user_code);
 			System.out.println("새로운 카트코드 생성");
-		} 
-		// 해당 카트코드로 결제 진행하면 되는 경우
-		else {
+		} else if (cart_code == null) {
+			// 회원가입 후 첫 결제하는 경우
+			result = cartService.directInsertCart(cart);
+			cart_code = cartService.selectMaxCartCode(user_code);
+		} else {
+			// 해당 카트코드로 결제 진행하면 되는 경우
 			// 기존 장바구니 목록들 뒤로 미루기
 			cartService.updateCartcode(cart_code);
 			// 카트코드 뺏어서 사용

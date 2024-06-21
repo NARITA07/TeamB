@@ -24,7 +24,7 @@
         </Grid>
         <Div id="Main" taborder="1" text="Main" left="200" top="0" height="100.00%" formscrolltype="none" right="0" border="1px solid black" url="FrameBase::BookCafe_OrderStatus.xfdl"/>
         <Static id="login_id" left="1070" top="0" width="100" height="50" textAlign="center" onclick="login_id_onclick"/>
-        <Edit id="Edit00" taborder="3" left="0" top="0" width="200" height="60" text="text" enable="false" background="#f7f7f7"/>
+        <Edit id="Edit00" taborder="3" left="0" top="0" width="200" height="60" text="text" enable="false" background="#f7f7f7" textAlign="center"/>
         <Button id="logout" taborder="4" text="로그아웃" left="0" top="60" width="200" height="31" onclick="logout_onclick" cssclass="btn_main_nav"/>
         <Button id="btn_cafe_close" taborder="5" text="마감" left="0" width="200" height="30" onclick="btn_cafe_close_onclick" cssclass="btn_main_nav" bottom="0%"/>
       </Layout>
@@ -49,7 +49,7 @@
           </Row>
           <Row>
             <Col id="title">매출</Col>
-            <Col id="url"> </Col>
+            <Col id="url"/>
             <Col id="LEVEL">0</Col>
           </Row>
           <Row>
@@ -58,14 +58,14 @@
             <Col id="title">매출현황</Col>
           </Row>
           <Row>
-            <Col id="title">매출현황차트</Col>
+            <Col id="title">월별매출차트</Col>
             <Col id="url">FrameBase::BookCafe_SalesChart.xfdl</Col>
             <Col id="LEVEL">1</Col>
           </Row>
           <Row>
             <Col id="title">관리</Col>
             <Col id="LEVEL">0</Col>
-            <Col id="url"> </Col>
+            <Col id="url"/>
           </Row>
           <Row>
             <Col id="title">제품관리</Col>

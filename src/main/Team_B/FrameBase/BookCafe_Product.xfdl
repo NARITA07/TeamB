@@ -45,7 +45,7 @@
                 <Cell col="8" text="가격" textAlign="center" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="buttoncontrol" edittype="none" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center" cursor="pointer" border="1px solid #dbdee2" cssclass="expr:PRODUCT_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
                 <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
                 <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
@@ -787,32 +787,19 @@ this.Div00_serch_product_onitemchanged = function(obj:nexacro.Combo,e:nexacro.It
 	this.transaction(id, url, set, get, arg, callback)
 };
 
+// 셀클릭
 this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {	
-
-	if(e.cell == 0 && this.view_dtl.getColumn(e.row,"PRODUCT_STATUS") == "Y"){
-	alert("체크")
-	
-	}else if(e.cell == 0 && this.view_dtl.getColumn(e.row,"PRODUCT_STATUS") == "N"){
-	
-	alert("체크해제")
-	
-	}
-		
-	
-		
-
 	if(e.cell == 1){
 		if(this.view_dtl.getColumn(e.row,"PRODUCT_STATUS") == "Y"){
 				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "N")
 		}else {
 				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "Y")
 		}
-		
-	
 	}
-
 };
+
+
 this.book_date = function(val){
 if (val == '-') {
     return 'normal'; // '-' 인 경우

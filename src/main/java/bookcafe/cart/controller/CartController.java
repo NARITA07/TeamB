@@ -236,12 +236,14 @@ import bookcafe.point.service.PointVO;
 			
 			// 포인트 업데이트
 			PointVO pointLog = new PointVO();
+			OrdersVO newOrder = cartService.selectOrdersInfo(order_code);
 			if(point_change != 0) {
 				int minus_point = point_change * -1;
 				System.out.println("포인트차감 : " + minus_point);
 				pointLog.setUser_code(user_code);
 				pointLog.setOrder_code(order_code);
 				pointLog.setPoint_change(minus_point);
+				pointLog.setPoint_state(newOrder.getPayment_state());
 				pointService.insertPointLog(pointLog);
 				System.out.println("test3");
 			}
@@ -252,12 +254,14 @@ import bookcafe.point.service.PointVO;
                pointLog.setUser_code(user_code);
                pointLog.setOrder_code(order_code);
                pointLog.setPoint_change(pointChange);
+               pointLog.setPoint_state(newOrder.getPayment_state());
                System.out.println("바로구매 포인트적립VO 일반:" + pointLog);
             } else if(userAuthority.equals("2")) {
                int pointChange = (int) (total_price * 0.10);
                pointLog.setUser_code(user_code);
                pointLog.setOrder_code(order_code);
                pointLog.setPoint_change(pointChange);
+               pointLog.setPoint_state(newOrder.getPayment_state());
                System.out.println("바로구매 포인트적립VO vip:" + pointLog);
             }
 			
@@ -352,14 +356,17 @@ import bookcafe.point.service.PointVO;
 				System.out.println("test1");
 				cart_code = orders.getCart_code();
 				String order_code = cartService.selectOrderCode(cart_code);
+				OrdersVO newOrder = cartService.selectOrdersInfo(order_code);
 				System.out.println("test2");
 				PointVO pointLog = new PointVO();
 				if(point_change != 0) {
 					int minus_point = point_change * -1;
 					System.out.println("포인트차감 : " + minus_point);
+					System.out.println("포인트 상태 조회 : "+orders.getPayment_state());
 					pointLog.setUser_code(user_code);
 					pointLog.setOrder_code(order_code);
 					pointLog.setPoint_change(minus_point);
+					pointLog.setPoint_state(newOrder.getPayment_state());
 					pointService.insertPointLog(pointLog);
 					System.out.println("test3");
 				}
@@ -370,12 +377,14 @@ import bookcafe.point.service.PointVO;
 	               pointLog.setUser_code(user_code);
 	               pointLog.setOrder_code(order_code);
 	               pointLog.setPoint_change(pointChange);
+	               pointLog.setPoint_state(newOrder.getPayment_state());
 	               System.out.println("바로구매 포인트적립VO 일반:" + pointLog);
 	            } else if(userAuthority.equals("2")) {
 	               int pointChange = (int) (total_price * 0.10);
 	               pointLog.setUser_code(user_code);
 	               pointLog.setOrder_code(order_code);
 	               pointLog.setPoint_change(pointChange);
+	               pointLog.setPoint_state(newOrder.getPayment_state());
 	               System.out.println("바로구매 포인트적립VO vip:" + pointLog);
 	            }
 				
@@ -396,6 +405,7 @@ import bookcafe.point.service.PointVO;
 				
 				System.out.println("바로주문 order_code:" + order_code);
 				return order_code;
+				
 			} else {
 				System.out.println("바로주문실패");
 				return "fail";

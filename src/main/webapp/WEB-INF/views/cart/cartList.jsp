@@ -66,6 +66,18 @@
        .modal-md {
           max-width: 50%; /* 필요에 따라 크기를 조정 */
       }
+      .pointBtn{
+		margin-left: 3px; 
+		border-radius: 4px; 
+		border: none; 
+		background-color: #c19f76; 
+		color: #fff; 
+		font-size: 13px; 
+		padding-top: 3px;
+		}
+		.pointBtn:hover{
+			background-color: #766650;
+		}
    </style>
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
    <meta name="description" content="" />
@@ -76,7 +88,6 @@
    <!-- Core theme CSS (includes Bootstrap)-->
    <link href="css/style.css" rel="stylesheet" />
    <link href="css/food.css" rel="stylesheet" />
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
    <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
@@ -164,7 +175,7 @@
    
    <!-- Modal -->
    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" style="max-width: 22%;">
+     <div class="modal-dialog modal-dialog-centered" style="max-width: 330px;">
        <div class="modal-content">
          <div class="modal-header">
            <h5 class="modal-title" id="exampleModalLabel">장바구니 구매하기</h5>
@@ -192,10 +203,11 @@
                          </td>                      
                       </tr>
                       <tr>
-                         <th><label for="usePoints">사용 포인트</label></th>
+                         <th style="padding-top: 15px"><label for="usePoints">사용 포인트</label></th>
                          <td>
                             <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value=""
-                            maxlength="7" oninput="validatePoints(${loginInfo.user_point})"> 원
+                            maxlength="7" oninput="validatePoints(${loginInfo.user_point})" placeholder="0"> 원
+                            <input class="pointBtn" type="button" value="전체포인트" onclick="allPoint()">
                            </td>                      
                       </tr>
                       <tr>
@@ -225,6 +237,32 @@
    <!-- End Modal -->
    <script>
       calculateTotalPrice();
+      
+      
+      var isPointUsed = false; // 포인트 사용 상태 플래그
+      function allPoint() {
+          var userPoints = ${loginInfo.user_point}; // 사용자의 포인트
+          var usePointsInput = $('#usePoints');
+          var usePointsValue = parseInt(usePointsInput.val().replace(/[^0-9]/g, '')) || 0; // 현재 입력된 값
+          var totalPrice = parseInt($('#modalTotalPrice').text().replace(/[^0-9]/g, '')); // 총 금액
+
+          // 포인트를 사용한 상태라면 원래 상태로 되돌림
+          if (isPointUsed) {
+              usePointsInput.val(""); // 입력란 초기화 빈문자
+              //usePointsInput.val(0); 입력란 초기화 0
+              validatePoints(0); // 포인트 0으로 검증 및 결제 금액 재계산
+              isPointUsed = false;
+          } else {
+              // 사용 포인트가 총 금액보다 큰 경우
+              if (userPoints > totalPrice) {
+                  userPoints = totalPrice;
+              }
+
+              usePointsInput.val(userPoints.toLocaleString('ko-KR')); // 사용 포인트 입력란에 출력
+              validatePoints(userPoints); // 포인트 검증 함수 호출
+              isPointUsed = true;
+          }
+      }
       
       // 주문 수량과 가격을 곱한 값을 계산하고 총 금액을 업데이트하는 함수
        function calculateTotalPrice() {
@@ -375,7 +413,7 @@
              calculatePaymentAmount();
              
              // 사용 포인트 입력값 가져오기
-             var usePoints = $('#usePoints').val();
+             var usePoints = $('#usePoints').val("");
              
              // 빈 문자열을 0으로 변환
              if (usePoints == "") {
@@ -395,11 +433,18 @@
              
              // 제품 수량, 이름 모달창에 전송
              var orderDetails = '';
-            $('[id^="product_name"]').each(function(index) {
-                var productName = $(this).text();
-                var orderQuantity = $('.order_quantity').eq(index).val(); // index를 사용하여 대응하는 수량 요소를 선택
-                orderDetails += productName + ' ' + orderQuantity + '개<br>'; // 각 값을 줄바꿈 태그와 함께 추가
-            });
+             $('[id^="product_name"]').each(function(index) {
+                 var productName = $(this).text();
+                 var orderQuantity = $('.order_quantity').eq(index).val(); // index를 사용하여 대응하는 수량 요소를 선택
+                 var productCode = $('.productCode').eq(index).val(); // index를 사용하여 대응하는 코드 요소를 선택
+
+                 if (productCode === 'food_014') {
+                     // 화면에서는 숨기지만 데이터는 포함
+                     orderDetails += productName + ' <span style="display:none;">' + orderQuantity + '개</span><br>';
+                 } else {
+                     orderDetails += productName + ' ' + orderQuantity + '개<br>';
+                 }
+             });
             $('#modalOrderInfo').html(orderDetails);
              
              // 모달 열기
@@ -439,6 +484,12 @@
          var totalPointsValue = document.getElementById('modalTotalPrice').textContent;
          var paymentAmount = document.getElementById('paymentAmount');
          
+      // 빈 문자열을 0으로 변환(밤작업)
+         if (usePointsValue === "") {
+             //usePointsInput.val(0);
+             usePointsValue = "0"; // 값이 숫자가 아니므로 문자열로 처리
+         }
+         
       	// 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
          usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
       
@@ -453,12 +504,6 @@
              usePoints = 0;
          }
          
-         // 빈 문자열을 0으로 변환
-//           if (usePointsValue === "") {
-//               usePointsInput.value = 0;
-//               usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
-//           }
-//          console.log("테스트1"+usePointsValue)
          
            // 정규식으로 양의 정수인지 확인
            var isPositiveInteger = /^\d+$/.test(usePointsValue);
@@ -493,6 +538,7 @@
                usePointsInput.value = totalPrice;
                usePoints = totalPrice;
            }
+           
            
            var paymentAmount = totalPrice - usePoints;
             console.log('사용포인트'+usePoints); // 입력된 사용 포인트의 값을 콘솔에 출력

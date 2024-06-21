@@ -4,91 +4,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   	<meta name="description" content="" />
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
     <meta name="author" content="" />
-	<title>foodList</title>
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<style>
-	.btn.btn-light.push_cart,.btn.btn-light{
-		background-color: #c19f76;
-	    color: white;
-	    margin-bottom: 5px;
-	}
-	.category_btn{
-		display: flex;
-		justify-content: center;
-		gap: 30px;
-		margin-bottom: 100px;
-	}
-	.category_btn .btn {
-		padding: 15px 20px;
-		font-size: 20px;
-		font-weight: bold;
-	}
-   button.btn.btn-light.drink,
-   button.btn.btn-light.dessert,
-   button.btn.btn-light.brunch,
-   button.btn.btn-light.all{
-      width: 20%;
-      font-size: larger;
-   }
-   input#usePoints {
-       width: 75px;
-       display:inline-block;
-   }
-   .ui-dialog .ui-dialog-titlebar-close {
-    display: none;
-     }
-     .card-img-top {
-        height: 100%;
-        object-fit: cover; /* 이미지 비율 유지하며 자르기 */
-        width: 100%; /* 가로 비율을 div의 크기로 맞춤 */
-    }
-    .table {
-       width: 100%;
-       border-collapse: collapse;
-    }
-
-    .table th, .table td {
-        border: 1px solid #dee2e6;
-        padding: 8px;
-        text-align: left;
-    }
-
-    .table th {
-        background-color: #f8f9fa;
-    }
-    
-    .btn.btn-light.push_cart, .btn.btn-light {
-       background-color: #c19f76;
-       color: white;
-       margin-bottom: 5px;
-	}
-	
-	.btn.btn-light.push_cart:hover, .btn.btn-light:hover {
-	    background-color: #766650;
-	    color: white;
-	}
-    
-    #topButton {
-    display: none; /* 기본적으로 버튼을 숨깁니다 */
-    position: fixed; /* 화면에 고정 */
-    bottom: 200px; /* 아래에서 200px 위치 */
-    right: 40px; /* 오른쪽에서 40px 위치 */
-    z-index: 99; /* 다른 요소 위에 표시되도록 설정 */
-    border: none; /* 테두리 없음 */
-    outline: none; /* 외곽선 없음 */
-    background-color: #AB8212; /* 버튼 배경 색상 */
-    color: white; /* 텍스트 색상 */
-    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
-    padding: 15px; /* 패딩 설정 */
-    border-radius: 10px; /* 모서리를 둥글게 */
-    font-size: 18px; /* 글꼴 크기 */
-	}
+   <title>foodList</title>
+   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <style>
+        .btn.btn-light.push_cart,
+        .btn.btn-light {
+            background-color: #c19f76;
+            color: white;
+            margin-bottom: 5px;
+        }
+        .btn.btn-light.push_cart:hover,
+        .btn.btn-light:hover {
+            background-color: #766650;
+            color: white;
+        }
+        .category_btn {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+        .category_btn .btn {
+            padding: 15px 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        button.btn.btn-light.drink,
+        button.btn.btn-light.dessert,
+        button.btn.btn-light.brunch,
+        button.btn.btn-light.all {
+            width: 20%;
+            font-size: larger;
+        }
+        input#usePoints {
+            width: 90px;
+            display: inline-block;
+        }
+        .ui-dialog .ui-dialog-titlebar-close {
+            display: none;
+        }
+        .card-img-top {
+            height: 100%;
+            object-fit: cover; /* 이미지 비율 유지하며 자르기 */
+            width: 100%; /* 가로 비율을 div의 크기로 맞춤 */
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th,
+        .table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        #topButton {
+            display: none; /* 기본적으로 버튼을 숨깁니다 */
+            position: fixed; /* 화면에 고정 */
+            bottom: 200px; /* 아래에서 200px 위치 */
+            right: 40px; /* 오른쪽에서 40px 위치 */
+            z-index: 99; /* 다른 요소 위에 표시되도록 설정 */
+            border: none; /* 테두리 없음 */
+            outline: none; /* 외곽선 없음 */
+            background-color: #AB8212; /* 버튼 배경 색상 */
+            color: white; /* 텍스트 색상 */
+            cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+            padding: 15px; /* 패딩 설정 */
+            border-radius: 10px; /* 모서리를 둥글게 */
+            font-size: 18px; /* 글꼴 크기 */
+        }
+        .pointBtn {
+            margin-left: 3px;
+            border-radius: 4px;
+            border: none;
+            background-color: #c19f76;
+            color: #fff;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+        .pointBtn:hover {
+            background-color: #766650;
+        }
    </style>
-   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> -->
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -98,17 +103,17 @@
 <body>
 <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
    
-	<section class="py-5">
-		<div class="container px-5 px-lg-5">
-		
-			<!-- 카테고리 -->
-			<h1 style="text-align:center; margin-bottom:50px;">MENU</h1>
-			<div class="category_btn">
-				<button class="btn btn-light" type="button" onclick="showSection('all')">전체</button>
-				<c:forEach items="${category}" var="category">
-					<button class="btn btn-light" type="button" onclick="showSection('${category.sec_code}')">${category.sec_name}</button>
-				</c:forEach>
-			</div>
+   <section class="py-5">
+      <div class="container px-5 px-lg-5">
+      
+         <!-- 카테고리 -->
+         <h1 style="text-align:center; margin-bottom:50px;">MENU</h1>
+         <div class="category_btn">
+            <button class="btn btn-light" type="button" onclick="showSection('all')">전체</button>
+            <c:forEach items="${category}" var="category">
+               <button class="btn btn-light" type="button" onclick="showSection('${category.sec_code}')">${category.sec_name}</button>
+            </c:forEach>
+         </div>
          
          <!-- 메뉴 출력 -->
          <c:forEach items="${category}" var="category">
@@ -127,13 +132,13 @@
                                  </div>
                               </div>
                               <div class="card-footer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                 <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
-                                	수량 :
+                                 <div id="quantity-container-${food.product_code}" style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                                      수량 :
                                     <input name="order_quantity" type="number" class="form-control" value="1" id="order_quantity-${food.product_code}" 
                                     oninput="calculateTotalPrice('${food.product_price}', '${food.product_code}')"  min="1" style="width:70px; margin-left: 10px;">
                                  </div>
-                                 <div>
-                                   	 금액 : 
+                                 <div id="price-container-${food.product_code}">
+                            금액 : 
                                     <span class="total-price-span" id="total_price_${food.product_code}" style="margin-left: 10px;"> 
                                     <fmt:formatNumber value="${food.product_price}" type="number" groupingUsed="true"/> 원
                                     </span>
@@ -158,7 +163,7 @@
    
    <!-- Modal -->
    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style="max-width: 22%;">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 330px;">
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLabel">바로구매 결제창</h5>
@@ -189,7 +194,8 @@
                                    <th style="padding-top: 15px"><label for="usePoints">사용 포인트</label></th>
                                    <td>
                                        <input type="text" class="form-control usePoints" id="usePoints" name="usePoints" value="" maxlength="7" 
-                                       		  oninput="validatePoints(${loginInfo.user_point})"> 원
+                                               oninput="validatePoints(${loginInfo.user_point})" placeholder="0"> 원
+                                        <input class="pointBtn" type="button" value="전체포인트" onclick="allPoint()">
                                    </td>
                                </tr>
                                <tr>
@@ -217,27 +223,57 @@
    </div>
    <!-- Modal -->
    
+   
 <script>
 $(document).ready(function() {
-   // 도서열람권 수량 수정불가
+   // 특정 제품 코드를 기준으로 div를 숨김
    var targetProductCode = 'food_014';
-   $('#order_quantity-' + targetProductCode).prop('readonly',true);
+   var quantityInput = $('#order_quantity-' + targetProductCode);
+   quantityInput.val(1);  // 값을 1로 설정
    
+   // 수량을 포함하는 div와 금액을 포함하는 div를 모두 숨김
+   $('#quantity-container-' + targetProductCode).css('display', 'none');
+   $('#price-container-' + targetProductCode).css('display', 'none');
 });
+
+   var isPointUsed = false; // 포인트 사용 상태 플래그
+   function allPoint() {
+       var userPoints = "${loginInfo.user_point}"; // 사용자의 포인트
+       var usePointsInput = $('#usePoints');
+       var usePointsValue = parseInt(usePointsInput.val().replace(/[^0-9]/g, '')) || 0; // 현재 입력된 값
+       var totalPrice = parseInt($('#modalTotalPrice').text().replace(/[^0-9]/g, '')); // 총 금액
+   
+       // 포인트를 사용한 상태라면 원래 상태로 되돌림
+       if (isPointUsed) {
+           usePointsInput.val(""); // 입력란 초기화 빈문자
+//            $('#usePoints').text(""); // 입력란 초기화 0
+           validatePoints(0); // 포인트 0으로 검증 및 결제 금액 재계산
+           isPointUsed = false;
+       } else {
+           // 사용 포인트가 총 금액보다 큰 경우
+           if (userPoints > totalPrice) {
+               userPoints = totalPrice;
+           }
+   
+           usePointsInput.val(userPoints.toLocaleString('ko-KR')); // 사용 포인트 입력란에 출력
+           validatePoints(userPoints); // 포인트 검증 함수 호출
+           isPointUsed = true;
+       }
+   }
 
    // 카테고리 선택시
    function showSection(sectionId) {
-        // 모든 섹션 보이게 하기
-        if (sectionId == 'all') {
-            $('.food_section').show();
-        }
-        // 선택한 섹션만 표시
-        else {
-            $('.food_section').hide();
-            $('#' + sectionId).show();
-        }
-    }
-   
+      // 모든 섹션 보이게 하기
+      if (sectionId == 'all') {
+          $('.food_section').show();
+      }
+      // 선택한 섹션만 표시
+      else {
+          $('.food_section').hide();
+          $('#' + sectionId).show();
+      }
+   }
+
    // 상품갯수 표시
    function calculateTotalPrice(price, productCode){
        var quantity = document.getElementById('order_quantity-' + productCode).value;
@@ -273,7 +309,7 @@ $(document).ready(function() {
           order_quantity = parseInt(order_quantity, 10);
           product_quantity = parseInt(product_quantity, 10);
           
-         console.log("order_quantity: " + order_quantity);
+          console.log("order_quantity: " + order_quantity);
           console.log("product_quantity: " + product_quantity);
          var productName = $(event.currentTarget).closest('.card').find('.fw-bolder').text();
          if (product_quantity <= 0) {
@@ -322,7 +358,7 @@ $(document).ready(function() {
                     //장바구니 숫자 업데이트
                    $('#cartSize').text(jsonResponse.cartSize);
                 } else if(jsonResponse.status == "alreadyExist") {
-                	alert('이미 장바구니에 담겨있는 도서열람권이 있습니다.');
+                   alert('이미 장바구니에 담겨있는 도서열람권이 있습니다.');
                 } else {
                     alert('장바구니 담기 실패.');
                 }
@@ -348,23 +384,30 @@ $(document).ready(function() {
           return;
        }
        
-      var totalPriceElement = $('#total_price_' + product_code);
+       isPointUsed = false;
+       var totalPriceElement = $('#total_price_' + product_code);
        var modalTotalPrice = $('#modalTotalPrice');
        modalTotalPrice.text(totalPriceElement.text());
-       calculatePaymentAmount();
+       $('#paymentAmount').text(modalTotalPrice.text());
+//        calculatePaymentAmount();
        
        // 선택된 제품 코드와 주문 수량을 폼에 설정
        $('#productCodeInput').val(product_code);
        $('#orderQuantityInput').val(order_quantity);
-       $('#modalOrderCnt').text(order_quantity+'개');
-       
-       // 사용 포인트 입력값 가져오기
-       var usePoints = $('#usePoints').val();
-       
-       // 빈 문자열을 0으로 변환
-       if (usePoints == "") {
-           usePoints = "0";
+       // 도서열람권에 +개 빼기(밤작업)
+       if (product_code === 'food_014') {
+           $('#modalOrderCnt').text(order_quantity+'개').css('display', 'none');
+       } else {
+           $('#modalOrderCnt').text(order_quantity+'개');
        }
+       
+       // 모달 첫화면 리셋
+       var usePoints = $('#usePoints').val("");
+          usePoints = JSON.stringify(0);
+       
+//        // 빈 문자열을 0으로 변환
+//        if (usePoints.val == "") {
+//        }
        $('#pointChangeInput').val(usePoints); // 사용 포인트를 point_change에 설정
        
        // 결제 금액을 hidden input에 설정하여 폼으로 전송
@@ -374,7 +417,7 @@ $(document).ready(function() {
        $('#totalPriceInput').val(paymentAmount);
        
        // point_change 값도 함께 전송
-       console.log('사용포인트: '+usePoints);
+       console.log('사용포인트: '+ usePoints);
        $('#pointChangeInput').val(usePoints);
        
        // 메뉴이름 모달창에 전송
@@ -385,22 +428,24 @@ $(document).ready(function() {
        $("#exampleModal").modal("show");
    }
 
-	// 사용 포인트 유효성 검사 및 결제 금액 계산 (모달)
-	function validatePoints(userPoints) {
+   // 사용 포인트 유효성 검사 및 결제 금액 계산 (모달)
+   function validatePoints(userPoints) {
        var usePointsInput = $('#usePoints');
        var usePointsValue = usePointsInput.val();
        var totalPointsValue = $('#modalTotalPrice').text();
        var paymentAmount = $('#paymentAmount');
        
-       // 빈 문자열을 0으로 변환
-       if (usePointsValue === "") {
-           usePointsInput.val(0);
-           usePointsValue = 0; // 값이 숫자가 아니므로 문자열로 처리
+       // 빈 문자열을 0으로 변환(밤작업)
+       if (usePointsValue == "") {
+           usePointsInput.text("");
+           usePointsValue = "0";// 값이 숫자가 아니므로 문자열로 처리
+//            usePointsInput.val("")
        }
        console.log("테스트1: " + usePointsValue)
+
        
        // 숫자가 아닌 문자를 제거하고 최대 6자리까지만 입력받음
-       usePointsValue = usePointsValue.replace(/[^0-9]/g, '').slice(0, 6);
+       usePointsValue = parseInt(usePointsValue.replace(/[^0-9]/g, ''), 10).toString().slice(0, 6);
        
        // 변경된 값을 입력 필드에 반영
        usePointsInput.val(usePointsValue);
@@ -408,7 +453,7 @@ $(document).ready(function() {
        // 정수로 변환하여 추가 검증
        var usePoints = parseInt(usePointsValue, 10);
        
-       if (isNaN(usePoints)) {
+       if (isNaN(usePoints) || usePoints == "") {
            usePoints = 0;
        }
        
@@ -444,7 +489,7 @@ $(document).ready(function() {
            usePoints = totalPrice;
        }
        
-       var paymentAmount = totalPrice - usePoints;
+       paymentAmount = totalPrice - usePoints;
        console.log('사용 포인트: ' + usePoints + ', 결제 금액: ' + paymentAmount);
        
        var formattedUsePoints = usePoints.toLocaleString('ko-KR');
@@ -475,45 +520,45 @@ $(document).ready(function() {
    }
 
    
-   //바로구매결제
-	$('#btnOrder').on('click', function(e) {
-		e.preventDefault();
-		 
-		$.ajax({
-			type: "POST",
-			url: "/submitOrderDirect",
-			data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
-			success: function(response) {
-				if (response != "fail") {
-					alert("결제가 완료되었습니다.");
-					console.log("order_code: " + response);
-					window.location.href = "/selectReceipt.do?order_code=" + response;
-				} else {
-				    alert("결제중 오류가 발생했습니다.");
-				}
-			},
-			error: function() {
-				alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
-			}
-		});
-	});
+   // 바로구매결제
+   $('#btnOrder').on('click', function(e) {
+      e.preventDefault();
+       
+      $.ajax({
+         type: "POST",
+         url: "/submitOrderDirect",
+         data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
+         success: function(response) {
+            if (response != "fail") {
+               alert("결제가 완료되었습니다.");
+               console.log("order_code: " + response);
+               window.location.href = "/selectReceipt.do?order_code=" + response;
+            } else {
+                alert("결제중 오류가 발생했습니다.");
+            }
+         },
+         error: function() {
+            alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+         }
+      });
+   });
    
-	// 스크롤 시 버튼 표시
-	window.onscroll = function() {scrollFunction()};
-	
-	function scrollFunction() {
-	    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-	        document.getElementById("topButton").style.display = "block";
-	    } else {
-	        document.getElementById("topButton").style.display = "none";
-	    }
-	}
-	
-	// 버튼 클릭 시 맨 위로 스크롤
-	function topFunction() {
-	    document.body.scrollTop = 0; // Safari
-	    document.documentElement.scrollTop = 0; // Chrome, Firefox, IE, Opera
-	}
+   // 스크롤 시 버튼 표시
+   window.onscroll = function() {scrollFunction()};
+   
+   function scrollFunction() {
+       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+           document.getElementById("topButton").style.display = "block";
+       } else {
+           document.getElementById("topButton").style.display = "none";
+       }
+   }
+   
+   // 버튼 클릭 시 맨 위로 스크롤
+   function topFunction() {
+       document.body.scrollTop = 0; // Safari
+       document.documentElement.scrollTop = 0; // Chrome, Firefox, IE, Opera
+   }
 </script>
 
 <%@ include file="/WEB-INF/views/include/bottomMenu.jsp" %>

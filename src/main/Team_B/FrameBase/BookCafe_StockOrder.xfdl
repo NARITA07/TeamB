@@ -144,7 +144,7 @@
                 <Cell col="4" text="발주수량" editinputtype="number" background="#FFF8EE"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
+                <Cell displaytype="checkboxcontrol" edittype="none" text="bind:CHK" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center"/>
                 <Cell col="2" text="bind:PRODUCT_CODE" textAlign="center"/>
                 <Cell col="3" displaytype="decoratetext" edittype="none" textAlign="center" text="bind:PRODUCT_QUANTITY" cssclass="expr:PRODUCT_QUANTITY &lt; 10 ? 'grid_quantity' : ''"/>

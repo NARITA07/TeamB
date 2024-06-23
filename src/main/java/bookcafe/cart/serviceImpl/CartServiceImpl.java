@@ -189,6 +189,11 @@ public class CartServiceImpl implements CartService{
 		return cartMapper.selectReadBook(user_code);
 	}
 
+	@Override
+	public OrdersVO selectOrdersInfo(String order_code) {
+		return cartMapper.selectOrdersInfo(order_code);
+	}
+
 
 	
 }

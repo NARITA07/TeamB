@@ -64,7 +64,7 @@
         <ImageViewer id="im_v" taborder="10" left="sec_category:30" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08_00" taborder="11" text="검색" left="im_v:5" top="111" height="14" onclick="Static08_onclick" width="24"/>
         <Combo id="serch_product" taborder="12" left="Static08_00:5" top="103" width="150" height="30" type="filterlike" cssclass="combo_default" innerdataset="view_code" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" autoselect="true" displaynulltext="제품검색" onitemchanged="Div00_serch_product_onitemchanged" displayrowcount="10"/>
-        <ImageViewer id="ImageViewer00_00" taborder="13" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')"/>
+        <ImageViewer id="ImageViewer00_00" taborder="13" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')" cursor="pointer"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -117,6 +117,7 @@
       <Dataset id="del_date" useclientlayout="true">
         <ColumnInfo>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="save_date" useclientlayout="true">
@@ -134,6 +135,7 @@
       <Dataset id="message" useclientlayout="true">
         <ColumnInfo>
           <Column id="num" type="INT" size="256"/>
+          <Column id="mes" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -479,7 +481,10 @@ this.btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 				
 				//삭제값만 dataset에 저장
 				var code = this.view_dtl.getColumn(i,"PRODUCT_CODE")//체크된 값의 코드를 가져옴
+				var name = this.view_dtl.getColumn(i,"PRODUCT_NAME")//체크된 값의 코드를 가져옴
 				this.del_date.setColumn(num,"PRODUCT_CODE",code)// 그리고 저장
+				this.del_date.setColumn(num,"PRODUCT_NAME",name)
+
 				num++;
 				
 			}
@@ -595,17 +600,8 @@ this.fn_category = function(id, code, message){
 			
 			
 		case "del_date":
-			var count = this.message.getColumn(0,"num");
-			if(this.message.getColumn(0,"num") == 99){
-			alert("입고 대기 중인 제품입니다.")
-			}else if(this.message.getColumn(0,"num") == 98){
-			alert("재고가 남아있는 품목이 있습니다.")
-			}else if(this.message.getColumn(0,"num") == 97){
-			alert("대여 중인 책이 있습니다.")
-			}else{
-			alert(count + "건 삭제되었습니다.");
+			this.messages();
 			this.reload();
-			}
 			break;
 			
 		case "view_code":
@@ -691,7 +687,7 @@ this.file_upload = function(img){
 		// 기존 것은 변경없이 그대로 값을 보내서 수정하기.
 		var img_name = img[0].filename // 파일이름
 		var img_length = img[0].filename.length; // 파일이름의 길이
-		this.view_dtl.setColumn(g_row,"PRODUCT_PATH",img_name)
+		this.view_dtl.setColumn(g_row,"PRODUCT_PATH","images/"+img_name)
 		
 		
 		
@@ -815,7 +811,13 @@ if (val == '-') {
 //처리 메시지
 this.messages = function(){
 	var count = this.message.getColumn(0,"num");
-	return alert(count + "건 처리 되었습니다.")
+	var mes = this.message.getColumn(0,"mes");
+	
+			alert(count + "건 처리 되었습니다.")
+	if(mes != null){
+words = mes.split('*')
+	alert(words)
+}
 }
 
 //새로고침 버튼

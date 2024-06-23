@@ -389,10 +389,10 @@ $(document).ready(function() {
                <div class="search-form" style="margin-bottom: 20px;">
                    <form method="get" action="bookList.do">
                        <select name="searchType" style="height: 38px; vertical-align: middle;">
-                           <option value="name">책 이름</option>
-                           <option value="author">저자</option>
+                           <option value="name" ${searchType == 'name' ? 'selected' : ''}>책 이름</option>
+                           <option value="author" ${searchType == 'author' ? 'selected' : ''}>저자</option>
                        </select>
-                       <input type="text" name="searchQuery" placeholder="검색어 입력" style="height: 38px; vertical-align: middle;">
+                       <input type="text" name="searchQuery" placeholder="검색어 입력" value="${searchQuery}" style="height: 38px; vertical-align: middle;">
                        <button type="submit" class="btn btn-primary" style="background-color: #766650; border: none; font-weight: bold !important; font-size: 18px !important;">검색</button>
                        <input type="hidden" name="category" value="${selectedCategory}">
                    </form>

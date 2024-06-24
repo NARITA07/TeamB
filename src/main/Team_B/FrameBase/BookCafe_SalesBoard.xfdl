@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title" onkeyup="EnterKey_onkeyup">
     <Layouts>

@@ -4,7 +4,7 @@ public class FoodVO {
 	private String product_code;
 	private String product_name;
 	private String product_price;
-	private String product_quantity;
+	private int product_quantity;
 	private String product_path;
 	private String user_code;
 	private String user_id;
@@ -41,10 +41,10 @@ public class FoodVO {
 	public void setProduct_price(String product_price) {
 		this.product_price = product_price;
 	}
-	public String getProduct_quantity() {
+	public int getProduct_quantity() {
 		return product_quantity;
 	}
-	public void setProduct_quantity(String product_quantity) {
+	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
 	}
 	public String getProduct_path() {
@@ -94,6 +94,14 @@ public class FoodVO {
 	}
 	public void setProduct_status(String product_status) {
 		this.product_status = product_status;
+	}
+	@Override
+	public String toString() {
+		return "FoodVO [product_code=" + product_code + ", product_name=" + product_name + ", product_price="
+				+ product_price + ", product_quantity=" + product_quantity + ", product_path=" + product_path
+				+ ", user_code=" + user_code + ", user_id=" + user_id + ", product_category=" + product_category
+				+ ", product_status=" + product_status + ", fir_code=" + fir_code + ", sec_code=" + sec_code
+				+ ", sec_name=" + sec_name + ", use_status=" + use_status + "]";
 	}
 	
 }

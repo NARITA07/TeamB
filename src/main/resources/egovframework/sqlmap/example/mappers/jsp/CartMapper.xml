@@ -348,4 +348,18 @@
 		WHERE
 		    O.ORDER_CODE = #{order_code}
 	</select>
+	
+	<!-- 수량 마지막 체크 -->
+	<select id="getAvailableQuantity" parameterType="string" resultType="int">
+	    SELECT product_quantity
+	    FROM FOOD
+	    WHERE product_code = #{product_code}
+	</select>
+	
+	<select id="selectQuantitiy1" parameterType="String" resultType="java.util.Map">
+	    SELECT  PRODUCT_CODE, ORDER_QUANTITY 
+	    FROM CART 
+	    WHERE CART_CODE = #{cart_code};
+	</select>
+
 </mapper>

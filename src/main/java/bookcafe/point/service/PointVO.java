@@ -17,6 +17,7 @@ public class PointVO {
 	private int total_price;
 	private String startDate;
 	private String endDate;
+	private String filter;
 	
 	
 	public String getPoint_code() {
@@ -97,15 +98,19 @@ public class PointVO {
 	public void setPoint_state(int point_state) {
 		this.point_state = point_state;
 	}
+	public String getFilter() {
+		return filter;
+	}
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
 	@Override
 	public String toString() {
 		return "PointVO [point_code=" + point_code + ", user_code=" + user_code + ", order_code=" + order_code
 				+ ", point_change=" + point_change + ", point_joindate=" + point_joindate + ", point_state="
 				+ point_state + ", rowNum=" + rowNum + ", payment_state=" + payment_state + ", user_point=" + user_point
 				+ ", point_section=" + point_section + ", total_price=" + total_price + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
+				+ ", endDate=" + endDate + ", filter=" + filter + "]";
 	}
-	
-	
 	
 }

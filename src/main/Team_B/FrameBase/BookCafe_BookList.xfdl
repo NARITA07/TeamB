@@ -494,5 +494,7 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
 	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

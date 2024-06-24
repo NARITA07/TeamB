@@ -84,6 +84,7 @@ public class OrderController {
 					for (Map<String, Object> log : pointLogs) {
 						int point = Integer.valueOf(String.valueOf(log.get("POINT_CHANGE")));
 						vo.setPoint_change(-1 * point);
+						vo.setPoint_state(Integer.valueOf(String.valueOf(order.get("PAYMENT_STATE"))));
 						pointService.insertPointLog(vo);
 					}
 

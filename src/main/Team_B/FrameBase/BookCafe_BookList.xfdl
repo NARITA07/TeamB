@@ -194,7 +194,7 @@ this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	this.Combo03.set_index(0);
 	
 	this.fnselectSalesCombo();
-	
+	 
 	this.check_sort(this.Grid01);
 	
 	var currDate = new Date();

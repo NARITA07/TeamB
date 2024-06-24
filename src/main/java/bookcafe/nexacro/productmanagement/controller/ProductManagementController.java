@@ -34,18 +34,15 @@ public class ProductManagementController {
 	//추가
 	@RequestMapping("save_date.do")
 	public NexacroResult savedate(@ParamDataSet(name ="save_date", required = false)List<Map<String, Object>>save_date) {
-		System.out.println("수정데이트" + save_date);
 		NexacroResult product_save = new NexacroResult();
 		
 		product_save.addDataSet("message", productservice.product_save(save_date));
-		System.out.println(product_save.getDataSets());
 		return product_save;
 		
 	} 
 	//다건 추가
 	@RequestMapping("all_case_save.do")
 	public NexacroResult allcasesave(@ParamDataSet(name ="trans")List<Map<String, Object>>trans) {
-	System.out.println(trans);
 		NexacroResult product_all_save = new NexacroResult();
 		
 		product_all_save.addDataSet("message", productservice.product_allsave(trans));
@@ -57,11 +54,9 @@ public class ProductManagementController {
 	//제품 삭제
 	@RequestMapping("del_date.do")
 	public NexacroResult deldate(@ParamDataSet(name = "del_date", required = false)List<Map<String,Object>>del_date) {
-		System.out.println(del_date);
 		NexacroResult del =new NexacroResult();
 		
 			del.addDataSet("message", productservice.delete_product(del_date));
-			System.out.println(del.getDataSets());
 		return del;
 		
 		

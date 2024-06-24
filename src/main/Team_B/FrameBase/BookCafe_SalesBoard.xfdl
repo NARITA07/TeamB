@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title" onkeyup="EnterKey_onkeyup">
     <Layouts>
@@ -38,7 +38,7 @@
                 <Cell col="1" text="bind:NAME" suppress="2" suppressalign="middle" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
                 <Cell col="2" text="bind:MENU" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
                 <Cell col="3" text="bind:QUANTITY" textAlign="center" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
-                <Cell col="4" text="expr:SALES==0 ? &quot;환불완료&quot;:SALES" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)" textAlign="right" displaytype="number"/>
+                <Cell col="4" text="expr:SALES==&quot;&quot; ? &quot;환불완료&quot;:SALES" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)" textAlign="right" displaytype="number"/>
                 <Cell col="5" text="bind:TIME" suppress="3" suppressalign="middle" textAlign="center" displaytype="date" edittype="none" calendardateformat="yyyy-MM-dd HH:mm:ss" calendareditformat="yyyy-MM-dd HH:mm:ss" cssclass="expr:comp.parent.ReturnCellFontColor(SALES)"/>
               </Band>
               <Band id="summary">

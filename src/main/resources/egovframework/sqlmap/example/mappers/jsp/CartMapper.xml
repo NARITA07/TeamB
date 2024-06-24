@@ -55,7 +55,11 @@
 		FROM ORDERS
 		WHERE CART_CODE = #{cart_code}
 	</select>
-	
+	<select id="selectOrdersInfo" resultType="bookcafe.cart.service.OrdersVO">
+		SELECT * 
+		FROM ORDERS
+		WHERE ORDER_CODE = #{order_code}
+	</select>
 	<!-- 장바구니 리스트 가져오기 -->
 	<select id="selectCartList" resultType="bookcafe.cart.service.CartVO">
 		SELECT 
@@ -290,6 +294,7 @@
 		SELECT
 		    o.ORDER_CODE,
 		    f.PRODUCT_NAME,
+		    f.PRODUCT_CODE,
 		    c.ORDER_QUANTITY,
 		    c.ORDER_QUANTITY * f.PRODUCT_PRICE AS PRODUCT_AMOUNT
 		FROM

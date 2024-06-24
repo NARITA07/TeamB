@@ -194,7 +194,7 @@ this.Book_List_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	this.Combo03.set_index(0);
 	
 	this.fnselectSalesCombo();
-	
+	 
 	this.check_sort(this.Grid01);
 	
 	var currDate = new Date();
@@ -494,5 +494,7 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
 	this.reload();
+};
+]]></Script>
   </Form>
 </FDL>

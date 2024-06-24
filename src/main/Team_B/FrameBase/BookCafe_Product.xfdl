@@ -15,7 +15,7 @@
         <Static id="Static01" taborder="8" text="분류" left="ImageViewer00:5" top="111" width="24" height="14"/>
         <Combo id="fir_category" taborder="1" text="" left="Static01:5" top="103" width="100" height="30" value="" index="-1" innerdataset="init_fir_code" codecolumn="FIR_CODE" datacolumn="FIR_NAME" border="1px solid #4F4537" onitemchanged="fir_category_onitemchanged" cssclass="combo_default" type="filterlike" ondropdown="fir_category_ondropdown"/>
         <Combo id="sec_category" taborder="2" top="103" width="100" height="30" value="" index="-1" text="" innerdataset="sec_code" codecolumn="SEC_CODE" datacolumn="SEC_NAME" left="fir_category:3" border="1px solid #4F4537" onitemchanged="sec_category_onitemchanged" cssclass="combo_default" type="search" ondropdown="sec_category_ondropdown"/>
-        <Grid id="Grid00" taborder="6" left="20" top="Div00:20" bottom="60" right="20" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup" autosizingtype="row" oncellclick="Grid00_oncellclick">
+        <Grid id="Grid00" taborder="6" left="20" top="Div00:20" bottom="60" right="20" binddataset="view_dtl" autofittype="col" border="1px solid #4F4537" oncelldblclick="Grid00_oncelldblclick" onsize="Grid00_onsize" cssclass="grid_default" onsetfocus="Grid00_onsetfocus" oncloseup="Grid00_oncloseup" autosizingtype="row" oncellclick="Grid00_oncellclick" onkeyup="Grid00_onkeyup">
           <Formats>
             <Format id="default">
               <Columns>
@@ -47,13 +47,13 @@
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="N" checkboxtruevalue="Y"/>
                 <Cell col="1" displaytype="buttoncontrol" edittype="none" combodataset="STATUS" combodatacol="USE" combocodecol="USE" text="bind:PRODUCT_STATUS" textAlign="center" cursor="pointer" border="1px solid #dbdee2" cssclass="expr:PRODUCT_STATUS == 'Y' ? 'use_y' : 'use_n'"/>
-                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'"/>
-                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : 'none'" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
+                <Cell col="2" textAlign="center" combodataset="add_fir_code" combodatacol="FIR_NAME" combocodecol="FIR_NAME" text="bind:PRODUCT_CODE" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'" edittype="expr:PRODUCT_NAME == null ? 'combo' : PRODUCT_CODE == '음식' || PRODUCT_CODE =='도서' ? 'combo' : ''"/>
+                <Cell col="3" text="bind:SEC_NAME" textAlign="center" combodataset="add_sec_code" combodatacol="SEC_NAME" combocodecol="SEC_NAME" edittype="expr:PRODUCT_NAME == null ? 'combo' : PRODUCT_CODE == '음식' || PRODUCT_CODE =='도서' ? 'combo' : ''" displaytype="expr:PRODUCT_NAME == null ? 'combocontrol' : 'nomal'"/>
                 <Cell col="4" text="bind:PRODUCT_NAME" textAlign="center" edittype="text" wordWrap="char" displaytype="expr:PRODUCT_NAME == null ? 'editcontrol' : 'normal'"/>
                 <Cell col="5" text="bind:PRODUCT_PATH" textAlign="center" edittype="none" autosizecol="default" displaytype="text" wordWrap="char" cursor="pointer" cssclass="expr:PRODUCT_PATH == '이미지 준비중' ? 'img':&quot; "/>
-                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" wordWrap="char" displaytype="expr:BOOK_WRITER == '-' || BOOK_WRITER !='미상' ? 'normal' : 'editcontrol'" text="bind:BOOK_WRITER"/>
-                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" maskedittype="string" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask" displaytype="expr:BOOK_PUBLICATION_DATE != null ? comp.parent.book_date(BOOK_PUBLICATION_DATE): '';" edittype="expr:BOOK_PUBLICATION_DATE == '-' ? 'none' : 'mask'"/>
-                <Cell col="8" text="bind:PRODUCT_PRICE" textAlign="right" displaytype="expr:PRODUCT_CODE =='음식' ? 'maskeditcontrol': 'mask'" edittype="mask" maskeditformat="###,###" autosizecol="limitmin" cssclass="expr:PRODUCT_PRICE  &gt; 0 ? 'grid_mask':'' "/>
+                <Cell col="6" textAlign="center" edittype="expr:BOOK_WRITER=='-' || PRODUCT_CODE =='음식'  ? 'none' : 'text'" wordWrap="char" displaytype="expr:BOOK_WRITER == '-' || BOOK_WRITER !='미상' ? 'normal' :  PRODUCT_CODE.substr(0,1) == 'b' ? 'text':'editcontrol'" text="bind:BOOK_WRITER"/>
+                <Cell col="7" text="bind:BOOK_PUBLICATION_DATE" textAlign="center" maskedittype="string" maskeditformat="9999-99-99" maskeditclipmode="excludespace" maskeditmaskchar="_" calendardisplaynulltype="nullmask" edittype="expr:PRODUCT_CODE == '도서' ? 'mask' : PRODUCT_PRICE &gt; 0 || PRODUCT_CODE =='음식' ? 'none' : 'mask'" displaytype="expr:BOOK_PUBLICATION_DATE == '-'  ? 'text' :BOOK_PUBLICATION_DATE.length == 8 ? 'mask' : BOOK_PUBLICATION_DATE == '미상' ? 'editcontrol': ''"/>
+                <Cell col="8" textAlign="right" displaytype="expr:PRODUCT_CODE =='음식' ? 'maskeditcontrol': 'mask'" maskeditformat="###,###" autosizecol="limitmin" cssclass="expr:PRODUCT_PRICE  &gt; 0 ? 'grid_mask':'' " text="bind:PRODUCT_PRICE" edittype="expr:PRODUCT_CODE == '음식' || PRODUCT_PRICE == 0 || PRODUCT_CODE.substr(0,1) == 'f' ? 'mask' : 'none'"/>
               </Band>
             </Format>
           </Formats>
@@ -63,7 +63,7 @@
         <Button id="btn_add" taborder="3" text="추가" width="70" onclick="btn_add_onclick" right="btn_save:5" bottom="Div00:5" height="30" cssclass="btn_save"/>
         <ImageViewer id="im_v" taborder="10" left="sec_category:30" top="115" width="6" height="6" cssclass="iv_none_border" image="url('theme::default/images/nav_logo.png')" stretch="fit"/>
         <Static id="Static08_00" taborder="11" text="검색" left="im_v:5" top="111" height="14" onclick="Static08_onclick" width="24"/>
-        <Combo id="serch_product" taborder="12" left="Static08_00:5" top="103" width="150" height="30" type="filterlike" cssclass="combo_default" innerdataset="view_code" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" autoselect="true" displaynulltext="제품검색" onitemchanged="Div00_serch_product_onitemchanged" displayrowcount="10"/>
+        <Combo id="serch_product" taborder="12" left="Static08_00:5" top="103" width="150" height="30" type="filterlike" cssclass="combo_default" innerdataset="view_code" codecolumn="PRODUCT_CODE" datacolumn="PRODUCT_NAME" autoselect="true" displaynulltext="제품검색" onitemchanged="Div00_serch_product_onitemchanged" displayrowcount="10" text=""/>
         <ImageViewer id="ImageViewer00_00" taborder="13" top="15" width="36" height="34" stretch="none" fittocontents="none" text="" cssclass="iv_none_border" onclick="img_reset_onclick" right="20" image="url('imagerc::reset_ver4.png')" cursor="pointer"/>
       </Layout>
     </Layouts>
@@ -136,6 +136,7 @@
         <ColumnInfo>
           <Column id="num" type="INT" size="256"/>
           <Column id="mes" type="STRING" size="256"/>
+          <Column id="code" type="INT" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -356,7 +357,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	}else{//추가 시 공백체크 
 		for(i = 0; i < this.save_date.getRowCount(); i++){
 			
-			if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == " "){
+			if(this.save_date.getColumn(i,"PRODUCT_CODE") == '도서' || this.save_date.getColumn(i,"PRODUCT_CODE") == null){
 				var date = this.save_date.getColumn(i,"BOOK_PUBLICATION_DATE")
 				if (this.save_date.getColumn(i,"PRODUCT_CODE") == " ")
 				{
@@ -365,7 +366,7 @@ this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 					
 					return alert("분류명을 선택해주세요")
 					//chk_num++;
-				}else if(this.save_date.getColumn(i,"PRODUCT_NAME") == null || this.save_date.getColumn(i,"PRODUCT_NAME") == " "){
+				}else if(this.save_date.getColumn(i,"PRODUCT_NAME") == null || this.save_date.getColumn(i,"PRODUCT_NAME") == null){
 					
 					return alert("제품명을 입력해주세요")
 					//chk_num++;
@@ -578,6 +579,14 @@ this.fn_category = function(id, code, message){
 	
 	if(code == 0){
 		switch(id) {
+		
+		case "add_sec_code" :
+		for(i = 0; i < this.view_code.rowcount; i++){
+				if(this.add_sec_code.getColumn(i,"SEC_NAME") == "도서열람권"){
+					this.add_sec_code.deleteRow(i)
+					}
+			}
+			break;
 		
 		case "fir_category_select":
 		for(i = 0; i < this.view_code.rowcount; i++){
@@ -794,29 +803,20 @@ this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo
 				this.view_dtl.setColumn(e.row,"PRODUCT_STATUS", "Y")
 		}
 	}
+	
 };
-
-
-this.book_date = function(val){
-if (val == '-') {
-    return 'normal'; // '-' 인 경우
-} else if (val == '미상') {
-    return 'editcontrol'; // '미상' 인 경우
-} else {
-    return 'mask'; // 그 외의 경우
-}
-
-} 
 
 //처리 메시지
 this.messages = function(){
 	var count = this.message.getColumn(0,"num");
 	var mes = this.message.getColumn(0,"mes");
+	var code = this.message.getColumn(0,"code");
+	alert(count + "건 처리 되었습니다.")
 	
-			alert(count + "건 처리 되었습니다.")
-	if(mes != null){
-words = mes.split('*')
-	alert(words)
+	if(code == 1){
+		words = mes.split('*')
+		alert(words)
+
 }
 }
 
@@ -824,7 +824,8 @@ words = mes.split('*')
 this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
 	this.reload();
-};]]></Script>
+};
+]]></Script>
     <Bind>
       <BindItem id="item0" compid="fir_category" propid="text" datasetid="init_fir_code" columnid="FIR_NAME"/>
       <BindItem id="item1" compid="serch_product" propid="value" datasetid="view_dtl" columnid="SEC_NAME"/>

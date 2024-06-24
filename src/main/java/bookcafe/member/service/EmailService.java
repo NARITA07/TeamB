@@ -32,4 +32,22 @@ public class EmailService {
             System.out.println("Error occurred while sending email");
         }
     }
+    
+    @Async
+    public void sendMail(String to,String str) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+
+            helper.setTo(to);
+            helper.setFrom(new InternetAddress("your_email@example.com", "BookCafe", "UTF-8"));
+            helper.setSubject("BookCafe : "+str);
+            helper.setText(to+"님이 "+str, true);
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while sending email");
+        }
+    }
 }

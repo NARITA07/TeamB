@@ -132,9 +132,18 @@
 		            	<div class="productName">
 	                        <span>${receipt.product_name}</span>
 	                    </div>
-	                    <div class="orderQuantity">
-	                        <span>${receipt.order_quantity}개</span>
-	                    </div>
+	                    <c:choose>
+	                        <c:when test="${receipt.product_code == 'food_014'}">
+	                            <div class="orderQuantity">
+			                        <span></span>
+			                    </div>
+	                        </c:when>
+	                        <c:otherwise>
+	                            <div class="orderQuantity">
+			                        <span>${receipt.order_quantity}개</span>
+			                    </div>
+	                        </c:otherwise>
+                        </c:choose>
 	                    <div>
 	                        <span class="price" data-price="${receipt.product_amount}"></span>
 	                    </div>

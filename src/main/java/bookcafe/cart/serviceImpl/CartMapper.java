@@ -79,5 +79,7 @@ public interface CartMapper {
 
 	public String selectReadBook(@Param("user_code")String user_code);
 
+	public OrdersVO selectOrdersInfo(String order_code);
+
 	
 }

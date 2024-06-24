@@ -88,7 +88,7 @@ public class OrderController {
 						pointService.insertPointLog(vo);
 					}
 
-					pointService.updateUserPoint(orders.get(0).get("USER_CODE"));
+					pointService.updateUserPoint(order.get("USER_CODE"));
 				}
 			}
 		} else {// 에러

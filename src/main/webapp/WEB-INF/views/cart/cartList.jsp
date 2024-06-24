@@ -460,7 +460,9 @@
     	        url: "/submitOrder",
     	        data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
     	        success: function(response) {
-    	        	 if (response != "fail") {
+    	        	if (response == "outOfStock") {
+    	                alert("재고가 부족한 상품이 있습니다. 장바구니를 확인해주세요.");
+    	            }else if (response != "fail") {
     	                 alert("결제가 완료되었습니다.");
     	                 console.log("order_code: " + response);
     	                 window.location.href = "/selectReceipt.do?order_code=" + response;
@@ -471,6 +473,7 @@
     	         error: function() {
     	             alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
     	         }
+
     	     });
     	 });
       

@@ -14,4 +14,7 @@ public interface FoodMapper {
 	
 	// 음식 카테고리
 	public List<FoodVO> getFoodCategory();
+	
+	// 재고수량조회
+	public FoodVO checkQuantity(String product_code);
 }

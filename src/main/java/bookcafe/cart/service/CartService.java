@@ -1,6 +1,7 @@
 package bookcafe.cart.service;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface CartService {
@@ -61,6 +62,10 @@ public interface CartService {
 
 	public OrdersVO selectOrdersInfo(String order_code);
 
+	public boolean isStockAvailable(String product_code, int order_quantity);
+	
+	public int getAvailableQuantity(String product_code);
 
+	public List<Map<String, Object>> selectQuantitiy1(String cart_code);
 
 }

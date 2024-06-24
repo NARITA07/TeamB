@@ -80,6 +80,12 @@ public interface CartMapper {
 	public String selectReadBook(@Param("user_code")String user_code);
 
 	public OrdersVO selectOrdersInfo(String order_code);
+	
+	public Integer selectProductStock(String product_code);
+	
+	public int getAvailableQuantity(String product_code);
+
+	public List<Map<String, Object>> selectQuantitiy1(String cart_code);
 
 	
 }

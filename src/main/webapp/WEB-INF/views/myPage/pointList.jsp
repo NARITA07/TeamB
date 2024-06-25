@@ -217,7 +217,14 @@
                                                     <c:otherwise>기타</c:otherwise>
                                                 </c:choose>
                                             </td>
-                                       <td><fmt:formatNumber value="${point.total_price}" type="number"/> 원</td>
+                                       <c:choose>
+                                       		<c:when test="${point.point_section == '적립'}">
+		                                       <td><fmt:formatNumber value="${point.total_price}" type="number"/> 원</td>
+                                       		</c:when>
+                                       		<c:when test="${point.point_section == '사용'}">
+		                                       <td><fmt:formatNumber value="${point.total_price*-1}" type="number"/> 원</td>
+                                       		</c:when>
+                                       </c:choose>
                                        <td><fmt:formatNumber value="${point.point_change}" type="number"/> P</td>
                                        <td>${point.point_section}</td>
                                     </tr>

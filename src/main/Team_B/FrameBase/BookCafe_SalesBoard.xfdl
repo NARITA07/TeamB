@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
   <Form id="Sales_Board" width="1080" height="670" titletext="매출현황" onload="Sales_Board_onload" cssclass="main_title" onkeyup="EnterKey_onkeyup">
     <Layouts>
@@ -243,16 +243,10 @@ this.Combo02_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEven
 };
 
 // 새로고침 버튼
-this.ImageViewer00_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+this.img_reset_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
 	this.reload();
-};
-
-this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-	
-};
-]]></Script>
+};]]></Script>
     <Objects>
       <Dataset id="sales_dtl">
         <ColumnInfo>

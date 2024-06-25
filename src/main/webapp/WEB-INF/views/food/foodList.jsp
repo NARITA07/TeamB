@@ -144,10 +144,20 @@
                                     </span>
                                  </div>
                                  <div style="display: flex; justify-content: center; align-items: center; padding:10px;">
-                                    <button type="button" class="btn btn-light push_cart" 
-                                          onclick="addCart('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}')">장바구니</button>
-                                    <button type="button" class="btn btn-light" style="margin-left: 10px;"
-                                          onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}', '${food.product_name}')">바로구매</button>
+                                 	<c:choose>
+                                 		<c:when test="${food.product_quantity > 0}">
+		                                    <button type="button" class="btn btn-light push_cart"
+		                                          onclick="addCart('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}')">장바구니</button>
+		                                    <button type="button" class="btn btn-light" style="margin-left: 10px;"
+		                                          onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}', '${food.product_name}')">바로구매</button>
+                                 		</c:when>
+                                 		<c:otherwise>
+		                                    <button type="button" class="btn btn-light push_cart disabled"
+		                                          onclick="addCart('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}')">재고없음</button>
+		                                    <button type="button" class="btn btn-light push_cart disabled" style="margin-left: 10px;"
+		                                          onclick="direct_buy('${loginInfo.user_code}', '${food.product_code}', $('#order_quantity-${food.product_code}').val(), '${food.product_quantity}', '${food.product_name}')">재고없음</button>
+                                 		</c:otherwise>
+                                 	</c:choose>
                                  </div>
                               </div>
                            </div>
@@ -234,6 +244,7 @@ $(document).ready(function() {
    // 수량을 포함하는 div와 금액을 포함하는 div를 모두 숨김
    $('#quantity-container-' + targetProductCode).css('display', 'none');
    $('#price-container-' + targetProductCode).css('display', 'none');
+   
 });
 
    var isPointUsed = false; // 포인트 사용 상태 플래그

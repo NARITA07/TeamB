@@ -523,18 +523,39 @@ $(document).ready(function() {
    // 바로구매결제
    $('#btnOrder').on('click', function(e) {
       e.preventDefault();
-       
+      
+      var product_code = $('#productCodeInput').val();
+      var order_quantity = $('#orderQuantityInput').val();
+      
       $.ajax({
          type: "POST",
-         url: "/submitOrderDirect",
-         data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
+         url: "/checkFood.do",
+         data: {
+             product_code: product_code,
+             order_quantity: order_quantity
+          },
          success: function(response) {
-            if (response != "fail") {
-               alert("결제가 완료되었습니다.");
-               console.log("order_code: " + response);
-               window.location.href = "/selectReceipt.do?order_code=" + response;
+            if (response == "success") {
+	           	
+	            $.ajax({
+	                type: "POST",
+	                url: "/submitOrderDirect",
+	                data: $('#orderForm').serialize(), // form 데이터를 직렬화하여 전송
+	                success: function(response) {
+	                   if (response != "fail") {
+	                      alert("결제가 완료되었습니다.");
+	                      console.log("order_code: " + response);
+	                      window.location.href = "/selectReceipt.do?order_code=" + response;
+	                   } else {
+	                       alert("결제중 오류가 발생했습니다.");
+	                   }
+	                },
+	                error: function() {
+	                   alert("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+	                }
+	             });
             } else {
-                alert("결제중 오류가 발생했습니다.");
+                alert(response);
             }
          },
          error: function() {

@@ -104,6 +104,7 @@ public class MyPageController {
 	public void pointList(HttpSession session, Model model,
 				  		  @RequestParam(required = false) String startDate, 
 			              @RequestParam(required = false) String endDate,
+			              @RequestParam(required = false) String filter,
 			              @RequestParam(value = "page", defaultValue = "1") int page,
                           @RequestParam(value = "size", defaultValue = "10") int size) {
 		
@@ -115,6 +116,8 @@ public class MyPageController {
 		pointVO.setUser_code(user_code);
 		pointVO.setStartDate(startDate);
 		pointVO.setEndDate(endDate);
+		pointVO.setFilter(filter);
+		System.out.println("pointVO: " + pointVO);
 		List<PointVO> pointList = pointService.getPointList(pointVO);
 		System.out.println("pointList:" + pointList.toString());
 		
@@ -133,6 +136,7 @@ public class MyPageController {
 		model.addAttribute("totalPoint", totalPoint);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("filter", filter);
 		model.addAttribute("pagination", pagination);
 	}
 	

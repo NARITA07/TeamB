@@ -71,7 +71,7 @@ public class OrderController {
 					orderCode = order.get("ORDER_CODE");
 				if (Integer.valueOf(String.valueOf(order.get("ORDER_STATE"))) > 1) {
 					String to = memberService.selectMemberEmail(order.get("USER_CODE"));
-//		    			emailService.sendMail(to, "주문하신 음식이 준비완료되었습니다.");
+		    			emailService.sendMail(to, "주문하신 음식이 준비완료되었습니다.");
 				}
 				
 				if (Integer.valueOf(String.valueOf(order.get("PAYMENT_STATE"))) > 1) {
@@ -88,7 +88,7 @@ public class OrderController {
 						pointService.insertPointLog(vo);
 					}
 
-					pointService.updateUserPoint(orders.get(0).get("USER_CODE"));
+					pointService.updateUserPoint(order.get("USER_CODE"));
 				}
 			}
 		} else {// 에러

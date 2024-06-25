@@ -27,7 +27,6 @@ public class CodeController {
 		NexacroResult nex_fir_code = new NexacroResult();
 		
 		nex_fir_code.addDataSet("init_fir_code", codeservice.init_fir_code());
-		System.out.println(nex_fir_code.getDataSets());
 		return nex_fir_code;
 		
 	}
@@ -57,7 +56,6 @@ public class CodeController {
 	//대분류 코드 선택 시 중분류 하위카테고리 조회
 	@RequestMapping("select_sec_code.do")
 	public NexacroResult select_sec_code(@ParamDataSet(name="fir_category_select")Map<String, Object> sec_category_select){
-		System.out.println(sec_category_select);
 		NexacroResult nex_sec_category_select = new NexacroResult();
 		
 		nex_sec_category_select.addDataSet("sec_code",codeservice.sec_category_select(sec_category_select));
@@ -79,11 +77,9 @@ public class CodeController {
 	
 	@RequestMapping("add_sec_code.do")
 	public NexacroResult add_sec_code(@ParamVariable(name="add_fir_code", required = false)String add_fir_code){
-		System.out.println("추가 " + add_fir_code);
 		NexacroResult nex_sec_category_select = new NexacroResult();
 		
 		nex_sec_category_select.addDataSet("sec_code",codeservice.add_sec_code(add_fir_code));
-		System.out.println("추가 " + nex_sec_category_select.getDataSets());
 		return nex_sec_category_select;
 	}
 	

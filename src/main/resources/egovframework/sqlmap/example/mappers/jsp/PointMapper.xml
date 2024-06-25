@@ -6,7 +6,7 @@
 
 	<!-- 포인트 전체 조회하기(한사람) -->
  	<select id="getPointList" resultType="bookcafe.point.service.PointVO">
- 		SELECT *
+		SELECT *
 		FROM (
 		    SELECT 
 		        P.*, 
@@ -34,6 +34,9 @@
 		    ORDER BY 
 		        P.POINT_JOINDATE ASC
 		) AS T
+	    <if test="filter != null and filter != ''">
+        	WHERE POINT_SECTION = #{filter}
+    	</if>
 		ORDER BY ROWNUM DESC;
   	</select>
   	

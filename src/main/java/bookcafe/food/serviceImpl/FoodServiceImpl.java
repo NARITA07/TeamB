@@ -25,4 +25,10 @@ public class FoodServiceImpl extends EgovAbstractServiceImpl implements FoodServ
 	public List<FoodVO> getFoodCategory() {
 		return foodMapper.getFoodCategory();
 	}
+	
+	// 재고수량 조회
+	@Override
+	public FoodVO checkQuantity(String product_code) {
+		return foodMapper.checkQuantity(product_code);
+	}
 }

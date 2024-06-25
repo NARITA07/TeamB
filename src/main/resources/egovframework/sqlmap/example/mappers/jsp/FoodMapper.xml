@@ -23,4 +23,11 @@
 		  END, SEC_CODE
     </select>
     
+    <!-- 재고수량조회 -->
+    <select id="checkQuantity" resultType="bookcafe.food.service.FoodVO">
+    	SELECT *
+    	FROM FOOD
+    	WHERE PRODUCT_CODE = #{product_code}
+    </select>
+    
 </mapper>

@@ -2,6 +2,7 @@ package bookcafe.cart.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -205,6 +206,10 @@ import bookcafe.point.service.PointVO;
 	    String user_code = loginInfo.getUser_code();
 	    String cart_code =cartService.selectMaxCartCode(user_code);
 	    String userAuthority = loginInfo.getUser_authority();
+	    
+	    if (!isStockAvailable(cart_code)) {
+	        return "outOfStock";
+	    }
 	    
 	    // 기존 주문 존재 여부 확인
 	    String existingOrderCode = cartService.selectOrderCode(cart_code);
@@ -420,7 +425,7 @@ import bookcafe.point.service.PointVO;
 	
 	// 영수증 화면
 	@RequestMapping("selectReceipt.do")
-	public String selectReceipt(Model model, String order_code,String user_code, ReceiptVO receipt,HttpSession session) {
+	public String selectReceipt(Model model, String order_code, String user_code, ReceiptVO receipt,HttpSession session) {
 		System.out.println("영수증 컨트롤러");
 		System.out.println("주문번호 : "+ order_code);
 		// 영수증 뽑기 (메뉴정보)
@@ -438,6 +443,24 @@ import bookcafe.point.service.PointVO;
 		return "/receipt/receipt";
 	}
 	
+	public boolean isStockAvailable(String cart_code) {
+	    List<Map<String, Object>> quantities = cartService.selectQuantitiy1(cart_code);
+	    for (Map<String, Object> item : quantities) {
+	        String product_code = (String) item.get("PRODUCT_CODE");
+	        int order_quantity = (int) item.get("ORDER_QUANTITY");
+	        int available_quantity = cartService.getAvailableQuantity(product_code);
+
+	        if (product_code.equals("food_014")) {
+	            continue;
+	        }
+
+	        if (order_quantity > available_quantity) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
 	
 	
 }

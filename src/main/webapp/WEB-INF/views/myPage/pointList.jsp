@@ -52,92 +52,93 @@
 </head>
 <body>
 <script>
-// 기간별 포인트내역조회
-function pointHistory() {
-    var startDate = $("#startDate").val();
-    var endDate = $("#endDate").val();
-    console.log("startDate:" + startDate + ", endDate:" + endDate);
-
-    if (!startDate || !endDate) {
-        alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
-        return;
-    }
-
-    // 검색날짜 포함해서 페이지 리로드
-    var queryString = "?startDate=" + startDate + "&endDate=" + endDate;
-    window.location.href = "/myPage/pointList" + queryString;
-}
-
-// 날짜 형식 변환
-function formattedDate(point_use_date) {
-   if (!point_use_date) {
-        return "";
-    }
-   
-   // 대상 문자열
-    var dateStr = point_use_date;
-    
-   // 연도, 월, 일 추출
-     var year = dateStr.substring(0, 4);
-     var month = dateStr.substring(4, 6);
-     var day = dateStr.substring(6, 8);
-
-     var formattedDate = year + "-" + month + "-" + day;
-     
-     return formattedDate;
-}
-
-$(document).ready(function() {
-   
-   $(".point_use_date").each(function() {
-      var point_use_date = $(this).text();
-      if (point_use_date.length > 0) {
-         $(this).text(formattedDate(point_use_date));
-      }
-   });
-   
-});
-
-$(function() {
-   
-   var originalData = $("#pointHistory").html();
-   
-    // 전체 버튼 클릭
-   $("#pointAll").click(function() {
-       var tbody = $("#tbl_point tbody");
-       tbody.html(originalData);
-       $("#tbl_point thead tr").removeClass().addClass("table-warning");
-       if (tbody.children().length == 0) {
-           tbody.html("<tr><td colspan='7'>포인트 내역이 없습니다.</td></tr>");
-       }
-   });
-   
-   // 적립 버튼 클릭
-   $("#plusPoint").click(function() {
-       var tbody = $("#tbl_point tbody");
-       tbody.html(originalData);
-       tbody.find("tr").hide();
-       var earnedRows = tbody.find("tr:contains('적립')");
-       earnedRows.show();
-       $("#tbl_point thead tr").removeClass().addClass("table-primary");
-       if (earnedRows.length == 0) {
-           tbody.html("<tr><td colspan='7'>적립포인트 내역이 없습니다.</td></tr>");
-       }
-   });
-   
-   // 사용 버튼 클릭
-   $("#minusPoint").click(function() {
-       var tbody = $("#tbl_point tbody");
-       tbody.html(originalData);
-       tbody.find("tr").hide();
-       var usedRows = tbody.find("tr:contains('사용')");
-       usedRows.show();
-       $("#tbl_point thead tr").removeClass().addClass("table-danger");
-       if (usedRows.length == 0) {
-           tbody.html("<tr><td colspan='7'>사용포인트 내역이 없습니다.</td></tr>");
-       }
-   });
-});
+	//날짜 형식 변환
+	function formattedDate(point_use_date) {
+		if (!point_use_date) {
+		     return "";
+		 }
+		
+		// 대상 문자열
+		var dateStr = point_use_date;
+		 
+		// 연도, 월, 일 추출
+		var year = dateStr.substring(0, 4);
+		var month = dateStr.substring(4, 6);
+		var day = dateStr.substring(6, 8);
+		
+		var formattedDate = year + "-" + month + "-" + day;
+		
+		return formattedDate;
+	}
+	
+	// 기간별 포인트내역조회 함수
+	function pointHistory() {
+	    var startDate = $("#startDate").val();
+	    var endDate = $("#endDate").val();
+	    var filter = $(".btn-group button.active").attr("value");;
+	    
+	    console.log("startDate:" + startDate + ", endDate:" + endDate + ", filter:" + filter);
+	
+	    // 검색 조건에 따라 URL 생성
+	    var queryString = "?startDate=" + startDate + "&endDate=" + endDate;
+	    if (filter && filter != "null") {
+	        queryString += "&filter=" + filter;
+	    }
+	
+	    // 페이지 이동
+	    window.location.href = "/myPage/pointList" + queryString;
+	}
+	
+	// 날짜 선택 검사
+	function validDateTest() {
+	    var startDate = $("#startDate").val();
+	    var endDate = $("#endDate").val();
+	    
+	    if (!startDate || !endDate) {
+	        alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
+	        return;
+	    } else {
+	    	pointHistory();
+	    }
+	}
+	
+	// 테이블 헤더 색상 설정 함수
+	function setTableHeaderColor(filter) {
+	    if (filter == '적립') {
+	        $("#tbl_point thead tr").removeClass().addClass("table-primary");
+	    } else if (filter == '사용') {
+	        $("#tbl_point thead tr").removeClass().addClass("table-danger");
+	    } else {
+	        $("#tbl_point thead tr").removeClass().addClass("table-warning");
+	    }
+	}
+	
+	$(document).ready(function() {
+	    // 서버에서 전달된 filter 값 읽기
+	    var filter = "${filter}";
+	    
+	    // 페이지 로드 시 테이블 헤더 색상 설정
+	    setTableHeaderColor(filter);
+		
+		// 포인트 내역 날짜 형식 변환
+		$(".point_use_date").each(function() {
+		   var point_use_date = $(this).text();
+		   if (point_use_date.length > 0) {
+		      $(this).text(formattedDate(point_use_date));
+		   }
+		});
+		
+		// 버튼 클릭 이벤트
+		$(".btn-group button").click(function () {
+		    // 버튼의 active 클래스 설정 및 해제
+		    $(".btn-group button").removeClass("active");
+		    $(this).addClass("active");
+		    
+		    // 포인트 내역 조회 함수 호출
+		    pointHistory();
+		});
+	   
+	});
 </script>
 
    <%@ include file="/WEB-INF/views/include/topMenu.jsp" %>
@@ -164,9 +165,9 @@ $(function() {
                               <div class="d-flex justify-content-between align-items-center" style="margin:10px;">
                               <div style="display: flex; justify-content: center;">
                                  <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-outline-dark" id="pointAll">전체</button>
-                                    <button type="button" class="btn btn-outline-dark" id="plusPoint">적립</button>
-                                    <button type="button" class="btn btn-outline-dark" id="minusPoint">사용</button>
+                                    <button type="button" class="btn btn-outline-dark" id="pointAll" value="null">전체</button>
+                                    <button type="button" class="btn btn-outline-dark" id="plusPoint" value="적립">적립</button>
+                                    <button type="button" class="btn btn-outline-dark" id="minusPoint" value="사용">사용</button>
                                  </div>
                               </div>
                                 <div style="display: flex; align-items: center; justify-content: center;">
@@ -178,7 +179,7 @@ $(function() {
                                         <input type="date" class="form-control" id="endDate" value="${endDate}">
                                     </div>
                                     <div class="col-auto">
-                                        <button class="btn btn-primary" onclick="pointHistory()"
+                                        <button class="btn btn-primary" onclick="validDateTest()"
                                         style="background-color: #c19f76; border: 1px solid;">조회</button>
                                     </div>
                                 </div>
@@ -210,13 +211,20 @@ $(function() {
                                        <td class="point_use_date">${point.point_joindate}</td>
                                             <td>
                                                 <c:choose>
-                                                    <c:when test="${point.payment_state eq 1}">결제완료</c:when>
-                                                    <c:when test="${point.payment_state eq 2}">환불</c:when>
-                                                    <c:when test="${point.payment_state eq 3}">결제취소</c:when>
+                                                    <c:when test="${point.point_state eq 1}">결제완료</c:when>
+                                                    <c:when test="${point.point_state eq 2}">환불</c:when>
+                                                    <c:when test="${point.point_state eq 3}">결제취소</c:when>
                                                     <c:otherwise>기타</c:otherwise>
                                                 </c:choose>
                                             </td>
-                                       <td><fmt:formatNumber value="${point.total_price}" type="number"/> 원</td>
+                                       <c:choose>
+                                       		<c:when test="${point.point_section == '적립'}">
+		                                       <td><fmt:formatNumber value="${point.total_price}" type="number"/> 원</td>
+                                       		</c:when>
+                                       		<c:when test="${point.point_section == '사용'}">
+		                                       <td><fmt:formatNumber value="${point.total_price*-1}" type="number"/> 원</td>
+                                       		</c:when>
+                                       </c:choose>
                                        <td><fmt:formatNumber value="${point.point_change}" type="number"/> P</td>
                                        <td>${point.point_section}</td>
                                     </tr>
@@ -227,21 +235,21 @@ $(function() {
                            <nav>
 			                   <ul class="pagination" style="display: flex; justify-content: center; color: #fff">
 			                       <li class="page-item ${pagination.currentPage == 1 || pointList.isEmpty() ? 'disabled' : ''}">
-			                           <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;&laquo;</a>
+			                           <a class="page-link" href="?page=1&size=${pagination.recordsPerPage}&startDate=${startDate}&endDate=${endDate}&filter=${filter}">&laquo;&laquo;</a>
 			                       </li>
 			                       <li class="page-item ${pagination.currentPage == 1 || pointList.isEmpty() ? 'disabled' : ''}">
-			                           <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&laquo;</a>
+			                           <a class="page-link" href="?page=${pagination.currentPage - 1}&size=${pagination.recordsPerPage}&startDate=${startDate}&endDate=${endDate}&filter=${filter}">&laquo;</a>
 			                       </li>
 			                       <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="i">
 			                           <li class="page-item ${pagination.currentPage == i ? 'active' : ''}">
-			                               <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&category=${selectedCategory}" style="color:#766650;">${i}</a>
+			                               <a class="page-link" href="?page=${i}&size=${pagination.recordsPerPage}&startDate=${startDate}&endDate=${endDate}&filter=${filter}" style="color:#766650;">${i}</a>
 			                           </li>
 			                       </c:forEach>
 			                       <li class="page-item ${pagination.currentPage == pagination.totalPages || pointList.isEmpty() ? 'disabled' : ''}">
-			                           <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;</a>
+			                           <a class="page-link" href="?page=${pagination.currentPage + 1}&size=${pagination.recordsPerPage}&startDate=${startDate}&endDate=${endDate}&filter=${filter}">&raquo;</a>
 			                       </li>
 			                       <li class="page-item ${pagination.currentPage == pagination.totalPages || pointList.isEmpty() ? 'disabled' : ''}">
-			                           <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&category=${selectedCategory}">&raquo;&raquo;</a>
+			                           <a class="page-link" href="?page=${pagination.totalPages}&size=${pagination.recordsPerPage}&startDate=${startDate}&endDate=${endDate}&filter=${filter}">&raquo;&raquo;</a>
 			                       </li>
 			                   </ul>
 			               </nav>

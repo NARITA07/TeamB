@@ -22,7 +22,6 @@ public class CodeManagementController {
 	//상위 코드 검색 조회
 	@RequestMapping("fir_grid_search.do")
 	public NexacroResult fir_grid_search(@ParamVariable(name = "search", required = false)String search) {
-		System.out.println(search);
 		NexacroResult result = new NexacroResult();
 
 		result.addDataSet("fir_code_grid", codemservice.searchfirgrid(search));
@@ -32,7 +31,6 @@ public class CodeManagementController {
 	
 	@RequestMapping("sec_grid_search.do")
 	public NexacroResult sec_grid_search(@ParamVariable(name = "search2", required = false)String search2) {
-		System.out.println(search2);
 		NexacroResult result = new NexacroResult();
 
 		result.addDataSet("sec_code_grid", codemservice.searchsecgrid(search2));
@@ -66,7 +64,6 @@ public class CodeManagementController {
 	//저장
 	@RequestMapping("grid_modi.do")
 	public NexacroResult grid_modi(@ParamDataSet(name = "save", required = false)List<Map<String, Object>> save) {
-		System.out.println(save);
 		NexacroResult result = new NexacroResult();
 
 		result.addVariable("message_count",codemservice.gridmodi(save));
@@ -101,7 +98,6 @@ public class CodeManagementController {
 	//코드 삭제
 		@RequestMapping("del_code.do")
 		public NexacroResult del_code(@ParamDataSet(name = "save", required = false)List<Map<String, Object>> save) {
-			System.out.println(save);
 			NexacroResult result = new NexacroResult();
 
 			result.addVariable("message_count", codemservice.codedel(save));

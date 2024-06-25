@@ -194,6 +194,21 @@ public class CartServiceImpl implements CartService{
 		return cartMapper.selectOrdersInfo(order_code);
 	}
 
+	@Override
+    public boolean isStockAvailable(String product_code, int order_quantity) {
+        Integer currentStock = cartMapper.selectProductStock(product_code);
+        return currentStock != null && currentStock >= order_quantity;
+    }
+	
+    @Override
+	public int getAvailableQuantity(String product_code) {
+	 return cartMapper.getAvailableQuantity(product_code);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectQuantitiy1(String cart_code) {
+		 return cartMapper.selectQuantitiy1(cart_code);
+	}
 
 	
 }

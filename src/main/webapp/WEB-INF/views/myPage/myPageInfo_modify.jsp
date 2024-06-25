@@ -256,35 +256,35 @@ $(function() {
         return true;
     }
     
-   // 전화번호 중복 체크
-    function checkDuplicateUserTel() {
-       var originalTel = "${loginInfo.user_tel}".trim();
-       var user_tel = $("#user_tel").val().trim();
+	// 전화번호 중복 체크
+	function checkDuplicateUserTel(callback) {
+		var originalTel = "${loginInfo.user_tel}".trim();
+		var user_tel = $("#user_tel").val().trim();
        
-       if (originalTel == user_tel) {
-          return true;
-       } else {
-           $.ajax({
-               type: "POST",
-               data: { user_tel: user_tel },
-               url: "/myPage/checkDupUserTel",
-               success: function(rData){
-                  console.log("rData:", rData);
-                   if (rData == "duplicate") {
-                      alert("중복된 전화번호가 있습니다. 다시 확인해주세요.");
-                      return false;
-                   } else {
-                      return true;
-                   }
-               },
-               error: function(){
-                   alert("전화번호 중복확인 중 에러가 발생하였습니다");
-                   return false;
-               }
-           });
-       }
-       return true;
-    }
+		// 전화번호가 변경되지 않은 경우
+		if (originalTel == user_tel) {
+			callback(true);
+		} else {
+		    $.ajax({
+		        type: "POST",
+		        data: { user_tel: user_tel },
+		        url: "/myPage/checkDupUserTel",
+		        success: function(rData){
+					console.log("rData:", rData);
+	            	if (rData == "duplicate") {
+						alert("이미 사용중인 전화번호입니다.");
+						callback(false);
+		            } else {
+						callback(true);
+		            }
+		        },
+		        error: function(){
+					alert("전화번호 중복확인 중 에러가 발생하였습니다");
+					callback(false);
+		        }
+		    });
+		}
+	}
 
     // 수정완료버튼 클릭
     $("#btn_submit").click(function(e) {
@@ -294,16 +294,20 @@ $(function() {
            return false;
         } 
         
-        if(!checkDuplicateUserTel()) {
-           return false;
-        }
-       
-        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
-        $("#user_address").val(combinedAddress);
-       // 폼 제출
-        $("#formModify").submit();
+//         if(!checkDuplicateUserTel()) {
+//            return false;
+//         }
+
+        // 전화번호 중복 체크 후 제출
+        checkDuplicateUserTel(function(isUnique) {
+        	if (isUnique) {
+		        var combinedAddress = $("#postcode").val() + '# ' + $("#address").val() + '# ' + $("#detailAddress").val();
+		        $("#user_address").val(combinedAddress);
+		        // 폼 제출
+		        $("#formModify").submit();
+        	}
+        });
     });
-    
 });
 </script>
 

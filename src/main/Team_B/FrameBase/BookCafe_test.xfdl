@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="test" width="1280" height="720" onload="test_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Button id="btn_sc" taborder="0" text="검색 조건" left="32" top="36" width="128" height="112"/>
+        <Button id="btn_select" taborder="1" text="조회" left="726" top="19" width="128" height="112" onclick="btn_select_onclick"/>
+        <Static id="Static00" taborder="2" text="주문 번호" left="200" top="36" width="60" height="56"/>
+        <Static id="Static00_00" taborder="3" text="고객명" left="190" top="110" width="60" height="56"/>
+        <Static id="Static00_01" taborder="4" text="법인고객여부" left="420" top="30" width="60" height="56"/>
+        <Static id="Static00_02" taborder="5" text="주문 상태" left="420" top="114" width="60" height="56"/>
+        <Button id="btn_orderC" taborder="6" text="주문 등록" left="45" top="177" width="137" height="53" onclick="btn_orderC_onclick"/>
+        <Button id="btn_orderU" taborder="7" text="주문 수정" left="212" top="187" width="137" height="53"/>
+        <Button id="btn_orderD" taborder="8" text="주문 삭제" left="363" top="184" width="137" height="53"/>
+        <CheckBox id="chb_chb" taborder="9" left="502" top="47" width="45" height="28" onclick="chb_chb_onclick"/>
+        <Edit id="ed_order" taborder="10" left="277" top="44" width="130" height="47" onchanged="ed_order_onchanged"/>
+        <Edit id="ed_member" taborder="11" left="255" top="110" width="130" height="47" onchanged="ed_member_onchanged"/>
+        <Grid id="Grid00" taborder="12" left="55" top="271" width="865" height="198" binddataset="ds_list" autofittype="col" oncellclick="Grid00_oncellclick" onheadclick="Grid00_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="128"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol" checkboxtruevalue="Y" checkboxfalsevalue="N"/>
+                <Cell col="1" text="주문번호"/>
+                <Cell col="2" text="주문상태"/>
+                <Cell col="3" text="고객번호"/>
+                <Cell col="4" text="고객명"/>
+                <Cell col="5" text="고객구분"/>
+                <Cell col="6" text="전화번호"/>
+                <Cell col="7" text="주소"/>
+                <Cell col="8" text="상품명"/>
+                <Cell col="9" text="주문일시"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol" checkboxtruevalue="Y" checkboxfalsevalue="N" text="bind:Chk"/>
+                <Cell col="1" text="bind:ORD_NO"/>
+                <Cell col="2" text="bind:ORD_STAT_NM"/>
+                <Cell col="3" text="bind:CUST_NO"/>
+                <Cell col="4" text="bind:CUST_NM"/>
+                <Cell col="5" text="bind:CUST_GBCD_NM"/>
+                <Cell col="6" text="bind:PHONE"/>
+                <Cell col="7" text="bind:ADDR"/>
+                <Cell col="8" text="bind:ITEM_NM"/>
+                <Cell col="9" text="bind:REG_DT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Radio id="rdo_custGb" taborder="13" left="548" top="36" width="154" height="61" direction="vertical" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" onitemchanged="Radio00_onitemchanged">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">A</Col>
+                <Col id="datacolumn">개인</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">B</Col>
+                <Col id="datacolumn">법인</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Combo id="cb_order" taborder="14" left="504" top="120" width="129" height="52" innerdataset="ds_combo" codecolumn="CD_VAL1" datacolumn="CD_NM1" onitemchanged="cb_order_onitemchanged" type="filter"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.test_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+
+	this.ds_sc.clearData();
+	this.ds_sc.addRow();
+	this.ds_sc.setColumn(0,"CD_VAL","001");
+	/*alert(this.ds_sc.saveXML());*/
+	
+	var strSvcId = "selectCommonCode";
+	var strSvcUrl = "svc::selectCommonCode.do"
+ 	var inData = "ds_sc = ds_sc";
+ 	var outData = "ds_combo = ds_combo";
+	var strAvg = "";
+	var callBackFnc = "fncallback";
+
+	this.transaction(strSvcId, strSvcUrl, inData, outData, strAvg, callBackFnc);
+};
+
+this.btn_select_onclick = function(obj,e)
+{
+
+	this.ds_scList.clearData();
+	this.ds_scList.addRow();
+	this.ds_scList.setColumn(0,"ORD_NO",this.ed_order.value);
+	this.ds_scList.setColumn(0,"CUST_NM",this.ed_member.value);
+	this.ds_scList.setColumn(0,"COMP_YN",this.chb_chb.value);
+	this.ds_scList.setColumn(0,"ORD_STAT_CD",this.cb_order.value);
+	this.ds_scList.setColumn(0,"CUST_GBCD",this.rdo_custGb.value);
+	
+	trace("ORD_NO   : " + this.ds_scList.getColumn(0,"ORD_NO"));
+	trace("CUST_NM   : " + this.ds_scList.getColumn(0,"CUST_NM"));
+	trace("COMP_YN   : " + this.ds_scList.getColumn(0,"COMP_YN"));
+	trace("ORD_STAT_CD   : " + this.ds_scList.getColumn(0,"ORD_STAT_CD"));
+	trace("CUST_GBCD   : " + this.ds_scList.getColumn(0,"CUST_GBCD"));
+	
+	var strSvcId = "selectOrdList";
+	var strSvcUrl = "selectOrdList.do"
+ 	var inData = "ds_scList = ds_scList";
+ 	var outData = "ds_list = ds_list";
+	var strAvg = "";
+	var callBackFnc = "fncallback";
+
+	this.transaction(strSvcId, strSvcUrl, inData, outData, strAvg, callBackFnc);
+};
+
+/*this.btn_orderC_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var oArg = {}; // 팝업을 열 때 부모창에서 가져갈 데이터가 있다면 이 변수에 데이터를 셋팅해준다
+				   // 주문등록시에는 가져갈 데이터가 없으므로, 공란으로 지정
+	var oOption = {}; // top = 20, left = 370, top,left를 지정하지 않으면 가운데 정렬해줌
+	var sPopupCallBack = "fnPopupCallback"; // 팝업창을 닫을 때 후처리 로직 작성하기 위한 함수
+	this.OpenPopup("popup","FrameBase::BookCafe_test1.xfdl",oArg,sPopupCallBack,oOption);
+};*/
+
+this.btn_orderC_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+	popup = new nexacro.ChildFrame;
+	popup.init("popupWork", 300, 300, 700, 700, null, null, "FrameBase::BookCafe_test1.xfdl");
+	popup.showModal(this.getOwnerFrame(), null, this, "fn_popupCallback", true);
+}
+
+this.fncallback = function(svcId, errorCode, errorMsg){
+	if(errorCode < 0){
+		alert("작업 실패 에러 코드 : " + errorCode);
+		return 0;
+	}
+
+	switch(svcId)
+	{
+		case"selectCommonCode":
+			this.ds_combo.insertRow(0);
+			this.ds_combo.setColumn(0,"CD_VAL1","");
+			this.ds_combo.setColumn(0,"CD_NM1","전체");
+			
+			break;
+	}
+}
+
+
+
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.ds_list.setColumn(e.row,"Chk","Y");
+};
+
+this.Grid00_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 0 ){
+	var checkValue;
+	
+	if(obj.getCellProperty("Head", 0, "text") == "Y"){
+		obj.setCellProperty("Head", 0, "text", "N");
+		checkValue = "N";
+		
+	}else{
+			obj.setCellProperty("Head", 0, "text","Y");
+			
+			checkValue = "Y";
+	}
+	this.ds_list.set_enableevent(false);
+		for(i=0; i<this.ds_list.rowcount; i++){ // getRowCount
+			this.ds_list.setColumn(i,"Chk",checkValue);
+		}
+	this.ds_list.set_enableevent(true);
+	}
+	
+	if(adsf == true){
+	adsfadsf
+	}else {
+		adfasd==false}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_sc">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_combo" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CD_VAL1" type="STRING" size="256"/>
+          <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_scList" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ORD_NO" type="STRING" size="256"/>
+          <Column id="CUST_NM" type="STRING" size="256"/>
+          <Column id="COMP_YN" type="STRING" size="256"/>
+          <Column id="ORD_STAT_CD" type="STRING" size="256"/>
+          <Column id="CUST_GBCD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ORD_NO" type="STRING" size="256"/>
+          <Column id="ORD_STAT_NM" type="STRING" size="256"/>
+          <Column id="CUST_NO" type="STRING" size="256"/>
+          <Column id="CUST_NM" type="STRING" size="256"/>
+          <Column id="CUST_GBCD_NM" type="STRING" size="256"/>
+          <Column id="PHONE" type="STRING" size="256"/>
+          <Column id="ADDR" type="STRING" size="256"/>
+          <Column id="ITEM_NM" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="Chk" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <DataObject id="DataObject00" url="ReturnCellFontColor("/>
+      <Dataset id="Dataset00" binddataobject="DataObject00"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item1" compid="cb_order" propid="text" datasetid="ds_combo" columnid="CD_NM1"/>
+    </Bind>
+  </Form>
+</FDL>

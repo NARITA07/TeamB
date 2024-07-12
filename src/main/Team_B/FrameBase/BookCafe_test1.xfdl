@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="BookCafe_test1" width="350" height="380" titletext="New Form">
+    <Layouts>
+      <Layout height="380" width="350">
+        <Static id="Static00" taborder="0" text="고객명" left="40" top="28" width="96" height="46" onclick="Static00_onclick"/>
+        <Static id="Static00_00" taborder="1" text="휴대폰" left="34" top="74" width="96" height="46" onclick="Static00_onclick"/>
+        <Static id="Static00_01" taborder="2" text="생년월일/사업자번호" left="30" top="120" width="150" height="46" onclick="Static00_onclick"/>
+        <Static id="Static00_02" taborder="3" text="주소" left="30" top="157" width="96" height="46" onclick="Static00_onclick"/>
+        <Static id="Static00_03" taborder="4" text="고객구분" left="30" top="200" width="96" height="46" onclick="Static00_onclick"/>
+        <Static id="Static00_04" taborder="5" text="주문 상품" left="22" top="244" width="96" height="46" onclick="Static00_onclick"/>
+        <Edit id="edt_custNm" taborder="6" left="184" top="36" width="133" height="28"/>
+        <Edit id="edt_phone" taborder="7" left="187" top="80" width="133" height="28"/>
+        <Edit id="edt_birBizNo" taborder="8" left="194" top="130" width="133" height="28"/>
+        <Edit id="edt_addr" taborder="9" left="180" top="176" width="133" height="28"/>
+        <Combo id="cb_order" taborder="10" left="182" top="210" width="129" height="30" innerdataset="ds_combo" codecolumn="CD_VAL1" datacolumn="CD_NM1" onitemchanged="cb_order_onitemchanged" type="filter"/>
+        <Combo id="cb_order00" taborder="11" left="182" top="250" width="129" height="30" innerdataset="ds_combo" codecolumn="CD_VAL1" datacolumn="CD_NM1" onitemchanged="cb_order_onitemchanged" type="filter"/>
+        <Button id="Button00" taborder="12" text="주문등록" left="34" top="304" width="130" height="46"/>
+        <Button id="Button00_00" taborder="13" text="닫기" left="195" top="307" width="130" height="46"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="cb_order" propid="text" datasetid="ds_combo" columnid="CD_NM1"/>
+      <BindItem id="item1" compid="cb_order00" propid="text" datasetid="ds_combo" columnid="CD_NM1"/>
+    </Bind>
+  </Form>
+</FDL>
